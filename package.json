@@ -1,0 +1,46 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "oxlint && eslint",
+    "dev": "tsx dev.ts",
+    "build": "tsx build.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.25.0",
+  "devDependencies": {
+    "@types/node": "^25.0.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@bull-board/api": "^6.15.0",
+    "@bull-board/fastify": "^6.15.0",
+    "@csi-foxbyte/fastify-toab": "^0.1.6",
+    "@fastify/cors": "^11.2.0",
+    "@fastify/helmet": "^13.0.2",
+    "@fastify/http-proxy": "^11.4.1",
+    "@fastify/multipart": "^9.3.0",
+    "@fastify/otel": "^0.16.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@fastify/under-pressure": "^9.0.3",
+    "@sinclair/typebox": "^0.34.41",
+    "better-auth": "^1.4.7",
+    "bullmq": "^5.66.0",
+    "chokidar": "^5.0.0",
+    "dotenv": "^17.2.3",
+    "esbuild": "^0.27.1",
+    "esbuild-plugin-copy": "^2.1.1",
+    "fastify": "^5.6.2",
+    "oxlint": "^1.33.0",
+    "tiny-glob": "^0.2.9",
+    "tsx": "^4.21.0"
+  }
+}
