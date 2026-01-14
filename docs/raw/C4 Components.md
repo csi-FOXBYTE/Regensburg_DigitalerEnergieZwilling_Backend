@@ -1,0 +1,107 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Digital Energy Twin - C4 Component Diagram
+
+Person(citizen, "Citizen")
+Person(admin, "City Administrator")
+
+System_Boundary(det, "Digital Energy Twin") {
+
+  Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
+
+  Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
+    Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
+    Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and simulation UI")
+    Component(adminIsland, "Admin Island", "React", "Admin UI, available only after authentication")
+    Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
+  }
+
+  Container_Boundary(backend, "Backend API", "Node and Fastify") {
+    Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
+    Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
+    Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
+    Component(auth, "Auth Middleware", "OIDC and JWT", "Authentication and authorization enforcement")
+    Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
+    Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
+    Component(simService, "Simulation Service", "TypeScript JavaScript", "Optional server side simulation execution for admin or fallback")
+    Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
+    Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
+  }
+
+  Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+
+  Container(tilesGateway, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
+  Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
+
+  Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
+    Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
+    Component(srcSolarGeo, "Solar and Geothermal Sources", "Raster and Vector", "Input potential datasets")
+    Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
+    Component(gdal, "Geodata Processing", "GDAL", "Computes and joins potentials to buildings and roof surfaces")
+    Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
+  }
+
+  SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
+}
+
+System_Ext(idp, "Keycloak CIVITAS", "OIDC identity provider")
+System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
+
+Rel(citizen, gateway, "uses", "HTTPS")
+Rel(admin, gateway, "uses", "HTTPS")
+
+Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
+Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
+Rel(gateway, apiControllers, "routes API", "GET/POST /api")
+Rel(gateway, tilesGateway, "routes tiles", "GET /tiles")
+
+Rel(admin, idp, "authenticates", "OIDC")
+Rel(htmlGateway, auth, "enforces authentication")
+Rel(auth, idp, "validates tokens")
+
+Rel(astroSSG, publicIsland, "builds static HTML")
+Rel(astroSSG, adminIsland, "builds static HTML")
+
+Rel(publicStatic, publicIsland, "delivers public HTML and assets")
+Rel(htmlGateway, adminIsland, "delivers admin HTML after login")
+
+Rel(publicIsland, sharedUI, "uses")
+Rel(adminIsland, sharedUI, "uses")
+
+Rel(publicIsland, tilesGateway, "loads 3D tiles with embedded potentials")
+Rel(tilesGateway, staticTiles, "fetches tiles")
+Rel(publicIsland, geo, "loads basemaps")
+
+Rel(publicIsland, publicStatic, "loads published config file", "GET /config/versioned.json")
+
+Rel(publicIsland, simCore, "imports and runs locally", "privacy option no user data required")
+Rel(simService, simCore, "imports and runs in Node", "optional admin or fallback execution")
+
+Rel(publicIsland, apiControllers, "sends user inputs for persistence", "REST optional")
+Rel(adminIsland, apiControllers, "triages user inputs and manages config", "REST")
+
+Rel(apiControllers, auth, "uses")
+Rel(apiControllers, userData, "delegates user data persistence and triage")
+Rel(apiControllers, configService, "delegates config management and publishing")
+Rel(apiControllers, geoService, "delegates spatial queries")
+Rel(apiControllers, simService, "delegates server side simulation", "optional")
+
+Rel(userData, db, "reads and writes user inputs and triage state")
+Rel(configService, db, "reads and writes configuration")
+Rel(configService, publicStatic, "publishes versioned config file")
+Rel(geoService, db, "reads spatial data")
+
+Rel(telemetry, apiControllers, "instruments")
+Rel(telemetry, userData, "instruments")
+Rel(telemetry, configService, "instruments")
+Rel(telemetry, geoService, "instruments")
+Rel(telemetry, simService, "instruments")
+
+Rel(srcCityGML, citygmlTools, "feeds")
+Rel(srcSolarGeo, gdal, "feeds")
+Rel(citygmlTools, converter, "outputs CityJSON")
+Rel(gdal, converter, "provides computed attributes")
+Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")
+
+@enduml
