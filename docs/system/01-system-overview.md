@@ -3,7 +3,7 @@
 ## Zielsetzung
 
 Der Digital Energy Twin ist eine webbasierte 3D-Anwendung zur **Visualisierung und Bewertung energetischer Potenziale von Gebäuden** im Stadtgebiet Regensburg.  
-Ziel ist es, Bürgern eine **niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung** für energetische Sanierungsmaßnahmen bereitzustellen.
+Ziel ist es, Bürgern (insbesondere Eigentümern/Vermietern) eine **niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung** für energetische Sanierungsmaßnahmen bereitzustellen.
 
 Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern dient der **indikativ-orientierenden Einschätzung** von Potenzialen (z.B. Solar, Geothermie, Sanierungsmaßnahmen).
 
@@ -11,7 +11,7 @@ Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern 
 
 ## Zielgruppen
 
-### Bürger
+### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells
 - Einsicht in energetische Potenziale einzelner Gebäude

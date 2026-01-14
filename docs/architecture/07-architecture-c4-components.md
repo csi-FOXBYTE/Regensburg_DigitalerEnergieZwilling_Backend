@@ -26,6 +26,8 @@ Das C4 Component Diagramm stellt die folgenden Aspekte dar:
 
 ![image.png](./attachments/c4-components.png)
 
+Quelle: `raw/c4-components.puml`
+
 ---
 
 ## Frontend-Komponenten
@@ -45,7 +47,7 @@ Zur Laufzeit ist Astro nicht beteiligt.
 
 ### Public Client Island
 
-Der Public Client ist die zentrale Benutzeroberfläche für Bürger.
+Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer/Vermieter).
 
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
@@ -57,9 +59,9 @@ Die Simulation wird standardmäßig vollständig im Browser ausgeführt.
 
 ---
 
-### Admin Island
+### Admin Island (Stadtverwaltung / Fachpersonal)
 
-Die Admin Island stellt die administrative Benutzeroberfläche bereit.
+Die Admin Island stellt die administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal bereit.
 
 Aufgaben:
 - Pflege und Veröffentlichung von Simulationskonfigurationen
@@ -93,7 +95,7 @@ Sie enthält keine fachliche Logik.
 
 ---
 
-### Protected Admin HTML Gateway
+### Protected Admin HTML Gateway (Stadtverwaltung / Fachpersonal)
 
 Diese Komponente stellt die Admin-Oberfläche bereit.
 
@@ -222,10 +224,10 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
   Optional: Backend → Simulationskern → Ergebnis
 
 - Konfiguration:  
-  Admin → Backend → Konfigurationsdatei → Public Client
+  Admin (Stadtverwaltung / Fachpersonal) → Backend → Konfigurationsdatei → Public Client
 
 - Nutzerdaten:  
-  Public Client → Backend → Datenbank → Admin Triage
+  Public Client → Backend → Datenbank → Admin-Triage (Stadtverwaltung / Fachpersonal)
 
 ---
 

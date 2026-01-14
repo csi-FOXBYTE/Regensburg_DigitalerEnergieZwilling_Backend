@@ -30,6 +30,8 @@ Jeder Container erfüllt eine klar abgegrenzte Aufgabe und ist lose mit den ande
 
 ![image.png](./attachments/c4-container.png)
 
+Quelle: `raw/c4-container.puml`
+
 ---
 
 ## Beschreibung der Container
@@ -64,8 +66,8 @@ Aufgaben:
 - Darstellung von Ergebnissen und Potenzialen
 
 Das Frontend besteht fachlich aus:
-- einem öffentlichen Client für Bürger
-- einer administrativen Oberfläche für Fachpersonal
+- einem öffentlichen Client für Bürger (Eigentümer/Vermieter)
+- einer administrativen Oberfläche für Stadtverwaltung / Fachpersonal
 
 Die Generierung erfolgt zur Build-Zeit, zur Laufzeit existiert keine serverseitige Renderlogik.
 
@@ -141,12 +143,12 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 
 ## Kommunikation zwischen den Containern
 
-- Der Public Client kommuniziert direkt mit:
+- Der Public Client (Bürgerbereich) kommuniziert direkt mit:
   - dem Web Gateway
   - dem Tiles Gateway
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 
-- Die Admin-Oberfläche kommuniziert ausschließlich über das Backend.
+- Die Admin-Oberfläche (Stadtverwaltung / Fachpersonal) kommuniziert ausschließlich über das Backend.
 
 - Das Backend greift auf:
   - die Datenbank

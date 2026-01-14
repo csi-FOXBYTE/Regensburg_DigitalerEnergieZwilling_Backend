@@ -16,7 +16,7 @@
 [[_TOC_]]
 # 1. Technische Anforderungsanalyse & Planung
 ## Systemüberblick und Zielsetzung
-Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadtmodell (LOD2) von Regensburg mit Energiepotenzialen verknüpft. Das System fungiert als Entscheidungsunterstützungssystem (DSS) für Bürger, um energetische Sanierungsmaßnahmen zu simulieren.
+Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadtmodell (LOD2) von Regensburg mit Energiepotenzialen verknüpft. Das System fungiert als Entscheidungsunterstützungssystem (DSS) für Bürger (Eigentümer/Vermieter), um energetische Sanierungsmaßnahmen zu simulieren.
 ### Datenanforderungen
 - **3D-Gebäudemodell**: Quelle CityGML (LOD2) -> muss gewandelt werden in 3D Tiles zur performanten Darstellung in Cesium (@csi-foxbyte/cityjson-to-3d-tiles)
 - **Geothermie**: Quelle Raster/Vektordaten -> Gebäude müssen mit Potentialen verknüpft werden (GDAL)
@@ -35,7 +35,7 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 - **Feedback**: wenn möglich sofort, lange Wartezeiten vermeiden
 ## Nicht-Funktionale Anforderungen
 - **Datenschutz**
-  - Authentifizierung: nur durch Stadtverwaltung / System Administrator, Bürger kommen ohne Authentifizierung auf den Sanierungsrechner
+  - Authentifizierung: nur durch Stadtverwaltung / Fachpersonal, Bürger (Eigentümer/Vermieter) kommen ohne Authentifizierung auf den Sanierungsrechner
 
 - **Performance**
   - Antwortzeit der Simulation möglichst "Realtime"
@@ -112,13 +112,13 @@ Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wi
     
 *   **Feedback**: Das Gebäude ändert in Echtzeit seine Einfärbung (z.B. von Rot zu Grün oder eine Wärmebild-Simulation), während sich animierte Balkendiagramme verändern.
     
-*   **Gefühl**: Modern, spielerisch ("Gamification"), immersiv, motivierend für den Bürger.
+*   **Gefühl**: Modern, spielerisch ("Gamification"), immersiv, motivierend für Bürger (Eigentümer/Vermieter).
     
 
 > **Empfehlung:** > Um alle UX Vorgaben einhalten zu können und die Erweiterung der Interaktion so groß wie möglich zu halten, wird empfohlen eine **eigenständige Lösung** abgekapselt vom MasterPortal zu entwickeln. Um die Sichtbarkeit möglichst groß zu halten wird aber empfohlen im MasterPortal einen Link zur Anwendung zu hinterlegen, sodass Benutzer des MasterPortals zum Energie Zwilling finden.
 
-### Anhang: Frontend Admin Dashboard
-Beide Frontend Varianten benötigen eine Adminoberfläche die separat (außerhalb des öffentlich zugänglichen Systems aufgerufen werden können, dies wird in der ersten Planung vernachlässigt weil es nur eine Lösungsmöglichkeit dafür gibt.
+### Anhang: Frontend Admin-Dashboard (Stadtverwaltung / Fachpersonal)
+Beide Frontend Varianten benötigen eine Adminoberfläche (Stadtverwaltung / Fachpersonal) die separat (außerhalb des öffentlich zugänglichen Systems aufgerufen werden können, dies wird in der ersten Planung vernachlässigt weil es nur eine Lösungsmöglichkeit dafür gibt.
 - Muss authentifiziert sein über IDP (z.B. Keycloak)
 - **Framework**: React (Vite)
 
@@ -232,9 +232,9 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 - **Container-Registry**: Die Build-Artefakte (Frontend Bundle & Backend Service) werden als Docker Images in einer zentralen Registry abgelegt.
 
 ### Authentifizierung & Sicherheit (IAM)
-- **Identity Provider (IdP)**: Für den geschützten Admin-Bereich (Dashboard) erfolgt die Authentifizierung über OpenID Connect (OIDC) gegen den zentralen CIVITAS Keycloak.
+- **Identity Provider (IdP)**: Für den geschützten Admin-Bereich (Stadtverwaltung / Fachpersonal) erfolgt die Authentifizierung über OpenID Connect (OIDC) gegen den zentralen CIVITAS Keycloak.
 - **Rollenkonzept**: Mapping von CIVITAS-Rollen auf Anwendungsrechte (z.B. `civitas_admin` -> `app_admin`).
-- **Public Access**: Der Bürger-Client (Sanierungsrechner) agiert ohne Authentifizierung, ist jedoch durch Rate-Limiting (via Ingress oder Fastify-Middleware) gegen DDoS-Attacken geschützt.
+- **Public Access**: Der Bürger-Client (Eigentümer/Vermieter) (Sanierungsrechner) agiert ohne Authentifizierung, ist jedoch durch Rate-Limiting (via Ingress oder Fastify-Middleware) gegen DDoS-Attacken geschützt.
 
 ### Datenintegration
 - **Basiskarten**: Die 3D-Anwendung bindet städtische 2D-Grundkarten (WMS/WMTS) direkt über die Geo-Dienste der Stadt Regensburg ein, um Redundanzen zu vermeiden.
@@ -244,12 +244,12 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 
 - **Simulationskern**: Falls Eigenentwicklung Unit Tests
 - **Datenaufbereitung**: Integrationstests / Validierung
-- **User-Tests**: Nur durch Fachpersonal (Kunde), dafür muss Anwendung "testbar" sein.
+- **User-Tests**: Nur durch Stadtverwaltung / Fachpersonal (Kunde), dafür muss Anwendung "testbar" sein.
 - **End2End Tests**: tbd
 ------
 ## Fazit und Entscheidungsempfehlung
 Zusammenfassend wird für die Realisierung des digitalen Energiezwillings die **Option B (Standalone-Lösung)** empfohlen. Diese Architektur bietet die notwendige technologische Freiheit, um mittels **CesiumJS** und **React** eine performante und intuitiv bedienbare 3D-Anwendung bereitzustellen, die modernen UX-Standards entspricht.
-Für die energetische Bewertung wird initial auf einen **vereinfachten Simulationskern (Option A)** gesetzt, der auf Typvertretern (ähnlich TABULA/EPISCOPE) basiert. Dies ermöglicht eine schnelle, indikative Potentialanalyse für die Bürger, minimiert externe Abhängigkeiten und reduziert die anfängliche Komplexität. Die modulare Systemarchitektur gewährleistet dabei, dass Komponenten wie der Rechenkern bei Bedarf in zukünftigen Ausbaustufen gegen zertifizierte Module ausgetauscht werden können.
+Für die energetische Bewertung wird initial auf einen **vereinfachten Simulationskern (Option A)** gesetzt, der auf Typvertretern (ähnlich TABULA/EPISCOPE) basiert. Dies ermöglicht eine schnelle, indikative Potentialanalyse für Bürger (Eigentümer/Vermieter), minimiert externe Abhängigkeiten und reduziert die anfängliche Komplexität. Die modulare Systemarchitektur gewährleistet dabei, dass Komponenten wie der Rechenkern bei Bedarf in zukünftigen Ausbaustufen gegen zertifizierte Module ausgetauscht werden können.
 
 ------
 

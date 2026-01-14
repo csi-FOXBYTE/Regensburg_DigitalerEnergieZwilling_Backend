@@ -3,8 +3,8 @@
 
 title Digital Energy Twin - C4 Component Diagram
 
-Person(citizen, "Citizen")
-Person(admin, "City Administrator")
+Person(citizen, "Citizen (owners/landlords)")
+Person(admin, "City Administration / Staff")
 
 System_Boundary(det, "Digital Energy Twin") {
 

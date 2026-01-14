@@ -2,7 +2,7 @@
 
 ## Ziel der Architektur
 
-Die Architektur des Digital Energy Twin verfolgt das Ziel, eine **performante, skalierbare und datenschutzfreundliche Webanwendung** bereitzustellen, die Bürgern einen niedrigschwelligen Zugang zu energetischen Potenzialen von Gebäuden ermöglicht und gleichzeitig der Verwaltung Werkzeuge zur Konfiguration, Qualitätssicherung und Triage bereitstellt.
+Die Architektur des Digital Energy Twin verfolgt das Ziel, eine **performante, skalierbare und datenschutzfreundliche Webanwendung** bereitzustellen, die Bürgern (Eigentümern/Vermietern) einen niedrigschwelligen Zugang zu energetischen Potenzialen von Gebäuden ermöglicht und gleichzeitig der Stadtverwaltung / dem Fachpersonal Werkzeuge zur Konfiguration, Qualitätssicherung und Triage bereitstellt.
 
 Zentrale Leitprinzipien der Architektur sind:
 - **Privacy-by-Design**
@@ -34,18 +34,18 @@ Damit ist es möglich, energetische Simulationen durchzuführen, **ohne Nutzerei
 
 Diese Architekturentscheidung dient insbesondere:
 - dem Datenschutz
-- der Transparenz gegenüber den Bürgern
+- der Transparenz gegenüber Bürgern (Eigentümern/Vermietern)
 - der Reduktion von Backend-Abhängigkeiten
 
 Eine serverseitige Ausführung der Simulation ist optional vorgesehen, z.B. für administrative Zwecke oder zukünftige Erweiterungen.
 
 ---
 
-### Klare Trennung von Public und Admin
+### Klare Trennung von Bürger- und Admin-Bereich (Stadtverwaltung / Fachpersonal)
 
 Die Anwendung unterscheidet strikt zwischen:
-- einem **öffentlichen Client** für Bürger
-- einer **administrativen Oberfläche** für Fachpersonal
+- einem **öffentlichen Client** für Bürger (Eigentümer/Vermieter)
+- einer **administrativen Oberfläche** für Stadtverwaltung / Fachpersonal
 
 Die Admin-Oberfläche wird **serverseitig geschützt** und erst nach erfolgreicher Authentifizierung ausgeliefert.  
 Der öffentliche Client ist jederzeit ohne Anmeldung erreichbar.

@@ -1,0 +1,92 @@
+# Datenmodell und API-Sicht
+
+## Ziel dieser Sicht
+
+Dieses Kapitel beschreibt das fachliche Datenmodell und die API-Schnittstellen des
+Digital Energy Twin. Es ergänzt die Container- und Komponenten-Sichten um die
+strukturelle Daten- und Vertrags-Ebene.
+
+---
+
+## Datenmodell (abgeleitet)
+
+Das Datenmodell wurde aus den fachlichen Anforderungen und den Nutzerzielen
+abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
+**dynamischen Nutzereingaben** und **administrativen Daten** (Datenbank).
+
+### Kernobjekte
+
+- **Gebäude** (Referenz auf LOD2/3D Tiles) und **Quartiere** (Aggregationen)
+- **Eingabesets** (Simulationsstufe, Quelle, Zeitstempel)
+- **Bauteil- und Systemeingaben** (Hülle, Lüftung, Warmwasser, Anlagentechnik)
+- **Maßnahmenkatalog** und **Maßnahmenselektion** (inkl. Förderprogramme)
+- **Simulationskonfiguration (versioniert)** und **Konfigurationsoptionen**
+- **Simulationen & Ergebnisse** (Energiebedarf, CO2, Primärenergie, Kosten, Effizienzklassen)
+- **Triage/Status** für administrative Prüfung und Veröffentlichung
+- **Reports** (Anzeige in der Anwendung) und **optionale Exporte** (z.B. PDF für Bürger, Quartiersberichte für Verwaltung)
+
+### Beziehungen (vereinfacht)
+
+- Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Stufen).
+- Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
+- Jede **Simulation** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
+- **Triage** ist pro Eingabeset geführt; veröffentlichte Daten werden exportierbar.
+- **Quartiere** erlauben Aggregationen und Reporting auf Planungsebene.
+
+### Datenhaltung
+
+- **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
+- **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
+- **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
+
+### Konfigurations-Publishing
+
+- **Source of Truth**: Konfigurationen werden in der Datenbank gepflegt und versioniert.
+- **Snapshot**: Beim Veröffentlichen wird ein JSON-Snapshot erzeugt, gespeichert und exportiert.
+- **Konsistenz**: Simulationen referenzieren eine Config-Version und deren Checksumme.
+
+### Ergebnis-Publishing und Indexierung
+
+- **Public Write**: Der öffentliche Bereich darf Simulationsergebnisse schreiben (inkl. Eingaben und Config-Version).
+- **Server-Recompute**: Beim Speichern werden die Ergebnisse serverseitig mit dem gleichen Simulationskern
+  neu berechnet.
+- **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
+  (z.B. Wertebereiche wie 100–2000).
+- **Triage**: Stadtverwaltung / Fachpersonal prüft, markiert und veröffentlicht Ergebnisse.
+- **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
+  (z.B. für Vergleiche, Quartiersanalysen und Reports).
+
+### Diagramm
+
+![data-model.png](./attachments/data-model.png)
+
+Quelle: `raw/data-model.puml`
+
+### Public Write Flow (Altcha + Verifikation)
+
+![public-write-flow.png](./attachments/public-write-flow.png)
+
+Quelle: `raw/public-write-flow.puml`
+
+---
+
+## API-Sicht (erste Ableitung)
+
+- **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
+- **Ressourcen**: Gebäude, Eingaben, Simulationen, Konfigurationen, Kataloge, Triage, Reports
+- **Auth/Session**: OIDC für Admin; öffentliche APIs ohne Auth, aber mit Schreibzugriff für Simulationsergebnisse
+- **Validation**: Public Write prüft Eingaben (Range/Schema)
+- **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
+- **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das serverseitig geprüft wird.
+- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird im Web Gateway und zusätzlich im Backend durchgesetzt.
+- **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
+- **Versionierung**: Konfigurations- und API-Versionen klar trennen
+- **Fehlerformate**: Standardisierte Fehlercodes und Validierungsdetails
+
+---
+
+## Offene Punkte
+
+- TODO: Abgleich mit den technischen Anforderungen
+- TODO: Mapping zu Komponenten (Backend-Services)
+- TODO: Entscheidung, ob Reports als persistente Objekte oder rein als Export erzeugt werden

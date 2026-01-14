@@ -18,7 +18,7 @@ Die technischen Anforderungen dienen als:
 Das System muss als webbasierte Anwendung ohne lokale Installation nutzbar sein.
 
 **TA-02**  
-Das System muss eine klare technische Trennung zwischen öffentlichem Nutzerbereich und administrativem Bereich umsetzen.
+Das System muss eine klare technische Trennung zwischen öffentlichem Bürgerbereich (Eigentümer/Vermieter) und administrativem Bereich umsetzen.
 
 **TA-03**  
 Öffentliche Funktionen müssen ohne Authentifizierung nutzbar sein.
@@ -41,8 +41,8 @@ Zur Laufzeit darf keine serverseitige Renderlogik erforderlich sein.
 
 **TA-08**  
 Das Frontend muss mindestens zwei klar getrennte UI-Bereiche bereitstellen:
-- einen öffentlichen Client
-- eine administrative Benutzeroberfläche
+- einen öffentlichen Bürger-Client
+- eine administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal
 
 **TA-09**  
 Der HTML-Code der administrativen Benutzeroberfläche darf erst nach erfolgreicher Authentifizierung ausgeliefert werden.
@@ -132,7 +132,7 @@ Simulationskonfigurationen müssen versionierbar sein.
 Jede Konfiguration muss eindeutig einer Version oder einem zeitlichen Gültigkeitsbereich zugeordnet sein.
 
 **TA-30**  
-Für den öffentlichen Client muss eine veröffentlichte, versionierte Konfigurationsdatei bereitgestellt werden.
+Für den öffentlichen Bürger-Client muss eine veröffentlichte, versionierte Konfigurationsdatei bereitgestellt werden.
 
 **TA-31**  
 Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion reproduzierbar sein.
@@ -181,6 +181,42 @@ Das System muss Mechanismen zur Beobachtbarkeit wie Logging, Metriken und Tracin
 
 **TA-42**  
 Das System muss containerisierbar sein und in einer orchestrierten Umgebung betrieben werden können.
+
+---
+
+## 11. Konfigurations-Publishing
+
+**TA-43**  
+Konfigurationen müssen in der Datenbank als **Source of Truth** gepflegt und versioniert werden.
+
+**TA-44**  
+Für jede veröffentlichte Konfiguration muss ein JSON-Snapshot erzeugt und als Datei exportiert werden.
+
+**TA-45**  
+Der Simulationskern muss die veröffentlichte JSON-Konfiguration lesen können, ohne direkten Datenbankzugriff.
+
+**TA-46**  
+Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfordern eine neue Version.
+
+---
+
+## 12. Public Write & Verifikation
+
+**TA-47**  
+Der öffentliche Bürgerbereich muss Simulationsergebnisse **inklusive Eingaben** an das Backend übermitteln können.
+
+**TA-48**  
+Das Backend muss Eingaben gegen **konfigurierbare Wertebereiche** validieren (z.B. min/max).
+
+**TA-49**  
+Das Backend muss Ergebnisse serverseitig mit dem gleichen Simulationskern neu berechnen.
+
+**TA-50**  
+Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung und Veröffentlichungen verwendet werden.
+
+**TA-51**  
+Öffentliche Schreibzugriffe müssen durch Altcha-Challenges und Rate Limiting geschützt werden.
+Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Service prüft das übermittelte Token.
 
 ---
 

@@ -1,0 +1,203 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Digital Energy Twin - Data Model (Conceptual)
+
+class District {
+  +district_id
+  +name
+}
+
+class Building {
+  +building_id
+  +lod2_id
+  +address
+  +district_id
+}
+
+class InputSet {
+  +input_id
+  +building_id
+  +stage
+  +source
+  +validation_status
+  +created_at
+}
+
+class ComponentInput {
+  +component_input_id
+  +input_id
+  +component_type
+  +area
+  +year
+  +u_value
+}
+
+class VentilationInput {
+  +ventilation_input_id
+  +input_id
+  +type
+  +tightness_class
+}
+
+class WarmWaterInput {
+  +warmwater_input_id
+  +input_id
+  +method
+  +occupancy
+  +area
+}
+
+class HeatingSystemInput {
+  +heating_input_id
+  +input_id
+  +energy_carrier
+  +generator_type
+  +age
+}
+
+class MeasureOption {
+  +measure_option_id
+  +name
+  +category
+}
+
+class MeasureSelection {
+  +selection_id
+  +input_id
+  +measure_option_id
+  +with_subsidy
+}
+
+class SubsidyProgram {
+  +subsidy_id
+  +name
+  +category
+  +url
+}
+
+class SimulationConfigVersion {
+  +config_version_id
+  +version
+  +status
+  +valid_from
+  +published_at
+}
+
+class InputConstraint {
+  +constraint_id
+  +config_version_id
+  +key
+  +min_value
+  +max_value
+  +unit
+}
+
+class SimulationConfigSnapshot {
+  +snapshot_id
+  +config_version_id
+  +json_payload
+  +checksum
+  +export_path
+  +created_at
+}
+
+class ConfigOption {
+  +option_id
+  +config_version_id
+  +option_type
+  +label
+  +value
+}
+
+class SimulationRun {
+  +run_id
+  +input_id
+  +config_version_id
+  +created_at
+}
+
+class SimulationResult {
+  +result_id
+  +run_id
+  +scenario_label
+  +energy_demand
+  +co2
+  +primary_energy
+  +efficiency_class_before
+  +efficiency_class_after
+  +cost_estimate
+  +verified_at
+}
+
+class BuildingIndex {
+  +index_id
+  +building_id
+  +source_triage_id
+  +derived_at
+  +energy_demand
+  +co2
+  +primary_energy
+  +efficiency_class
+}
+
+class EfficiencyClass {
+  +class_id
+  +label
+  +min_value
+  +max_value
+}
+
+class TriageRecord {
+  +triage_id
+  +input_id
+  +status
+  +reviewer
+  +note
+  +published_at
+}
+
+class ReportExport {
+  +export_id
+  +scope
+  +format
+  +created_at
+}
+
+District "1" -- "many" Building
+Building "1" -- "many" InputSet
+
+InputSet "1" -- "many" ComponentInput
+InputSet "0..1" -- "1" VentilationInput
+InputSet "0..1" -- "1" WarmWaterInput
+InputSet "0..1" -- "1" HeatingSystemInput
+
+InputSet "1" -- "many" MeasureSelection
+MeasureSelection "*" -- "1" MeasureOption
+MeasureOption "*" -- "*" SubsidyProgram
+
+SimulationConfigVersion "1" -- "many" ConfigOption
+SimulationConfigVersion "1" -- "many" InputConstraint
+SimulationConfigVersion "1" -- "0..1" SimulationConfigSnapshot
+SimulationConfigVersion "1" -- "many" SimulationRun
+SimulationRun "1" -- "many" SimulationResult
+SimulationResult "*" -- "1" EfficiencyClass
+
+InputSet "1" -- "1" TriageRecord
+TriageRecord "1" -- "0..1" BuildingIndex
+Building "1" -- "0..1" BuildingIndex
+InputSet "0..*" -- "0..*" ReportExport
+District "0..*" -- "0..*" ReportExport
+
+note right of Building
+Static potentials and geometry are stored in 3D Tiles,
+not in the database. Only references are persisted.
+end note
+
+note right of ReportExport
+Reports are shown in-app; exports are created only on demand.
+end note
+
+@enduml
