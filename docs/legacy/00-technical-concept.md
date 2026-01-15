@@ -6,12 +6,6 @@
 > - initiale Annahmen
 > - Variantenvergleiche
 > - verworfene Architektur- und UX-Optionen
->  
-> **Maßgeblich für die aktuelle Umsetzung sind:**
-> - Systemüberblick
-> - Fachliche Anforderungen
-> - Technische Anforderungen
-> - Architektur (C4-Diagramme)
 
 [[_TOC_]]
 # 1. Technische Anforderungsanalyse & Planung
