@@ -1,8 +1,9 @@
-# Systemüberblick – Digital Energy Twin
+# Systemüberblick – Digitaler Energy Zwilling (DEZ)
 
 ## Zielsetzung
 
-Der Digital Energy Twin ist eine webbasierte 3D-Anwendung zur **Visualisierung und Bewertung energetischer Potenziale von Gebäuden** im Stadtgebiet Regensburg.  
+Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur **Visualisierung und Bewertung energetischer Potenziale von Gebäuden** im Stadtgebiet Regensburg.  
+DEZ steht hier für **Digitaler Energy Zwilling** und nicht für das Donau Einkaufszentrum.
 Ziel ist es, Bürgern (insbesondere Eigentümern/Vermietern) eine **niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung** für energetische Sanierungsmaßnahmen bereitzustellen.
 
 Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern dient der **indikativ-orientierenden Einschätzung** von Potenzialen (z.B. Solar, Geothermie, Sanierungsmaßnahmen).
@@ -28,7 +29,7 @@ Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern 
 
 ## Abgrenzung und Nicht-Ziele
 
-Der Digital Energy Twin ist **kein**:
+Der Digitaler Energy Zwilling (DEZ) ist **kein**:
 - förderfähiges Berechnungstool
 - Ersatz für individuelle Energieberatung
 - amtliches Auskunftssystem

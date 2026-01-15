@@ -2,7 +2,7 @@
 
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt den Digital Energy Twin auf **Kontext-Ebene (C4 Level 1)**.
+Dieses Kapitel beschreibt den Digitaler Energy Zwilling (DEZ) auf **Kontext-Ebene (C4 Level 1)**.
 Die Kontext-Sicht zeigt das System als Black Box, seine wichtigsten Nutzer und die
 relevanten externen Systeme sowie Datenquellen.
 
@@ -34,7 +34,7 @@ Quelle: `raw/c4-context.puml`
 
 ## Schnittstellen und Datenflüsse (high level)
 
-- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digital Energy Twin zu.
+- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energy Zwilling (DEZ) zu.
 - Admin-Authentifizierung erfolgt über OIDC gegen Keycloak CIVITAS.
 - Basemaps werden zur Laufzeit aus City Geo Services geladen (WMS/WMTS).
 - CityGML- und Potenzialdaten werden **offline** in das System importiert.

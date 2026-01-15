@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #444444
+}
+
+title Offline-Datenpipeline
+
+rectangle "LOD2 Daten\n(CityGML)" as lod2
+rectangle "Solarpotenziale\n(CityGML)" as solar
+rectangle "Geothermiepotenziale\n(WMS)" as geo
+
+rectangle "CityGML → CityJSON\ncitygml-tools" as c2j
+rectangle "CityJSON → 3D Tiles\ncityjson-to-3d-tiles" as tiles
+rectangle "Transformator\n(Potenziale + Kennwerte)\nHüllfläche, Dachfläche, Volumen" as trans
+
+rectangle "3D Tiles Storage" as store
+rectangle "Tiles Gateway" as gw
+rectangle "Public Client" as client
+
+lod2 --> c2j
+solar --> c2j
+c2j --> tiles
+tiles --> trans
+geo --> trans
+trans --> store
+store --> gw
+gw --> client
+
+@enduml

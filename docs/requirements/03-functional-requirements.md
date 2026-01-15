@@ -1,8 +1,8 @@
-# Technische Anforderungen – Digital Energy Twin
+# Technische Anforderungen – Digitaler Energy Zwilling (DEZ)
 
 ## Ziel der technischen Anforderungen
 
-Dieses Dokument beschreibt die **technischen Anforderungen** an den Digital Energy Twin.  
+Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler Energy Zwilling (DEZ).  
 Es legt verbindlich fest, **welche technischen Eigenschaften, Randbedingungen und Qualitätsmerkmale** das System erfüllen muss, um die fachlichen Anforderungen korrekt, sicher und wartbar umzusetzen.
 
 Die technischen Anforderungen dienen als:

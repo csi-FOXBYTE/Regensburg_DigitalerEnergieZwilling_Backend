@@ -1,8 +1,8 @@
-# Architekturübersicht – Digital Energy Twin
+# Architekturübersicht – Digitaler Energy Zwilling (DEZ)
 
 ## Ziel der Architektur
 
-Die Architektur des Digital Energy Twin verfolgt das Ziel, eine **performante, skalierbare und datenschutzfreundliche Webanwendung** bereitzustellen, die Bürgern (Eigentümern/Vermietern) einen niedrigschwelligen Zugang zu energetischen Potenzialen von Gebäuden ermöglicht und gleichzeitig der Stadtverwaltung / dem Fachpersonal Werkzeuge zur Konfiguration, Qualitätssicherung und Triage bereitstellt.
+Die Architektur des Digitaler Energy Zwilling (DEZ) verfolgt das Ziel, eine **performante, skalierbare und datenschutzfreundliche Webanwendung** bereitzustellen, die Bürgern (Eigentümern/Vermietern) einen niedrigschwelligen Zugang zu energetischen Potenzialen von Gebäuden ermöglicht und gleichzeitig der Stadtverwaltung / dem Fachpersonal Werkzeuge zur Konfiguration, Qualitätssicherung und Triage bereitstellt.
 
 Zentrale Leitprinzipien der Architektur sind:
 - **Privacy-by-Design**

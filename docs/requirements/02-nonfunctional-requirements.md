@@ -1,8 +1,8 @@
-# Fachliche Anforderungen – Digital Energy Twin
+# Fachliche Anforderungen – Digitaler Energy Zwilling (DEZ)
 
 ## Ziel der fachlichen Anforderungen
 
-Dieses Dokument beschreibt die **fachlichen Anforderungen** an den Digital Energy Twin.  
+Dieses Dokument beschreibt die **fachlichen Anforderungen** an den Digitaler Energy Zwilling (DEZ).  
 Es beantwortet die Frage, **welche Funktionen und Nutzungsmöglichkeiten** das System aus Sicht der Anwender bereitstellen muss, unabhängig von der konkreten technischen Umsetzung.
 
 Die fachlichen Anforderungen sind bewusst **indikativ** formuliert und bilden die Grundlage für die technische Ausgestaltung und Architekturentscheidungen.
@@ -12,11 +12,11 @@ Die fachlichen Anforderungen sind bewusst **indikativ** formuliert und bilden di
 ## Nutzerrollen
 
 ### Bürger (Eigentümer/Vermieter)
-Bürger (Eigentümer/Vermieter) nutzen den Digital Energy Twin ohne Authentifizierung, um sich einen Überblick über energetische Potenziale einzelner Gebäude zu verschaffen und einfache Szenarien zu simulieren.  
+Bürger (Eigentümer/Vermieter) nutzen den Digitaler Energy Zwilling (DEZ) ohne Authentifizierung, um sich einen Überblick über energetische Potenziale einzelner Gebäude zu verschaffen und einfache Szenarien zu simulieren.  
 Fokus liegt auf einer ersten Orientierung für Sanierungsentscheidungen.
 
 ### Stadtverwaltung / Fachpersonal
-Fachpersonal nutzt den Digital Energy Twin über eine geschützte Administrationsoberfläche zur Pflege von Parametern, Qualitätssicherung und zur Sichtung von Nutzereingaben.
+Fachpersonal nutzt den Digitaler Energy Zwilling (DEZ) über eine geschützte Administrationsoberfläche zur Pflege von Parametern, Qualitätssicherung und zur Sichtung von Nutzereingaben.
 
 ---
 
@@ -173,7 +173,7 @@ Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
 ### Datenschutzfreundliche Nutzung
 
 **FA-40**  
-Bürger müssen den Digital Energy Twin nutzen können, ohne personenbezogene Daten anzugeben.
+Bürger müssen den Digitaler Energy Zwilling (DEZ) nutzen können, ohne personenbezogene Daten anzugeben.
 
 **FA-41**  
 Die Durchführung einer Simulation darf nicht zwingend eine Speicherung oder Übertragung von Nutzereingaben erfordern.
@@ -288,7 +288,7 @@ Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahm
 ## Fachliche Abgrenzungen
 
 **FA-67**  
-Der Digital Energy Twin ersetzt keine individuelle Energieberatung.
+Der Digitaler Energy Zwilling (DEZ) ersetzt keine individuelle Energieberatung.
 
 **FA-68**  
 Simulationsergebnisse stellen keine förderfähigen Berechnungen dar.

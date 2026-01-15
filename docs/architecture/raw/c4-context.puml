@@ -1,12 +1,12 @@
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title Digital Energy Twin - C4 Context Diagram
+title Digitaler Energy Zwilling (DEZ) - C4 Context Diagram
 
 Person(citizen, "Citizen (owners/landlords)", "Uses the public 3D client")
 Person(admin, "City Administration / Staff", "Configures content and reviews inputs")
 
-System(det, "Digital Energy Twin", "Web-based 3D application for energy potentials and simulations")
+System(det, "Digitaler Energy Zwilling (DEZ)", "Web-based 3D application for energy potentials and simulations")
 
 System_Ext(idp, "Keycloak CIVITAS", "OIDC identity provider")
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")

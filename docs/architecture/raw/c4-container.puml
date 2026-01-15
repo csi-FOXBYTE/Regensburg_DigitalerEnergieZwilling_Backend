@@ -1,12 +1,12 @@
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
-title Digital Energy Twin - C4 Container Diagram
+title Digitaler Energy Zwilling (DEZ) - C4 Container Diagram
 
 Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
-System_Boundary(det, "Digital Energy Twin") {
+System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
 
   Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
 

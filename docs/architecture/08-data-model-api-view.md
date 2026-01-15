@@ -3,7 +3,7 @@
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt das fachliche Datenmodell und die API-Schnittstellen des
-Digital Energy Twin. Es ergänzt die Container- und Komponenten-Sichten um die
+Digitaler Energy Zwilling (DEZ). Es ergänzt die Container- und Komponenten-Sichten um die
 strukturelle Daten- und Vertrags-Ebene.
 
 ---
