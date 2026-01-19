@@ -218,7 +218,7 @@ Simulationsparameter müssen versionierbar sein.
 Fachpersonal muss übermittelte Nutzereingaben sichten können.
 
 **FA-49**  
-Nutzereingaben müssen klassifizierbar oder kommentierbar sein.
+Nutzereingaben müssen klassifizierbar und kommentierbar sein.
 
 **FA-50**  
 Fachpersonal muss in der Lage sein, relevante Fälle für eine weitere Bearbeitung zu identifizieren.

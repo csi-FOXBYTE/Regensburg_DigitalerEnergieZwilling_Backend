@@ -1,12 +1,10 @@
-# Systemüberblick – Digitaler Energy Zwilling (DEZ)
+﻿# Systemüberblick - Digitaler Energy Zwilling (DEZ)
 
 ## Zielsetzung
 
-Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur **Visualisierung und Bewertung energetischer Potenziale von Gebäuden** im Stadtgebiet Regensburg.  
-DEZ steht hier für **Digitaler Energy Zwilling** und nicht für das Donau Einkaufszentrum.
-Ziel ist es, Bürgern (insbesondere Eigentümern/Vermietern) eine **niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung** für energetische Sanierungsmaßnahmen bereitzustellen.
+Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur Visualisierung und indikativ-orientierenden Bewertung energetischer Potenziale von Gebäuden im Stadtgebiet Regensburg. Ziel ist eine niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung für Eigentümer und Vermieter. DEZ steht für Digitaler Energy Zwilling und nicht für das Donau Einkaufszentrum.
 
-Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern dient der **indikativ-orientierenden Einschätzung** von Potenzialen (z.B. Solar, Geothermie, Sanierungsmaßnahmen).
+Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert keine rechtsverbindlichen Aussagen. Ergebnisse sind indikativ und dienen der Orientierung.
 
 ---
 
@@ -14,71 +12,77 @@ Die Anwendung richtet sich nicht an Energieberater oder Förderstellen, sondern 
 
 ### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
-- Interaktive 3D-Visualisierung des Stadtmodells
-- Einsicht in energetische Potenziale einzelner Gebäude
-- Durchführung einfacher Simulationen zur Abschätzung von Maßnahmen
-- Nutzung ohne verpflichtende Datenübermittlung an den Server
+- Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
+- Anzeige von Solar- und Geothermiepotenzialen
+- Einfache Simulationen für Sanierungsmaßnahmen in mehreren Stufen
+- Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
 ### Stadtverwaltung / Fachpersonal
 - Zugriff über geschützte Admin-Oberfläche
-- Pflege und Veröffentlichung von Simulationsparametern
-- Sichtung und Triage von Nutzereingaben
-- Qualitätssicherung und fachliche Kontrolle
+- Pflege und Veröffentlichung von Simulationskonfigurationen
+- Sichtung, Triage und Qualitätssicherung von Nutzereingaben
+- Auswertung für Quartiersanalyse und interne Berichte
 
 ---
 
 ## Abgrenzung und Nicht-Ziele
 
-Der Digitaler Energy Zwilling (DEZ) ist **kein**:
+Der DEZ ist kein:
 - förderfähiges Berechnungstool
 - Ersatz für individuelle Energieberatung
 - amtliches Auskunftssystem
-- dynamisches Rechentool mit Echtzeit-Physikmodellen
-
-Simulationsergebnisse sind **indikativ** und dienen ausschließlich der Orientierung.
+- Echtzeit-Simulationssystem mit detaillierter Gebäudephysik
 
 ---
 
 ## Systemkontext
 
 Das System besteht aus:
-- einem **öffentlichen 3D-Client** zur Visualisierung und Simulation
-- einer **administrativen Oberfläche** zur Konfiguration und Datenpflege
-- einer **Offline-Datenpipeline** zur Vorverarbeitung komplexer Geodaten
-- einem **Backend**, das Authentifizierung, Konfiguration und Datenspeicherung übernimmt
+- einem öffentlichen 3D-Client für Visualisierung und Simulation
+- einer administrativen Oberfläche für Fachpersonal
+- einem Simulationskern als JavaScript-Modul (clientseitig, optional serverseitig)
+- einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
+- einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten
+- einem 3D-Tiles-Gateway zur Auslieferung statischer Tiles
 
-Rechenintensive Geodaten und Potenzialanalysen werden **offline** durchgeführt und als statische Attribute in 3D Tiles abgelegt.  
-Zur Laufzeit erfolgt keine Neuberechnung dieser Potenziale.
+Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute in 3D Tiles abgelegt. Zur Laufzeit findet keine Neuberechnung der Potenziale statt.
+
+---
+
+## Datenhaltung und Datenfluss
+
+- Statische, allgemein gültige Potenziale liegen ausschließlich in den 3D Tiles.
+- Dynamische, nutzerspezifische Daten liegen in der Datenbank.
+- Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
+- Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.
 
 ---
 
 ## Zentrale Leitprinzipien
 
 ### Privacy-by-Design
-Simulationen können vollständig clientseitig durchgeführt werden.  
-Nutzereingaben werden nur dann an den Server übertragen, wenn der Nutzer dies explizit wünscht.
+Simulationen können vollständig clientseitig durchgeführt werden. Nutzereingaben werden nur auf expliziten Wunsch übertragen und gespeichert.
 
 ### Trennung von statisch und dynamisch
-- Statische, allgemein gültige Daten liegen in 3D Tiles
-- Dynamische, nutzerspezifische Daten liegen in der Datenbank
-- Keine doppelte Datenhaltung
+Statische Potenziale liegen in Tiles, dynamische Nutzereingaben und Konfigurationen in der Datenbank. Diese Trennung reduziert Komplexität und schützt personenbezogene Daten.
 
-### Skalierbarkeit durch Einfachheit
-- Statisches Frontend
-- Entkopplung von 3D-Tiles und Backend
-- Vermeidung unnötiger Laufzeitlogik
+### Offline-Vorverarbeitung
+Komplexe Geodaten werden außerhalb des Laufzeitsystems verarbeitet, um Performance und Skalierbarkeit sicherzustellen.
+
+### Leichtgewichtiges Backend
+Das Backend stellt ausschließlich Konfiguration, Authentifizierung und Persistenz bereit und liefert keine großen Datenmengen aus.
 
 ---
 
 ## Dokumentstruktur
 
 Die weitere Dokumentation ist wie folgt aufgebaut:
+- Fachliche Anforderungen
+- Technische Anforderungen
+- Architekturübersicht und C4-Diagramme
+- Datenmodell & API-View
+- Runtime-Flows & Betriebsaspekte
+- Offline-Datenpipeline & Simulation
+- Betrieb, Sicherheit und Datenschutz
 
-- **Fachliche Anforderungen**: beschreibt, welche Funktionen das System bereitstellt
-- **Technische Anforderungen**: definiert verbindliche technische Leitplanken
-- **Architekturübersicht**: erläutert die Systemarchitektur und ihre Prinzipien
-- **C4-Diagramme**: visualisieren Container-, Komponenten- und Datenflüsse
-- **Datenpipeline & Simulation**: beschreiben die Verarbeitung und Berechnungslogik
-- **Betrieb & Sicherheit**: behandeln Deployment, Monitoring und Datenschutz
-
-Dieses Dokument dient als Einstieg und Referenzpunkt für alle weiteren Kapitel.
+Dieses Dokument dient als Einstieg und Referenzpunkt für die übrigen Kapitel.

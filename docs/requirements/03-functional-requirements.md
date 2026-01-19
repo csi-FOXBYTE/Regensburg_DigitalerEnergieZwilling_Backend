@@ -1,4 +1,4 @@
-# Technische Anforderungen – Digitaler Energy Zwilling (DEZ)
+# Technische Anforderungen - Digitaler Energy Zwilling (DEZ)
 
 ## Ziel der technischen Anforderungen
 
@@ -18,7 +18,7 @@ Die technischen Anforderungen dienen als:
 Das System muss als webbasierte Anwendung ohne lokale Installation nutzbar sein.
 
 **TA-02**  
-Das System muss eine klare technische Trennung zwischen öffentlichem Bürgerbereich (Eigentümer/Vermieter) und administrativem Bereich umsetzen.
+Das System muss eine klare technische Trennung zwischen öffentlichem Bürgerbereich für Bürger (Eigentümer/Vermieter) und administrativem Bereich für Stadtverwaltung / Fachpersonal umsetzen.
 
 **TA-03**  
 Öffentliche Funktionen müssen ohne Authentifizierung nutzbar sein.
@@ -42,10 +42,10 @@ Zur Laufzeit darf keine serverseitige Renderlogik erforderlich sein.
 **TA-08**  
 Das Frontend muss mindestens zwei klar getrennte UI-Bereiche bereitstellen:
 - einen öffentlichen Bürger-Client
-- eine administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal
+- eine administrative Oberfläche für Stadtverwaltung / Fachpersonal
 
 **TA-09**  
-Der HTML-Code der administrativen Benutzeroberfläche darf erst nach erfolgreicher Authentifizierung ausgeliefert werden.
+Der HTML-Code der administrativen Oberfläche darf erst nach erfolgreicher Authentifizierung ausgeliefert werden.
 
 ---
 
@@ -200,10 +200,10 @@ Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfor
 
 ---
 
-## 12. Public Write & Verifikation
+## 12. Öffentliche Übermittlung & Verifikation
 
 **TA-47**  
-Der öffentliche Bürgerbereich muss Simulationsergebnisse **inklusive Eingaben** an das Backend übermitteln können.
+Der öffentliche Bürger-Client muss Simulationsergebnisse **inklusive Eingaben** an das Backend übermitteln können.
 
 **TA-48**  
 Das Backend muss Eingaben gegen **konfigurierbare Wertebereiche** validieren (z.B. min/max).

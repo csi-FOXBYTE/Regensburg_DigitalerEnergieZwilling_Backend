@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #444444
+}
+
+title Backend-Architektur
+
+rectangle "Public API" as public_api
+rectangle "Admin API" as admin_api
+rectangle "Altcha +\nRate Limiting" as protect
+rectangle "Auth Middleware\n(OIDC)" as auth
+rectangle "Configuration Service" as config
+rectangle "User Data Service" as user_data
+rectangle "Triage/Reporting" as triage
+rectangle "Simulation Service" as sim
+rectangle "Config Snapshot\nExporter" as export
+rectangle "PostgreSQL/PostGIS" as db
+rectangle "Keycloak" as keycloak
+
+public_api --> protect
+protect --> user_data
+public_api --> sim
+admin_api --> auth
+auth --> config
+auth --> triage
+auth --> user_data
+config --> export
+config --> db
+user_data --> db
+triage --> db
+sim --> config
+keycloak --> auth
+
+@enduml

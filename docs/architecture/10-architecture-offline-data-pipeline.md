@@ -61,6 +61,12 @@ Quelle: `raw/offline-data-pipeline.puml`
 
 ---
 
+## Offene Punkte
+
+- Wie werden Gebäudeadressen mit den LOD2-Daten eindeutig verknüpft, und wie werden Nebengebäude (z.B. Garagen, Hütten, Scheunen) vom Hauptgebäude separiert bzw. klassifiziert?
+
+---
+
 ## Ergebnis
 
 - Statische Potenziale sind direkt in den 3D Tiles eingebettet.

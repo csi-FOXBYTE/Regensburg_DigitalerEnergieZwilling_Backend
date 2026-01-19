@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #444444
+}
+
+title Simulationskern - Kontext
+
+rectangle "Frontend\n(Browser)" as frontend
+rectangle "Backend\n(Node.js)" as backend
+rectangle "Simulationskern\n(JS-Modul)" as core
+rectangle "Konfigurations-Snapshot\n(versioniert)" as config
+rectangle "Gebäudedaten\n(Potenziale aus Tiles)" as building
+rectangle "Nutzereingaben" as inputs
+rectangle "Simulationsergebnisse\n(Energie, CO2, Kosten)" as outputs
+
+frontend --> core
+backend --> core
+config --> core
+building --> core
+inputs --> core
+core --> outputs
+
+@enduml

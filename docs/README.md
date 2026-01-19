@@ -29,7 +29,10 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **08** [Datenmodell und API-Sicht](architecture/08-data-model-api-view.md)
 - **09** [Runtime-Flows und Ops-Sicht](architecture/09-runtime-flows-ops-view.md)
 - **10** [Offline-Datenpipeline](architecture/10-architecture-offline-data-pipeline.md)
+- **11** [Frontend](architecture/11-architecture-frontend.md)
+- **12** [Backend](architecture/12-architecture-backend.md)
+- **13** [Simulationskern](architecture/13-architecture-simulation-core.md)
 
 ## Prozesse
 
-- **11** [Definition of Ready / Done](process/dor-dod.md)
+- [Definition of Ready / Done](process/dor-dod.md)
