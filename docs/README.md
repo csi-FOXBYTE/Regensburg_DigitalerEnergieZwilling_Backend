@@ -33,6 +33,10 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **12** [Backend](architecture/12-architecture-backend.md)
 - **13** [Simulationskern](architecture/13-architecture-simulation-core.md)
 
+## Anleitungen
+
+- [Civitas-Core Setup](instructions/setup-civitas-core.md)
+
 ## Prozesse
 
 - [Definition of Ready / Done](process/dor-dod.md)
