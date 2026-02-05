@@ -85,8 +85,27 @@ Quelle: `raw/public-write-flow.puml`
 
 ---
 
-## Offene Punkte
+## Abgleich und Entscheidungen
 
-- TODO: Abgleich mit den technischen Anforderungen
-- TODO: Mapping zu Komponenten (Backend-Services)
-- TODO: Entscheidung, ob Reports als persistente Objekte oder rein als Export erzeugt werden
+### Abgleich mit technischen Anforderungen
+
+- Die Trennung von öffentlichen und administrativen APIs entspricht TA-02, TA-03 und TA-35.
+- Public Write mit Altcha und Rate Limiting entspricht TA-47 bis TA-51.
+- Konfigurations-Publishing mit Snapshot entspricht TA-27 bis TA-46.
+- Offline-Pipeline und 3D-Tiles-Prinzipien entsprechen TA-10 bis TA-18.
+
+### Mapping zu Backend-Services
+
+- **Configuration Service**: Konfigurationen, Versionierung, Publishing (TA-27 bis TA-46).
+- **Config Snapshot Exporter**: Export der JSON-Snapshots (TA-44 bis TA-45).
+- **User Data Service**: Public Write, Persistenz der Eingaben und Ergebnisse (TA-33, TA-36).
+- **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views (TA-34, TA-50).
+- **Simulation Service**: Server-Recompute für Verifikation (TA-49).
+- **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
+- **Auth Middleware**: OIDC/JWT für Admin-Endpoints (TA-04).
+
+### Entscheidung Reports
+
+- Reports werden **nicht** als eigene dauerhafte Objekte gespeichert.
+- Reports werden in der Anwendung **dynamisch aus der Datenbank** aggregiert.
+- Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.

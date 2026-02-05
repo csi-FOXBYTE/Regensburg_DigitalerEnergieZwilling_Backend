@@ -6,46 +6,48 @@ title Digitaler Energy Zwilling (DEZ) - C4 Component Diagram
 Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
-System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
+System_Boundary(civitas, "Civitas Core Platform") {
+  System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
 
-  Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
+    Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
 
-  Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
-    Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
-    Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and simulation UI")
-    Component(adminIsland, "Admin Island", "React", "Admin UI, available only after authentication")
-    Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
+    Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
+      Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
+      Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and simulation UI")
+      Component(adminIsland, "Admin Island", "React", "Admin UI, available only after authentication")
+      Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
+    }
+
+    Container_Boundary(backend, "Backend API", "Node and Fastify") {
+      Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
+      Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
+      Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
+      Component(auth, "Auth Middleware", "OIDC and JWT", "Authentication and authorization enforcement")
+      Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
+      Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
+      Component(simService, "Simulation Service", "TypeScript JavaScript", "Optional server side simulation execution for admin or fallback")
+      Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
+      Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
+    }
+
+    Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+
+    Container(tilesGateway, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
+    Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
+
+    Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
+      Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
+      Component(srcSolarGeo, "Solar and Geothermal Sources", "Raster and Vector", "Input potential datasets")
+      Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
+      Component(gdal, "Geodata Processing", "GDAL", "Computes and joins potentials to buildings and roof surfaces")
+      Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
+    }
+
+    SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
   }
 
-  Container_Boundary(backend, "Backend API", "Node and Fastify") {
-    Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
-    Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
-    Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
-    Component(auth, "Auth Middleware", "OIDC and JWT", "Authentication and authorization enforcement")
-    Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
-    Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
-    Component(simService, "Simulation Service", "TypeScript JavaScript", "Optional server side simulation execution for admin or fallback")
-    Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
-    Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
-  }
-
-  Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
-
-  Container(tilesGateway, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
-  Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
-
-  Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
-    Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
-    Component(srcSolarGeo, "Solar and Geothermal Sources", "Raster and Vector", "Input potential datasets")
-    Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
-    Component(gdal, "Geodata Processing", "GDAL", "Computes and joins potentials to buildings and roof surfaces")
-    Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
-  }
-
-  SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
+  Container(idp, "Keycloak CIVITAS", "OIDC identity provider")
 }
-
-System_Ext(idp, "Keycloak CIVITAS", "OIDC identity provider")
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 
 Rel(citizen, gateway, "uses", "HTTPS")

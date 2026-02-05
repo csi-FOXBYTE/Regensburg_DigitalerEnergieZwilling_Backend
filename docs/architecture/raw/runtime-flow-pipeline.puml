@@ -1,0 +1,58 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam sequence {
+  ParticipantBorderColor #444444
+  ParticipantBackgroundColor #F7F7F7
+  LifeLineBorderColor #444444
+  ArrowColor #444444
+  NoteBorderColor #444444
+  NoteBackgroundColor #F7F7F7
+}
+
+title Runtime-Flow - Offline-Datenpipeline (Airflow)
+
+actor Operator as operator
+participant "Airflow UI" as airflow_ui
+participant "Airflow DAG" as airflow
+participant "Datendienst (S3)" as s3
+participant "Konvertierungs-Container" as convert
+participant "Anreicherungs-Container" as enrich
+
+operator -> airflow_ui: Trigger DAG (job_id)
+airflow_ui -> airflow: Start Run
+
+airflow -> s3: Download jobs/{job_id}/input/
+s3 --> airflow: Input Data
+
+alt Eingaben fehlen
+  airflow --> airflow_ui: Fail Run
+end
+
+airflow -> convert: Run convert_tiles (JOB_DIR)
+convert -> s3: Upload jobs/{job_id}/convert/
+s3 --> convert: OK
+
+alt Konvertierung fehlgeschlagen
+  convert --> airflow: Error
+  airflow --> airflow_ui: Fail Run
+end
+
+airflow -> enrich: Run enrich_tiles (JOB_DIR)
+enrich -> s3: Upload jobs/{job_id}/enriched/
+s3 --> enrich: OK
+
+alt Anreicherung fehlgeschlagen
+  enrich --> airflow: Error
+  airflow --> airflow_ui: Fail Run
+end
+
+airflow -> s3: Write jobs/{job_id}/manifest.json
+s3 --> airflow: OK
+
+alt S3-Fehler
+  s3 --> airflow: Error
+  airflow --> airflow_ui: Fail Run
+end
+
+@enduml

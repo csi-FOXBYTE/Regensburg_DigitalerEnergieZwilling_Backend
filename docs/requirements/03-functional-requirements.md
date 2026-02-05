@@ -220,6 +220,53 @@ Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Se
 
 ---
 
+## 13. Offline-Pipeline-Betrieb (Airflow)
+
+**TA-52**  
+Die Offline-Datenpipeline muss in Civitas Core über Airflow orchestriert werden; DAG-Läufe werden ausschließlich manuell über die Airflow-Oberfläche gestartet.
+
+**TA-53**  
+Die Konvertierung (CityGML → CityJSON → 3D Tiles) und die Metadaten-Anreicherung (Solar/Geothermie) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
+
+**TA-54**  
+Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden und alle Artefakte unter einem dedizierten Job-Ordner im S3-kompatiblen Datendienst ablegen.
+
+**TA-55**  
+Die Pipeline muss als Eingabe einen CityGML-Ordner, einen EPSG-Code, ein `appearance`-Theme sowie `hasAlphaChannel` entgegennehmen.
+
+**TA-56**  
+Die Pipeline muss einen Laufstatus über ein `manifest.json` je `job_id` dokumentieren und strukturierte Fortschrittslogs bereitstellen.
+
+**TA-57**  
+Bei Teilfehlern darf kein Teilergebnis als gültig markiert werden; fehlerhafte Läufe gelten als verworfen und müssen vollständig neu gestartet werden.
+
+---
+
+## 14. Sicherheit (Security by Design)
+
+**TA-58**  
+Das System muss Prinzipien von Security by Design umsetzen (Least Privilege, Secure Defaults, Defense in Depth).
+
+**TA-59**  
+Alle externen Zugriffe müssen authentifiziert und autorisiert sein; Zugriffstoken dürfen nicht im Code abgelegt werden.
+
+**TA-60**  
+Secrets müssen ausschließlich über Secrets-Management bereitgestellt werden.
+
+**TA-61**  
+Die Datenübertragung muss verschlüsselt erfolgen (TLS).
+
+**TA-62**  
+Eingaben müssen serverseitig validiert werden; fehlerhafte Eingaben sind zu protokollieren.
+
+**TA-63**  
+Security-relevante Events müssen auditierbar geloggt werden.
+
+**TA-64**  
+Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities).
+
+---
+
 ## Abgrenzung
 
 Dieses Dokument beschreibt **was technisch erforderlich ist**, nicht jedoch die konkrete Implementierung.  

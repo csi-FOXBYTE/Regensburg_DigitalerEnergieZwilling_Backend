@@ -1,0 +1,63 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam sequence {
+  ParticipantBorderColor #444444
+  ParticipantBackgroundColor #F7F7F7
+  LifeLineBorderColor #444444
+  ArrowColor #444444
+  NoteBorderColor #444444
+  NoteBackgroundColor #F7F7F7
+}
+
+title Runtime-Flow - Bürger (Public)
+
+actor Citizen as user
+participant "Public Client" as client
+participant "Web Gateway" as gateway
+participant "Public Static Delivery" as public_static
+participant "Config Snapshot" as config
+participant "Tiles Gateway" as tiles
+participant "Simulation Core (Browser)" as sim
+participant "Altcha Widget" as altcha
+participant "Backend API" as api
+database "Database" as db
+
+user -> client: Öffnet Anwendung
+client -> gateway: GET /
+gateway -> public_static: Lade HTML/Assets
+public_static --> client: HTML/Assets
+client -> public_static: GET /config/versioned.json
+public_static --> client: Config Snapshot
+client -> tiles: Load 3D Tiles
+tiles --> client: Tiles
+client -> sim: Simulation lokal ausführen
+
+alt Config oder Tiles fehlen
+  client --> user: Fehler anzeigen (Retry)
+end
+
+alt Optional: Ergebnisse übermitteln
+  client -> altcha: Request Challenge
+  altcha --> client: Challenge
+  client -> altcha: Solve Challenge
+  altcha --> client: Token
+  client -> api: POST /api/public/inputs + Token
+  api -> gateway: Rate limit check
+  gateway --> api: OK
+  api -> sim: Server-Recompute
+  sim --> api: Ergebnis
+  api -> db: Store inputs/results
+  db --> api: Stored
+  api --> client: Accepted/Rejected
+
+  alt Altcha oder Rate Limit fehlgeschlagen
+    api --> client: Rejected (Validation)
+  end
+
+  alt Server-Recompute abweichend
+    api --> client: Rejected (Mismatch)
+  end
+end
+
+@enduml

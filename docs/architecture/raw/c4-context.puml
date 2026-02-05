@@ -6,9 +6,11 @@ title Digitaler Energy Zwilling (DEZ) - C4 Context Diagram
 Person(citizen, "Citizen (owners/landlords)", "Uses the public 3D client")
 Person(admin, "City Administration / Staff", "Configures content and reviews inputs")
 
-System(det, "Digitaler Energy Zwilling (DEZ)", "Web-based 3D application for energy potentials and simulations")
+System_Boundary(civitas, "Civitas Core Platform") {
+  System(det, "Digitaler Energy Zwilling (DEZ)", "Web-based 3D application for energy potentials and simulations")
+  System(idp, "Keycloak CIVITAS", "OIDC identity provider")
+}
 
-System_Ext(idp, "Keycloak CIVITAS", "OIDC identity provider")
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 System_Ext(citygml, "CityGML LOD2 Source", "Input dataset")
 System_Ext(potentials, "Solar and Geothermal Sources", "Raster and vector datasets")

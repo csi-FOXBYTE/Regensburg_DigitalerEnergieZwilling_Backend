@@ -7,26 +7,81 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 
 ---
 
-## Runtime-Flows (Platzhalter)
+## Runtime-Flows
 
-1. **Bürger (Eigentümer/Vermieter)-Flow**: TODO (3D-Client laden, Gebäude wählen, Simulation ausführen)
-2. **Stadtverwaltung / Fachpersonal-Flow**: TODO (Login, Konfiguration veröffentlichen, Triage)
-3. **Datenpipeline-Flow**: TODO (Offline-Import, Verarbeitung, Veröffentlichung)
+**Bürger (Eigentümer/Vermieter)-Flow**  
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Simulationen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting).  
+Beteiligte Komponenten: Web Gateway, Public Client, Tiles Gateway, Config Snapshot, Backend API (optional).  
+Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, Altcha-Validierung fehlgeschlagen, Server-Recompute abweichend.
 
-Für jeden Flow: Sequenzdiagramm, beteiligte Komponenten, Fehlerpfade.
+![runtime-flow-public.png](./attachments/runtime-flow-public.png)
+
+Quelle: `raw/runtime-flow-public.puml`
+
+**Stadtverwaltung / Fachpersonal-Flow**  
+Admins authentifizieren sich via OIDC, bearbeiten Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.  
+Beteiligte Komponenten: Web Gateway, Admin UI, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
+Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
+
+![runtime-flow-admin.png](./attachments/runtime-flow-admin.png)
+
+Quelle: `raw/runtime-flow-admin.puml`
+
+**Datenpipeline-Flow**  
+Airflow-Run wird manuell gestartet, Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
+Beteiligte Komponenten: Civitas Core (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
+Fehlerpfade: fehlende Eingaben, Konvertierungsfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
+
+![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
+
+Quelle: `raw/runtime-flow-pipeline.puml`
 
 ---
 
-## Ops-Sicht (Platzhalter)
+## Ops-Sicht
 
-- **Observability**: TODO (Logs, Metriken, Traces)
-- **SLO/SLI**: TODO (Verfügbarkeit, Latenz, Datenaktualität)
-- **Backup/Recovery**: TODO (Datenbank, Konfiguration, Tiles)
-- **Runbooks**: TODO (Störungen, Rollbacks, Releases)
+- **Observability**: strukturierte Logs, Metriken und verteilte Traces.  
+  Pflichtmetriken: Request-Rate, Fehlerquote, Latenzen (p50/p95/p99), Queue-Längen, Pipeline-Stage-Dauer, Erfolgsrate je `job_id`.
+- **Backup/Recovery**:  
+  Datenbank-Backup täglich, Aufbewahrung 30 Tage.  
+  Konfigurations-Snapshots im Objekt-Storage versioniert durch Pfad/Job-Ordner.  
+  3D Tiles werden im Datendienst gesichert, Lifecycle-Regeln nach Speicherbedarf.
+- **Runbooks**:  
+  API-Ausfall, Auth/OIDC-Probleme, Pipeline-Fehler, Datenkorruption, Rollback einer Konfigurationsversion, Wiederanlauf nach Teilfehlern.
 
 ---
 
-## Offene Punkte
+## Sicherheit (Betrieb)
 
-- TODO: Zuständigkeiten und On-Call-Regeln
-- TODO: Notfall- und Wartungsprozesse
+- Secrets ausschließlich über Secrets-Management, keine Tokens im Code.
+- Zugriff auf den Datendienst nur mit minimalen Rechten (Least Privilege, Bucket-Policies).
+- TLS für externe Verbindungen (z.B. S3, OIDC, API).
+- Log-Redaction: keine Credentials oder personenbezogenen Daten in Logs.
+- Regelmäßige Rotation von Zugangs- und Service-Credentials.
+
+---
+
+## Daten-Governance
+
+- Aufbewahrung der Job-Ordner erfolgt nach Bedarf; Löschung erfolgt manuell durch Betrieb.
+- Logs und `manifest.json` gehören zum Job-Ordner und werden gemeinsam gelöscht.
+- Zugriff auf Job-Ordner ist auf Betrieb und Pipeline-Container beschränkt.
+- Veröffentlichung von 3D Tiles erfolgt erst nach erfolgreicher Pipeline und Validierung.
+
+---
+
+## Teststrategie (Minimal)
+
+- **Smoke-Test Pipeline**: Ein kleiner CityGML-Datensatz wird manuell über Airflow verarbeitet.
+- **Regression**: Vergleich der erzeugten 3D Tiles gegen Referenz-Run (Dateistruktur, Count, Metadatenfelder).
+- **Contract-Checks**: Validierung von `manifest.json` und Progress-Logs nach Schema.
+
+---
+
+## Zuständigkeiten und Betriebsprozesse
+
+- Betrieb und Orchestrierung liegen beim Civitas-Core-Betriebsteam.  
+  Verantwortung: Airflow, Datendienstzugriff, Deployments, Monitoring.
+- Fachlicher Betrieb (Konfiguration/Triage) liegt bei Stadtverwaltung / Fachpersonal.
+- Notfallprozess: Incident-Owner wird benannt, Runbooks definieren Wiederanlauf und Kommunikationswege.
+- Wartungsprozess: geplante Wartungsfenster, Rollbacks über vorherige Konfigurationsversionen.

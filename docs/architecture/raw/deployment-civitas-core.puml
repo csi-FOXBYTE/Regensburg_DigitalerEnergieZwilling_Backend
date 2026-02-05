@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #444444
+}
+
+title Deployment – Civitas Core
+
+rectangle "Civitas Core Platform" as civitas {
+  rectangle "Web Gateway" as gateway
+  rectangle "Backend Add-on\n(Container)" as backend
+  rectangle "Airflow Orchestrator" as airflow
+  rectangle "Konvertierungs-Container" as convert
+  rectangle "Anreicherungs-Container" as enrich
+  rectangle "Public Static Delivery" as static
+  rectangle "Tiles Gateway" as tiles
+  rectangle "PostgreSQL/PostGIS" as db
+  rectangle "Keycloak (OIDC)" as keycloak
+}
+
+rectangle "Externer Datendienst\n(S3-kompatibel / 3D Tiles Storage)" as s3
+
+gateway --> static
+gateway --> backend
+gateway --> tiles
+
+backend --> db
+backend --> keycloak
+
+tiles --> s3
+
+airflow ..> convert : orchestriert
+airflow ..> enrich : orchestriert
+convert --> s3 : read/write
+enrich --> s3 : read/write
+
+@enduml

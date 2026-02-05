@@ -1,0 +1,76 @@
+@startuml
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam sequence {
+  ParticipantBorderColor #444444
+  ParticipantBackgroundColor #F7F7F7
+  LifeLineBorderColor #444444
+  ArrowColor #444444
+  NoteBorderColor #444444
+  NoteBackgroundColor #F7F7F7
+}
+
+title Runtime-Flow - Stadtverwaltung / Fachpersonal (Admin)
+
+actor Admin as admin
+participant "Admin Client" as client
+participant "Web Gateway" as gateway
+participant "Auth Middleware" as auth
+participant "Keycloak (OIDC)" as keycloak
+participant "Backend API" as api
+participant "Configuration Service" as config
+participant "Config Snapshot Exporter" as export
+participant "Triage/Reporting Service" as triage
+database "Database" as db
+participant "Public Static Delivery" as public_static
+
+admin -> client: Öffnet /admin
+client -> gateway: GET /admin
+gateway -> auth: Check Session
+auth -> keycloak: OIDC Login
+keycloak --> auth: Tokens
+auth --> gateway: OK
+gateway --> client: Admin HTML
+
+alt Auth fehlgeschlagen
+  auth --> gateway: Deny
+  gateway --> client: 401/403
+end
+
+admin -> client: Konfiguration bearbeiten
+client -> api: POST /api/admin/config
+api -> config: Update Config
+config -> db: Store Version
+db --> config: OK
+config --> api: OK
+api --> client: Updated
+
+alt Validierung oder Konflikt
+  config --> api: Error (Validation/Conflict)
+  api --> client: Error
+end
+
+admin -> client: Konfiguration veröffentlichen
+client -> api: POST /api/admin/config/publish
+api -> config: Publish
+config -> export: Generate Snapshot
+export -> public_static: Write /config/versioned.json
+export --> config: Done
+config --> api: Published
+api --> client: Published
+
+alt Export fehlgeschlagen
+  export --> config: Error
+  config --> api: Error
+  api --> client: Error
+end
+
+admin -> client: Triage öffnen
+client -> api: GET /api/admin/triage
+api -> triage: Load Cases
+triage -> db: Query Inputs/Results
+db --> triage: Data
+triage --> api: Data
+api --> client: Triage View
+
+@enduml

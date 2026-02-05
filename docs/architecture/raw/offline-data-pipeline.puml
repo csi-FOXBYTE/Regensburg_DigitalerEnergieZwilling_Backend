@@ -11,21 +11,26 @@ rectangle "LOD2 Daten\n(CityGML)" as lod2
 rectangle "Solarpotenziale\n(CityGML)" as solar
 rectangle "Geothermiepotenziale\n(WMS)" as geo
 
-rectangle "CityGML → CityJSON\ncitygml-tools" as c2j
-rectangle "CityJSON → 3D Tiles\ncityjson-to-3d-tiles" as tiles
-rectangle "Transformator\n(Potenziale + Kennwerte)\nHüllfläche, Dachfläche, Volumen" as trans
+rectangle "Externer Datendienst\n(S3-kompatibel)" as s3
+rectangle "Civitas Core\n(Airflow Orchestrator)" as airflow
+rectangle "Konvertierungs-Container\nCityGML → CityJSON\nCityJSON → 3D Tiles" as convert
+rectangle "Anreicherungs-Container\nSolar-/Geothermiepotenziale\n+ optionale Kennwerte" as enrich
 
-rectangle "3D Tiles Storage" as store
 rectangle "Tiles Gateway" as gw
 rectangle "Public Client" as client
 
-lod2 --> c2j
-solar --> c2j
-c2j --> tiles
-tiles --> trans
-geo --> trans
-trans --> store
-store --> gw
+lod2 --> s3
+solar --> s3
+geo --> s3
+
+airflow ..> convert : orchestriert
+airflow ..> enrich : orchestriert
+s3 --> convert : Download
+convert --> s3 : Upload
+s3 --> enrich : Download
+enrich --> s3 : Upload
+
+s3 --> gw
 gw --> client
 
 @enduml

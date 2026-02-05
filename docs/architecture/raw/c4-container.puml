@@ -6,23 +6,25 @@ title Digitaler Energy Zwilling (DEZ) - C4 Container Diagram
 Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
-System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
+System_Boundary(civitas, "Civitas Core Platform") {
+  System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
 
-  Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
+    Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
 
-  Container(frontend, "Web Frontend Static Site", "Astro SSG", "Static pages plus two interactive islands for public and admin")
+    Container(frontend, "Web Frontend Static Site", "Astro SSG", "Static pages plus two interactive islands for public and admin")
 
-  Container(backend, "Backend API", "Node.js and Fastify", "Auth, admin HTML delivery, APIs for config publish and user data triage")
+    Container(backend, "Backend API", "Node.js and Fastify", "Auth, admin HTML delivery, APIs for config publish and user data triage")
 
-  Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+    Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
-  Container(tilesGw, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
-  Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
+    Container(tilesGw, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
+    Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
 
-  ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and simulation configuration")
+    ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and simulation configuration")
+  }
+
+  Container(idp, "Keycloak CIVITAS", "OIDC identity provider")
 }
-
-System_Ext(idp, "Keycloak CIVITAS", "OIDC identity provider")
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 
 System_Ext(citygml, "CityGML LOD2 Source", "Input dataset")

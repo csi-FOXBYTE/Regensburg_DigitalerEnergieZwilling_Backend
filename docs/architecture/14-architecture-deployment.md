@@ -1,0 +1,33 @@
+# Architektur – Deployment (Civitas Core)
+
+## Ziel dieser Sicht
+
+Dieses Kapitel beschreibt die **Deployment-Sicht** innerhalb von Civitas Core.
+Es zeigt, welche Container beteiligt sind, wie sie zusammenspielen und welche externen Dienste
+angebunden werden.
+
+---
+
+## Überblick
+
+- Civitas Core orchestriert die Container (Backend Add-on, Airflow, Pipeline-Container).
+- Der Web-Zugang erfolgt über ein Web Gateway.
+- Statische Frontend-Assets und veröffentlichte Konfigurations-Snapshots werden getrennt ausgeliefert.
+- 3D Tiles liegen im externen Datendienst (S3-kompatibel) und werden über das Tiles Gateway bereitgestellt.
+- Datenbank und Identity Provider laufen innerhalb von Civitas Core.
+
+---
+
+## Deployment-Diagramm
+
+![deployment-civitas-core.png](./attachments/deployment-civitas-core.png)
+
+Quelle: `raw/deployment-civitas-core.puml`
+
+---
+
+## Annahmen
+
+- Der externe Datendienst entspricht dem 3D Tiles Storage.
+- Airflow ist Teil von Civitas Core und orchestriert die Offline-Pipeline.
+- Backend läuft als Civitas-Core-fähiges Add-on in einem separaten Container.

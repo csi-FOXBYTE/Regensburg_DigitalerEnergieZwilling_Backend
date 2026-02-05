@@ -32,6 +32,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **11** [Frontend](architecture/11-architecture-frontend.md)
 - **12** [Backend](architecture/12-architecture-backend.md)
 - **13** [Simulationskern](architecture/13-architecture-simulation-core.md)
+- **14** [Deployment (Civitas Core)](architecture/14-architecture-deployment.md)
 
 ## Anleitungen
 
