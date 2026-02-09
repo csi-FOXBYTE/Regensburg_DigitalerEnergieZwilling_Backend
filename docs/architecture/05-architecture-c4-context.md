@@ -28,7 +28,7 @@ Quelle: `raw/c4-context.puml`
 - **Keycloak CIVITAS**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von Civitas Core).
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
 - **CityGML LOD2 Source**: Gebäudedaten für die Offline-Aufbereitung.
-- **Solar and Geothermal Sources**: Potenzialdaten als Raster-/Vektorquellen.
+- **Solar and Geothermal Sources**: Potenzialdaten als Raster-/Vektorquellen bzw. 3D Tiles (Solar).
 
 ---
 

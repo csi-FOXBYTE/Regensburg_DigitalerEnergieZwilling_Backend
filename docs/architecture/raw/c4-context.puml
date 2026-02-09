@@ -13,7 +13,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
 
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 System_Ext(citygml, "CityGML LOD2 Source", "Input dataset")
-System_Ext(potentials, "Solar and Geothermal Sources", "Raster and vector datasets")
+System_Ext(potentials, "Solar (3D Tiles) and Geothermal Sources", "Solar 3D tiles + geothermal WMS/raster data")
 
 Rel(citizen, det, "uses", "HTTPS")
 Rel(admin, det, "uses", "HTTPS")

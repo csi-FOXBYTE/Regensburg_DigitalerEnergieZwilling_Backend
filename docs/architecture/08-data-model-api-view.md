@@ -39,6 +39,17 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
+### Statische Tile-Attribute (Auszug)
+
+- **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
+- **Solarpotenziale** liegen als 3D-Tiles-Attribute vor. Relevante Felder u.a.:
+  `solarArea`, `Flaeche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
+  `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
+  `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
+- **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
+- **Geothermiepotenziale** werden, sobald verfügbar, über WMS ermittelt und als statische Attribute ergänzt.
+- **Vegetation (Bäume)** wird als eigener 3D-Tiles-Layer für die Visualisierung ausgeliefert.
+
 ### Konfigurations-Publishing
 
 - **Source of Truth**: Konfigurationen werden in der Datenbank gepflegt und versioniert.

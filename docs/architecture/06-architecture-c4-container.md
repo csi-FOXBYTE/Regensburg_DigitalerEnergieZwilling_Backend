@@ -107,7 +107,8 @@ Das 3D Tiles Storage enthält die vorverarbeiteten 3D Tiles.
 
 Eigenschaften:
 - Statische Datenhaltung
-- Enthält Gebäudestrukturen sowie Solar- und Geothermiepotenziale
+- Enthält Gebäudestrukturen, Adressen aus LOD2, Solarpotenzial-Attribute (inkl. Textur) sowie Vegetation (Bäume)
+- Geothermiepotenziale werden ergänzt, sobald die Quelle verfügbar ist (voraussichtlich WMS)
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.
@@ -133,7 +134,7 @@ Die Offline Datenpipeline ist ein eigenständiger Verarbeitungspfad außerhalb d
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solar- und Geothermiedaten
+- Integration von Solarpotenzialen (PV) und Geothermiedaten
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung der finalen 3D Tiles
 

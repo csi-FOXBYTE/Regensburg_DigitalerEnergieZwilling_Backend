@@ -7,14 +7,15 @@ skinparam rectangle {
 
 title Offline-Datenpipeline
 
-rectangle "LOD2 Daten\n(CityGML)" as lod2
-rectangle "Solarpotenziale\n(CityGML)" as solar
-rectangle "Geothermiepotenziale\n(WMS)" as geo
+rectangle "LOD2 Daten\n(CityGML, inkl. Adressen)" as lod2
+rectangle "Solarpotenziale\n(3D Tiles + Textur)" as solar
+rectangle "Geothermiepotenziale\n(WMS, offen)" as geo
+rectangle "Vegetation (Bäume)\n(3D Tiles)" as trees
 
 rectangle "Externer Datendienst\n(S3-kompatibel)" as s3
 rectangle "Civitas Core\n(Airflow Orchestrator)" as airflow
 rectangle "Konvertierungs-Container\nCityGML → CityJSON\nCityJSON → 3D Tiles" as convert
-rectangle "Anreicherungs-Container\nSolar-/Geothermiepotenziale\n+ optionale Kennwerte" as enrich
+rectangle "Anreicherungs-Container\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
 
 rectangle "Tiles Gateway" as gw
 rectangle "Public Client" as client
@@ -22,6 +23,7 @@ rectangle "Public Client" as client
 lod2 --> s3
 solar --> s3
 geo --> s3
+trees --> s3
 
 airflow ..> convert : orchestriert
 airflow ..> enrich : orchestriert

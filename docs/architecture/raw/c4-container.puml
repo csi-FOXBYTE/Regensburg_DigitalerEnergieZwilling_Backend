@@ -18,7 +18,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
     Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGw, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
-    Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
+    Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
     ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and simulation configuration")
   }
@@ -28,11 +28,12 @@ System_Boundary(civitas, "Civitas Core Platform") {
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 
 System_Ext(citygml, "CityGML LOD2 Source", "Input dataset")
-System_Ext(potentials, "Solar and Geothermal Sources", "Raster and vector datasets")
+System_Ext(potentials, "Solar (3D Tiles) and Geothermal Sources", "Solar 3D tiles + geothermal WMS/raster data")
+System_Ext(vegetation, "Vegetation (Trees)", "3D tiles layer")
 
 System_Boundary(pipeline, "Offline Data Pipeline") {
   Container(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
-  Container(gdal, "Geodata Processing", "GDAL", "Computes and joins potentials to buildings and roofs")
+  Container(gdal, "Geodata Processing", "GDAL + custom", "Joins geothermal WMS and solar tiles attributes; enriches buildings and roofs")
   Container(tilesConv, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
 }
 
@@ -58,6 +59,7 @@ Rel(frontend, backend, "calls API for user data and admin actions", "REST")
 
 Rel(citygml, citygmlTools, "feeds")
 Rel(potentials, gdal, "feeds")
+Rel(vegetation, gdal, "feeds")
 Rel(citygmlTools, tilesConv, "outputs CityJSON")
 Rel(gdal, tilesConv, "provides computed attributes")
 Rel(tilesConv, tilesStore, "writes tiles with embedded potentials")

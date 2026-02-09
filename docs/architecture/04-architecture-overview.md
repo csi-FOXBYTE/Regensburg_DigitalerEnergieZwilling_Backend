@@ -17,7 +17,7 @@ Zentrale Leitprinzipien der Architektur sind:
 
 ### Statische Daten statt Laufzeitberechnung
 
-Alle rechenintensiven und allgemein gültigen Daten (z.B. Solar- und Geothermiepotenziale) werden **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.  
+Alle rechenintensiven und allgemein gültigen Daten (z.B. Solarpotenziale (PV) und Geothermiepotenziale) werden **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.  
 Zur Laufzeit findet keine Neuberechnung dieser Potenziale statt.
 
 Dies reduziert:
@@ -94,6 +94,9 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen z
 - offline erzeugt
 - mit allen relevanten Potenzialattributen angereichert
 - über ein dediziertes Gateway bereitgestellt
+
+Die Tiles enthalten zusätzlich Adressen aus LOD2, optionale Texturen zur Solarpotenzial-Visualisierung
+und Vegetationsobjekte (Bäume) für die 3D-Darstellung.
 
 Das Gateway entkoppelt die Auslieferung der Tiles vom Backend und ermöglicht eine skalierbare Bereitstellung.
 

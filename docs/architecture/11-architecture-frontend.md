@@ -16,7 +16,9 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 ## Verantwortlichkeiten
 
 - Darstellung des 3D-Stadtmodells und Auswahl einzelner Gebäude.
-- Visualisierung von Solar- und Geothermiepotenzialen aus 3D Tiles.
+- Visualisierung von Solarpotenzialen (PV) und Geothermiepotenzialen aus 3D Tiles.
+- Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise.
+- Darstellung von Vegetationsobjekten (Bäume) zur besseren räumlichen Orientierung.
 - Durchführung der Simulation im Browser über den Simulationskern.
 - Darstellung der Ergebnisse und Hinweise für Bürger (Eigentümer/Vermieter).
 - Administrative Funktionen für Stadtverwaltung / Fachpersonal (Konfiguration, Triage).

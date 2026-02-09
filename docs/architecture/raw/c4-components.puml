@@ -33,13 +33,15 @@ System_Boundary(civitas, "Civitas Core Platform") {
     Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGateway, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
-    Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with embedded solar and geothermal attributes")
+    Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
     Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
       Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
-      Component(srcSolarGeo, "Solar and Geothermal Sources", "Raster and Vector", "Input potential datasets")
+      Component(srcSolarTiles, "Solar Potentials", "3D Tiles + Texture", "Input solar potential tiles")
+      Component(srcGeothermal, "Geothermal Potentials", "WMS/Raster", "Input geothermal dataset (pending)")
+      Component(srcVegetation, "Vegetation (Trees)", "3D Tiles Layer", "Input vegetation for visualization")
       Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
-      Component(gdal, "Geodata Processing", "GDAL", "Computes and joins potentials to buildings and roof surfaces")
+      Component(gdal, "Geodata Processing", "GDAL + custom", "Joins geothermal WMS and solar tiles attributes to buildings and roofs")
       Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
     }
 
@@ -101,7 +103,9 @@ Rel(telemetry, geoService, "instruments")
 Rel(telemetry, simService, "instruments")
 
 Rel(srcCityGML, citygmlTools, "feeds")
-Rel(srcSolarGeo, gdal, "feeds")
+Rel(srcSolarTiles, gdal, "feeds")
+Rel(srcGeothermal, gdal, "feeds")
+Rel(srcVegetation, gdal, "feeds")
 Rel(citygmlTools, converter, "outputs CityJSON")
 Rel(gdal, converter, "provides computed attributes")
 Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")

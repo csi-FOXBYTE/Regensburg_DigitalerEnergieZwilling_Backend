@@ -51,9 +51,10 @@ Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer
 
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
-- Anzeige energetischer Potenziale aus den 3D Tiles
+- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles
 - Durchführung der energetischen Simulation
 - Darstellung der Simulationsergebnisse
+Hinweis: Die Solarpotenzial-Textur und Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt.
 
 Die Simulation wird standardmäßig vollständig im Browser ausgeführt.
 
@@ -206,7 +207,7 @@ Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad modelliert.
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solar- und Geothermiepotenzialen
+- Integration von Solarpotenzialen (PV) und Geothermiepotenzialen
 - Anreicherung der Gebäudedaten
 - Erzeugung der finalen 3D Tiles
 

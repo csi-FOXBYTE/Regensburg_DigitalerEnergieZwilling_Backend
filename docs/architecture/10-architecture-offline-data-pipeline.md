@@ -11,10 +11,13 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 ## Datenquellen
 
-- **Geothermiepotenziale** (WMS)
-- **Solarpotenziale** (CityGML)
-- **LOD2-Daten** (CityGML)
+- **Geothermiepotenziale** (voraussichtlich WMS, Quelle noch offen)
+- **Solarpotenziale** (3D Tiles mit Attributen + Textur)
+- **LOD2-Daten** (CityGML, inkl. Adressen)
+- **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
+
+Hinweis: Solarthermiepotenziale werden derzeit nicht weitergeführt.
 
 ---
 
@@ -24,7 +27,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - Die **Orchestrierung erfolgt in Civitas Core über Airflow** (DAG-basiert).
 - Ein **externer Datendienst** (z.B. S3) dient als Quelle und Ziel für Rohdaten und erzeugte 3D Tiles.
 - Die **Konvertierung** (CityGML → CityJSON → 3D Tiles) und die **Anreicherung der Metadaten**
-  (Solar- und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
+  (Solarpotenziale (PV) und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
 Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
 
 ---
@@ -40,14 +43,15 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
    <https://github.com/csi-FOXBYTE/cityjson-to-3d-tiles>
 
 3. **Anreicherung der Metadaten (separater Schritt)**  
-   Solarpotenziale und Geothermiepotenziale werden **nach der Konvertierung**
-   in einem separaten Verarbeitungsschritt in die 3D-Tile-Objekte integriert.
+   Solarpotenziale liegen als 3D Tiles mit Attributen und Textur vor und werden
+   in einem separaten Verarbeitungsschritt mit den konvertierten Tiles zusammengeführt.
+   Geothermiepotenziale werden (sobald verfügbar) über WMS abgefragt und ergänzt.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
    Dadurch werden Laufzeit-DB-Zugriffe minimiert.
 
 4. **Optionale visuelle Ableitungen**  
    Weitere visuelle Attribute oder Aggregationen können in diesem Schritt verknüpft oder generiert werden, z.B.:
-   - Solarpotenzial als Farbgradient je Dachfläche
+   - Solarpotenzial-Textur (aus der Lieferung) als Dachflächen-Overlay
    - Geothermiepotenzial als Gebäude-Overlay (Skala/Klassifizierung)
    - Energieeffizienzklasse als Label oder Icon am Gebäude
 
@@ -90,7 +94,7 @@ Task-Reihenfolge je `job_id`:
 ### Storage-Layout (S3-kompatibel)
 
 - `jobs/{job_id}/input/`  
-  Eingabedaten (CityGML-Dateien, Struktur beliebig).
+  Eingabedaten (CityGML-Dateien, Solarpotenzial-3D-Tiles, Vegetationsdaten; Struktur beliebig).
 - `jobs/{job_id}/convert/`  
   Ausgabe der Konvertierung (3D Tiles ohne Metadaten-Anreicherung).
 - `jobs/{job_id}/enriched/`  
@@ -105,7 +109,9 @@ Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Se
 
 ### Eingaben
 
-- Ein Ordner mit **CityGML-Dateien** (Dateistruktur innerhalb des Ordners ist beliebig).
+- Ein Ordner mit **CityGML-Dateien** (LOD2, inkl. Adressen; Dateistruktur innerhalb des Ordners ist beliebig).
+- Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe.
+- Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
 - `appearance` (String) wählt **genau eine** Texture/Theme aus der CityGML-Quelle.
 - `hasAlphaChannel` (Boolean) gibt an, ob die Texture-Daten einen **Alpha-Kanal** enthalten.
@@ -237,14 +243,14 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 
 ### Zweck
 
-- Ergänzung von 3D Tiles um Solarpotenziale und Geothermiepotenziale.
+- Ergänzung von 3D Tiles um Solarpotenziale (PV) und Geothermiepotenziale.
 - Optionale Berechnung abgeleiteter Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen).
 
 ### Erwartete Eingaben
 
 - Pfad zu konvertierten 3D Tiles (`jobs/{job_id}/convert/`).
-- Geothermiepotenziale über WMS (EPSG wird für die Abfrage verwendet).
-- Solarpotenziale aus CityGML-Attributen der Dachflächen.
+- Geothermiepotenziale über WMS (EPSG wird für die Abfrage verwendet, Quelle noch offen).
+- Solarpotenzial-3D-Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
 ### Erwartete Ausgaben
@@ -255,9 +261,9 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
-- **Solarpotenziale** werden von Dachflächen übernommen und je Gebäude aufsummiert.
+- **Solarpotenziale** werden aus den gelieferten 3D-Tiles-Attributen übernommen; eine Aufsummierung je Gebäude ist optional.
 - **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem WMS gemittelt; falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
-- **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt.
+- **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
 
 ### Metadaten-Schema (Tiles-Attribute)
@@ -272,6 +278,26 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 - `solar_yield_kwh_m2a` (Number)
 - `geothermal_potential_w_m2` (Number)
 
+Zusätzliche Rohattribute aus den Solarpotenzial-3D-Tiles (unverändert übernommen):
+- `solarArea` (Number)
+- `Flaeche` (String)
+- `Dachneigung` (String)
+- `Dachorientierung` (String)
+- `SVF_min` (Number)
+- `SVF_avg` (Number)
+- `SVF_med` (Number)
+- `SVF_max` (Number)
+- `Z_MIN` (String)
+- `Z_MAX` (String)
+- `Z_MIN_ASL` (String)
+- `Z_MAX_ASL` (String)
+- `creationDate` (String, ISO-Datum)
+- `globalRadMonths_1..12` (Number)
+- `directRadMonths_1..12` (Number)
+- `diffuseRadMonths_1..12` (Number)
+
+Hinweis: Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
+
 ### Validierungsregeln
 
 - `address_full` muss gesetzt sein.
@@ -285,6 +311,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 ## Pipeline-Diagramm
 
 Das Diagramm zeigt die Verarbeitungsschritte; Orchestrierung und Datenaustausch über Airflow sind im Abschnitt oben beschrieben.
+Hinweis: Die Solarpotenziale sind aktuell bereits als 3D Tiles verfügbar und werden in der Anreicherung übernommen.
 
 ![offline-data-pipeline.png](./attachments/offline-data-pipeline.png)
 

@@ -13,7 +13,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 ### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
-- Anzeige von Solar- und Geothermiepotenzialen
+- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
 - Einfache Simulationen für Sanierungsmaßnahmen in mehreren Stufen
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
@@ -52,6 +52,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 ## Datenhaltung und Datenfluss
 
 - Statische, allgemein gültige Potenziale liegen ausschließlich in den 3D Tiles.
+- 3D Tiles enthalten Gebäudegeometrie, Adressen aus LOD2, Solarpotenzial-Attribute (inkl. Textur für die Potenzialdarstellung) sowie Vegetationsobjekte (Bäume).
 - Dynamische, nutzerspezifische Daten liegen in der Datenbank.
 - Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
 - Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.

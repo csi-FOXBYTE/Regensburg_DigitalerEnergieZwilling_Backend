@@ -58,10 +58,12 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 3D Tiles müssen vollständig offline vorverarbeitet werden.
 
 **TA-12**  
-Solarthermie- und Geothermiepotenziale müssen als statische Attribute direkt in den 3D Tiles abgelegt sein.
+Solarpotenziale (PV) und Geothermiepotenziale müssen als statische Attribute direkt in den 3D Tiles abgelegt sein.
 
 **TA-13**  
 Zur Laufzeit dürfen keine Solar- oder Geothermiepotenziale berechnet werden.
+
+Hinweis: Solarthermiepotenziale sind nicht Teil der technischen Anforderungen.
 
 **TA-14**  
 3D Tiles dürfen nicht vom Backend ausgeliefert werden.

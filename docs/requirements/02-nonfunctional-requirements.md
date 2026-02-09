@@ -38,13 +38,15 @@ Zu jedem Gebäude müssen energetische Potenziale visuell darstellbar sein.
 ### Anzeige energetischer Potenziale
 
 **FA-04**  
-Das System muss Solarthermiepotenziale auf Gebäude- oder Dachflächenebene anzeigen können.
+Das System muss Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
 
 **FA-05**  
 Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
 
 **FA-06**  
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
+
+Hinweis: Solarthermiepotenziale sind derzeit nicht Bestandteil der fachlichen Anforderungen.
 
 ---
 
