@@ -21,8 +21,9 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Bauteil- und Systemeingaben** (Hülle, Lüftung, Warmwasser, Anlagentechnik)
 - **Maßnahmenkatalog** und **Maßnahmenselektion** (inkl. Förderprogramme)
 - **Simulationskonfiguration (versioniert)** und **Konfigurationsoptionen**
-- **Simulationen & Ergebnisse** (Energiebedarf, CO2, Primärenergie, Kosten, Effizienzklassen)
+- **Simulationen & Ergebnisse** (Energiebedarf, CO₂, Primärenergie, Kosten, Effizienzklassen)
 - **Triage/Status** für administrative Prüfung und Veröffentlichung
+- **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung)
 - **Reports** (Anzeige in der Anwendung) und **optionale Exporte** (z.B. PDF für Bürger, Quartiersberichte für Verwaltung)
 
 ### Beziehungen (vereinfacht)
@@ -33,22 +34,48 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Triage** ist pro Eingabeset geführt; veröffentlichte Daten werden exportierbar.
 - **Quartiere** erlauben Aggregationen und Reporting auf Planungsebene.
 
+### Eingabekategorien (Auszug)
+
+- **Grunddaten**: Baujahr/Baualtersklasse, Gebäudetyp, Wohnfläche, Wohneinheiten, Personenanzahl.
+- **Gebäudehülle**: Dach, Außenwand, Fenster, Kellerdecke inkl. Zustand/Sanierungsjahr und Dämmung.
+- **Lüftung**: Lüftungsart, Luftdichtheit (optional).
+- **Warmwasser & Nutzung**: pauschal vs. personenbasiert.
+- **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Regelungsart; optional Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung.
+- **Kosten/Preise**: Energiepreis, Stromart, Jahresverbrauch (optional).
+- **Erneuerbare**: PV, Geothermie, Energiespeicher (optional).
+
 ### Datenhaltung
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
+### Status-Lifecycle (Triage)
+
+- `neu` → `in_pruefung`
+- `in_pruefung` → `freigegeben` oder `unplausibel`
+- Statuswechsel werden im Audit-Log mit Zeitstempel und Benutzerkennung protokolliert.
+
 ### Statische Tile-Attribute (Auszug)
 
 - **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
-- **Solarpotenziale** liegen als 3D-Tiles-Attribute vor. Relevante Felder u.a.:
+- **Solarpotenziale** liegen als Attribute in 3D Tiles vor. Relevante Felder u.a.:
   `solarArea`, `Flaeche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
 - **Geothermiepotenziale** werden, sobald verfügbar, über WMS ermittelt und als statische Attribute ergänzt.
-- **Vegetation (Bäume)** wird als eigener 3D-Tiles-Layer für die Visualisierung ausgeliefert.
+- **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
+
+### Abgeleitete Gebäudeparameter (LOD2)
+
+Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Simulationskontext genutzt:
+- Nutzfläche, Wohnfläche, Nettoraumvolumen
+- Hüllflächen (Außenwände, Dachflächen)
+- Ausrichtung der Wände / Himmelsrichtungen
+- Anzahl Geschosse / Vollgeschosse
+- Dachform und Dachausrichtung
+- Anzahl Wohneinheiten und angrenzende Gebäude (Kontext)
 
 ### Konfigurations-Publishing
 
@@ -103,7 +130,7 @@ Quelle: `raw/public-write-flow.puml`
 - Die Trennung von öffentlichen und administrativen APIs entspricht TA-02, TA-03 und TA-35.
 - Public Write mit Altcha und Rate Limiting entspricht TA-47 bis TA-51.
 - Konfigurations-Publishing mit Snapshot entspricht TA-27 bis TA-46.
-- Offline-Pipeline und 3D-Tiles-Prinzipien entsprechen TA-10 bis TA-18.
+- Offline-Pipeline und 3D Tiles Prinzipien entsprechen TA-10 bis TA-18.
 
 ### Mapping zu Backend-Services
 

@@ -13,7 +13,7 @@ rectangle "Simulationskern\n(JS-Modul)" as core
 rectangle "Konfigurations-Snapshot\n(versioniert)" as config
 rectangle "Gebäudedaten\n(Potenziale aus Tiles)" as building
 rectangle "Nutzereingaben" as inputs
-rectangle "Simulationsergebnisse\n(Energie, CO2, Kosten)" as outputs
+rectangle "Simulationsergebnisse\n(Energie, CO₂, Kosten)" as outputs
 
 frontend --> core
 backend --> core

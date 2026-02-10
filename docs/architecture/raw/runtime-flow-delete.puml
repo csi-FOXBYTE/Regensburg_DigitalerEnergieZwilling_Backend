@@ -1,0 +1,29 @@
+@startuml
+title Runtime-Flow: Public Delete
+
+actor User
+participant "Public Client" as client
+participant "Backend API" as api
+participant "User Data Service" as uds
+database "Database" as db
+
+User -> client : Open delete link/QR
+client -> api : GET /delete/{token}
+api -> uds : validate token
+uds -> db : lookup record
+db --> uds : record or not found
+uds --> api : valid/invalid
+api --> client : show confirmation or error
+
+alt confirmed
+  client -> api : POST /delete/{token}\naddress confirmation
+  api -> uds : delete request
+  uds -> db : verify address\nand delete record
+  db --> uds : deleted
+  uds --> api : success
+  api --> client : confirmation
+else invalid
+  api --> client : error (token/address)
+end
+
+@enduml

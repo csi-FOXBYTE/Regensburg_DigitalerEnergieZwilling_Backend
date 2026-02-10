@@ -6,9 +6,12 @@ Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler En
 Es legt verbindlich fest, **welche technischen Eigenschaften, Randbedingungen und Qualitätsmerkmale** das System erfüllen muss, um die fachlichen Anforderungen korrekt, sicher und wartbar umzusetzen.
 
 Die technischen Anforderungen dienen als:
+
 - Grundlage für Architektur- und Technologieentscheidungen
 - Referenz für Implementierung und Reviews
 - Basis für Abnahme und Qualitätssicherung
+
+Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-have, **KANN** = optional.
 
 ---
 
@@ -41,6 +44,7 @@ Zur Laufzeit darf keine serverseitige Renderlogik erforderlich sein.
 
 **TA-08**  
 Das Frontend muss mindestens zwei klar getrennte UI-Bereiche bereitstellen:
+
 - einen öffentlichen Bürger-Client
 - eine administrative Oberfläche für Stadtverwaltung / Fachpersonal
 
@@ -80,10 +84,11 @@ Das System muss eine eigenständige Offline-Datenpipeline zur Verarbeitung von G
 
 **TA-17**  
 Die Datenpipeline muss folgende Schritte abbilden können:
-- Konvertierung von CityGML zu CityJSON  
-- Verarbeitung von Solar- und Geothermiedaten  
-- Anreicherung der Gebäudedaten mit Potenzialattributen  
-- Erzeugung von 3D Tiles  
+
+- Konvertierung von CityGML zu CityJSON
+- Verarbeitung von Solar- und Geothermiedaten
+- Anreicherung der Gebäudedaten mit Potenzialattributen
+- Erzeugung von 3D Tiles
 
 **TA-18**  
 Die Datenpipeline muss unabhängig vom Laufzeitsystem betreibbar sein.
@@ -266,6 +271,184 @@ Security-relevante Events müssen auditierbar geloggt werden.
 
 **TA-64**  
 Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities).
+
+---
+
+## 15. Datenschutz, Consent & Tracking
+
+**TA-65**  
+Der Bürgerbereich darf keine Registrierung erfordern; temporäre Zustände dürfen über Session-Cookies gehalten werden, optionale lokale Speicherung im Browser ist zulässig.
+
+**TA-66**  
+Lokale Speicherung im Browser (z.B. Local Storage) ist zulässig, darf aber keine personenbezogene Vorbefüllung für neue Nutzer erzeugen; Nutzerdaten dürfen nicht zwischen Bürgern geteilt werden.
+
+**TA-67**  
+Das System muss ein Consent-Management für Cookies bereitstellen (notwendig/Analytics/Drittanbieter) und nachträgliche Änderungen erlauben.
+
+**TA-68**  
+Tracking und Analyse von Klickpfaden oder Nutzungsverhalten dürfen nur als Opt-in erfolgen.
+
+**TA-69**  
+Die Oberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und die Anforderungen der BITV 2.0 erfüllen (u.a. Screenreader, Alternativtexte, Kontrast, Tastaturbedienbarkeit).
+
+---
+
+## 16. Observability & Logging
+
+**TA-70**  
+Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempeln protokollieren, maschinenlesbar sein und Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL) verwenden; Log-Level müssen zur Laufzeit dynamisch anpassbar sein.
+
+---
+
+## 17. Sicherheit & SDLC
+
+**TA-71**  
+Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanning und Patch-Management sind verpflichtend; vor Go-Live ist ein Penetrationstest durchzuführen. Ergänzend müssen Programmdokumentation, Inline-Dokumentation sowie Architektur-, ER- und Datenflussmodell fortlaufend gepflegt und bereitgestellt werden.
+
+---
+
+## 18. Integration (CIVITAS/CORE)
+
+**TA-72**  
+Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI unterstützen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX; Multimandantenfähigkeit (Dataspace) ist zu berücksichtigen. Die Kommunikation zwischen Komponenten muss über standardisierte Schnittstellen (z.B. REST, MQTT, OGC-Dienste) erfolgen; offene, dokumentierte APIs wie OpenAPI 3.x oder OGC API Features sind verbindlich zu verwenden. Zusätzliche Datensenken sind zu vermeiden.
+
+---
+
+## 19. Performance & Skalierung
+
+**TA-73**  
+Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstützen und für horizontale sowie vertikale Skalierung vorbereitet sein; Monitoring umfasst Ladezeiten, CPU, RAM und I/O.
+
+---
+
+## 20. Betrieb & Support
+
+**TA-74**  
+Für den Betrieb sind Bugfixing, OS- und Framework-Updates, Security-Patches und 2nd-Level-Support bereitzustellen; kritische Sicherheitsupdates müssen innerhalb von 72h erfolgen; Supportzeiten sind Mo–Fr 09:00–16:00 Uhr.
+
+---
+
+## 21. Rechenmethoden & Nachweise
+
+**TA-75**  
+Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien, BKI-Kostenplaner).
+
+**TA-76**  
+In der Projektdokumentation sind konkrete Nachweise der verwendeten Rechenmethoden zu liefern (inkl. Seitenzahl, Tabellen-/Zeilennummern und spezifische Formelverweise).
+
+---
+
+## 22. Datenlöschung & Sitzungen
+
+**TA-77**  
+Wenn Nutzereingaben oder Ergebnisse gespeichert wurden, muss ein Löschprozess bereitgestellt werden (z.B. über Link/QR im PDF), der eine eindeutige Identifikation des Datensatzes ermöglicht.
+
+**TA-78**  
+Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.B. Adressabgleich + zusätzlicher Bestätigungsschritt), um ungewollte Löschungen zu vermeiden.
+
+**TA-79**  
+Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme innerhalb der Session sind zu unterstützen. Persistente Speicherung darf nur erfolgen, wenn der Nutzer dies explizit auslöst.
+
+**TA-80**  
+Der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für optionale Speicherung/Tracking geprüft und revisionssicher protokolliert werden.
+
+---
+
+## 23. Admin-Triage & Audit
+
+**TA-81**  
+Jeder Nutzerdatensatz muss einen Status tragen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden.
+
+**TA-82**  
+Die Admin-UI muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
+
+**TA-83**  
+Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereitgestellt werden und Filterkriterien berücksichtigen.
+
+**TA-84**  
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu → in Prüfung → freigegeben oder unplausibel.
+
+---
+
+## 24. Stufenmodell & Live-Berechnung
+
+**TA-85**  
+Der Simulationskern muss ein Stufenmodell 0–4 unterstützen; Stufe 0 basiert ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
+
+**TA-86**  
+Stufe 4 muss Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützen und die Ergebnisse vergleichbar bereitstellen (vorher/nachher).
+
+**TA-87**  
+Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Button aktualisiert werden; die Reaktionszeit muss für interaktive Nutzung geeignet sein.
+
+### Input-Matrix (Stufen 0–4)
+
+| Stufe | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
+| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0     | keine                                                 | keine                                                                                                                                                        |
+| 1     | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
+| 2     | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Lüftungsart, Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
+| 3     | Überschreiben von Defaults je Bauteil                 | Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| 4     | Auswahl Sanierungsmaßnahmen                           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                |
+
+Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen stufenspezifisch.
+
+---
+
+## 25. Anlagentechnik-Detailgrad
+
+**TA-88**  
+Die Eingabemaske muss die Heizungsregelung als auswählbare Kategorie unterstützen (Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung).
+
+**TA-89**  
+In höheren Stufen müssen optionale Anlagenparameter aufgenommen werden können (Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Heizflächen, Regelprinzip, technische Ausführung).
+
+---
+
+## 26. Open Source & Förderkulisse
+
+**TA-90**  
+Die Lösung muss Open Source sein und als finales Release über OpenCoDE veröffentlicht werden; Zwischenstände oder Beta-Versionen dürfen dort nicht bereitgestellt werden.
+
+**TA-91**  
+Die für OpenCoDE geforderten Qualitätskriterien müssen erfüllt werden, einschließlich: werthaltige Projektbeschreibung, benannte verantwortliche Person, CVE-Management für Abhängigkeiten, automatisierte Tests, Bug- und Security-Kontaktstellen, SBOM sowie Release Notes.
+
+**TA-92**  
+Das Repository muss die für OpenCoDE erforderlichen Dateien enthalten (u.a. `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`, `SECURITY.md`, `publiccode.yml`). Jede Datei muss einen Urheberrechtsvermerk, eine Lizenzbezeichnung und einen SPDX-Identifier enthalten.
+
+**TA-93**  
+Die Open-Source-Lizenz ist in Abstimmung mit dem Auftraggeber auszuwählen (permissiv vs. Copyleft). Lizenz-Compliance ist sicherzustellen; die Nutzung von CLA und/oder DCO ist vorzusehen.
+
+**TA-94**  
+Die Dokumentation muss Wiederverwendbarkeit sicherstellen und mindestens Installationsanleitung, Schnittstellenbeschreibung sowie Benutzer- und Administrationshandbuch umfassen; die Open-Source-Guidelines der Förderkulisse sind einzuhalten.
+
+**TA-95**  
+Vendor-Lock-in ist zu vermeiden: Die Codebase muss portabel, frei von proprietären Geheimnissen und ohne nicht-offene Abhängigkeiten bereitgestellt werden.
+
+**TA-96**  
+Code mit Datentausch-Funktionalität muss öffentliche Standards für den Austausch verwenden; eine Liste aller verwendeten Standards ist innerhalb der Codebase zu pflegen.
+
+**TA-97**  
+Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen (z.B. Secret-Scanning, gesicherte Release-Pfade, Vieraugenprinzip).
+
+**TA-98**  
+Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind, müssen diese aus den verfügbaren Daten nach dem LfU/TUM-Vorgehen selbst berechnet werden; der Fallback ist in der Pipeline zu berücksichtigen.
+
+---
+
+## 27. BSI Grundschutz Bezug
+
+**TA-99**  
+Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz-Kompendiums orientieren. Für den Digitaler Energy Zwilling (DEZ) sind insbesondere folgende Bausteine einschlägig:
+
+- APP.3.1 Webanwendungen und Webservices
+- APP.3.2 Webserver
+- APP.4.3 Relationale Datenbanksysteme
+- SYS.1.1 Allgemeiner Server
+- NET.1.1 Netzarchitektur und -design
+- NET.3.1 Netzkomponenten
+- OPS.1.1.3 Patch- und Änderungsmanagement
+- CON.8 Software-Entwicklung
 
 ---
 

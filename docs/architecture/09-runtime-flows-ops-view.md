@@ -27,6 +27,15 @@ Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validie
 
 Quelle: `raw/runtime-flow-admin.puml`
 
+**Admin Triage-Flow (Detail)**  
+Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und exportieren Daten für die Wärmeplanung.  
+Beteiligte Komponenten: Admin UI, Backend API, Triage Service, Database.  
+Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates.
+
+![runtime-flow-admin-triage.png](./attachments/runtime-flow-admin-triage.png)
+
+Quelle: `raw/runtime-flow-admin-triage.puml`
+
 **Datenpipeline-Flow**  
 Airflow-Run wird manuell gestartet, Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
 Beteiligte Komponenten: Civitas Core (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
@@ -35,6 +44,16 @@ Fehlerpfade: fehlende Eingaben, Konvertierungsfehler, S3-Fehler, Abbruch → Lau
 ![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
 
 Quelle: `raw/runtime-flow-pipeline.puml`
+
+**Lösch-Flow (Public)**  
+Wenn ein Nutzer Ergebnisse gespeichert hat, kann er eine Löschung aus dem PDF (Link/QR) anstoßen.  
+Beteiligte Komponenten: Public Client, Backend API, User Data Service, Datenbank.  
+Schritte: Löschlink öffnen → Adresse/Token prüfen → Bestätigung → Löschjob → Audit-Log.  
+Fehlerpfade: ungültiger Token, Adresse stimmt nicht, Datensatz nicht gefunden, Rate Limit.
+
+![runtime-flow-delete.png](./attachments/runtime-flow-delete.png)
+
+Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 

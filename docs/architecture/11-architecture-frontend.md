@@ -22,6 +22,9 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Durchführung der Simulation im Browser über den Simulationskern.
 - Darstellung der Ergebnisse und Hinweise für Bürger (Eigentümer/Vermieter).
 - Administrative Funktionen für Stadtverwaltung / Fachpersonal (Konfiguration, Triage).
+- Einfacher/erweiterter Modus für Eingaben sowie Feedback-Formular nach Berechnung.
+- Barrierefreiheit und responsives Layout (BITV 2.0).
+- Live-Ergebnisse nach Eingabeänderungen (ohne expliziten „Berechnen“-Button).
 
 ---
 

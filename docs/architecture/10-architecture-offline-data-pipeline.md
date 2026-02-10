@@ -3,7 +3,7 @@
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die **Offline-Datenpipeline**, mit der Geodaten und Potenziale
-in einen angereicherten 3D-Tiles-Datensatz überführt werden. Ziel ist es, alle
+in einen angereicherten 3D Tiles Datensatz überführt werden. Ziel ist es, alle
 statischen Informationen **vorab** zu berechnen und in den Tiles zu persistieren,
 damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
@@ -18,6 +18,12 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
 
 Hinweis: Solarthermiepotenziale werden derzeit nicht weitergeführt.
+
+Beispiele für Datenherkünfte und Referenzen:
+- Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten)
+- Open Data (LOD2)
+- Behördenspezifische Lizenzen (oberflächennahe Geothermie)
+- Externe Quellen für Referenzwerte/Typologien (IWU/TABULA, BKI, co2online, DIN/VDI)
 
 ---
 
@@ -56,7 +62,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
    - Energieeffizienzklasse als Label oder Icon am Gebäude
 
 5. **Bereitstellung**  
-   Der fertig angereicherte Datensatz wird im 3D-Tiles-Storage bereitgestellt
+   Der fertig angereicherte Datensatz wird im 3D Tiles Storage bereitgestellt
    und über das Tiles Gateway ausgeliefert.
 
 ---
@@ -94,7 +100,7 @@ Task-Reihenfolge je `job_id`:
 ### Storage-Layout (S3-kompatibel)
 
 - `jobs/{job_id}/input/`  
-  Eingabedaten (CityGML-Dateien, Solarpotenzial-3D-Tiles, Vegetationsdaten; Struktur beliebig).
+  Eingabedaten (CityGML-Dateien, Solarpotenzial-3D Tiles, Vegetationsdaten; Struktur beliebig).
 - `jobs/{job_id}/convert/`  
   Ausgabe der Konvertierung (3D Tiles ohne Metadaten-Anreicherung).
 - `jobs/{job_id}/enriched/`  
@@ -250,7 +256,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 
 - Pfad zu konvertierten 3D Tiles (`jobs/{job_id}/convert/`).
 - Geothermiepotenziale über WMS (EPSG wird für die Abfrage verwendet, Quelle noch offen).
-- Solarpotenzial-3D-Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
+- Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
 ### Erwartete Ausgaben
@@ -261,7 +267,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
-- **Solarpotenziale** werden aus den gelieferten 3D-Tiles-Attributen übernommen; eine Aufsummierung je Gebäude ist optional.
+- **Solarpotenziale** werden aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional.
 - **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem WMS gemittelt; falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
@@ -278,7 +284,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 - `solar_yield_kwh_m2a` (Number)
 - `geothermal_potential_w_m2` (Number)
 
-Zusätzliche Rohattribute aus den Solarpotenzial-3D-Tiles (unverändert übernommen):
+Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernommen):
 - `solarArea` (Number)
 - `Flaeche` (String)
 - `Dachneigung` (String)

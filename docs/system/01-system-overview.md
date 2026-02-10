@@ -6,6 +6,22 @@ Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur Visual
 
 Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert keine rechtsverbindlichen Aussagen. Ergebnisse sind indikativ und dienen der Orientierung.
 
+### Motivation
+
+- Beitrag zu den Klimaschutzzielen der Stadt Regensburg und zur Fortschreibung der Wärmeplanung auf Quartiersebene.
+- Verbesserung der Datenbasis durch die freiwillige Nutzung des Tools durch Eigentümer und interessierte Bürger.
+
+### Ziele der Lösung
+
+- Bereitstellung gebäude- und flächenspezifischer Energiebedarfsschätzungen.
+- Berechnung und Vorschläge für Sanierungsmaßnahmen.
+- Integration von Geodaten (z.B. LOD2), um Nutzereingaben zu minimieren.
+- Nutzung von Normen, Richtlinien und Katalogen zur Berechnung von Energie-, Kosten- und THG-Kennwerten.
+- Darstellung von Sanierungseffekten (Energie-/Kosteneinsparungen, CO₂-Reduktionen).
+- Abschätzung von Investitionskosten und Wirtschaftlichkeit.
+- Niederschwelliges, digitales Bürgerangebot mit intuitiver Bedienung.
+- Langfristige Skalierbarkeit und Integration in bestehende Systeme (Geoportal/Masterportal, CIVITAS/CORE).
+
 ---
 
 ## Zielgruppen
@@ -15,6 +31,9 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
 - Einfache Simulationen für Sanierungsmaßnahmen in mehreren Stufen
+- Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
+- Stufenmodell 0–4 (Quick-Start, Verbesserung, Expertenmodus, Sanierungsszenarien)
+- Keine Registrierung; Session-Cookies für temporäre Zustände, optionale lokale Speicherung im Browser
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
 ### Stadtverwaltung / Fachpersonal
@@ -22,6 +41,22 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Pflege und Veröffentlichung von Simulationskonfigurationen
 - Sichtung, Triage und Qualitätssicherung von Nutzereingaben
 - Auswertung für Quartiersanalyse und interne Berichte
+
+---
+
+## Nutzen
+
+### Allgemein
+- Austausch zwischen Bürgern und Kommune durch aggregierte, freiwillig bereitgestellte Ergebnisse
+- Beitrag zu Nachhaltigkeit und Klimaschutz
+
+### Bürger
+- Verständliche Informationen zu baulichen Maßnahmen
+- „Beratung light“ als Orientierung vor einer echten Energieberatung
+
+### Verwaltung
+- Bessere Planbarkeit für Wärmeplanung und Klimaschutzmaßnahmen
+- Evidenzbasierte Priorisierung von Maßnahmen auf Quartiersebene
 
 ---
 
@@ -43,7 +78,7 @@ Das System besteht aus:
 - einem Simulationskern als JavaScript-Modul (clientseitig, optional serverseitig)
 - einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
 - einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten
-- einem 3D-Tiles-Gateway zur Auslieferung statischer Tiles
+- einem 3D Tiles Gateway zur Auslieferung statischer Tiles
 
 Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute in 3D Tiles abgelegt. Zur Laufzeit findet keine Neuberechnung der Potenziale statt.
 
@@ -56,6 +91,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 - Dynamische, nutzerspezifische Daten liegen in der Datenbank.
 - Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
 - Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.
+- Wenn Nutzereingaben gespeichert werden, ist ein Löschprozess über einen eindeutigen Link/QR vorgesehen.
 
 ---
 
@@ -75,6 +111,15 @@ Das Backend stellt ausschließlich Konfiguration, Authentifizierung und Persiste
 
 ---
 
+## Betriebsrahmen und Support
+
+- Laufzeit bis **31.12.2027**, optionale Verlängerung.
+- Leistungen: Bugfixing, OS- und Framework-Updates, Security-Patches, 2nd-Level-Support.
+- Reaktionszeit für kritische Sicherheitsupdates: **72h**.
+- Supportzeiten: **Mo–Fr 09:00–16:00 Uhr**.
+
+---
+
 ## Dokumentstruktur
 
 Die weitere Dokumentation ist wie folgt aufgebaut:
@@ -87,3 +132,11 @@ Die weitere Dokumentation ist wie folgt aufgebaut:
 - Betrieb, Sicherheit und Datenschutz
 
 Dieses Dokument dient als Einstieg und Referenzpunkt für die übrigen Kapitel.
+
+---
+
+## Offene Punkte (Klärungsbedarf)
+
+- Berechnungsvorschrift/Methodik: Verantwortlichkeit und verbindliche Vorgabe (z.B. BER) klären.
+- Integration in Geoportal/Masterportal: als Modul oder separater Client?
+- Datenlage: welche Datensätze liegen aktuell vor, welche kommen später?

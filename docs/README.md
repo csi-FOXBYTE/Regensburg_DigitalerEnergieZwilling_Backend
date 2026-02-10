@@ -7,6 +7,14 @@ DEZ steht hier für **Digitaler Energy Zwilling** und nicht für das Donau Einka
 Sie dient als zentrale Referenz für fachliche Entscheidungen, technische Umsetzung und Betrieb.
 Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
+## Schreibweise & Begriffe
+
+- **3D Tiles** (nicht „3D-Tiles“)
+- **CO₂** (nicht „CO2“)
+- **Solarpotenzial (PV)**, **Geothermiepotenzial**
+- **Stufenmodell 0–4** (Stufe 0, Stufe 1, Stufe 2, Stufe 3, Stufe 4)
+- **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
+
 ## Grundlagen
 
 - **00** [Technisches Konzept](legacy/00-technical-concept.md) (historisch, wird nicht mehr genutzt)
@@ -14,6 +22,8 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 ## System
 
 - **01** [Systemüberblick – Digitaler Energy Zwilling (DEZ)](system/01-system-overview.md)
+- **02** [User Journey & UX-Leitplanken](system/02-user-journey-ux.md)
+- **03** [Sicherheitskonzept](system/03-security-concept.md)
 
 ## Anforderungen
 
@@ -41,3 +51,16 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 ## Prozesse
 
 - [Definition of Ready / Done](process/dor-dod.md)
+- [Projektplanung (Entwurf)](process/project-planning.md)
+
+## Open Source & Förderkulisse Checkliste
+
+- Veröffentlichung des finalen Releases auf **OpenCoDE** (keine Beta-/Zwischenstände).
+- Erfüllung der OpenCoDE-Qualitätskriterien: CVE-Management, automatisierte Tests, Bug-/Security-Kontaktstellen, SBOM, Release Notes, benannte verantwortliche Person, Projektbeschreibung.
+- Pflichtdateien im Repository: `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`, `SECURITY.md`, `publiccode.yml`.
+- SPDX-Header + Urheberrechtsvermerk in **jeder** Datei.
+- Lizenzwahl in Abstimmung mit Auftraggeber (permissiv vs. Copyleft) inkl. Lizenz-Compliance; CLA/DCO einplanen.
+- Dokumentation nach Open-Source-Guidelines der Förderkulisse (Installationsanleitung, Schnittstellenbeschreibung, Benutzer-/Admin-Handbuch).
+- Vendor-Lock-in vermeiden: portabel, keine proprietären Secrets/Abhängigkeiten.
+- Datentausch über offene Standards; Liste der verwendeten Standards im Code führen.
+- Security-Grundsätze im Contribution/Release-Prozess (Secret-Scanning, abgesicherte Releases, Vieraugenprinzip).
