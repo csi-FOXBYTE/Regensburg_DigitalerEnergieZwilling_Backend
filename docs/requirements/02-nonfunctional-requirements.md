@@ -74,32 +74,32 @@ Simulationsergebnisse müssen verständlich und nicht fachlich überladen präse
 
 ---
 
-### Simulationsstufen (Bürger (Eigentümer/Vermieter))
+### Eingabetiefe-Spektrum (Bürger (Eigentümer/Vermieter))
 
 **FA-11**  
-Das System muss mindestens fünf Simulationsstufen mit steigender Eingabetiefe unterstützen (Stufe 0 bis Stufe 4).
+Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert". Referenzpunkte duerfen zur Orientierung angeboten werden.
 
 **FA-12**  
-Stufe 0 muss ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
+Am unteren Ende des Spektrums muessen Simulationen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
 
 **FA-13**  
-Stufe 1 muss mit Basisdaten (z.B. Baujahr) einen schnellen Erstwert liefern.
+Im niedrigen Eingabebereich muessen Basisdaten (z.B. Baujahr) einen schnellen Erstwert liefern.
 
 **FA-14**  
-Stufe 2 muss bauteilspezifische Eingaben sowie die Auswahl einer Lüftungsart erlauben.
+Im mittleren Eingabebereich muessen bauteilspezifische Eingaben sowie die Auswahl einer Lueftungsart moeglich sein.
 
 **FA-15**  
-Stufe 3 muss detaillierte Eingaben ermöglichen; Förderparameter pro Maßnahme sollen optional erfassbar sein.
+Im hohen Eingabebereich muessen detaillierte Eingaben moeglich sein; Foerderparameter pro Massnahme sollen optional erfassbar sein.
 
-### Eingabematrix je Stufe (Spezifikation)
+### Eingabematrix als Referenzpunkte im Spektrum (Spezifikation)
 
-| Stufe | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
+| Referenzpunkt | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
 | ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0     | keine                                                 | keine                                                                                                                                                        |
-| 1     | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
-| 2     | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Lüftungsart, Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
-| 3     | Überschreiben von Defaults je Bauteil                 | Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| 4     | Auswahl Sanierungsmaßnahmen                           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                |
+| Minimum     | keine                                                 | keine                                                                                                                                                        |
+| Niedrig     | Baujahr                                               | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
+| Mittel      | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Lueftungsart, Heizflaechenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
+| Hoch        | Ueberschreiben von Defaults je Bauteil                 | Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
+| Maximum     | Auswahl Sanierungsmassnahmen                           | Kombinationen, Budget, Foerderlogik (optional)                                                                                                                |
 
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
@@ -117,10 +117,10 @@ Transmissionswärmeverluste über Dach, Außenwände, Fenster und Kellerdecke m�
 Wärmebrücken müssen pauschal über einen Faktor auf den U-Wert berücksichtigt werden (stufenabhängige Genauigkeit).
 
 **FA-19**  
-Lüftungswärmeverluste müssen über Luftdichtheitsklasse und Gebäudealter abbildbar sein; in Stufe 2 ist die Lüftungsart wählbar.
+Lueftungswaermeverluste muessen ueber Luftdichtheitsklasse und Gebaeudealter abbildbar sein; im mittleren Eingabebereich ist die Lueftungsart waehlbar.
 
 **FA-20**  
-Warmwasserbedarf muss in Stufe 1 pauschal (Wohnfläche/Personen) und in höheren Stufen expliziter erfassbar sein.
+Warmwasserbedarf muss im niedrigen Eingabebereich pauschal (Wohnflaeche/Personen) und bei hoeherer Eingabetiefe expliziter erfassbar sein.
 
 **FA-21**  
 Die Anlagentechnik muss stufig erfasst werden (Standardannahmen → Energieträger/Alter → Erzeugerart/Eigenschaften).
@@ -182,7 +182,7 @@ Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 **FA-38**  
-Nutzer müssen einen PDF-Report der Ergebnisse exportieren können; eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-76.
+Nutzer muessen einen PDF-Report der Ergebnisse exportieren koennen; zusaetzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-76.
 
 **FA-39**  
 Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
@@ -250,9 +250,6 @@ Fachpersonal muss Nutzereingaben filtern können.
 
 **FA-53**  
 Fachpersonal muss mehrere Nutzereingaben zu einem Gebäude vergleichen können.
-
-**FA-54**  
-Fachpersonal muss Datensätze als plausibel markieren und für die Veröffentlichung freigeben können.
 
 **FA-55**  
 Fachpersonal muss nicht plausible Datensätze löschen können.
@@ -322,9 +319,6 @@ Das System liefert keine rechtsverbindlichen Aussagen.
 **FA-70**  
 Das System muss eine anonymisierte Datenerfassung unterstützen; personenbezogene Eingaben sind auf das notwendige Minimum zu begrenzen (z.B. Personenanzahl als Klassen 1–5 bzw. >5).
 
-**FA-71**  
-Das System muss die Moduswahl und den Wechsel der Stufen klar kommunizieren (Einfach/Erweitert/Experten/Szenarien) und je Stufe kurz erklären, was sich ändert.
-
 **FA-72**  
 Der Bürgerbereich muss ohne Registrierung nutzbar sein; temporäre Zustände dürfen über Session-Cookies gehalten werden, eine optionale lokale Speicherung im Browser ist zulässig.
 
@@ -391,9 +385,6 @@ Das System soll einen klaren Einstieg („So funktioniert’s“) mit Hinweis au
 **FA-86**  
 Das System soll eine Übersicht der Maßnahmen mit relativem Einsparpotenzial und Kostenniveau bieten und eine Empfehlung für „beste Maßnahme bei Budget X“ ableiten können.
 
-**FA-87**  
-Wenn eine Adresse nicht eindeutig gefunden wird, soll ein alternativer Ablauf angeboten werden (z.B. manuelle Auswahl/Erweiterung), ohne dass eine Speicherung erzwungen wird.
-
 **FA-88**  
 Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und mehrere Datensätze vergleichen können.
 
@@ -410,19 +401,19 @@ Exporte für die Wärmeplanung müssen als strukturierte Formate (mindestens JSO
 Systempflege-Änderungen (z.B. Kataloge) müssen mit Rollen/Rechten geschützt und für Nutzer klar erkennbar sein.
 
 **FA-93**  
-Stufe 0 muss als Ergebnis einen groben Wärmebedarf und eine grobe Effizienzklasse liefern.
+Am unteren Ende des Spektrums muss das Ergebnis einen groben Waermebedarf und eine grobe Effizienzklasse liefern.
 
 **FA-94**  
-Stufe 1 muss eine Einordnung/Benchmark des Gebäudes liefern (z.B. Skala, Ampel oder Tacho).
+Im niedrigen Eingabebereich muss eine Einordnung/Benchmark des Gebaeudes geliefert werden (z.B. Skala, Ampel oder Tacho).
 
 **FA-95**  
-Stufe 2 soll bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitsprüfung je Bauteil ermöglichen.
+Im mittleren Eingabebereich sollen bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitspruefung je Bauteil moeglich sein.
 
 **FA-96**  
-Stufe 3 soll Unsicherheiten sichtbar machen und Eingaben „Ich weiß es nicht“ unterstützen.
+Im hohen Eingabebereich sollen Unsicherheiten sichtbar gemacht und Eingaben "Ich weiss es nicht" unterstuetzt werden.
 
 **FA-97**  
-Stufe 4 soll Variantenvergleiche liefern (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung ermöglichen.
+Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung moeglich sein.
 
 **FA-98**  
 Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B. bis 1918, 1919–1948, 1949–1957, 1958–1968, 1969–1978, 1979–1983, 1984–1994, 1995–2001, 2002–2006, ab 2007).
@@ -431,10 +422,10 @@ Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B.
 Das System soll Live-Ergebnisse nach Änderungen anzeigen (z.B. Energiebedarf, Kosten, Effizienzklasse), ohne expliziten „Berechnen“-Schritt.
 
 **FA-100**  
-In Stufe 2 müssen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden können (z.B. Heizflächenart, grundlegende Regelungsart).
+Im mittleren Eingabebereich muessen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden koennen (z.B. Heizflaechenart, grundlegende Regelungsart).
 
 **FA-101**  
-In Stufe 3 müssen detaillierte Anlagenparameter optional erfasst werden können (z.B. Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung).
+Im hohen Eingabebereich muessen detaillierte Anlagenparameter optional erfasst werden koennen (z.B. Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung).
 
 ---
 

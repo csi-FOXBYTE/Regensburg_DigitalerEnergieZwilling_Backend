@@ -72,17 +72,19 @@ Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Hei
 
 ---
 
-## Eingabestufen (fachliche UX-Sicht)
+## Eingabetiefe (fachliche UX-Sicht)
 
-Stufe 0 (Ohne Nutzereingaben): Vorbelegung auf Basis LOD2, Baualtersklasse und Standardannahmen, damit keine „leere Hülle“ entsteht.  
-Stufe 1 (Quick-Start): Wenige Eingaben (z.B. Baujahr als Pflichtfeld), schnelle Ergebnisse/Benchmark.  
-Stufe 2 (Verbesserung): Bauteil- und Anlagenebene, Zustände je Bauteil, Lüftungsart abfragbar.  
-Stufe 3 (Expertenmodus): Überschreiben von Defaults (z.B. Dämmung, Fensterdetails), detaillierte Eingaben.  
-Stufe 4 (Sanierungsszenarien): Auswahl von Einzelmaßnahmen oder Kombinationen, Ergebnisvergleich vorher/nachher.
+Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
+"vollstaendig durch Nutzer definiert". Zur Orientierung koennen Referenzpunkte dienen:
+Minimum (ohne Nutzereingaben): Vorbelegung auf Basis LOD2, Baualtersklasse und Standardannahmen, damit keine „leere Huelle“ entsteht.  
+Niedrig (Quick-Start): Wenige Eingaben (z.B. Baujahr als Pflichtfeld), schnelle Ergebnisse/Benchmark.  
+Mittel (Verbesserung): Bauteil- und Anlagenebene, Zustaende je Bauteil, Lueftungsart abfragbar.  
+Hoch (Expertenmodus): Ueberschreiben von Defaults (z.B. Daemmung, Fensterdetails), detaillierte Eingaben.  
+Maximum (Sanierungsszenarien): Auswahl von Einzelmassnahmen oder Kombinationen, Ergebnisvergleich vorher/nachher.
 
 ---
 
-## Input-Matrix je Stufe
+## Input-Matrix als Referenzpunkte im Spektrum
 
 Die detaillierte Eingabematrix inkl. Pflicht-/Optionaleingaben ist in den Anforderungen beschrieben:
 `docs/requirements/02-nonfunctional-requirements.md` und `docs/requirements/03-functional-requirements.md`.
@@ -94,12 +96,12 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 ## Informationsarchitektur (Module)
 
 - Gebäude & Grunddaten (Adresse, Gebäudetyp, Wohnfläche, Baualtersklasse)
-- Datenstufe & Eingabedetails (Stufe 0–4 inkl. Erklärung)
+- Eingabetiefe & Eingabedetails (kontinuierliches Spektrum inkl. Erklaerung)
 - Gebäudehülle (Dach, Außenwand, Fenster, Kellerdecke)
 - Lüftung (Luftdichtheit/Alter, Lüftungsart)
 - Warmwasser & Nutzung (pauschal vs. Personenanzahl)
 - Anlagentechnik (Energieträger, Alter, Erzeugerart)
-- Anlagentechnik (Detailgrad je Stufe: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflächen)
+- Anlagentechnik (Detailgrad entlang des Spektrums: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflaechen)
 - Ergebnisse (Wärmebedarf, Primärenergie, Effizienzklasse, CO₂)
 - Sanierungsmaßnahmen (Vorschläge, Varianten, Wunschsanierung)
 - Kosten & Fördermittel (Kostenspannen, Förderhinweise)
@@ -123,7 +125,6 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 ## Auswahlbeispiele (UI)
 
 - Lüftungsart: Fensterlüftung, Lüftungsanlage ohne WRG, Lüftungsanlage mit WRG, „weiß ich nicht“.
-- Luftdichtheit: eher zugig, normal, sehr dicht, „weiß ich nicht“.
 - Sanierungsmaßnahmen: Dach, Außenwand, Fenster, Kellerdecke, Heizung, PV, Geothermie, Energiespeicher.
 - Regelungsart (Heizung): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.
 - Regelprinzip: stetig, 2‑Punkt/3‑Punkt.

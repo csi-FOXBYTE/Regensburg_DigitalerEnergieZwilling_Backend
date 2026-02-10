@@ -35,13 +35,13 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ---
 
-## Stufenmodell (0–4)
+## Eingabetiefe (Spektrum)
 
-- **Stufe 0**: keine Nutzereingaben, Vorbelegung über LOD2, Baualtersklasse, Standardannahmen.
-- **Stufe 1**: wenige Pflichtangaben (z.B. Baujahr), schnelle Erstwerte.
-- **Stufe 2**: Bauteil- und Anlagenebene, einfache Qualitätsstufen je Bauteil.
-- **Stufe 3**: Überschreiben von Defaults (z.B. Dämmung, Fensterdetails, Sanierungsjahr).
-- **Stufe 4**: Sanierungsszenarien (Einzelmaßnahmen/Kombinationen) mit Vorher/Nachher-Vergleich.
+- **Minimum**: keine Nutzereingaben, Vorbelegung ueber LOD2, Baualtersklasse, Standardannahmen.
+- **Niedrig**: wenige Pflichtangaben (z.B. Baujahr), schnelle Erstwerte.
+- **Mittel**: Bauteil- und Anlagenebene, einfache Qualitaetsstufen je Bauteil.
+- **Hoch**: Ueberschreiben von Defaults (z.B. Daemmung, Fensterdetails, Sanierungsjahr).
+- **Maximum**: Sanierungsszenarien (Einzelmassnahmen/Kombinationen) mit Vorher/Nachher-Vergleich.
 
 ---
 
@@ -60,15 +60,15 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 - Lüftungsanlage mit Wärmerückgewinnung
 - „Weiß ich nicht“ → Standardannahme
 
-Luftdichtheit (Stufe 3): eher zugig / normal / sehr dicht / „weiß ich nicht“.
+Luftdichtheit (hoher Eingabegrad): eher zugig / normal / sehr dicht / „weiss ich nicht“.
 
 ---
 
 ## Anlagentechnik (Detailgrad)
 
-- **Stufe 1**: Baujahr + grundlegender Energieträger, grobe Vorbelegung der Anlage.
-- **Stufe 2**: Baujahr + Erzeugerart, Heizflächenart, grundlegende Regelungsart.
-- **Stufe 3**: optionale Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung.
+- **Niedrig**: Baujahr + grundlegender Energietraeger, grobe Vorbelegung der Anlage.
+- **Mittel**: Baujahr + Erzeugerart, Heizflaechenart, grundlegende Regelungsart.
+- **Hoch**: optionale Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung.
 
 Regelungsarten (Auswahl): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.  
 Regelprinzip: stetig, 2‑Punkt/3‑Punkt.  

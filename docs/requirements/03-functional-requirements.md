@@ -370,26 +370,26 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu 
 
 ---
 
-## 24. Stufenmodell & Live-Berechnung
+## 24. Eingabetiefe & Live-Berechnung
 
 **TA-85**  
-Der Simulationskern muss ein Stufenmodell 0–4 unterstützen; Stufe 0 basiert ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
+Der Simulationskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstuetzen; am unteren Ende basiert die Simulation ausschliesslich auf LOD2, Baualtersklassen und Standardannahmen.
 
 **TA-86**  
-Stufe 4 muss Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützen und die Ergebnisse vergleichbar bereitstellen (vorher/nachher).
+Am oberen Ende des Spektrums muessen Szenario-Berechnungen fuer Einzelmassnahmen und Kombinationen unterstuetzt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
 
 **TA-87**  
 Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Button aktualisiert werden; die Reaktionszeit muss für interaktive Nutzung geeignet sein.
 
-### Input-Matrix (Stufen 0–4)
+### Input-Matrix (Referenzpunkte im Spektrum)
 
-| Stufe | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
+| Referenzpunkt | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
 | ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0     | keine                                                 | keine                                                                                                                                                        |
-| 1     | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
-| 2     | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Lüftungsart, Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
-| 3     | Überschreiben von Defaults je Bauteil                 | Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| 4     | Auswahl Sanierungsmaßnahmen                           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                |
+| Minimum     | keine                                                 | keine                                                                                                                                                        |
+| Niedrig     | Baujahr                                               | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
+| Mittel      | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Lueftungsart, Heizflaechenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
+| Hoch        | Ueberschreiben von Defaults je Bauteil                 | Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
+| Maximum     | Auswahl Sanierungsmassnahmen                           | Kombinationen, Budget, Foerderlogik (optional)                                                                                                                |
 
 Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen stufenspezifisch.
 
@@ -401,7 +401,7 @@ Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validier
 Die Eingabemaske muss die Heizungsregelung als auswählbare Kategorie unterstützen (Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung).
 
 **TA-89**  
-In höheren Stufen müssen optionale Anlagenparameter aufgenommen werden können (Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Heizflächen, Regelprinzip, technische Ausführung).
+Bei hoeherem Eingabegrad muessen optionale Anlagenparameter aufgenommen werden koennen (Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Heizflaechen, Regelprinzip, technische Ausfuehrung).
 
 ---
 

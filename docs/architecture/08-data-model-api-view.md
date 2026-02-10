@@ -17,7 +17,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 ### Kernobjekte
 
 - **Gebäude** (Referenz auf LOD2/3D Tiles) und **Quartiere** (Aggregationen)
-- **Eingabesets** (Simulationsstufe, Quelle, Zeitstempel)
+- **Eingabesets** (Eingabetiefe/Detailgrad, Quelle, Zeitstempel)
 - **Bauteil- und Systemeingaben** (Hülle, Lüftung, Warmwasser, Anlagentechnik)
 - **Maßnahmenkatalog** und **Maßnahmenselektion** (inkl. Förderprogramme)
 - **Simulationskonfiguration (versioniert)** und **Konfigurationsoptionen**
@@ -28,7 +28,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 ### Beziehungen (vereinfacht)
 
-- Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Stufen).
+- Ein **Gebaeude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
 - Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
 - Jede **Simulation** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
 - **Triage** ist pro Eingabeset geführt; veröffentlichte Daten werden exportierbar.

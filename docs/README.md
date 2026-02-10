@@ -12,7 +12,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **3D Tiles** (nicht „3D-Tiles“)
 - **CO₂** (nicht „CO2“)
 - **Solarpotenzial (PV)**, **Geothermiepotenzial**
-- **Stufenmodell 0–4** (Stufe 0, Stufe 1, Stufe 2, Stufe 3, Stufe 4)
+- **Eingabetiefe (kontinuierliches Spektrum)** von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert"
 - **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
 
 ## Grundlagen

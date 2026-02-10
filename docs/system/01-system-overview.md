@@ -30,9 +30,9 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
-- Einfache Simulationen für Sanierungsmaßnahmen in mehreren Stufen
+- Einfache Simulationen fuer Sanierungsmassnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
-- Stufenmodell 0–4 (Quick-Start, Verbesserung, Expertenmodus, Sanierungsszenarien)
+- Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert" (z.B. Quick-Start bis detaillierte Sanierungsszenarien)
 - Keine Registrierung; Session-Cookies für temporäre Zustände, optionale lokale Speicherung im Browser
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
@@ -111,15 +111,6 @@ Das Backend stellt ausschließlich Konfiguration, Authentifizierung und Persiste
 
 ---
 
-## Betriebsrahmen und Support
-
-- Laufzeit bis **31.12.2027**, optionale Verlängerung.
-- Leistungen: Bugfixing, OS- und Framework-Updates, Security-Patches, 2nd-Level-Support.
-- Reaktionszeit für kritische Sicherheitsupdates: **72h**.
-- Supportzeiten: **Mo–Fr 09:00–16:00 Uhr**.
-
----
-
 ## Dokumentstruktur
 
 Die weitere Dokumentation ist wie folgt aufgebaut:
@@ -132,11 +123,3 @@ Die weitere Dokumentation ist wie folgt aufgebaut:
 - Betrieb, Sicherheit und Datenschutz
 
 Dieses Dokument dient als Einstieg und Referenzpunkt für die übrigen Kapitel.
-
----
-
-## Offene Punkte (Klärungsbedarf)
-
-- Berechnungsvorschrift/Methodik: Verantwortlichkeit und verbindliche Vorgabe (z.B. BER) klären.
-- Integration in Geoportal/Masterportal: als Modul oder separater Client?
-- Datenlage: welche Datensätze liegen aktuell vor, welche kommen später?
