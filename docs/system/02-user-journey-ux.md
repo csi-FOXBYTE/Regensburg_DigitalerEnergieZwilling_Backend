@@ -1,8 +1,54 @@
 # User Journey & UX-Leitplanken
 
-## Persona (Beispiel)
+## Hauptzielgruppe: Private Gebäudenutzer
 
-Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Heizkosten steigen, Beschwerden häufen sich. Er möchte ohne hohe Initialkosten grob einschätzen, welche Sanierungen sinnvoll sind, wie groß Einsparungen ausfallen könnten und welche Förderprogramme grundsätzlich infrage kommen. Er erwartet eine einfache, verständliche Nutzung ohne Fachjargon und mit möglichst wenigen manuellen Eingaben.
+Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigentümer, Mieter, Verwalter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
+
+## Ausgangslage / Wissensstand
+
+- Der energetische Ist-Zustand des Gebäudes ist meist unbekannt oder nur grob eingeschätzt.
+- Daten zu Energiebedarf, Effizienzklassen oder Sanierungsstand liegen nicht strukturiert vor.
+- Förderprogramme, Kostenstrukturen und Einsparpotenziale sind unübersichtlich.
+- Technische Begriffe, Normen und Annahmen (DIN, Effizienzklassen, Kennwerte) sind schwer verständlich.
+
+## Zentrale Probleme & Pain Points
+
+- Unsicherheit, welche Sanierungsmaßnahmen sinnvoll, technisch machbar und wirtschaftlich tragfähig sind.
+- Angst vor Fehlentscheidungen, Fehlinvestitionen und unerwartet hohen Kosten.
+- Fehlendes Verständnis für Datenqualität und Modellannahmen mit dem Risiko falscher Erwartungen.
+- Hohe Einstiegshürde durch komplexe Fachsprache und umfangreiche Datenerfassung.
+- Schwierigkeit, Maßnahmen im eigenen Gebäude realistisch einzuordnen (Vergleich, Wirkung, Priorisierung).
+
+## Motivation & Zielsetzung der Nutzer
+
+- Schneller, verständlicher Überblick über den energetischen Zustand des eigenen Gebäudes.
+- Fundierte Entscheidungsgrundlage für die Frage, ob sich eine Sanierung lohnt und welche Maßnahmen Priorität haben.
+- Transparenz über Kosten, Einsparpotenziale (Energie, Kosten, CO₂) und wirtschaftliche Effekte.
+- Reduktion von Risiken durch realistische, nicht überoptimistische Einschätzungen.
+- Nutzung von Förderungen ohne aufwendige externe Recherche.
+- Orientierung statt Detailtiefe: Fokus auf Wirkung und Priorisierung statt auf technische Detailplanung.
+
+Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in einer plausiblen und nachvollziehbaren Entscheidungsbasis.
+
+## Anforderungen an das Tool aus Nutzersicht
+
+- Automatische Vorbefüllung relevanter Gebäudedaten (z. B. LOD2, Stadtdaten, Ableitungen von Normen).
+- Möglichkeit zur Korrektur und Ergänzung durch den Nutzer.
+- Minimale, intuitive Eingaben ohne komplexe Fragebögen.
+- Klare Darstellung von aktuellem Zustand, Sanierungsszenarien und Vergleich „heute vs. nach Sanierung“.
+- Einordnung im Vergleich zum eigenen Gebiet bzw. Gebäudebestand in anonymisierter Form.
+- Sichtbarmachung von Unsicherheiten und Annahmen bei unvollständigen Daten.
+- Kombination und Vergleich mehrerer Maßnahmen (z. B. Fassade + Fenster + Heizung).
+- Ergebnisdarstellung als verständliche Einschätzung, keine Fachberatung.
+- Exportmöglichkeit (z. B. PDF) zur Weiterverwendung.
+
+## Nutzungskontext & Rahmenbedingungen
+
+- Nutzung erfolgt anonym, ohne personenbezogene Daten.
+- Der Nutzer arbeitet ausschließlich mit seinem eigenen Gebäude.
+- Zeitrahmen: wenige Minuten, keine langfristige oder komplexe Datenerfassung.
+- Primärnutzung auf Desktop/Laptop, mobile Nutzung ist möglich.
+- Ergebnisse sind als Vorschläge und Orientierungswerte zu verstehen, nicht als verbindliche Planung.
 
 ---
 
@@ -28,47 +74,6 @@ Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Hei
 | Varianten | Maßnahmen auswählen | Sofortige Vorher/Nachher-Vergleiche |
 | Bewertung | Ergebnisse sichten | Zusammenfassung, Förderinfos, nächste Schritte |
 | Export | PDF herunterladen | Report inkl. Gebäudedaten und Links |
-
----
-
-## Ziele & Erwartungen
-
-- Schnell verstehen, ob sich eine Sanierung lohnt.
-- Möglichst wenig Eingaben, klare Aussagen und Vergleichbarkeit.
-- Verlässlichkeit der Daten nachvollziehen können.
-- Förderprogramme rein informativ sehen.
-- Entscheidungsvorbereitung vor Beauftragung einer Energieberatung.
-
----
-
-## Gefühle und Erwartungen
-
-- Anfangs verunsichert und überfordert.
-- Vorsichtiger Optimismus durch automatische Vorbefüllung.
-- Interesse durch klare Vergleiche und sichtbare Einsparungen.
-- Erleichterung, wenn nächste Schritte klar sind.
-
----
-
-## Schmerzpunkte
-
-- Unübersichtliche Kosten und zu viele Optionen.
-- Fachbegriffe und Überladung von Informationen.
-- Unklarheit über Datenherkunft und Aussagekraft.
-- Misstrauen bei fehlender Transparenz.
-
----
-
-## Chancen und UX-Ansätze
-
-- Niederschwelliger Einstieg mit klarer „So funktioniert’s“-Erklärung.
-- Sichtbare Sofortergebnisse (Einsparungen) bereits ohne oder mit wenigen manuellen Eingaben.
-- Kennzeichnung der Datenherkunft: automatisch, manuell, geschätzt.
-- Priorisierung der wichtigsten Daten, reduzierte Komplexität.
-- Empfehlung „beste Maßnahme für Budget X“.
-- Übersichtlicher Maßnahmenvergleich mit Einsparpotenzial und Kostenniveau.
-- Verständliche Sprache, keine falschen Erwartungen.
-- PDF mit Förderlinks und nächsten Schritten.
 
 ---
 
@@ -142,15 +147,15 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 ---
 
-## User Stories (Vermieter)
+## User Stories (Private Gebäudenutzer)
 
-- Als Vermieter möchte ich eine klare Erklärung, was das Tool kann, damit ich sofort verstehe, wie es mir hilft.
-- Als Vermieter möchte ich mein Gebäude schnell über Adresse oder Karte finden, damit ich ohne Aufwand starten kann.
-- Als Vermieter möchte ich fehlende Gebäudedaten einfach ergänzen, damit die Berechnung realistisch bleibt.
-- Als Vermieter möchte ich Maßnahmen auswählen und vergleichen, damit ich Alternativen bewerten kann.
-- Als Vermieter möchte ich sehen, welche Daten automatisch stammen, damit ich die Verlässlichkeit einschätzen kann.
-- Als Vermieter möchte ich verständliche Ergebnisse und klare nächste Schritte, damit ich entscheiden kann.
-- Als Vermieter möchte ich einen PDF-Report exportieren, um Ergebnisse weiterzugeben.
+- Als privater Gebäudenutzer möchte ich eine klare Erklärung, was das Tool kann, damit ich sofort verstehe, wie es mir hilft.
+- Als privater Gebäudenutzer möchte ich mein Gebäude schnell über Adresse oder Karte finden, damit ich ohne Aufwand starten kann.
+- Als privater Gebäudenutzer möchte ich fehlende Gebäudedaten einfach ergänzen, damit die Berechnung realistisch bleibt.
+- Als privater Gebäudenutzer möchte ich Maßnahmen auswählen und vergleichen, damit ich Alternativen bewerten kann.
+- Als privater Gebäudenutzer möchte ich sehen, welche Daten automatisch stammen, damit ich die Verlässlichkeit einschätzen kann.
+- Als privater Gebäudenutzer möchte ich verständliche Ergebnisse und klare nächste Schritte, damit ich entscheiden kann.
+- Als privater Gebäudenutzer möchte ich einen PDF-Report exportieren, um Ergebnisse weiterzugeben.
 
 ---
 
