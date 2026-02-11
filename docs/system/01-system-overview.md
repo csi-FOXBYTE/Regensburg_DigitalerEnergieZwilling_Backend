@@ -30,9 +30,9 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
-- Einfache Simulationen fuer Sanierungsmassnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
+- Einfache Simulationen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
-- Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert" (von reinen Basisannahmen bis vollstaendig manuell angepassten Angaben)
+- Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
 - Keine Registrierung; Session-Cookies für temporäre Zustände, optionale lokale Speicherung im Browser
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 

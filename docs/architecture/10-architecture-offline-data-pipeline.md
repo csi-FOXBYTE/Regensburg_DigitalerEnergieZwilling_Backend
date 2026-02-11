@@ -286,7 +286,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 
 Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernommen):
 - `solarArea` (Number)
-- `Flaeche` (String)
+- `Fläche` (String)
 - `Dachneigung` (String)
 - `Dachorientierung` (String)
 - `SVF_min` (Number)

@@ -28,7 +28,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 ### Beziehungen (vereinfacht)
 
-- Ein **Gebaeude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
+- Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
 - Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
 - Jede **Simulation** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
 - **Triage** ist pro Eingabeset geführt; veröffentlichte Daten werden exportierbar.
@@ -43,6 +43,21 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Regelungsart; optional Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung.
 - **Kosten/Preise**: Energiepreis, Stromart, Jahresverbrauch (optional).
 - **Erneuerbare**: PV, Geothermie, Energiespeicher (optional).
+
+### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
+
+Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+
+- Datenstufe 1 entspricht im Datenmodell dem Fall ohne Nutzereingabe (automatisch befüllte Felder aus LOD2/Katalogen).
+- Datenstufe 2 entspricht dem Fall maximaler Nutzereingabe (manuelle Überschreibung und Detaillierung pro Domäne).
+- Beide Extreme verwenden dieselben Entitäten; entscheidend ist die Herkunftskennzeichnung je Feld (`automatisch`, `manuell`, `geschätzt`).
+
+| Domäne | Typische Felder im unteren Spektrum-Ende | Typische Felder im oberen Spektrum-Ende |
+| ----- | ----- | ----- |
+| Dach/Dachfenster | Dachfläche, Dachfensterfläche, U-Werte aus Baualter/Kat. 1 | Manuelle Flächen, U-Werte, Konstruktion/Schichtbezug |
+| OGD/AW/UGD | Flächen und U-Werte aus LOD2 + Baualtersklasse | Überschriebene Flächen/U-Werte, Konstruktionsdetails |
+| Fenster/Türen | Standardanteile und Katalog-U-Werte | Rahmen-/Verglasungsdetails und manuelle U-Werte |
+| Heizung | Katalogbasierte Vorbelegung aus Baujahr/Erzeugertyp | System-, Regelungs- und Zusatzparameter inkl. Zusatzheizung |
 
 ### Datenhaltung
 
@@ -60,7 +75,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 - **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
 - **Solarpotenziale** liegen als Attribute in 3D Tiles vor. Relevante Felder u.a.:
-  `solarArea`, `Flaeche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
+  `solarArea`, `Fläche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
@@ -93,6 +108,13 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Simulationskontext 
 - **Triage**: Stadtverwaltung / Fachpersonal prüft, markiert und veröffentlicht Ergebnisse.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
+
+### Offene Datenmodell-Punkte aus dem Grobkonzept
+
+- Kostenfelder für Hülle-Maßnahmen sind aktuell als Platzhalter markiert und noch nicht als belastbares Schema beschrieben.
+- Teilweise enthalten Tabellenwerte reine Template-Inhalte (`0`, `#`) und dürfen nicht als produktive Defaultwerte in API/DB übernommen werden.
+- Korrekturfaktoren je Bauteil sind nicht vollständig als konfigurierbare Regelstruktur ausdefiniert.
+- Für Teile der Heizungslogik liegt noch keine ausreichend formalisierte Regelbasis für maschinenlesbare Empfehlungen vor.
 
 ### Diagramm
 

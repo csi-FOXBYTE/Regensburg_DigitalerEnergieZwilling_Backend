@@ -77,34 +77,60 @@ Simulationsergebnisse müssen verständlich und nicht fachlich überladen präse
 ### Eingabetiefe-Spektrum (Bürger (Eigentümer/Vermieter))
 
 **FA-11**  
-Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert", ohne feste Stufenlogik.
+Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert", ohne feste Stufenlogik.
 
 **FA-12**  
-Am unteren Ende des Spektrums muessen Simulationen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
+Am unteren Ende des Spektrums müssen Simulationen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
 
 **FA-13**  
-Bei wenigen manuell ergaenzten Angaben (z.B. Baujahr) muessen schnelle Erstwerte geliefert werden.
+Bei wenigen manuell ergänzten Angaben (z.B. Baujahr) müssen schnelle Erstwerte geliefert werden.
 
 **FA-14**  
-Mit zunehmender manueller Eingabetiefe muessen bauteilspezifische Eingaben moeglich sein.
+Mit zunehmender manueller Eingabetiefe müssen bauteilspezifische Eingaben möglich sein.
 
 **FA-15**  
-Bei hoher manueller Eingabetiefe muessen detaillierte Eingaben moeglich sein; Foerderparameter pro Massnahme sollen optional erfassbar sein.
+Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; Fürderparameter pro Maßnahme sollen optional erfassbar sein.
 
 ### Eingabefelder entlang des Spektrums (Spezifikation)
 
-| Eingabebereich | Pflichtangaben | Optionale Angaben |
+| Orientierungsbereich im Spektrum (keine festen Stufen) | Pflichtangaben | Optionale Angaben |
 | ----- | ----- | ----- |
 | Ohne Nutzereingabe | keine | keine |
-| Grundangaben | Baujahr | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
-| Bauteile und Anlage | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Heizflaechenart, Erzeugerart, Baujahre je Bauteil |
-| Detaillierung | keine zusaetzlichen globalen Pflichtangaben | Ueberschreiben von Defaults je Bauteil, Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmassnahme | Kombinationen, Budget, Foerderlogik (optional) |
+| Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
+| Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
+| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Fürderlogik (optional) |
 
-Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie koennen entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
 Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
 
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
+
+### Konkretisierung aus dem Grobkonzept (Arbeitsmappe 30-01-26)
+
+Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+
+Interpretation für dieses Dokument:
+- Datenstufe 1 = unteres Ende des Spektrums (keine Nutzereingabe, nur LOD2/Katalog/Standardannahmen).
+- Datenstufe 2 = oberes Ende des Spektrums (maximale Nutzereingabe, inkl. Überschreibungen und Detailparameter).
+
+| Domäne | Unteres Ende (keine Nutzereingabe) | Oberes Ende (maximale Nutzereingabe) | Geplante Sanierungsmaßnahmen |
+| ----- | ----- | ----- | ----- |
+| Dach und Dachfenster | Flächen aus LOD, U-Werte über Baujahr/Baualtersklasse (Kat. 1), Standardfaktoren | Manuelle Flächenangaben, manuelle U-Werte bzw. schichtbasierte Ermittlung, Konstruktionsangaben | Dachdämmung/Komplettsanierung (Richtwert U=0,14), Dachfenstertausch (Richtwert U=1,00) |
+| OGD | Grundfläche aus LOD, U-Wert über Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächenangabe, schichtbasierte U-Wert-Ermittlung, Detaillierung der Konstruktion | OGD-Dämmung/Komplettsanierung (Richtwert U=0,14) |
+| Außenwand und Fenster/Türen | Außenwand/Fensterflächen über LOD-Annahmen, U-Werte aus Baujahr/Baualtersklasse | Manuelle Flächen/U-Werte, konstruktive Detaillierung (Rahmen/Glas/Schichten) | AW-Dämmung bzw. Austausch (Richtwert U=0,20), Fenstertausch (Richtwert U=0,95) |
+| UGD | Fläche aus LOD-Grundfläche, U-Wert aus Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächen/U-Werte und Konstruktionsdetails (z.B. Decke/Boden gegen Erdreich) | UGD-Dämmung (Richtwert U=0,25) |
+| Heizung/Anlage | Standardannahmen aus Baujahr, Energieträger- und Erzeuger-Katalog | Detaileingaben zu Systemart, Erzeugerart, Heizflächenart, Zusatzheizung und Randbedingungen | Austausch-/Modernisierungsempfehlungen je Erzeugerart (inkl. erneuerbarer Optionen) |
+
+### Explizite offene Punkte aus dem Grobkonzept
+
+Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
+- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten.
+- Mehrere Ergebniszellen enthalten im Template `0` oder `#`; diese sind keine validierten Referenzwerte.
+- Korrekturfaktor `F` ist für mehrere Bauteile nicht fachlich ausreichend hergeleitet bzw. dokumentiert.
+- Im Blatt `Heizung` steht für mehrere Kombinationen nur "Sanierungsempfehlung", ohne nachvollziehbare Entscheidungsregel.
+- Im Blatt `Heizung` ist der Fall `Fernwärme` nicht durchgängig mit konkreter Maßnahmenlogik ausgearbeitet.
+- Im Blatt `Kat. Heizung` sind einzelne Bezeichnungen/Zeichen fehlerhaft oder uneinheitlich und müssen bereinigt werden, bevor sie als Normkatalog in die produktive Konfiguration übernommen werden.
 
 ---
 
@@ -120,10 +146,10 @@ Transmissionswärmeverluste über Dach, Außenwände, Fenster und Kellerdecke m�
 Wärmebrücken müssen pauschal über einen Faktor auf den U-Wert berücksichtigt werden (eingabeabhängige Genauigkeit).
 
 **FA-19**  
-Lueftungswaermeverluste muessen ueber Luftdichtheitsklasse und Gebaeudealter abbildbar sein.
+Lüftungswärmeverluste müssen über Luftdichtheitsklasse und Gebäudealter abbildbar sein.
 
 **FA-20**  
-Warmwasserbedarf muss bei geringer Eingabetiefe pauschal (Wohnflaeche/Personen) und mit zunehmender Eingabetiefe expliziter erfassbar sein.
+Warmwasserbedarf muss bei geringer Eingabetiefe pauschal (Wohnfläche/Personen) und mit zunehmender Eingabetiefe expliziter erfassbar sein.
 
 **FA-21**  
 Die Anlagentechnik muss entlang des Eingabetiefe-Spektrums differenziert erfassbar sein (von Standardannahmen bis zu detaillierten Erzeuger- und Anlagenparametern).
@@ -185,7 +211,7 @@ Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 **FA-38**  
-Nutzer muessen einen PDF-Report der Ergebnisse exportieren koennen; zusaetzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-74.
+Nutzer müssen einen PDF-Report der Ergebnisse exportieren können; zusätzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-74.
 
 **FA-39**  
 Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
@@ -403,19 +429,19 @@ Exporte für die Wärmeplanung müssen als strukturierte Formate (mindestens JSO
 Systempflege-Änderungen (z.B. Kataloge) müssen mit Rollen/Rechten geschützt und für Nutzer klar erkennbar sein.
 
 **FA-91**  
-Am unteren Ende des Spektrums muss das Ergebnis einen groben Waermebedarf und eine grobe Effizienzklasse liefern.
+Am unteren Ende des Spektrums muss das Ergebnis einen groben Wärmebedarf und eine grobe Effizienzklasse liefern.
 
 **FA-92**  
-Bei wenigen manuell ergaenzten Angaben muss eine Einordnung/Benchmark des Gebaeudes geliefert werden (z.B. Skala, Ampel oder Tacho).
+Bei wenigen manuell ergänzten Angaben muss eine Einordnung/Benchmark des Gebäudes geliefert werden (z.B. Skala, Ampel oder Tacho).
 
 **FA-93**  
-Mit zunehmender manueller Eingabetiefe sollen bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitspruefung je Bauteil moeglich sein.
+Mit zunehmender manueller Eingabetiefe sollen bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitsprüfung je Bauteil möglich sein.
 
 **FA-94**  
-Bei hoher manueller Eingabetiefe sollen Unsicherheiten sichtbar gemacht und Eingaben "Ich weiss es nicht" unterstuetzt werden.
+Bei hoher manueller Eingabetiefe sollen Unsicherheiten sichtbar gemacht und Eingaben "Ich weiß es nicht" unterstützt werden.
 
 **FA-95**  
-Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung moeglich sein.
+Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung möglich sein.
 
 **FA-96**  
 Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B. bis 1918, 1919–1948, 1949–1957, 1958–1968, 1969–1978, 1979–1983, 1984–1994, 1995–2001, 2002–2006, ab 2007).
@@ -424,10 +450,10 @@ Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B.
 Das System soll Live-Ergebnisse nach Änderungen anzeigen (z.B. Energiebedarf, Kosten, Effizienzklasse), ohne expliziten „Berechnen“-Schritt.
 
 **FA-98**  
-Mit zunehmender manueller Eingabetiefe muessen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden koennen (z.B. Heizflaechenart, grundlegende Regelungsart).
+Mit zunehmender manueller Eingabetiefe müssen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden können (z.B. Heizflächenart, grundlegende Regelungsart).
 
 **FA-99**  
-Bei hoher manueller Eingabetiefe muessen detaillierte Anlagenparameter optional erfasst werden koennen (z.B. Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung).
+Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional erfasst werden können (z.B. Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung).
 
 ---
 

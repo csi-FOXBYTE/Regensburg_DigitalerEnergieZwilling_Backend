@@ -373,10 +373,10 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu 
 ## 24. Eingabetiefe & Live-Berechnung
 
 **TA-85**  
-Der Simulationskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstuetzen; am unteren Ende basiert die Simulation ausschliesslich auf LOD2, Baualtersklassen und Standardannahmen.
+Der Simulationskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen; am unteren Ende basiert die Simulation ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
 
 **TA-86**  
-Am oberen Ende des Spektrums muessen Szenario-Berechnungen fuer Einzelmassnahmen und Kombinationen unterstuetzt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
+Am oberen Ende des Spektrums müssen Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
 
 **TA-87**  
 Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Button aktualisiert werden; die Reaktionszeit muss für interaktive Nutzung geeignet sein.
@@ -386,14 +386,38 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 | Eingabebereich | Pflichtangaben | Optionale Angaben |
 | ----- | ----- | ----- |
 | Ohne Nutzereingabe | keine | keine |
-| Grundangaben | Baujahr | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
-| Bauteile und Anlage | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Heizflaechenart, Erzeugerart, Baujahre je Bauteil |
-| Detaillierung | keine zusaetzlichen globalen Pflichtangaben | Ueberschreiben von Defaults je Bauteil, Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmassnahme | Kombinationen, Budget, Foerderlogik (optional) |
+| Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
+| Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
+| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Fürderlogik (optional) |
 
-Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie koennen entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
 Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
 Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen eingabetiefenspezifisch.
+
+### Technische Zuordnung der Datenstufen aus der Grobkonzept-Arbeitsmappe
+
+Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+
+- Datenstufe 1 ist technisch als Vollautomatikmodus ohne Nutzereingabe umzusetzen.
+- Datenstufe 2 ist technisch als maximale manuelle Überschreibbarkeit und Detailparametrisierung umzusetzen.
+- Zwischenwerte sind als kontinuierliche Kombination beider Extreme abzubilden (kein festes Stufenschema im UI oder in der API).
+
+| Domäne | Muss in Datenstufe 1 automatisiert belegt werden | Muss in Datenstufe 2 manuell überschreibbar sein |
+| ----- | ----- | ----- |
+| Dach/Dachfenster | Flächen aus LOD, U-Werte aus Baujahr/Baualtersklasse, Standardfaktoren | Flächen, U-Werte, Konstruktion/Schichtannahmen |
+| OGD/AW/UGD | Flächen und U-Werte aus LOD + Katalogwerten | Flächen, U-Werte, Konstruktionsdetails und Materialannahmen |
+| Fenster/Türen | Standardflächenanteile und U-Werte aus Baualter/Katalog | Flächen, Rahmen-/Verglasungsparameter, U-Werte |
+| Heizung/Anlage | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog | Systemart, Erzeugerart, Heizflächenart, Zusatzheizung, Detailparameter |
+
+### Offene technische Klärungspunkte aus dem Grobkonzept
+
+Die folgenden Punkte sind vor produktiver übernahme als technische Spezifikation zu konkretisieren:
+- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition.
+- Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
+- Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
+- Mehrere Heizungsfälle sind nur mit generischem Ergebnistext ("Sanierungsempfehlung") hinterlegt; es fehlt eine maschinenlesbare Entscheidungslogik.
+- Kataloginhalte im Blatt `Kat. Heizung` enthalten uneinheitliche Bezeichner/Sonderzeichen und benötigen eine formale Bereinigung vor Import in Konfigurationsdaten.
 
 ---
 
@@ -403,7 +427,7 @@ Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validier
 Die Eingabemaske muss die Heizungsregelung als auswählbare Kategorie unterstützen (Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung).
 
 **TA-89**  
-Mit zunehmender manueller Eingabetiefe muessen optionale Anlagenparameter aufgenommen werden koennen (Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Heizflaechen, Regelprinzip, technische Ausfuehrung).
+Mit zunehmender manueller Eingabetiefe müssen optionale Anlagenparameter aufgenommen werden können (Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Heizflächen, Regelprinzip, technische Ausführung).
 
 ---
 

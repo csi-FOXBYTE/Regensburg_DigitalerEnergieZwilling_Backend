@@ -75,11 +75,11 @@ Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Hei
 ## Eingabetiefe (fachliche UX-Sicht)
 
 Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
-"vollstaendig durch Nutzer definiert". Es gibt keine festen Stufen:
+"vollständig durch Nutzer definiert". Es gibt keine festen Stufen:
 - Ohne Nutzereingabe werden Werte auf Basis von LOD2, Baualtersklasse und Standardannahmen vorbelegt.
-- Mit jeder zusaetzlichen manuellen Eingabe werden die Ergebnisse praeziser und nachvollziehbarer.
-- Bauteil-, Anlagen- und Nutzungsangaben koennen schrittweise ergaenzt oder ueberschrieben werden.
-- Bei umfassender manueller Eingabe sind detaillierte Varianten und Kombinationen von Massnahmen vergleichbar.
+- Mit jeder zusätzlichen manuellen Eingabe werden die Ergebnisse präziser und nachvollziehbarer.
+- Bauteil-, Anlagen- und Nutzungsangaben können schrittweise ergänzt oder überschrieben werden.
+- Bei umfassender manueller Eingabe sind detaillierte Varianten und Kombinationen von Maßnahmen vergleichbar.
 
 ---
 
@@ -88,6 +88,11 @@ Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzere
 Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
+Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
+- Datenstufe 1 steht für das untere Ende des Spektrums (keine Nutzereingabe).
+- Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).
+- Beide Begriffe sind nur Spektrum-Enden und keine separaten UI-Stufen.
+
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
 ---
@@ -95,12 +100,12 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 ## Informationsarchitektur (Module)
 
 - Gebäude & Grunddaten (Adresse, Gebäudetyp, Wohnfläche, Baualtersklasse)
-- Eingabetiefe & Eingabedetails (kontinuierliches Spektrum inkl. Erklaerung)
+- Eingabetiefe & Eingabedetails (kontinuierliches Spektrum inkl. Erklärung)
 - Gebäudehülle (Dach, Außenwand, Fenster, Kellerdecke)
 - Lüftung (Luftdichtheit/Alter)
 - Warmwasser & Nutzung (pauschal vs. Personenanzahl)
 - Anlagentechnik (Energieträger, Alter, Erzeugerart)
-- Anlagentechnik (Detailgrad entlang des Spektrums: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflaechen)
+- Anlagentechnik (Detailgrad entlang des Spektrums: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflächen)
 - Ergebnisse (Wärmebedarf, Primärenergie, Effizienzklasse, CO₂)
 - Sanierungsmaßnahmen (Vorschläge, Varianten, Wunschsanierung)
 - Kosten & Fördermittel (Kostenspannen, Förderhinweise)

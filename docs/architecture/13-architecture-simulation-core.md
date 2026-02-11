@@ -37,10 +37,27 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ## Eingabetiefe (Spektrum)
 
-- Ohne Nutzereingabe erfolgt die Vorbelegung ueber LOD2, Baualtersklasse und Standardannahmen.
-- Mit jeder zusaetzlichen manuellen Eingabe steigt die inhaltliche Genauigkeit der Berechnung.
-- Bauteil-, Anlagen- und Nutzungsangaben koennen sukzessive ergaenzt oder ueberschrieben werden.
-- Bei umfassender manueller Eingabe sind detaillierte Sanierungsszenarien (Einzelmassnahmen/Kombinationen) mit Vorher/Nachher-Vergleich moeglich.
+- Ohne Nutzereingabe erfolgt die Vorbelegung über LOD2, Baualtersklasse und Standardannahmen.
+- Mit jeder zusätzlichen manuellen Eingabe steigt die inhaltliche Genauigkeit der Berechnung.
+- Bauteil-, Anlagen- und Nutzungsangaben können sukzessive ergänzt oder überschrieben werden.
+- Bei umfassender manueller Eingabe sind detaillierte Sanierungsszenarien (Einzelmaßnahmen/Kombinationen) mit Vorher/Nachher-Vergleich möglich.
+
+### Zuordnung der Grobkonzept-Datenstufen
+
+Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+
+- Datenstufe 1 bildet das untere Spektrum-Ende ab: keine Nutzereingabe, nur LOD2 + Katalog + Annahmen.
+- Datenstufe 2 bildet das obere Spektrum-Ende ab: maximale Nutzereingabe und Überschreibbarkeit.
+- Die Kernlogik muss beide Enden mit demselben Rechenkern abbilden; Unterschiede liegen nur in den bereitgestellten Eingaben.
+
+### Berechnungsdomänen aus der Arbeitsmappe
+
+- Hülle: `Dach-Fenster`, `OGD`, `AW-Fenster`, `UGD` mit HT-Teilbilanzen (`HT = F * U * A`).
+- Wärmebrücken: pauschaler Zuschlag über `dUWB * Ages`.
+- Lüftung: Luftdichtheit und Luftwechsel als referenzierte Katalogwerte, nicht als direkte Nutzereingabe.
+- Heizung: Systemart, Erzeugerart, Zusatzheizung, Heizflächenart und optionale Zusatzparameter.
+- Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. Heizung` (Aufwandszahlen/Heizflächenzuschläge).
+- Ergebnisgleichungen (Blatt `Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Jahres-Heizwärmebedarf.
 
 ---
 
@@ -55,16 +72,16 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 ## Lüftung (Parameterbeispiele)
 
 - Luftdichtheit wird als referenzierter Parameter aus Katalogwerten und Baualter modelliert (keine direkte Nutzereingabe).
-- Fuer die Berechnung koennen interne Auspraegungen wie eher zugig / normal / sehr dicht verwendet werden.
+- Für die Berechnung können interne Ausprägungen wie eher zugig / normal / sehr dicht verwendet werden.
 
 ---
 
 ## Anlagentechnik (Detailgrad)
 
 - Ohne manuelle Eingaben arbeitet das System mit konfigurierten Standardannahmen.
-- Mit manuellen Grundangaben (z.B. Baujahr, Energietraeger) wird die Anlage grob vorbelegt.
-- Mit weiterem Detaillierungsgrad koennen Erzeugerart, Heizflaechenart und Regelungsart erfasst werden.
-- Optional sind weitere Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip und technische Ausfuehrung erfassbar.
+- Mit manuellen Grundangaben (z.B. Baujahr, Energieträger) wird die Anlage grob vorbelegt.
+- Mit weiterem Detaillierungsgrad können Erzeugerart, Heizflächenart und Regelungsart erfasst werden.
+- Optional sind weitere Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip und technische Ausführung erfassbar.
 
 Regelungsarten (Auswahl): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.  
 Regelprinzip: stetig, 2‑Punkt/3‑Punkt.  
@@ -75,6 +92,15 @@ Technische Ausführung: hydraulisch, Smart‑Regelung.
 ## Wärmebrücken (Hinweis)
 
 Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fensteranschlüsse, Gebäudekanten/-ecken, Rollladenkästen, Attiken.
+
+---
+
+## Offene Modellierungsfragen aus dem Grobkonzept
+
+- Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt.
+- Korrekturfaktor `F` ist nicht für alle Bauteile in gleicher Tiefe fachlich definiert.
+- Das Heizungsblatt enthält teilweise generische Empfehlungstexte statt deterministischer Entscheidungsregeln.
+- Einzelne Katalogbezeichner sind uneinheitlich/formal fehlerhaft und müssen vor produktiver Nutzung bereinigt werden.
 
 ---
 
