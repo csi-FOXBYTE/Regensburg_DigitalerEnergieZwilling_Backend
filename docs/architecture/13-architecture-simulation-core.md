@@ -15,7 +15,7 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 ## Verantwortlichkeiten
 
 - Berechnung von Energiebedarf, CO₂, Primärenergie, Kosten und Effizienzklassen.
-- Umsetzung der Simulationsstufen und Eingabelogik gemäß fachlichen Anforderungen.
+- Umsetzung der Eingabelogik entlang eines kontinuierlichen Spektrums gemäß fachlichen Anforderungen.
 - Deterministisches Verhalten bei identischer Konfiguration und Eingaben.
 
 ---
@@ -37,11 +37,10 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ## Eingabetiefe (Spektrum)
 
-- **Minimum**: keine Nutzereingaben, Vorbelegung ueber LOD2, Baualtersklasse, Standardannahmen.
-- **Niedrig**: wenige Pflichtangaben (z.B. Baujahr), schnelle Erstwerte.
-- **Mittel**: Bauteil- und Anlagenebene, einfache Qualitaetsstufen je Bauteil.
-- **Hoch**: Ueberschreiben von Defaults (z.B. Daemmung, Fensterdetails, Sanierungsjahr).
-- **Maximum**: Sanierungsszenarien (Einzelmassnahmen/Kombinationen) mit Vorher/Nachher-Vergleich.
+- Ohne Nutzereingabe erfolgt die Vorbelegung ueber LOD2, Baualtersklasse und Standardannahmen.
+- Mit jeder zusaetzlichen manuellen Eingabe steigt die inhaltliche Genauigkeit der Berechnung.
+- Bauteil-, Anlagen- und Nutzungsangaben koennen sukzessive ergaenzt oder ueberschrieben werden.
+- Bei umfassender manueller Eingabe sind detaillierte Sanierungsszenarien (Einzelmassnahmen/Kombinationen) mit Vorher/Nachher-Vergleich moeglich.
 
 ---
 
@@ -49,26 +48,23 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 - Fensteranteil am Fassadenbereich: Standardannahme (z.B. 40%), wenn nicht bekannt.
 - Lüftungswärmeverlust (Bestand ohne Detailkenntnis): pauschaler Ansatz (z.B. 0,05 W/m²K).
-- Wärmebrücken: pauschaler Zuschlag auf U-Werte, stufenabhängig.
+- Wärmebrücken: pauschaler Zuschlag auf U-Werte, eingabeabhängig.
 
 ---
 
-## Lüftung (Auswahlbeispiele)
+## Lüftung (Parameterbeispiele)
 
-- Fensterlüftung (kein Lüftungssystem)
-- Lüftungsanlage ohne Wärmerückgewinnung
-- Lüftungsanlage mit Wärmerückgewinnung
-- „Weiß ich nicht“ → Standardannahme
-
-Luftdichtheit (hoher Eingabegrad): eher zugig / normal / sehr dicht / „weiss ich nicht“.
+- Luftdichtheit wird als referenzierter Parameter aus Katalogwerten und Baualter modelliert (keine direkte Nutzereingabe).
+- Fuer die Berechnung koennen interne Auspraegungen wie eher zugig / normal / sehr dicht verwendet werden.
 
 ---
 
 ## Anlagentechnik (Detailgrad)
 
-- **Niedrig**: Baujahr + grundlegender Energietraeger, grobe Vorbelegung der Anlage.
-- **Mittel**: Baujahr + Erzeugerart, Heizflaechenart, grundlegende Regelungsart.
-- **Hoch**: optionale Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung.
+- Ohne manuelle Eingaben arbeitet das System mit konfigurierten Standardannahmen.
+- Mit manuellen Grundangaben (z.B. Baujahr, Energietraeger) wird die Anlage grob vorbelegt.
+- Mit weiterem Detaillierungsgrad koennen Erzeugerart, Heizflaechenart und Regelungsart erfasst werden.
+- Optional sind weitere Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip und technische Ausfuehrung erfassbar.
 
 Regelungsarten (Auswahl): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.  
 Regelprinzip: stetig, 2‑Punkt/3‑Punkt.  

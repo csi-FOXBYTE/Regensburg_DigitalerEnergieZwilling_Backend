@@ -35,11 +35,13 @@ class ComponentInput {
   +u_value
 }
 
-class VentilationInput {
-  +ventilation_input_id
+class VentilationReference {
+  +ventilation_reference_id
   +input_id
-  +type
+  +catalog_source
+  +building_age_class
   +tightness_class
+  +derived_at
 }
 
 class WarmWaterInput {
@@ -170,7 +172,7 @@ District "1" -- "many" Building
 Building "1" -- "many" InputSet
 
 InputSet "1" -- "many" ComponentInput
-InputSet "0..1" -- "1" VentilationInput
+InputSet "0..1" -- "1" VentilationReference
 InputSet "0..1" -- "1" WarmWaterInput
 InputSet "0..1" -- "1" HeatingSystemInput
 
@@ -198,6 +200,11 @@ end note
 
 note right of ReportExport
 Reports are shown in-app; exports are created only on demand.
+end note
+
+note right of VentilationReference
+Tightness is referenced from catalog values
+and building age (no direct user input).
 end note
 
 @enduml

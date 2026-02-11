@@ -24,7 +24,7 @@ Quelle: `raw/c4-context.puml`
 ## Akteure und Systeme
 
 - **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Simulation.
-- **Stadtverwaltung / Fachpersonal**: nutzt die Admin-Oberfläche zur Konfiguration und QS.
+- **Stadtverwaltung / Fachpersonal**: nutzt den Admin-Bereich zur Konfiguration und QS.
 - **Keycloak CIVITAS**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von Civitas Core).
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
 - **CityGML LOD2 Source**: Gebäudedaten für die Offline-Aufbereitung.

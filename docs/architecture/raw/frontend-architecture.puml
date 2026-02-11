@@ -10,7 +10,7 @@ title Frontend-Architektur
 rectangle "Astro Build\n(Static Site Generator)" as astro
 rectangle "Statische Assets\n(HTML/JS/CSS)" as assets
 rectangle "Public Client\n(Bürgerbereich)" as public_client
-rectangle "Admin Client\n(Fachpersonal)" as admin_client
+rectangle "Admin-Bereich\n(Fachpersonal)" as admin_client
 rectangle "Simulationskern\n(JS-Modul)" as core
 rectangle "Tiles Gateway\n(3D Tiles: PV-Textur, Bäume)" as tiles
 rectangle "Backend API\n(öffentlich)" as api_public

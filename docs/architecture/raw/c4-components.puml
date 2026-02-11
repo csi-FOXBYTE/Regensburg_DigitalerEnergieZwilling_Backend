@@ -14,7 +14,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
     Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
       Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
       Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and simulation UI")
-      Component(adminIsland, "Admin Island", "React", "Admin UI, available only after authentication")
+      Component(adminIsland, "Admin Island", "React", "Admin area, available only after authentication")
       Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
     }
 

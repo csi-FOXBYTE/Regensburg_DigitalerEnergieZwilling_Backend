@@ -62,7 +62,7 @@ Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Hei
 ## Chancen und UX-Ansätze
 
 - Niederschwelliger Einstieg mit klarer „So funktioniert’s“-Erklärung.
-- Sichtbare Sofortergebnisse (Einsparungen) in der Basisstufe.
+- Sichtbare Sofortergebnisse (Einsparungen) bereits ohne oder mit wenigen manuellen Eingaben.
 - Kennzeichnung der Datenherkunft: automatisch, manuell, geschätzt.
 - Priorisierung der wichtigsten Daten, reduzierte Komplexität.
 - Empfehlung „beste Maßnahme für Budget X“.
@@ -75,19 +75,18 @@ Herr Meier ist Vermieter eines Mehrfamilienhauses aus den 1970er Jahren. Die Hei
 ## Eingabetiefe (fachliche UX-Sicht)
 
 Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
-"vollstaendig durch Nutzer definiert". Zur Orientierung koennen Referenzpunkte dienen:
-Minimum (ohne Nutzereingaben): Vorbelegung auf Basis LOD2, Baualtersklasse und Standardannahmen, damit keine „leere Huelle“ entsteht.  
-Niedrig (Quick-Start): Wenige Eingaben (z.B. Baujahr als Pflichtfeld), schnelle Ergebnisse/Benchmark.  
-Mittel (Verbesserung): Bauteil- und Anlagenebene, Zustaende je Bauteil, Lueftungsart abfragbar.  
-Hoch (Expertenmodus): Ueberschreiben von Defaults (z.B. Daemmung, Fensterdetails), detaillierte Eingaben.  
-Maximum (Sanierungsszenarien): Auswahl von Einzelmassnahmen oder Kombinationen, Ergebnisvergleich vorher/nachher.
+"vollstaendig durch Nutzer definiert". Es gibt keine festen Stufen:
+- Ohne Nutzereingabe werden Werte auf Basis von LOD2, Baualtersklasse und Standardannahmen vorbelegt.
+- Mit jeder zusaetzlichen manuellen Eingabe werden die Ergebnisse praeziser und nachvollziehbarer.
+- Bauteil-, Anlagen- und Nutzungsangaben koennen schrittweise ergaenzt oder ueberschrieben werden.
+- Bei umfassender manueller Eingabe sind detaillierte Varianten und Kombinationen von Massnahmen vergleichbar.
 
 ---
 
-## Input-Matrix als Referenzpunkte im Spektrum
+## Eingabeumfang im Spektrum
 
-Die detaillierte Eingabematrix inkl. Pflicht-/Optionaleingaben ist in den Anforderungen beschrieben:
-`docs/requirements/02-nonfunctional-requirements.md` und `docs/requirements/03-functional-requirements.md`.
+Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
+`docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
@@ -98,7 +97,7 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 - Gebäude & Grunddaten (Adresse, Gebäudetyp, Wohnfläche, Baualtersklasse)
 - Eingabetiefe & Eingabedetails (kontinuierliches Spektrum inkl. Erklaerung)
 - Gebäudehülle (Dach, Außenwand, Fenster, Kellerdecke)
-- Lüftung (Luftdichtheit/Alter, Lüftungsart)
+- Lüftung (Luftdichtheit/Alter)
 - Warmwasser & Nutzung (pauschal vs. Personenanzahl)
 - Anlagentechnik (Energieträger, Alter, Erzeugerart)
 - Anlagentechnik (Detailgrad entlang des Spektrums: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflaechen)
@@ -112,19 +111,19 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 
 - Automatisch abgeleitet: LOD2-Geometrie, Baualtersklassen, Standardannahmen.
 - Manuell: Nutzereingaben zu Bauteilen, Anlagen und Kostenparametern.
-- Geschätzt: Werte aus Normtabellen/Typologien, wenn keine Detailangaben vorliegen.
+- Geschätzt: Werte aus Katalogen/Normtabellen/Typologien, die anhand der aktuellen Eingaben referenziert werden; dies kann sowohl automatisch abgeleitete als auch manuell angepasste Eingaben betreffen.
 
 ---
 
 ## Baualtersklassen
 
-Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (siehe `docs/requirements/02-nonfunctional-requirements.md`, FA-98).
+Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (siehe `docs/requirements/02-functional-requirements.md`, FA-96).
 
 ---
 
 ## Auswahlbeispiele (UI)
 
-- Lüftungsart: Fensterlüftung, Lüftungsanlage ohne WRG, Lüftungsanlage mit WRG, „weiß ich nicht“.
+- Luftdichtheit (Lüftung): wird über allgemeine Annahmen (Katalog, Baualter) referenziert; keine direkte Nutzereingabe.
 - Sanierungsmaßnahmen: Dach, Außenwand, Fenster, Kellerdecke, Heizung, PV, Geothermie, Energiespeicher.
 - Regelungsart (Heizung): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.
 - Regelprinzip: stetig, 2‑Punkt/3‑Punkt.
@@ -178,7 +177,7 @@ Frau Städter arbeitet in der Stadtverwaltung und ist für die Pflege und Qualit
 
 | Schritt | Aktion | Systemantwort |
 | --- | --- | --- |
-| Login | Admin-Seite öffnen, anmelden | Rollenprüfung, Admin-UI |
+| Login | Admin-Seite öffnen, anmelden | Rollenprüfung, Admin-Bereich |
 | Übersicht | Liste/Karte der Eingaben | Filter, Sortierung, Status |
 | Detail | Gebäudedatensätze öffnen | Vergleich mehrerer Eingaben |
 | Plausibilisierung | Datensatz prüfen | Status „in Prüfung“, Notizen |

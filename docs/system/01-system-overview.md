@@ -32,12 +32,12 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
 - Einfache Simulationen fuer Sanierungsmassnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
-- Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert" (z.B. Quick-Start bis detaillierte Sanierungsszenarien)
+- Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert" (von reinen Basisannahmen bis vollstaendig manuell angepassten Angaben)
 - Keine Registrierung; Session-Cookies für temporäre Zustände, optionale lokale Speicherung im Browser
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
 ### Stadtverwaltung / Fachpersonal
-- Zugriff über geschützte Admin-Oberfläche
+- Zugriff über geschützten Admin-Bereich
 - Pflege und Veröffentlichung von Simulationskonfigurationen
 - Sichtung, Triage und Qualitätssicherung von Nutzereingaben
 - Auswertung für Quartiersanalyse und interne Berichte
@@ -74,7 +74,7 @@ Der DEZ ist kein:
 
 Das System besteht aus:
 - einem öffentlichen 3D-Client für Visualisierung und Simulation
-- einer administrativen Oberfläche für Fachpersonal
+- einem administrativen Bereich für Fachpersonal
 - einem Simulationskern als JavaScript-Modul (clientseitig, optional serverseitig)
 - einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
 - einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten

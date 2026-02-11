@@ -38,7 +38,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 - **Grunddaten**: Baujahr/Baualtersklasse, Gebäudetyp, Wohnfläche, Wohneinheiten, Personenanzahl.
 - **Gebäudehülle**: Dach, Außenwand, Fenster, Kellerdecke inkl. Zustand/Sanierungsjahr und Dämmung.
-- **Lüftung**: Lüftungsart, Luftdichtheit (optional).
+- **Lüftung**: Luftdichtheit als referenzierter Parameter aus Katalogwerten und Baualter (keine direkte Nutzereingabe).
 - **Warmwasser & Nutzung**: pauschal vs. personenbasiert.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Regelungsart; optional Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung.
 - **Kosten/Preise**: Energiepreis, Stromart, Jahresverbrauch (optional).

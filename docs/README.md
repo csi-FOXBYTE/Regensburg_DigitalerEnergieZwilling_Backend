@@ -27,8 +27,8 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 ## Anforderungen
 
-- **02** [Fachliche Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/02-nonfunctional-requirements.md)
-- **03** [Technische Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/03-functional-requirements.md)
+- **02** [Fachliche Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/02-functional-requirements.md)
+- **03** [Technische Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/03-technical-requirements.md)
 
 ## Architektur
 

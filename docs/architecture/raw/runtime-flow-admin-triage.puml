@@ -2,7 +2,7 @@
 title Runtime-Flow: Admin Triage
 
 actor Admin
-participant "Admin UI" as ui
+participant "Admin-Bereich" as ui
 participant "Backend API" as api
 participant "Triage Service" as triage
 database "Database" as db

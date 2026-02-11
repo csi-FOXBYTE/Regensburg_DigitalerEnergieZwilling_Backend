@@ -20,7 +20,7 @@ Quelle: `raw/runtime-flow-public.puml`
 
 **Stadtverwaltung / Fachpersonal-Flow**  
 Admins authentifizieren sich via OIDC, bearbeiten Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.  
-Beteiligte Komponenten: Web Gateway, Admin UI, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
+Beteiligte Komponenten: Web Gateway, Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
 Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
 
 ![runtime-flow-admin.png](./attachments/runtime-flow-admin.png)
@@ -29,7 +29,7 @@ Quelle: `raw/runtime-flow-admin.puml`
 
 **Admin Triage-Flow (Detail)**  
 Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und exportieren Daten für die Wärmeplanung.  
-Beteiligte Komponenten: Admin UI, Backend API, Triage Service, Database.  
+Beteiligte Komponenten: Admin-Bereich, Backend API, Triage Service, Database.  
 Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates.
 
 ![runtime-flow-admin-triage.png](./attachments/runtime-flow-admin-triage.png)

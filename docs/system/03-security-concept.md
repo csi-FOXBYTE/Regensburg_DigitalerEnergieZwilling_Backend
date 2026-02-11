@@ -30,7 +30,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 - SYS.1.1 Allgemeiner Server.
 - NET.1.1 Netzarchitektur und -design.
 - NET.3.1 Netzkomponenten.
-- OPS.1.1.3 Patch- und Ã„nderungsmanagement.
+- OPS.1.1.3 Patch- und Änderungsmanagement.
 - CON.8 Software-Entwicklung.
 
 ---
@@ -43,7 +43,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 - **SYS.1.1 Allgemeiner Server**: Container mit Non-Root, minimale Capabilities, Patch-Management, Secrets-Management.
 - **NET.1.1 Netzarchitektur und -design**: Backend nicht direkt aus dem Internet erreichbar, Zugriff über API-Management/Reverse Proxy, Netzwerksegmentierung.
 - **NET.3.1 Netzkomponenten**: Standardisierte Schnittstellen, klare Netzgrenzen, Monitoring der Schnittstellen.
-- **OPS.1.1.3 Patch- und Ã„nderungsmanagement**: Regelmäßige Updates, dokumentierte Ã„nderungen, Rollback-Strategien.
+- **OPS.1.1.3 Patch- und Änderungsmanagement**: Regelmäßige Updates, dokumentierte Änderungen, Rollback-Strategien.
 - **CON.8 Software-Entwicklung**: SDLC nach OWASP, Code-Reviews, Security-Scanning, Penetrationstest vor Go-Live.
 
 ---
@@ -61,14 +61,14 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
 - Rollenbasierte Freigaben für Systempflege und Triage.
-- Ã–ffentliche Schreibzugriffe nur mit Schutzmechanismen (Altcha, Rate Limiting).
+- Öffentliche Schreibzugriffe nur mit Schutzmechanismen (Altcha, Rate Limiting).
 
 ---
 
 **Daten- und Datenschutzkonzept**
 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
-- Optionale Ãœbermittlung von Eingaben, stets explizit ausgelöst.
+- Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
 - Session-Cookies für temporäre Zustände, Consent für optionales Tracking.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
 

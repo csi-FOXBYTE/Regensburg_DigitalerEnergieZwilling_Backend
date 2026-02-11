@@ -98,7 +98,7 @@ Sie enthält keine fachliche Logik.
 
 ### Protected Admin HTML Gateway (Stadtverwaltung / Fachpersonal)
 
-Diese Komponente stellt die Admin-Oberfläche bereit.
+Diese Komponente stellt den Admin-Bereich bereit.
 
 Aufgaben:
 - Prüfung der Authentifizierung

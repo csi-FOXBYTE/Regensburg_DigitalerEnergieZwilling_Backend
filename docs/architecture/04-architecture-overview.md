@@ -45,9 +45,9 @@ Eine serverseitige Ausführung der Simulation ist optional vorgesehen, z.B. für
 
 Die Anwendung unterscheidet strikt zwischen:
 - einem **öffentlichen Client** für Bürger (Eigentümer/Vermieter)
-- einer **administrativen Oberfläche** für Stadtverwaltung / Fachpersonal
+- einem **administrativen Bereich** für Stadtverwaltung / Fachpersonal
 
-Die Admin-Oberfläche wird **serverseitig geschützt** und erst nach erfolgreicher Authentifizierung ausgeliefert.  
+Der Admin-Bereich wird **serverseitig geschützt** und erst nach erfolgreicher Authentifizierung ausgeliefert.  
 Der öffentliche Client ist jederzeit ohne Anmeldung erreichbar.
 
 Diese Trennung erfolgt nicht nur logisch, sondern auch technisch auf Ebene der HTML-Auslieferung.

@@ -8,7 +8,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 
 ## Umfang und Abgrenzung
 
-- Umfasst Public Client und Admin-Oberfläche.
+- Umfasst Public Client und Admin-Bereich.
 - Beschreibt nicht die Offline-Datenpipeline oder die Backend-Implementierung.
 
 ---

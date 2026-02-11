@@ -46,10 +46,10 @@ Zur Laufzeit darf keine serverseitige Renderlogik erforderlich sein.
 Das Frontend muss mindestens zwei klar getrennte UI-Bereiche bereitstellen:
 
 - einen öffentlichen Bürger-Client
-- eine administrative Oberfläche für Stadtverwaltung / Fachpersonal
+- einen administrativen Bereich für Stadtverwaltung / Fachpersonal
 
 **TA-09**  
-Der HTML-Code der administrativen Oberfläche darf erst nach erfolgreicher Authentifizierung ausgeliefert werden.
+Der HTML-Code des administrativen Bereichs darf erst nach erfolgreicher Authentifizierung ausgeliefert werden.
 
 ---
 
@@ -360,7 +360,7 @@ Der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für 
 Jeder Nutzerdatensatz muss einen Status tragen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden.
 
 **TA-82**  
-Die Admin-UI muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
+Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
 
 **TA-83**  
 Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereitgestellt werden und Filterkriterien berücksichtigen.
@@ -381,17 +381,19 @@ Am oberen Ende des Spektrums muessen Szenario-Berechnungen fuer Einzelmassnahmen
 **TA-87**  
 Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Button aktualisiert werden; die Reaktionszeit muss für interaktive Nutzung geeignet sein.
 
-### Input-Matrix (Referenzpunkte im Spektrum)
+### Eingabefelder entlang des Spektrums
 
-| Referenzpunkt | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
-| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Minimum     | keine                                                 | keine                                                                                                                                                        |
-| Niedrig     | Baujahr                                               | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
-| Mittel      | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Lueftungsart, Heizflaechenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
-| Hoch        | Ueberschreiben von Defaults je Bauteil                 | Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
-| Maximum     | Auswahl Sanierungsmassnahmen                           | Kombinationen, Budget, Foerderlogik (optional)                                                                                                                |
+| Eingabebereich | Pflichtangaben | Optionale Angaben |
+| ----- | ----- | ----- |
+| Ohne Nutzereingabe | keine | keine |
+| Grundangaben | Baujahr | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
+| Bauteile und Anlage | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Heizflaechenart, Erzeugerart, Baujahre je Bauteil |
+| Detaillierung | keine zusaetzlichen globalen Pflichtangaben | Ueberschreiben von Defaults je Bauteil, Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmassnahme | Kombinationen, Budget, Foerderlogik (optional) |
 
-Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen stufenspezifisch.
+Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie koennen entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
+Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen eingabetiefenspezifisch.
 
 ---
 
@@ -401,7 +403,7 @@ Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validier
 Die Eingabemaske muss die Heizungsregelung als auswählbare Kategorie unterstützen (Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung).
 
 **TA-89**  
-Bei hoeherem Eingabegrad muessen optionale Anlagenparameter aufgenommen werden koennen (Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Heizflaechen, Regelprinzip, technische Ausfuehrung).
+Mit zunehmender manueller Eingabetiefe muessen optionale Anlagenparameter aufgenommen werden koennen (Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Heizflaechen, Regelprinzip, technische Ausfuehrung).
 
 ---
 

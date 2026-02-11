@@ -13,7 +13,7 @@ skinparam sequence {
 title Runtime-Flow - Stadtverwaltung / Fachpersonal (Admin)
 
 actor Admin as admin
-participant "Admin Client" as client
+participant "Admin-Bereich Client" as client
 participant "Web Gateway" as gateway
 participant "Auth Middleware" as auth
 participant "Keycloak (OIDC)" as keycloak

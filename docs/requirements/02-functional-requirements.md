@@ -20,7 +20,7 @@ Fokus liegt auf einer ersten Orientierung für Sanierungsentscheidungen.
 
 ### Stadtverwaltung / Fachpersonal
 
-Fachpersonal nutzt den Digitaler Energy Zwilling (DEZ) über eine geschützte Administrationsoberfläche zur Pflege von Parametern, Qualitätssicherung und zur Sichtung von Nutzereingaben.
+Fachpersonal nutzt den Digitaler Energy Zwilling (DEZ) über einen geschützten administrativen Bereich zur Pflege von Parametern, Qualitätssicherung und zur Sichtung von Nutzereingaben.
 
 ---
 
@@ -77,29 +77,32 @@ Simulationsergebnisse müssen verständlich und nicht fachlich überladen präse
 ### Eingabetiefe-Spektrum (Bürger (Eigentümer/Vermieter))
 
 **FA-11**  
-Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert". Referenzpunkte duerfen zur Orientierung angeboten werden.
+Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollstaendig durch Nutzer definiert", ohne feste Stufenlogik.
 
 **FA-12**  
 Am unteren Ende des Spektrums muessen Simulationen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
 
 **FA-13**  
-Im niedrigen Eingabebereich muessen Basisdaten (z.B. Baujahr) einen schnellen Erstwert liefern.
+Bei wenigen manuell ergaenzten Angaben (z.B. Baujahr) muessen schnelle Erstwerte geliefert werden.
 
 **FA-14**  
-Im mittleren Eingabebereich muessen bauteilspezifische Eingaben sowie die Auswahl einer Lueftungsart moeglich sein.
+Mit zunehmender manueller Eingabetiefe muessen bauteilspezifische Eingaben moeglich sein.
 
 **FA-15**  
-Im hohen Eingabebereich muessen detaillierte Eingaben moeglich sein; Foerderparameter pro Massnahme sollen optional erfassbar sein.
+Bei hoher manueller Eingabetiefe muessen detaillierte Eingaben moeglich sein; Foerderparameter pro Massnahme sollen optional erfassbar sein.
 
-### Eingabematrix als Referenzpunkte im Spektrum (Spezifikation)
+### Eingabefelder entlang des Spektrums (Spezifikation)
 
-| Referenzpunkt | Pflichtangaben                                        | Optionale Angaben                                                                                                                                            |
-| ----- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Minimum     | keine                                                 | keine                                                                                                                                                        |
-| Niedrig     | Baujahr                                               | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                        |
-| Mittel      | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Lueftungsart, Heizflaechenart, Erzeugerart, Baujahre je Bauteil                                                                                                |
-| Hoch        | Ueberschreiben von Defaults je Bauteil                 | Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Luftdichtheit, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
-| Maximum     | Auswahl Sanierungsmassnahmen                           | Kombinationen, Budget, Foerderlogik (optional)                                                                                                                |
+| Eingabebereich | Pflichtangaben | Optionale Angaben |
+| ----- | ----- | ----- |
+| Ohne Nutzereingabe | keine | keine |
+| Grundangaben | Baujahr | Energietraeger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
+| Bauteile und Anlage | Bauteilzustaende je Dach/Aussenwand/Fenster/Kellerdecke | Heizflaechenart, Erzeugerart, Baujahre je Bauteil |
+| Detaillierung | keine zusaetzlichen globalen Pflichtangaben | Ueberschreiben von Defaults je Bauteil, Daemmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmassnahme | Kombinationen, Budget, Foerderlogik (optional) |
+
+Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie koennen entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
 
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
@@ -114,16 +117,16 @@ Die Simulation muss Gebäudehülle, Lüftung, Warmwasser und Anlagentechnik ber�
 Transmissionswärmeverluste über Dach, Außenwände, Fenster und Kellerdecke müssen über U-Werte modelliert werden.
 
 **FA-18**  
-Wärmebrücken müssen pauschal über einen Faktor auf den U-Wert berücksichtigt werden (stufenabhängige Genauigkeit).
+Wärmebrücken müssen pauschal über einen Faktor auf den U-Wert berücksichtigt werden (eingabeabhängige Genauigkeit).
 
 **FA-19**  
-Lueftungswaermeverluste muessen ueber Luftdichtheitsklasse und Gebaeudealter abbildbar sein; im mittleren Eingabebereich ist die Lueftungsart waehlbar.
+Lueftungswaermeverluste muessen ueber Luftdichtheitsklasse und Gebaeudealter abbildbar sein.
 
 **FA-20**  
-Warmwasserbedarf muss im niedrigen Eingabebereich pauschal (Wohnflaeche/Personen) und bei hoeherer Eingabetiefe expliziter erfassbar sein.
+Warmwasserbedarf muss bei geringer Eingabetiefe pauschal (Wohnflaeche/Personen) und mit zunehmender Eingabetiefe expliziter erfassbar sein.
 
 **FA-21**  
-Die Anlagentechnik muss stufig erfasst werden (Standardannahmen → Energieträger/Alter → Erzeugerart/Eigenschaften).
+Die Anlagentechnik muss entlang des Eingabetiefe-Spektrums differenziert erfassbar sein (von Standardannahmen bis zu detaillierten Erzeuger- und Anlagenparametern).
 
 **FA-22**  
 Primärenergie muss als Vergleichsebene über einen Faktor (Vorkette) ausweisbar sein.
@@ -182,7 +185,7 @@ Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 **FA-38**  
-Nutzer muessen einen PDF-Report der Ergebnisse exportieren koennen; zusaetzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-76.
+Nutzer muessen einen PDF-Report der Ergebnisse exportieren koennen; zusaetzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-74.
 
 **FA-39**  
 Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
@@ -192,7 +195,7 @@ Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
 ### Datenschutzfreundliche Nutzung
 
 **FA-40**  
-Bürger müssen den Digitaler Energy Zwilling (DEZ) nutzen können, ohne personenbezogene Daten anzugeben.
+Bürger müssen den Digitaler Energy Zwilling (DEZ) nutzen können, ohne personenbezogene Daten zu übermitteln.
 
 **FA-41**  
 Die Durchführung einer Simulation darf nicht zwingend eine Speicherung oder Übertragung von Nutzereingaben erfordern.
@@ -251,87 +254,83 @@ Fachpersonal muss Nutzereingaben filtern können.
 **FA-53**  
 Fachpersonal muss mehrere Nutzereingaben zu einem Gebäude vergleichen können.
 
-**FA-55**  
-Fachpersonal muss nicht plausible Datensätze löschen können.
-
----
-
-### Systempflege & Kataloge
-
-**FA-56**  
+**FA-54**  
 Fachpersonal muss Energieeffizienzklassen definieren und bearbeiten können.
 
-**FA-57**  
+**FA-55**  
 Fachpersonal muss auswählbare Eingabeoptionen (z.B. Gebäudetypen, Heizungsarten) bearbeiten können.
 
-**FA-58**  
+**FA-56**  
 Fachpersonal muss Förderprogramme (Links/Kategorien) pflegen können.
 
 ---
 
 ### Reporting & Export
 
-**FA-59**  
+**FA-57**  
 Fachpersonal muss geprüfte Daten strukturiert bereitstellen können, damit sie verständlich und zuverlässig in der Wärmeplanung genutzt werden können.
 
-**FA-60**  
+**FA-58**  
 Fachpersonal muss veröffentlichte Daten exportieren können, damit sie intern weiterverwendet werden können.
 
-**FA-61**  
+**FA-59**  
 Fachpersonal muss Berichte pro Quartier generieren können.
 
 ---
 
 ### Quartiersanalyse & Planung
 
-**FA-62**  
+**FA-60**  
 Fachpersonal muss Quartiere nach energetischen Kennzahlen vergleichen können.
 
-**FA-63**  
+**FA-61**  
 Fachpersonal muss Hotspots mit besonders hohem Energiebedarf identifizieren können.
 
-**FA-64**  
+**FA-62**  
 Fachpersonal muss die Möglichkeiten für erneuerbare Energien visuell darstellen können, um geeignete Flächen zu identifizieren.
 
-**FA-65**  
+**FA-63**  
 Fachpersonal muss erkennen können, welche Quartiere den größten Bedarf haben, um Prioritäten für die Wärmeplanung zu setzen.
 
-**FA-66**  
+**FA-64**  
 Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahmen sinnvoll sind.
 
 ---
 
 ## Fachliche Abgrenzungen
 
-**FA-67**  
+**FA-65**  
 Der Digitaler Energy Zwilling (DEZ) ersetzt keine individuelle Energieberatung.
 
-**FA-68**  
+**FA-66**  
 Simulationsergebnisse stellen keine förderfähigen Berechnungen dar.
 
-**FA-69**  
+**FA-67**  
 Das System liefert keine rechtsverbindlichen Aussagen.
 
 ---
 
 ## Erweiterte Anforderungen
 
-**FA-70**  
+**FA-68**  
 Das System muss eine anonymisierte Datenerfassung unterstützen; personenbezogene Eingaben sind auf das notwendige Minimum zu begrenzen (z.B. Personenanzahl als Klassen 1–5 bzw. >5).
 
-**FA-72**  
+**FA-69**  
+Personenbezogene Angaben sollen, wenn fachlich nicht zwingend erforderlich, nur in klassifizierter oder aggregierter Form erfasst werden.
+
+**FA-70**  
 Der Bürgerbereich muss ohne Registrierung nutzbar sein; temporäre Zustände dürfen über Session-Cookies gehalten werden, eine optionale lokale Speicherung im Browser ist zulässig.
 
-**FA-73**  
+**FA-71**  
 Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten werden; zusätzlich soll ein Feedback-Button jederzeit verfügbar sein.
 
-**FA-74**  
+**FA-72**  
 Fehler müssen über klare, „sprechende“ Fehlermeldungen kommuniziert werden (z.B. „Eingabedaten ungültig“, „Bitte Seite neu laden“, „Kontaktieren Sie Support“).
 
-**FA-75**  
+**FA-73**  
 Die Benutzeroberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und vollständig responsiv für Desktop, Tablet und Mobile sein.
 
-**FA-76**  
+**FA-74**  
 Das System muss eine Reporting-Funktion bereitstellen: PDF-Report (max. 5 Seiten, CI/CD-konform) und JSON-Export für maschinelle Weiterverarbeitung.
 Der Report muss mindestens enthalten:
 
@@ -354,78 +353,81 @@ Der Report muss mindestens enthalten:
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
 
-**FA-77**  
+**FA-75**  
 Das System soll eine Sanierungsvariante auf Basis eines Nutzerbudgets vorschlagen können (Ziel: maximale Energiebedarfsreduktion).
 
-**FA-78**  
+**FA-76**  
 Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgung ausweisen sowie Gesamtenergiekosten und Einsparungen (absolut und relativ).
 
-**FA-79**  
+**FA-77**  
 Das System muss Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
 Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen.
 
-**FA-80**  
+**FA-78**  
 Nutzer müssen Energiequelle, Energiepreis und Stromart angeben können; Standardwerte sind vorzubelegen (z.B. Erdgas, 0,09 €/kWh; Strom 0,30 €/kWh).
 
-**FA-81**  
+**FA-79**  
 Das System muss Energieeffizienzklassen (A+ bis H) ausweisen und Gebäude optional farblich nach Effizienz kategorisieren.
 
-**FA-82**  
+**FA-80**  
 CO₂-Emissionen müssen BISKO-konform berechnet und ausgewiesen werden.
 
-**FA-83**  
+**FA-81**  
 Für alle automatisch abgeleiteten Werte muss die Datenherkunft in UI und Export nachvollziehbar sein (z.B. LOD2, Normtabellen, Baualtersklassen).
 
-**FA-84**  
+**FA-82**  
 Nutzer sollen ihre Eingaben jederzeit abbrechen und innerhalb der aktuellen Session wieder aufnehmen können; Varianten dürfen in der Session gemerkt werden.
 
-**FA-85**  
+**FA-83**  
 Das System soll einen klaren Einstieg („So funktioniert’s“) mit Hinweis auf Datenquellen sowie Aussagekraft und Grenzen der Ergebnisse bieten.
 
-**FA-86**  
+**FA-84**  
 Das System soll eine Übersicht der Maßnahmen mit relativem Einsparpotenzial und Kostenniveau bieten und eine Empfehlung für „beste Maßnahme bei Budget X“ ableiten können.
 
-**FA-88**  
+**FA-85**  
+Die Herleitung von Empfehlungen soll nachvollziehbar dargestellt werden (z.B. verwendete Eingaben, Annahmen und Datenquellen).
+
+**FA-86**  
 Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und mehrere Datensätze vergleichen können.
 
-**FA-89**  
+**FA-87**  
 Jeder Nutzerdatensatz muss einen Status besitzen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss nachvollziehbar sein.
 
-**FA-90**  
+**FA-88**  
 Die Verwaltung muss Datensätze filtern und sortieren können (z.B. Adresse, Datum, Vollständigkeit, Status).
 
-**FA-91**  
+**FA-89**  
 Exporte für die Wärmeplanung müssen als strukturierte Formate (mindestens JSON und CSV) bereitgestellt werden.
 
-**FA-92**  
+**FA-90**  
 Systempflege-Änderungen (z.B. Kataloge) müssen mit Rollen/Rechten geschützt und für Nutzer klar erkennbar sein.
 
-**FA-93**  
+**FA-91**  
 Am unteren Ende des Spektrums muss das Ergebnis einen groben Waermebedarf und eine grobe Effizienzklasse liefern.
 
+**FA-92**  
+Bei wenigen manuell ergaenzten Angaben muss eine Einordnung/Benchmark des Gebaeudes geliefert werden (z.B. Skala, Ampel oder Tacho).
+
+**FA-93**  
+Mit zunehmender manueller Eingabetiefe sollen bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitspruefung je Bauteil moeglich sein.
+
 **FA-94**  
-Im niedrigen Eingabebereich muss eine Einordnung/Benchmark des Gebaeudes geliefert werden (z.B. Skala, Ampel oder Tacho).
+Bei hoher manueller Eingabetiefe sollen Unsicherheiten sichtbar gemacht und Eingaben "Ich weiss es nicht" unterstuetzt werden.
 
 **FA-95**  
-Im mittleren Eingabebereich sollen bauteilbezogene Sanierungseffekte und eine einfache Notwendigkeitspruefung je Bauteil moeglich sein.
-
-**FA-96**  
-Im hohen Eingabebereich sollen Unsicherheiten sichtbar gemacht und Eingaben "Ich weiss es nicht" unterstuetzt werden.
-
-**FA-97**  
 Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung moeglich sein.
 
-**FA-98**  
+**FA-96**  
 Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B. bis 1918, 1919–1948, 1949–1957, 1958–1968, 1969–1978, 1979–1983, 1984–1994, 1995–2001, 2002–2006, ab 2007).
 
-**FA-99**  
+**FA-97**  
 Das System soll Live-Ergebnisse nach Änderungen anzeigen (z.B. Energiebedarf, Kosten, Effizienzklasse), ohne expliziten „Berechnen“-Schritt.
 
-**FA-100**  
-Im mittleren Eingabebereich muessen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden koennen (z.B. Heizflaechenart, grundlegende Regelungsart).
+**FA-98**  
+Mit zunehmender manueller Eingabetiefe muessen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden koennen (z.B. Heizflaechenart, grundlegende Regelungsart).
 
-**FA-101**  
-Im hohen Eingabebereich muessen detaillierte Anlagenparameter optional erfasst werden koennen (z.B. Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung).
+**FA-99**  
+Bei hoher manueller Eingabetiefe muessen detaillierte Anlagenparameter optional erfasst werden koennen (z.B. Vorlauftemperatur, Erzeugerleistung, Umwaelzpumpe, Regelprinzip, technische Ausfuehrung).
 
 ---
 
@@ -441,3 +443,5 @@ Im hohen Eingabebereich muessen detaillierte Anlagenparameter optional erfasst w
 
 Die in diesem Dokument beschriebenen fachlichen Anforderungen werden in den **Technischen Anforderungen** konkretisiert.  
 Dort wird festgelegt, **wie** diese Funktionen technisch umzusetzen sind und welche nicht-funktionalen Randbedingungen einzuhalten sind.
+
+

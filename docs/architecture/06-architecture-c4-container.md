@@ -67,7 +67,7 @@ Aufgaben:
 
 Das Frontend besteht fachlich aus:
 - einem öffentlichen Client für Bürger (Eigentümer/Vermieter)
-- einer administrativen Oberfläche für Stadtverwaltung / Fachpersonal
+- einem administrativen Bereich für Stadtverwaltung / Fachpersonal
 
 Die Generierung erfolgt zur Build-Zeit, zur Laufzeit existiert keine serverseitige Renderlogik.
 
@@ -149,7 +149,7 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
   - dem Tiles Gateway
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 
-- Die Admin-Oberfläche (Stadtverwaltung / Fachpersonal) kommuniziert ausschließlich über das Backend.
+- Der Admin-Bereich (Stadtverwaltung / Fachpersonal) kommuniziert ausschließlich über das Backend.
 
 - Das Backend greift auf:
   - die Datenbank
