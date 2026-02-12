@@ -54,26 +54,34 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 ## Nutzerreise (Phasen)
 
-| Phase | Ziel | Ergebnis |
-| --- | --- | --- |
-| Awareness | Problem erkennen | Heizkosten steigen, Handlungsdruck entsteht |
-| Consideration | Nutzen prüfen | Tool wirkt verlässlich und einfach |
-| Onboarding | Gebäude finden | Gebäude wählen, Basisdaten prüfen |
-| Simulation | Varianten testen | Maßnahmen vergleichen, Effekte verstehen |
-| Review | Entscheidung stützen | Zusammenfassung, PDF-Export, nächste Schritte |
+Die folgende User Journey beschreibt den typischen Nutzungspfad eines privaten Vermieters, der den energetischen Zustand eines Mehrfamilienhauses einschätzen und Sanierungsoptionen bewerten möchte.
+Ziel ist es, die zentralen Entscheidungsphasen, Nutzerbedürfnisse, Risiken und daraus abgeleiteten UX-Anforderungen entlang des gesamten Nutzungskontexts darzustellen.
+Die Journey dient als Grundlage für:
+
+- UX- und Interaktionsentscheidungen
+- Priorisierung von Funktionen im MVP
+- Abgrenzung zwischen Orientierungshilfe und Fachberatung
+
+| Phase         | Ziel                 | Ergebnis                                      |
+| ------------- | -------------------- | --------------------------------------------- |
+| Awareness     | Problem erkennen     | Heizkosten steigen, Handlungsdruck entsteht   |
+| Consideration | Nutzen prüfen        | Tool wirkt verlässlich und einfach            |
+| Onboarding    | Gebäude finden       | Gebäude wählen, Basisdaten prüfen             |
+| Simulation    | Optionen testen      | Maßnahmen vergleichen, Effekte verstehen      |
+| Review        | Entscheidung stützen | Zusammenfassung, PDF-Export, nächste Schritte |
 
 ---
 
 ## Schritte & Aktionen (Kurzfassung)
 
-| Schritt | Nutzeraktion | Systemantwort |
-| --- | --- | --- |
-| Einstieg | Website öffnen, Kurzbeschreibung lesen | Transparente Erklärung, Datenschutz-Hinweis |
-| Gebäude finden | Adresse eingeben oder Karte nutzen | Treffer anzeigen, Daten vorbefüllen |
-| Basisdaten | Daten prüfen und ergänzen | Plausibilitätschecks, Herkunftskennzeichnung |
-| Varianten | Maßnahmen auswählen | Sofortige Vorher/Nachher-Vergleiche |
-| Bewertung | Ergebnisse sichten | Zusammenfassung, Förderinfos, nächste Schritte |
-| Export | PDF herunterladen | Report inkl. Gebäudedaten und Links |
+| Schritt        | Nutzeraktion                           | Systemantwort                                  |
+| -------------- | -------------------------------------- | ---------------------------------------------- |
+| Einstieg       | Website öffnen, Kurzbeschreibung lesen | Transparente Erklärung, Datenschutz-Hinweis    |
+| Gebäude finden | Adresse eingeben oder Karte nutzen     | Treffer anzeigen, Daten vorbefüllen            |
+| Gebäudedaten   | Daten prüfen und ergänzen              | Plausibilitätschecks, Herkunftskennzeichnung   |
+| Varianten      | Maßnahmen auswählen                    | Sofortige Vorher/Nachher-Vergleiche            |
+| Bewertung      | Ergebnisse sichten                     | Zusammenfassung, Förderinfos, nächste Schritte |
+| Export         | PDF herunterladen                      | Report inkl. Gebäudedaten und Links            |
 
 ---
 
@@ -81,6 +89,7 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
 "vollständig durch Nutzer definiert". Es gibt keine festen Stufen:
+
 - Ohne Nutzereingabe werden Werte auf Basis von LOD2, Baualtersklasse und Standardannahmen vorbelegt.
 - Mit jeder zusätzlichen manuellen Eingabe werden die Ergebnisse präziser und nachvollziehbarer.
 - Bauteil-, Anlagen- und Nutzungsangaben können schrittweise ergänzt oder überschrieben werden.
@@ -94,6 +103,7 @@ Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spek
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
 Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
+
 - Datenstufe 1 steht für das untere Ende des Spektrums (keine Nutzereingabe).
 - Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).
 - Beide Begriffe sind nur Spektrum-Enden und keine separaten UI-Stufen.
@@ -153,9 +163,7 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 4. Maßnahmen/PV/Solarthermie/Geothermie auswählen, Varianten vergleichen.
 
 Hinweis MVP: Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
-Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
-5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
-6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
+Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor. 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte. 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
 ---
 
@@ -171,36 +179,78 @@ Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensa
 
 ---
 
-## Persona (Beispiel, Verwaltung)
+## Nebenzielgruppe: Stadtverwaltung / Kommunen
 
-Frau Städter arbeitet in der Stadtverwaltung und ist für die Pflege und Qualitätssicherung der Daten im Energie-Tool verantwortlich. Sie sichtet freiwillige Nutzereingaben, vergleicht mehrere Datensätze je Gebäude, wählt den plausibelsten Datensatz aus und veröffentlicht ihn. Zusätzlich pflegt sie Energieeffizienzklassen, Gebäudetypen und Heizarten und exportiert geprüfte Daten für die Wärmeplanung.
+In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
+
+Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig.
+
+### Rollenbeschreibung
+
+Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
+Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst und strategischer Anwender.
+
+### Ausgangslage / Datenproblem
+
+- Aktuell stehen nur sehr grobe Datengrundlagen zur Verfügung (z. B. leitungsgebundener Gasverbrauch).
+- Kaum Transparenz über den tatsächlichen Sanierungsstand einzelner Gebäude und die Wirkung bereits umgesetzter Maßnahmen.
+- Fehlende belastbare Daten zur Sanierungsdynamik, zur Verteilung von Effizienzklassen und zur realistischen Potenzialabschätzung.
+- Bestehende Daten sind heterogen, veraltet und schwer vergleichbar.
+
+### Motivation & Zielsetzung der Verwaltung
+
+- Aufbau einer verlässlicheren Datenbasis für kommunale Wärmeplanung, Klimaschutzstrategien und langfristige Szenarien.
+- Überblick über den energetischen Zustand des gesamten Gebäudebestands sowie über Sanierungspotenziale und deren Verteilung.
+- Nutzung aggregierter Ergebnisse aus dem Bürger-Tool, um Datenlücken zu schließen und Annahmen zu validieren.
+- Verbesserung der Datenqualität durch plausibilisierte Nutzereingaben und steigende Nutzung des Tools.
+
+Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukturelle Erkenntnis.
+
+### Zentrale Pain Points
+
+- Sehr grobe Ausgangsdaten mit hoher Unsicherheit.
+- Große Streuung der Datenqualität bei Bürgereingaben.
+- Implizite Erwartung, dass Bürger korrekt und vollständig eingeben; realistisch ist das nicht durchgängig erfüllbar.
+- Fehlende Transparenz darüber, welche Daten belastbar sind und welche nicht.
+
+### Anforderungen an das Tool aus Verwaltungssicht
+
+- Zugriff ausschließlich auf aggregierte, anonymisierte Daten.
+- Keine Einsicht in Einzelgebäude sowie in personenbezogene oder nutzerspezifische Informationen.
+- Filter- und Analysefunktionen auf Bestands- und Quartiersebene, z. B. Baujahresklassen, Effizienzklassen, Heizsysteme und räumliche Cluster.
+- Kennzahlen müssen aggregiert und vergleichbar bereitgestellt werden.
+- Szenarien auf Quartiers- oder Stadtebene sind optional möglich.
+- Exportfunktionen für Berichte und Weiterverarbeitung (Planung, Gremien, Förderlogik).
+- Transparente Kennzeichnung der Datenqualität (z. B. Anteil geschätzter vs. bestätigter Daten).
+
+Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig.
 
 ---
 
 ## Nutzerreise Verwaltung (Phasen)
 
-| Phase | Ziel | Ergebnis |
-| --- | --- | --- |
-| Login | Zugang sichern | Zugriff auf Admin-Funktionen |
-| Übersicht | Überblick gewinnen | Liste und Karte der Eingaben |
-| Prüfung | Qualität sichern | Vergleich & Plausibilisierung |
-| Freigabe | Daten veröffentlichen | Status „freigegeben“ |
-| Systempflege | Grundlagen pflegen | Kataloge aktuell halten |
-| Reporting | Export | Daten für Wärmeplanung |
+| Phase        | Ziel                  | Ergebnis                      |
+| ------------ | --------------------- | ----------------------------- |
+| Login        | Zugang sichern        | Zugriff auf Admin-Funktionen  |
+| Übersicht    | Überblick gewinnen    | Liste und Karte der Eingaben  |
+| Prüfung      | Qualität sichern      | Vergleich & Plausibilisierung |
+| Freigabe     | Daten veröffentlichen | Status „freigegeben“          |
+| Systempflege | Grundlagen pflegen    | Kataloge aktuell halten       |
+| Reporting    | Export                | Daten für Wärmeplanung        |
 
 ---
 
 ## Schritte & Aktionen (Verwaltung)
 
-| Schritt | Aktion | Systemantwort |
-| --- | --- | --- |
-| Login | Admin-Seite öffnen, anmelden | Rollenprüfung, Admin-Bereich |
-| Übersicht | Liste/Karte der Eingaben | Filter, Sortierung, Status |
-| Detail | Gebäudedatensätze öffnen | Vergleich mehrerer Eingaben |
-| Plausibilisierung | Datensatz prüfen | Status „in Prüfung“, Notizen |
-| Freigabe | Datensatz auswählen | Status „freigegeben“ + Audit-Log |
-| Systempflege | Kataloge bearbeiten | Versionierung, Validierung |
-| Reporting | Export (JSON/CSV/PDF) | Download mit Metadaten |
+| Schritt           | Aktion                       | Systemantwort                    |
+| ----------------- | ---------------------------- | -------------------------------- |
+| Login             | Admin-Seite öffnen, anmelden | Rollenprüfung, Admin-Bereich     |
+| Übersicht         | Liste/Karte der Eingaben     | Filter, Sortierung, Status       |
+| Detail            | Gebäudedatensätze öffnen     | Vergleich mehrerer Eingaben      |
+| Plausibilisierung | Datensatz prüfen             | Status „in Prüfung“, Notizen     |
+| Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log |
+| Systempflege      | Kataloge bearbeiten          | Versionierung, Validierung       |
+| Reporting         | Export (JSON/CSV/PDF)        | Download mit Metadaten           |
 
 ---
 
