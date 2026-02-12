@@ -22,7 +22,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 ## System
 
 - **01** [Systemüberblick – Digitaler Energy Zwilling (DEZ)](system/01-system-overview.md)
-- **02** [User Journey & UX-Leitplanken](system/02-user-journey-ux.md)
+- **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
 - **03** [Sicherheitskonzept](system/03-security-concept.md)
 
 ## Anforderungen

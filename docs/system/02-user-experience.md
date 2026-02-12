@@ -1,17 +1,41 @@
-# User Journey & UX-Leitplanken
+# User Experience, Nutzerreise & Informationsarchitektur
+
+Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwilling (DEZ): Ziele, Nutzerbedürfnisse, Interaktionslogik und die fachliche Informationsarchitektur.
+
+## Agenda
+
+1. Ziel und Nutzungskontext
+2. Hauptzielgruppe: Private Gebäudenutzer
+3. Nutzerreise und Interaktion im Bürgerbereich
+4. Informationsarchitektur und Datenstruktur
+5. Nebenzielgruppe: Stadtverwaltung / Kommunen
+
+---
+
+## Ziel und Nutzungskontext
+
+Das Kapitel dient als Orientierung für fachliche, UX- und MVP-Entscheidungen.
+
+- Es beschreibt, wie Bürger (Eigentümer/Vermieter) das System verstehen und nutzen.
+- Es zeigt, welche Informationen in welcher Reihenfolge benötigt werden.
+- Es grenzt den Charakter des Tools klar als Orientierungshilfe ab.
+
+Ergebnisse sind indikativ und ersetzen keine individuelle Fachberatung.
+
+---
 
 ## Hauptzielgruppe: Private Gebäudenutzer
 
 Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigentümer, Mieter, Verwalter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
 
-## Ausgangslage / Wissensstand
+### Ausgangslage / Wissensstand
 
 - Der energetische Ist-Zustand des Gebäudes ist meist unbekannt oder nur grob eingeschätzt.
 - Daten zu Energiebedarf, Effizienzklassen oder Sanierungsstand liegen nicht strukturiert vor.
 - Förderprogramme, Kostenstrukturen und Einsparpotenziale sind unübersichtlich.
 - Technische Begriffe, Normen und Annahmen (DIN, Effizienzklassen, Kennwerte) sind schwer verständlich.
 
-## Zentrale Probleme & Pain Points
+### Zentrale Probleme & Pain Points
 
 - Unsicherheit, welche Sanierungsmaßnahmen sinnvoll, technisch machbar und wirtschaftlich tragfähig sind.
 - Angst vor Fehlentscheidungen, Fehlinvestitionen und unerwartet hohen Kosten.
@@ -19,7 +43,7 @@ Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigent�
 - Hohe Einstiegshürde durch komplexe Fachsprache und umfangreiche Datenerfassung.
 - Schwierigkeit, Maßnahmen im eigenen Gebäude realistisch einzuordnen (Vergleich, Wirkung, Priorisierung).
 
-## Motivation & Zielsetzung der Nutzer
+### Motivation & Zielsetzung der Nutzer
 
 - Schneller, verständlicher Überblick über den energetischen Zustand des eigenen Gebäudes.
 - Fundierte Entscheidungsgrundlage für die Frage, ob sich eine Sanierung lohnt und welche Maßnahmen Priorität haben.
@@ -30,7 +54,7 @@ Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigent�
 
 Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in einer plausiblen und nachvollziehbaren Entscheidungsbasis.
 
-## Anforderungen an das Tool aus Nutzersicht
+### Anforderungen an das Tool aus Nutzersicht
 
 - Automatische Vorbefüllung relevanter Gebäudedaten (z. B. LOD2, Stadtdaten, Ableitungen von Normen).
 - Möglichkeit zur Korrektur und Ergänzung durch den Nutzer.
@@ -42,7 +66,7 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 - Ergebnisdarstellung als verständliche Einschätzung, keine Fachberatung.
 - Exportmöglichkeit (z. B. PDF) zur Weiterverwendung.
 
-## Nutzungskontext & Rahmenbedingungen
+### Nutzungskontext & Rahmenbedingungen
 
 - Nutzung erfolgt prinzipiell lokal und anonym, es sei denn der Übermittlung personenbezogener Daten wurde zugestimmt.
 - Der Nutzer arbeitet ausschließlich mit seinem eigenen Gebäude.
@@ -52,7 +76,9 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 ---
 
-## Nutzerreise (Phasen)
+## Nutzerreise und Interaktion im Bürgerbereich
+
+### Nutzerreise (Phasen)
 
 Die folgende User Journey beschreibt den typischen Nutzungspfad eines privaten Vermieters, der den energetischen Zustand eines Mehrfamilienhauses einschätzen und Sanierungsoptionen bewerten möchte.
 Ziel ist es, die zentralen Entscheidungsphasen, Nutzerbedürfnisse, Risiken und daraus abgeleiteten UX-Anforderungen entlang des gesamten Nutzungskontexts darzustellen.
@@ -70,22 +96,18 @@ Die Journey dient als Grundlage für:
 | Simulation    | Optionen testen      | Maßnahmen vergleichen, Effekte verstehen      |
 | Review        | Entscheidung stützen | Zusammenfassung, PDF-Export, nächste Schritte |
 
----
+### Schritte & Aktionen (Kurzfassung)
 
-## Schritte & Aktionen (Kurzfassung)
+| Schritt      | Nutzeraktion                           | Systemantwort                                  |
+| ------------ | -------------------------------------- | ---------------------------------------------- |
+| Einstieg     | Website öffnen, Kurzbeschreibung lesen | Transparente Erklärung, Datenschutz-Hinweis    |
+| Gebäudewahl  | Adresse eingeben oder Karte nutzen     | Treffer anzeigen, Daten vorbefüllen            |
+| Gebäudedaten | Daten prüfen und ergänzen              | Plausibilitätschecks, Herkunftskennzeichnung   |
+| Varianten    | Maßnahmen auswählen                    | Sofortige Vorher/Nachher-Vergleiche            |
+| Bewertung    | Ergebnisse sichten                     | Zusammenfassung, Förderinfos, nächste Schritte |
+| Export       | PDF herunterladen                      | Report inkl. Gebäudedaten und Links            |
 
-| Schritt        | Nutzeraktion                           | Systemantwort                                  |
-| -------------- | -------------------------------------- | ---------------------------------------------- |
-| Einstieg       | Website öffnen, Kurzbeschreibung lesen | Transparente Erklärung, Datenschutz-Hinweis    |
-| Gebäude finden | Adresse eingeben oder Karte nutzen     | Treffer anzeigen, Daten vorbefüllen            |
-| Gebäudedaten   | Daten prüfen und ergänzen              | Plausibilitätschecks, Herkunftskennzeichnung   |
-| Varianten      | Maßnahmen auswählen                    | Sofortige Vorher/Nachher-Vergleiche            |
-| Bewertung      | Ergebnisse sichten                     | Zusammenfassung, Förderinfos, nächste Schritte |
-| Export         | PDF herunterladen                      | Report inkl. Gebäudedaten und Links            |
-
----
-
-## Eingabetiefe (fachliche UX-Sicht)
+### Eingabetiefe (fachliche UX-Sicht)
 
 Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
 "vollständig durch Nutzer definiert". Es gibt keine festen Stufen:
@@ -95,9 +117,7 @@ Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzere
 - Bauteil-, Anlagen- und Nutzungsangaben können schrittweise ergänzt oder überschrieben werden.
 - Bei umfassender manueller Eingabe sind detaillierte Varianten und Kombinationen von Maßnahmen vergleichbar.
 
----
-
-## Eingabeumfang im Spektrum
+### Eingabeumfang im Spektrum
 
 Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
@@ -110,50 +130,19 @@ Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
 
 Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
----
-
-## Informationsarchitektur (Module)
-
-- Gebäude & Grunddaten (Adresse, Gebäudetyp, Wohnfläche, Baualtersklasse)
-- Eingabetiefe & Eingabedetails (kontinuierliches Spektrum inkl. Erklärung)
-- Gebäudehülle (Dach, Außenwand, Fenster, Kellerdecke)
-- Lüftung (Luftdichtheit/Alter)
-- Warmwasser & Nutzung (pauschal vs. Personenanzahl)
-- Anlagentechnik (Energieträger, Alter, Erzeugerart)
-- Anlagentechnik (Detailgrad entlang des Spektrums: Regelungsart, Vorlauftemperatur, Erzeugerleistung, Heizflächen)
-- Ergebnisse (Wärmebedarf, Primärenergie, Effizienzklasse, CO₂)
-- Sanierungsmaßnahmen (Vorschläge, Varianten, Wunschsanierung)
-- Kosten & Fördermittel (Kostenspannen, Förderhinweise)
-
----
-
-## Datenquellen & Kennzeichnung
-
-- Automatisch abgeleitet: LOD2-Geometrie, Baualtersklassen, Standardannahmen.
-- Manuell: Nutzereingaben zu Bauteilen, Anlagen und Kostenparametern.
-- Geschätzt: Werte aus Katalogen/Normtabellen/Typologien, die anhand der aktuellen Eingaben referenziert werden; dies kann sowohl automatisch abgeleitete als auch manuell angepasste Eingaben betreffen.
-
----
-
-## Baualtersklassen
-
-Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (siehe `docs/requirements/02-functional-requirements.md`, FA-96).
-
----
-
-## Screen-Flow (vereinfacht)
+### Screen-Flow (vereinfacht)
 
 1. Landingpage mit Kurzbeschreibung und Datenschutz-Hinweis.
 2. Gebäude finden über Karte oder Adresse.
 3. Basisdaten anzeigen, prüfen und korrigieren.
 4. Maßnahmen/PV/Solarthermie/Geothermie auswählen, Varianten vergleichen.
+5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
+6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
 Hinweis MVP: Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
-Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor. 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte. 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
+Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
 
----
-
-## User Stories (Private Gebäudenutzer)
+### User Stories (Private Gebäudenutzer)
 
 - Als privater Gebäudenutzer möchte ich eine klare Erklärung, was das Tool kann, damit ich sofort verstehe, wie es mir hilft.
 - Als privater Gebäudenutzer möchte ich mein Gebäude schnell über Adresse oder Karte finden, damit ich ohne Aufwand starten kann.
@@ -165,11 +154,67 @@ Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensa
 
 ---
 
+## Informationsarchitektur und Datenstruktur
+
+![informationsarchitektur-domaenen-datenstruktur-system.png](./attachments/informationsarchitektur-domaenen-datenstruktur-system.png)
+
+Quelle: `attachments/informationsarchitektur-domaenen-datenstruktur-system.png`
+
+Das Diagramm beschreibt die fachliche Struktur der Eingaben und die Ableitung der Ergebnisse.
+Alle Eingabedomänen laufen in einem zentralen Datenobjekt zusammen und speisen die Live-Berechnung sowie den Sanierungsvorschlag.
+
+### Domäne Allgemeine Gebäudedaten
+
+- Gebäudetyp, Wohneinheiten, Wohnfläche, Vollgeschosse, angrenzende Gebäude und Personenanzahl.
+- Diese Basisdaten steuern Vorbelegungen und Plausibilitätsprüfungen in nachgelagerten Modulen.
+
+### Domäne Wärmeversorgung
+
+- Heizsystem und Warmwasserbereitstellung als zentrale Strukturfelder.
+- Energieträger und Erzeugerkontext (z. B. Öl, Erdgas, Fernwärme, Strom, Wärmepumpe/Geothermie).
+- Verbrauchs- und Kostendaten als Grundlage für Kosten- und Einsparberechnung.
+
+### Domäne Strom und Erneuerbare Energien
+
+- Photovoltaik-Parameter inkl. Baujahr, Flächennutzung und Anlagenkontext.
+- Strombezug mit Stromart und Strompreis.
+- Optionaler Speicher als Zusatzmodul zur Eigenverbrauchsbetrachtung.
+
+### Domäne Gebäudehülle
+
+- Struktur pro Bauteil: Dach, oberste Geschossdecke, Außenwand, Fenster, Kellerdecke.
+- Je Bauteil werden Ist-Zustand, Material-/Baukontext und Sanierungszustand geführt.
+- Daraus abgeleitete technische Kennwerte (z. B. U-Wert, Dämmannahmen) werden in der Berechnung genutzt.
+
+### Domäne Sanierungsmaßnahmen und Fördermittel
+
+- Maßnahmenkatalog für Hülle, Anlagentechnik und erneuerbare Komponenten.
+- Maßnahmenselektion mit Wirkung auf Energiebedarf, CO₂ und Kosten.
+- Verknüpfung mit Förderlogik und Hinweisen für priorisierte Maßnahmen.
+
+### Ergebnis- und Entscheidungsebene
+
+- Live-Ergebnisse: Energiebedarf, Energieeffizienz und CO₂-Emissionen.
+- Sanierungsvorschlag als zusammenfassende Empfehlung auf Basis der Eingaben.
+- Fördermittel-Block zur Einordnung verfügbarer Förderoptionen.
+
+### Datenquellen & Kennzeichnung
+
+- Automatisch abgeleitet: LOD2-Geometrie, Baualtersklassen, Standardannahmen.
+- Manuell: Nutzereingaben zu Bauteilen, Anlagen und Kostenparametern.
+- Geschätzt: Werte aus Katalogen/Normtabellen/Typologien, die anhand der aktuellen Eingaben referenziert werden; dies kann sowohl automatisch abgeleitete als auch manuell angepasste Eingaben betreffen.
+
+### Baualtersklassen
+
+Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (siehe `docs/requirements/02-functional-requirements.md`, FA-96).
+
+---
+
 ## Nebenzielgruppe: Stadtverwaltung / Kommunen
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
-Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig.
+Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
 
 ### Rollenbeschreibung
 
@@ -209,24 +254,18 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Exportfunktionen für Berichte und Weiterverarbeitung (Planung, Gremien, Förderlogik).
 - Transparente Kennzeichnung der Datenqualität (z. B. Anteil geschätzter vs. bestätigter Daten).
 
-Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig.
+### Nutzerreise Verwaltung (Phasen)
 
----
+| Phase        | Ziel               | Ergebnis                      |
+| ------------ | ------------------ | ----------------------------- |
+| Login        | Zugang sichern     | Zugriff auf Admin-Funktionen  |
+| Übersicht    | Überblick gewinnen | Liste und Karte der Eingaben  |
+| Prüfung      | Qualität sichern   | Vergleich & Plausibilisierung |
+| Freigabe     | Daten bestätigen   | Status „freigegeben“          |
+| Systempflege | Grundlagen pflegen | Kataloge aktuell halten       |
+| Reporting    | Export             | Daten für Wärmeplanung        |
 
-## Nutzerreise Verwaltung (Phasen)
-
-| Phase        | Ziel                  | Ergebnis                      |
-| ------------ | --------------------- | ----------------------------- |
-| Login        | Zugang sichern        | Zugriff auf Admin-Funktionen  |
-| Übersicht    | Überblick gewinnen    | Liste und Karte der Eingaben  |
-| Prüfung      | Qualität sichern      | Vergleich & Plausibilisierung |
-| Freigabe     | Daten veröffentlichen | Status „freigegeben“          |
-| Systempflege | Grundlagen pflegen    | Kataloge aktuell halten       |
-| Reporting    | Export                | Daten für Wärmeplanung        |
-
----
-
-## Schritte & Aktionen (Verwaltung)
+### Schritte & Aktionen (Verwaltung)
 
 | Schritt           | Aktion                       | Systemantwort                    |
 | ----------------- | ---------------------------- | -------------------------------- |
@@ -238,37 +277,29 @@ Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) 
 | Systempflege      | Kataloge bearbeiten          | Versionierung, Validierung       |
 | Reporting         | Export (JSON/CSV/PDF)        | Download mit Metadaten           |
 
----
-
-## Ziele & Erwartungen (Verwaltung)
+### Ziele & Erwartungen (Verwaltung)
 
 - Verlässliche Datenbasis für Wärmeplanung herstellen.
 - Plausible Datensätze schnell identifizieren.
 - Systemweit konsistente Eingabeoptionen sicherstellen.
 - Exporte strukturiert und nachvollziehbar bereitstellen.
 
----
-
-## Schmerzpunkte (Verwaltung)
+### Schmerzpunkte (Verwaltung)
 
 - Viele ähnliche Datensätze je Gebäude.
 - Uneinheitliche Qualität der Eingaben.
 - Unklare Rollen oder Rechte.
 - Änderungen wirken systemweit.
 
----
-
-## Chancen und UX-Ansätze (Verwaltung)
+### Chancen und UX-Ansätze (Verwaltung)
 
 - Klar definierte Rollen und Berechtigungen.
 - Gruppierung „alle Eingaben zu einem Gebäude“.
 - Statuskennzeichnung: neu / in Prüfung / freigegeben / unplausibel.
 - Audit-Log: Wer hat wann freigegeben?
-- Strukturierte, filterbare Exporte (z.B. Stadtteil, Effizienzklasse).
+- Strukturierte, filterbare Exporte (z. B. Stadtteil, Effizienzklasse).
 
----
-
-## User Stories (Stadtverwaltung)
+### User Stories (Stadtverwaltung)
 
 - Als Stadtverwalter/in möchte ich mich im internen Bereich anmelden können, damit ich Zugriff auf Verwaltungsfunktionen habe.
 - Als Stadtverwalter/in möchte ich eine Übersicht aller Nutzereingaben sehen, damit ich erkenne, was geprüft werden muss.
@@ -276,4 +307,5 @@ Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) 
 - Als Stadtverwalter/in möchte ich Datensätze als plausibel markieren und freigeben können, damit sie veröffentlicht werden.
 - Als Stadtverwalter/in möchte ich unplausible Datensätze löschen können, damit die Datenbasis sauber bleibt.
 - Als Stadtverwalter/in möchte ich Energieeffizienzklassen, Gebäudetypen und Heizarten pflegen, damit Eingaben konsistent bleiben.
+- Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
 - Als Stadtverwalter/in möchte ich geprüfte Daten exportieren, um sie in der Wärmeplanung weiterzuverwenden.
