@@ -30,6 +30,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
+- Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien und Solarthermie (Warmwasser-Unterstützung)
 - Einfache Simulationen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
@@ -92,6 +93,16 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 - Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
 - Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.
 - Wenn Nutzereingaben gespeichert werden, ist ein Löschprozess über einen eindeutigen Link/QR vorgesehen.
+
+---
+
+## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
+
+- **Solarthermie**: als zusätzliche Maßnahme zur Warmwasserbereitung fachlich gewünscht, aber in der Umsetzung nachrangig priorisiert; finaler MVP-Umfang offen.
+- **PV**: zwei Darstellungen vorgesehen  
+  1) Dimensionierung von PV + Speicher für den Wärmepumpenbetrieb inkl. energetischer/finanzieller Effekte.  
+  2) Maximale Ausnutzung geeigneter PV-Flächen zur Kommunikation von Potenzialen für Haushaltsstrom, KFZ-Ladung und ähnliche Verbräuche.
+- **Geothermie**: Einschätzung über Datensatzabfrage in Reihenfolge Grundwasser → Erdreich → Luft; belastbarer Datensatz liegt aktuell noch nicht vor, MVP-Umfang bleibt in Klärung.
 
 ---
 

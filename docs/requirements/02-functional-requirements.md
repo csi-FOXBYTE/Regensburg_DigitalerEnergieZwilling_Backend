@@ -50,7 +50,7 @@ Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
 **FA-06**  
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
 
-Hinweis: Solarthermiepotenziale sind derzeit nicht Bestandteil der fachlichen Anforderungen.
+Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme zur Warmwasserbereitung fachlich vorgesehen. Der konkrete MVP-Umfang bleibt in diesem Punkt in Klärung.
 
 ---
 
@@ -369,7 +369,7 @@ Der Report muss mindestens enthalten:
 - Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, Energie- und Kosteneinsparung)
 - Wirtschaftlichkeit (Investitionskosten Hülle/Energiesystem, Einsparungen, Amortisation, Förderungen)
 - Sanierungsvorschlag basierend auf Budget (Maßnahmen, Kosten, erwartete Einsparungen)
-- Erneuerbare Energien & Eigenversorgung (PV- und Geothermiepotenziale inkl. Erträge, Deckung, Kombination mit Wärmepumpe)
+- Erneuerbare Energien & Eigenversorgung (PV-, Geothermie- und Solarthermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe)
 - Vergleich des Gebäudes im Regensburger Bestand (vor/nach Sanierung)
 - Farbkodierte Visualisierung (optional)
 - Grafische Elemente (Diagramme, farbliche Gebäude-Darstellung)
@@ -454,6 +454,26 @@ Mit zunehmender manueller Eingabetiefe müssen Heizungsdetails auf Basis von Bau
 
 **FA-99**  
 Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional erfasst werden können (z.B. Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung).
+
+---
+
+## Offene MVP-Klärung: Solarthermie, PV und Geothermie
+
+**FA-100**  
+Solarthermie muss als zusätzliche Sanierungsmaßnahme zur bestehenden Heizung für die Warmwasserbereitung auswählbar sein.
+
+**FA-101**  
+Die Umsetzung von Solarthermie ist fachlich gewünscht, hat jedoch gegenüber anderen Maßnahmen geringere Priorität; der verbindliche Umfang für die MVP-Phase muss noch abgestimmt werden.
+
+**FA-102**  
+PV muss in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
+Darstellung 1 dimensioniert PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
+
+**FA-103**  
+Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren.
+
+**FA-104**  
+Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung.
 
 ---
 

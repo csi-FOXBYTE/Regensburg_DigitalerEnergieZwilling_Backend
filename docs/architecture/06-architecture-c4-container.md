@@ -108,7 +108,7 @@ Das 3D Tiles Storage enthält die vorverarbeiteten 3D Tiles.
 Eigenschaften:
 - Statische Datenhaltung
 - Enthält Gebäudestrukturen, Adressen aus LOD2, Solarpotenzial-Attribute (inkl. Textur) sowie Vegetation (Bäume)
-- Geothermiepotenziale werden ergänzt, sobald die Quelle verfügbar ist (voraussichtlich WMS)
+- Geothermiepotenziale werden ergänzt, sobald eine belastbare Quelle verfügbar ist; die Abfrage erfolgt priorisiert über Grundwasser, Erdreich, Luft (MVP-Klärung noch offen)
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.

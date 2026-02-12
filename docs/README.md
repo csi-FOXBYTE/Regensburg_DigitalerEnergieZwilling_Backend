@@ -11,7 +11,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 - **3D Tiles** (nicht „3D-Tiles“)
 - **CO₂** (nicht „CO2“)
-- **Solarpotenzial (PV)**, **Geothermiepotenzial**
+- **Solarpotenzial (PV)**, **Geothermiepotenzial**, **Solarthermie**
 - **Eingabetiefe (kontinuierliches Spektrum)** von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert"
 - **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
 

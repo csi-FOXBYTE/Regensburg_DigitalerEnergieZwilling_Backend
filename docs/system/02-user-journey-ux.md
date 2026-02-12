@@ -129,10 +129,13 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 ## Auswahlbeispiele (UI)
 
 - Luftdichtheit (Lüftung): wird über allgemeine Annahmen (Katalog, Baualter) referenziert; keine direkte Nutzereingabe.
-- Sanierungsmaßnahmen: Dach, Außenwand, Fenster, Kellerdecke, Heizung, PV, Geothermie, Energiespeicher.
+- Sanierungsmaßnahmen: Dach, Außenwand, Fenster, Kellerdecke, Heizung, PV, Solarthermie, Geothermie, Energiespeicher.
 - Regelungsart (Heizung): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.
 - Regelprinzip: stetig, 2‑Punkt/3‑Punkt.
 - Technische Ausführung: hydraulisch, Smart‑Regelung.
+- PV-Darstellung 1: PV + Speicher für Wärmepumpenbetrieb (Energie/Kosten-Effekt).
+- PV-Darstellung 2: maximale geeignete PV-Fläche für Strompotenziale (z.B. Haushalt/KFZ).
+- Solarthermie: zusätzliche Warmwasser-Unterstützung zur bestehenden Heizung.
 
 ---
 
@@ -141,7 +144,9 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 1. Landingpage mit Kurzbeschreibung und Datenschutz-Hinweis.
 2. Gebäude finden über Karte oder Adresse.
 3. Basisdaten anzeigen, prüfen und korrigieren.
-4. Maßnahmen/PV/Geothermie auswählen, Varianten vergleichen.
+4. Maßnahmen/PV/Solarthermie/Geothermie auswählen, Varianten vergleichen.
+
+Hinweis MVP: Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 

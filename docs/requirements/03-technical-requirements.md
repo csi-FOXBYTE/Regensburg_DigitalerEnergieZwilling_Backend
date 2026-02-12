@@ -67,7 +67,7 @@ Solarpotenziale (PV) und Geothermiepotenziale müssen als statische Attribute di
 **TA-13**  
 Zur Laufzeit dürfen keine Solar- oder Geothermiepotenziale berechnet werden.
 
-Hinweis: Solarthermiepotenziale sind nicht Teil der technischen Anforderungen.
+Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der finale technische Umfang für die MVP-Phase ist jedoch noch in Klärung.
 
 **TA-14**  
 3D Tiles dürfen nicht vom Backend ausgeliefert werden.
@@ -475,6 +475,27 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 - NET.3.1 Netzkomponenten
 - OPS.1.1.3 Patch- und Änderungsmanagement
 - CON.8 Software-Entwicklung
+
+---
+
+## 28. Offene MVP-Klärung: Solarthermie, PV und Geothermie
+
+**TA-100**  
+Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
+
+**TA-101**  
+Da Solarthermie in der Umsetzung nachrangig priorisiert ist, muss der konkrete Umsetzungsumfang für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
+
+**TA-102**  
+Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
+- Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
+- Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
+
+**TA-103**  
+Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
+
+**TA-104**  
+Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
 

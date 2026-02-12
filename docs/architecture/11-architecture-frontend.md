@@ -17,6 +17,10 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 
 - Darstellung des 3D-Stadtmodells und Auswahl einzelner Gebäude.
 - Visualisierung von Solarpotenzialen (PV) und Geothermiepotenzialen aus 3D Tiles.
+- Abbildung von zwei PV-Darstellungen in der UI:
+  - PV + Speicher für Wärmepumpenbetrieb (energetische und finanzielle Effekte)
+  - maximale Ausnutzung geeigneter PV-Flächen (Potenzialkommunikation für Haushaltsstrom/KFZ-Ladung)
+- Auswahl von Solarthermie als zusätzliche Sanierungsmaßnahme zur Warmwasser-Unterstützung.
 - Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise.
 - Darstellung von Vegetationsobjekten (Bäume) zur besseren räumlichen Orientierung.
 - Durchführung der Simulation im Browser über den Simulationskern.
@@ -50,6 +54,14 @@ Quelle: `raw/frontend-architecture.puml`
 - Keine persistente Speicherung im Frontend.
 - Nutzereingaben bleiben lokal, sofern keine explizite Übermittlung erfolgt.
 - Exporte erzeugen Dateien nur auf ausdrücklichen Nutzerwunsch.
+
+---
+
+## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
+
+- Solarthermie ist vorgesehen, hat aber derzeit geringere Umsetzungspriorität; finaler MVP-Umfang offen.
+- Die genaue Darstellungstiefe der beiden PV-Modi (insbesondere Ergebniskennzahlen) wird in der MVP-Phase finalisiert.
+- Die Geothermie-Bewertung hängt von der Verfügbarkeit des Datensatzes ab und bleibt im MVP bis zur Datenlieferung in Klärung.
 
 ---
 

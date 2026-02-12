@@ -42,7 +42,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Warmwasser & Nutzung**: pauschal vs. personenbasiert.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Regelungsart; optional Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung.
 - **Kosten/Preise**: Energiepreis, Stromart, Jahresverbrauch (optional).
-- **Erneuerbare**: PV, Geothermie, Energiespeicher (optional).
+- **Erneuerbare**: PV (zwei Darstellungen), Solarthermie (Warmwasser-Unterstützung), Geothermie, Energiespeicher (optional).
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
@@ -79,7 +79,8 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
-- **Geothermiepotenziale** werden, sobald verfügbar, über WMS ermittelt und als statische Attribute ergänzt.
+- **Geothermiepotenziale** werden über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
+- **Datenstand Geothermie**: Ein belastbarer Datensatz liegt aktuell noch nicht vor; die konkrete Ausprägung für den MVP bleibt in Klärung.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 
 ### Abgeleitete Gebäudeparameter (LOD2)

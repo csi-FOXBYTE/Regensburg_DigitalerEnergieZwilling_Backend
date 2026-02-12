@@ -11,13 +11,13 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 ## Datenquellen
 
-- **Geothermiepotenziale** (voraussichtlich WMS, Quelle noch offen)
+- **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; Quelle noch offen)
 - **Solarpotenziale** (3D Tiles mit Attributen + Textur)
 - **LOD2-Daten** (CityGML, inkl. Adressen)
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
 
-Hinweis: Solarthermiepotenziale werden derzeit nicht weitergeführt.
+Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme (Warmwasser-Unterstützung) fachlich gewünscht, aber aktuell nachrangig priorisiert; der MVP-Umfang bleibt in Klärung.
 
 Beispiele für Datenherkünfte und Referenzen:
 - Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten)
@@ -51,7 +51,8 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 3. **Anreicherung der Metadaten (separater Schritt)**  
    Solarpotenziale liegen als 3D Tiles mit Attributen und Textur vor und werden
    in einem separaten Verarbeitungsschritt mit den konvertierten Tiles zusammengeführt.
-   Geothermiepotenziale werden (sobald verfügbar) über WMS abgefragt und ergänzt.
+   Geothermiepotenziale werden (sobald verfügbar) über eine priorisierte Datensatzabfrage ergänzt:
+   Grundwasser → Erdreich → Luft.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
    Dadurch werden Laufzeit-DB-Zugriffe minimiert.
 
@@ -255,7 +256,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 ### Erwartete Eingaben
 
 - Pfad zu konvertierten 3D Tiles (`jobs/{job_id}/convert/`).
-- Geothermiepotenziale über WMS (EPSG wird für die Abfrage verwendet, Quelle noch offen).
+- Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet, Quelle noch offen).
 - Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
@@ -268,7 +269,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
 - **Solarpotenziale** werden aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional.
-- **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem WMS gemittelt; falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
+- **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
 
@@ -303,6 +304,8 @@ Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernom
 - `diffuseRadMonths_1..12` (Number)
 
 Hinweis: Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
+
+Hinweis MVP: Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, bleiben Bewertungslogik und konkrete Ausgabefelder für die MVP-Phase in diesem Punkt offen.
 
 ### Validierungsregeln
 
