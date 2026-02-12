@@ -44,7 +44,7 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 ## Nutzungskontext & Rahmenbedingungen
 
-- Nutzung erfolgt anonym, ohne personenbezogene Daten.
+- Nutzung erfolgt prinzipiell lokal und anonym, es sei denn der Übermittlung personenbezogener Daten wurde zugestimmt.
 - Der Nutzer arbeitet ausschließlich mit seinem eigenen Gebäude.
 - Zeitrahmen: wenige Minuten, keine langfristige oder komplexe Datenerfassung.
 - Primärnutzung auf Desktop/Laptop, mobile Nutzung ist möglich.
@@ -138,20 +138,6 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 ## Baualtersklassen
 
 Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (siehe `docs/requirements/02-functional-requirements.md`, FA-96).
-
----
-
-## Auswahlbeispiele (UI)
-
-- Luftdichtheit (Lüftung): wird über allgemeine Annahmen (Katalog, Baualter) referenziert; keine direkte Nutzereingabe.
-- Sanierungsmaßnahmen: Dach, Außenwand, Fenster, Kellerdecke, Heizung, PV, Solarthermie, Geothermie, Energiespeicher.
-- Regelungsart (Heizung): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.
-- Regelprinzip: stetig, 2‑Punkt/3‑Punkt.
-- Technische Ausführung: hydraulisch, Smart‑Regelung.
-- PV-Darstellung 1: PV + Speicher für Wärmepumpenbetrieb (Energie/Kosten-Effekt).
-- PV-Darstellung 2: maximale geeignete PV-Fläche für Strompotenziale (z.B. Haushalt/KFZ).
-- Solarthermie: zusätzliche Warmwasser-Unterstützung zur bestehenden Heizung.
-- Geothermie-Bewertung: Potenzialabfrage in der Reihenfolge Grundwasser, Erdreich, Luft.
 
 ---
 

@@ -463,7 +463,7 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional 
 Solarthermie muss als zusätzliche Sanierungsmaßnahme zur bestehenden Heizung für die Warmwasserbereitung auswählbar sein.
 
 **FA-101**  
-Die Umsetzung von Solarthermie ist fachlich gewünscht, hat jedoch gegenüber anderen Maßnahmen geringere Priorität; der verbindliche Umfang für die MVP-Phase muss noch abgestimmt werden.
+Die Umsetzung von Solarthermie ist fachlich gewünscht, hat jedoch gegenüber anderen Maßnahmen einen geringeren Detailgrad; der verbindliche Umfang für die MVP-Phase muss noch abgestimmt werden.
 
 **FA-102**  
 PV muss in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  

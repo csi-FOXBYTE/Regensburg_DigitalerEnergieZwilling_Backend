@@ -484,7 +484,7 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
 
 **TA-101**  
-Da Solarthermie in der Umsetzung nachrangig priorisiert ist, muss der konkrete Umsetzungsumfang für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
+Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
 
 **TA-102**  
 Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
