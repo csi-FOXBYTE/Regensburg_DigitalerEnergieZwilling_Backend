@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 left to right direction
 skinparam rectangle {
   BackgroundColor #F7F7F7
@@ -10,14 +10,15 @@ title Offline-Datenpipeline
 rectangle "LOD2 Daten\n(CityGML, inkl. Adressen)" as lod2
 rectangle "Solarpotenziale\n(3D Tiles + Textur)" as solar
 rectangle "Geothermiepotenziale\n(WMS, offen)" as geo
-rectangle "Vegetation (Bäume)\n(3D Tiles)" as trees
+rectangle "Vegetation (Baeume)\n(3D Tiles)" as trees
 
 rectangle "Externer Datendienst\n(S3-kompatibel)" as s3
 rectangle "Civitas Core\n(Airflow Orchestrator)" as airflow
-rectangle "Konvertierungs-Container\nCityGML → CityJSON\nCityJSON → 3D Tiles" as convert
-rectangle "Anreicherungs-Container\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
+rectangle "Konvertierungs-Container (Add-on)\nCityGML -> CityJSON\nCityJSON -> 3D Tiles" as convert
+rectangle "Anreicherungs-Container (Add-on)\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
 
-rectangle "Tiles Gateway" as gw
+rectangle "APISIX\n(Web/API Gateway)" as apisix
+rectangle "Tiles Gateway\n(optional)" as gw
 rectangle "Public Client" as client
 
 lod2 --> s3
@@ -32,7 +33,10 @@ convert --> s3 : Upload
 s3 --> enrich : Download
 enrich --> s3 : Upload
 
-s3 --> gw
-gw --> client
+s3 --> apisix : direct mode
+apisix --> client : direct mode
+s3 --> gw : optional mode
+gw --> apisix : optional mode
+apisix --> client : optional mode
 
 @enduml

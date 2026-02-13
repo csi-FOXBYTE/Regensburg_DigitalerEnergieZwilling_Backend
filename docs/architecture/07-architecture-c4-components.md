@@ -115,6 +115,7 @@ Aufgaben:
 - Bereitstellung öffentlicher und administrativer Endpunkte
 - Validierung eingehender Anfragen
 - Weiterleitung an fachliche Services
+- Bereitstellung des OpenAPI-3.0-Vertrags als Grundlage für die Client-Generierung
 
 ---
 

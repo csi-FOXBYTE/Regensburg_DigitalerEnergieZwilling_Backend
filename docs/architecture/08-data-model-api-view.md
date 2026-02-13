@@ -63,6 +63,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
+- **Client-Zustand**: Bearbeitungszustand wird über einen notwendigen Cookie persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
 ### Status-Lifecycle (Triage)
@@ -135,14 +136,21 @@ Quelle: `raw/public-write-flow.puml`
 
 - **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
 - **Ressourcen**: Gebäude, Eingaben, Simulationen, Konfigurationen, Kataloge, Triage, Reports
-- **Auth/Session**: OIDC für Admin; öffentliche APIs ohne Auth, aber mit Schreibzugriff für Simulationsergebnisse
+- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit notwendigem Cookie für Zustandswiederherstellung und optionalem Schreibzugriff für Simulationsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
+- **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
 - **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das serverseitig geprüft wird.
-- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird im Web Gateway und zusätzlich im Backend durchgesetzt.
+- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird in APISIX (Web Gateway) und zusätzlich im Backend durchgesetzt.
 - **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
 - **Versionierung**: Konfigurations- und API-Versionen klar trennen
 - **Fehlerformate**: Standardisierte Fehlercodes und Validierungsdetails
+
+### Client-Generierung aus OpenAPI
+
+- **Source of Truth**: OpenAPI 3.0 aus dem Backend (Fastify-toab/Fastify-Swagger).
+- **Generator**: `@hey-api/openapi-ts`.
+- **Frontend-Integration**: Nutzung der React-Query-Erweiterung für typsichere Query-/Mutation-Hooks.
 
 ---
 

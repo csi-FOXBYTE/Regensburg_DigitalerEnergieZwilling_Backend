@@ -5,10 +5,10 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 ## Agenda
 
 1. Ziel und Nutzungskontext
-2. Hauptzielgruppe: Private Gebäudenutzer
+2. Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)
 3. Nutzerreise und Interaktion im Bürgerbereich
 4. Informationsarchitektur und Datenstruktur
-5. Nebenzielgruppe: Stadtverwaltung / Kommunen
+5. Nebenzielgruppe: Stadtverwaltung / Fachpersonal
 
 ---
 
@@ -16,7 +16,7 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 
 Das Kapitel dient als Orientierung für fachliche, UX- und MVP-Entscheidungen.
 
-- Es beschreibt, wie Bürger (Eigentümer/Vermieter) das System verstehen und nutzen.
+- Es beschreibt, wie Bürger (Eigentümer/Vermieter/Mieter) das System verstehen und nutzen.
 - Es zeigt, welche Informationen in welcher Reihenfolge benötigt werden.
 - Es grenzt den Charakter des Tools klar als Orientierungshilfe ab.
 
@@ -24,9 +24,9 @@ Ergebnisse sind indikativ und ersetzen keine individuelle Fachberatung.
 
 ---
 
-## Hauptzielgruppe: Private Gebäudenutzer
+## Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)
 
-Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigentümer, Mieter, Verwalter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
+Die primäre Zielgruppe des Sanierungstools sind Bürger (Eigentümer/Vermieter/Mieter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
 
 ### Ausgangslage / Wissensstand
 
@@ -210,7 +210,7 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 ---
 
-## Nebenzielgruppe: Stadtverwaltung / Kommunen
+## Nebenzielgruppe: Stadtverwaltung / Fachpersonal
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
@@ -218,7 +218,7 @@ Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) 
 
 ### Rollenbeschreibung
 
-Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
+Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung / Fachpersonal (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
 Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst und strategischer Anwender.
 
 ### Ausgangslage / Datenproblem

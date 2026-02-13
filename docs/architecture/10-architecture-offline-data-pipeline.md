@@ -34,6 +34,8 @@ Beispiele für Datenherkünfte und Referenzen:
 - Ein **externer Datendienst** (z.B. S3) dient als Quelle und Ziel für Rohdaten und erzeugte 3D Tiles.
 - Die **Konvertierung** (CityGML → CityJSON → 3D Tiles) und die **Anreicherung der Metadaten**
   (Solarpotenziale (PV) und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
+- Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, Civitas-Core-fähiges Add-on betrieben.
+- Add-ons unterstützen die konfigurationsbasierte Aktivierung/Deaktivierung einzelner Teilkomponenten, sofern fachlich sinnvoll entkoppelbar.
 Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
 
 ---
@@ -64,7 +66,9 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 
 5. **Bereitstellung**  
    Der fertig angereicherte Datensatz wird im 3D Tiles Storage bereitgestellt
-   und über das Tiles Gateway ausgeliefert.
+   und über APISIX ausgeliefert:
+   - entweder direkt aus dem externen Datendienst
+   - oder über ein optionales Tiles Gateway.
 
 ---
 

@@ -93,12 +93,12 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen z
 3D Tiles werden:
 - offline erzeugt
 - mit allen relevanten Potenzialattributen angereichert
-- über ein dediziertes Gateway bereitgestellt
+- über APISIX bereitgestellt (direkter Zugriff auf den externen Datendienst oder optional über ein Tiles Gateway)
 
 Die Tiles enthalten zusätzlich Adressen aus LOD2, optionale Texturen zur Solarpotenzial-Visualisierung
 und Vegetationsobjekte (Bäume) für die 3D-Darstellung.
 
-Das Gateway entkoppelt die Auslieferung der Tiles vom Backend und ermöglicht eine skalierbare Bereitstellung.
+Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend und kann bei Bedarf zusätzliche Proxy-Funktionen übernehmen.
 
 ---
 

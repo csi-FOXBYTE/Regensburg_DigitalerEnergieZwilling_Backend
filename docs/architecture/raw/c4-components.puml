@@ -9,7 +9,7 @@ Person(admin, "City Administration / Staff")
 System_Boundary(civitas, "Civitas Core Platform") {
   System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
 
-    Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
+    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
 
     Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
       Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
@@ -32,7 +32,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
 
     Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
-    Container(tilesGateway, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
+    Container(tilesGateway, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
     Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
     Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
@@ -58,7 +58,8 @@ Rel(admin, gateway, "uses", "HTTPS")
 Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
 Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
 Rel(gateway, apiControllers, "routes API", "GET/POST /api")
-Rel(gateway, tilesGateway, "routes tiles", "GET /tiles")
+Rel(gateway, tilesGateway, "routes tiles (optional mode)", "GET /tiles")
+Rel(gateway, staticTiles, "routes tiles (direct mode)", "GET /tiles")
 
 Rel(admin, idp, "authenticates", "OIDC")
 Rel(htmlGateway, auth, "enforces authentication")
@@ -73,7 +74,7 @@ Rel(htmlGateway, adminIsland, "delivers admin HTML after login")
 Rel(publicIsland, sharedUI, "uses")
 Rel(adminIsland, sharedUI, "uses")
 
-Rel(publicIsland, tilesGateway, "loads 3D tiles with embedded potentials")
+Rel(publicIsland, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGateway, staticTiles, "fetches tiles")
 Rel(publicIsland, geo, "loads basemaps")
 

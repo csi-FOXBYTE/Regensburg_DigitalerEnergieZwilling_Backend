@@ -9,7 +9,7 @@ Person(admin, "City Administration / Staff")
 System_Boundary(civitas, "Civitas Core Platform") {
   System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
 
-    Container(gateway, "Web Gateway", "Reverse Proxy Ingress", "Routes requests to backend, tiles gateway and static frontend")
+    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
 
     Container(frontend, "Web Frontend Static Site", "Astro SSG", "Static pages plus two interactive islands for public and admin")
 
@@ -17,7 +17,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
 
     Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
-    Container(tilesGw, "Tiles Gateway", "HTTP Gateway", "Delivers 3D tiles and supports caching and range requests")
+    Container(tilesGw, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
     Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
     ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and simulation configuration")
@@ -42,7 +42,8 @@ Rel(admin, gateway, "uses", "HTTPS")
 
 Rel(gateway, frontend, "routes public site", "GET /")
 Rel(gateway, backend, "routes admin site and API", "GET /admin and /api")
-Rel(gateway, tilesGw, "routes tiles", "GET /tiles")
+Rel(gateway, tilesGw, "routes tiles (optional mode)", "GET /tiles")
+Rel(gateway, tilesStore, "routes tiles (direct mode)", "GET /tiles")
 
 Rel(admin, idp, "authenticates", "OIDC")
 Rel(backend, idp, "validates tokens", "OIDC or JWT")
@@ -51,7 +52,7 @@ Rel(frontend, simCore, "imports and runs", "browser runtime")
 Rel(backend, simCore, "imports and runs", "Node runtime optional")
 
 Rel(frontend, geo, "loads basemaps", "WMS or WMTS")
-Rel(frontend, tilesGw, "loads 3D tiles with embedded potentials", "HTTP")
+Rel(frontend, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGw, tilesStore, "fetches tiles", "HTTP")
 
 Rel(backend, db, "reads and writes", "SQL")

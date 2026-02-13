@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 left to right direction
 skinparam rectangle {
   BackgroundColor #F7F7F7
@@ -9,11 +9,13 @@ title Frontend-Architektur
 
 rectangle "Astro Build\n(Static Site Generator)" as astro
 rectangle "Statische Assets\n(HTML/JS/CSS)" as assets
-rectangle "Public Client\n(Bürgerbereich)" as public_client
+rectangle "APISIX\n(Web/API Gateway)" as apisix
+rectangle "Public Client\n(BÃ¼rgerbereich)" as public_client
 rectangle "Admin-Bereich\n(Fachpersonal)" as admin_client
 rectangle "Simulationskern\n(JS-Modul)" as core
-rectangle "Tiles Gateway\n(3D Tiles: PV-Textur, Bäume)" as tiles
-rectangle "Backend API\n(öffentlich)" as api_public
+rectangle "Tiles Gateway\n(optional)" as tiles
+rectangle "Externer Datendienst\n(S3-kompatibel, 3D Tiles)" as s3
+rectangle "Backend API\n(Ã¶ffentlich)" as api_public
 rectangle "Backend API\n(admin)" as api_admin
 rectangle "Basemap Services\n(WMS/WMTS)" as basemap
 
@@ -22,7 +24,10 @@ assets --> public_client
 assets --> admin_client
 public_client --> core
 admin_client --> core
-public_client --> tiles
+public_client --> apisix : GET /tiles
+apisix --> s3 : direct mode
+apisix --> tiles : optional mode
+tiles --> s3
 public_client --> api_public
 admin_client --> api_admin
 public_client --> basemap

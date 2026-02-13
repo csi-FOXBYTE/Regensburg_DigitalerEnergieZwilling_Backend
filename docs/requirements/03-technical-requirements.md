@@ -73,7 +73,7 @@ Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der f
 3D Tiles dürfen nicht vom Backend ausgeliefert werden.
 
 **TA-15**  
-3D Tiles müssen über ein dediziertes Gateway bereitgestellt werden.
+3D Tiles müssen über APISIX bereitgestellt werden, entweder per direktem HTTPS-Zugriff auf den externen Datendienst (S3-kompatibel) oder über ein dediziertes Tiles Gateway.
 
 ---
 
@@ -152,7 +152,7 @@ Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion repro
 Das Backend muss Schnittstellen zur Verwaltung von Simulationskonfigurationen bereitstellen.
 
 **TA-33**  
-Das Backend muss Schnittstellen zur optionalen Speicherung von Nutzereingaben bereitstellen.
+Das Backend muss Schnittstellen zur optionalen Speicherung und Wiederherstellung von Nutzereingaben bereitstellen.
 
 **TA-34**  
 Das Backend muss administrative Funktionen zur Sichtung und Triage von Nutzereingaben unterstützen.
@@ -277,10 +277,10 @@ Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities)
 ## 15. Datenschutz, Consent & Tracking
 
 **TA-65**  
-Der Bürgerbereich darf keine Registrierung erfordern; temporäre Zustände dürfen über Session-Cookies gehalten werden, optionale lokale Speicherung im Browser ist zulässig.
+Der Bürgerbereich darf keine Registrierung erfordern; der Bearbeitungszustand muss über einen notwendigen Cookie persistiert werden, damit Wiederbesuche ohne erneute Eingabe möglich sind.
 
 **TA-66**  
-Lokale Speicherung im Browser (z.B. Local Storage) ist zulässig, darf aber keine personenbezogene Vorbefüllung für neue Nutzer erzeugen; Nutzerdaten dürfen nicht zwischen Bürgern geteilt werden.
+Zusätzliche lokale Speicherung im Browser (z.B. Local Storage) ist zulässig, darf aber keine personenbezogene Vorbefüllung für neue Nutzer erzeugen; Nutzerdaten dürfen nicht zwischen Bürgern geteilt werden.
 
 **TA-67**  
 Das System muss ein Consent-Management für Cookies bereitstellen (notwendig/Analytics/Drittanbieter) und nachträgliche Änderungen erlauben.
@@ -347,10 +347,10 @@ Wenn Nutzereingaben oder Ergebnisse gespeichert wurden, muss ein Löschprozess b
 Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.B. Adressabgleich + zusätzlicher Bestätigungsschritt), um ungewollte Löschungen zu vermeiden.
 
 **TA-79**  
-Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme innerhalb der Session sind zu unterstützen. Persistente Speicherung darf nur erfolgen, wenn der Nutzer dies explizit auslöst.
+Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über den notwendigen Cookie unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
 
 **TA-80**  
-Der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für optionale Speicherung/Tracking geprüft und revisionssicher protokolliert werden.
+Der notwendige Cookie zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
 
 ---
 
@@ -389,7 +389,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 | Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
 | Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
 | Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Fürderlogik (optional) |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Förderlogik (optional) |
 
 Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
 Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
@@ -412,7 +412,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 ### Offene technische Klärungspunkte aus dem Grobkonzept
 
-Die folgenden Punkte sind vor produktiver übernahme als technische Spezifikation zu konkretisieren:
+Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikation zu konkretisieren:
 - Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
@@ -496,6 +496,60 @@ Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfol
 
 **TA-104**  
 Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
+
+---
+
+## 29. CIVITAS/CORE-Integration (Präzisierungen)
+
+**TA-105**  
+Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D Tiles) müssen ausschließlich über APISIX erfolgen; direkte öffentliche Zugriffe auf interne Dienste sind unzulässig.
+
+**TA-106**  
+Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, Civitas-Core-fähiges Add-on bereitgestellt werden.
+
+**TA-107**  
+Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzelner Dienste oder Teilkomponenten unterstützen, sofern diese fachlich sinnvoll entkoppelbar sind.
+
+**TA-108**  
+Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werden:
+- direkter Zugriff auf den externen S3-kompatiblen Datendienst hinter APISIX
+- Zugriff über ein optionales Tiles Gateway hinter APISIX
+
+**TA-117**  
+Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich.
+
+**TA-118**  
+Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen und muss über Cesium Tileset Styles (z.B. `Cesium3DTileStyle`) auf Basis der Effizienzklassen bzw. Ergebnisattribute steuerbar sein.
+
+---
+
+## 30. API-Client-Generierung
+
+**TA-109**  
+Das Backend muss eine OpenAPI-3.0-Spezifikation als Source of Truth bereitstellen; die Spezifikation wird über die bestehenden Fastify-toab/OpenAPI-Mechanismen erzeugt.
+
+**TA-110**  
+Der Frontend-API-Client muss aus der OpenAPI-3.0-Spezifikation mit `@hey-api/openapi-ts` generiert werden.
+
+**TA-111**  
+Für den generierten Frontend-API-Client muss die React-Query-Erweiterung von `@hey-api/openapi-ts` genutzt werden, um typsichere Query- und Mutation-Hooks bereitzustellen.
+
+**TA-112**  
+Im Frontend-Repository muss die Generator-Konfiguration zentral in `openapi-ts.config.ts` gepflegt werden.
+
+**TA-113**  
+Als Eingabe für die Client-Generierung muss eine versionierte OpenAPI-Spezifikation im Pfad `openapi/openapi.json` verwendet werden.
+
+**TA-114**  
+Der generierte API-Client-Code muss im Pfad `src/shared/api/generated/` abgelegt werden; manuelle Änderungen in generierten Dateien sind unzulässig.
+
+**TA-115**  
+Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bereitgestellt werden:
+- `openapi:generate` zur Neugenerierung
+- `openapi:check` zur Prüfung, dass kein ungeprüfter Generierungs-Diff vorliegt
+
+**TA-116**  
+Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-Layer erfolgen; direkte, untypisierte HTTP-Aufrufe für API-Endpunkte sind zu vermeiden.
 
 ---
 

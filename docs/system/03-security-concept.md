@@ -69,7 +69,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
 - Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
-- Session-Cookies für temporäre Zustände, Consent für optionales Tracking.
+- Notwendiger Cookie für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und optionales Tracking.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
 
 ---

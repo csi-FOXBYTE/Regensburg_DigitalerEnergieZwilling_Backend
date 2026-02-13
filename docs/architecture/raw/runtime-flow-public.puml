@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 skinparam sequence {
@@ -10,53 +10,73 @@ skinparam sequence {
   NoteBackgroundColor #F7F7F7
 }
 
-title Runtime-Flow - Bürger (Public)
+title Runtime-Flow - Buerger (Public)
 
 actor Citizen as user
 participant "Public Client" as client
-participant "Web Gateway" as gateway
+participant "APISIX (Web/API Gateway)" as gateway
 participant "Public Static Delivery" as public_static
-participant "Config Snapshot" as config
-participant "Tiles Gateway" as tiles
+participant "Tiles Gateway (optional)" as tiles
+participant "Datendienst (S3)" as s3
 participant "Simulation Core (Browser)" as sim
 participant "Altcha Widget" as altcha
 participant "Backend API" as api
 database "Database" as db
 
-user -> client: Öffnet Anwendung
+user -> client: Oeffnet Anwendung
 client -> gateway: GET /
 gateway -> public_static: Lade HTML/Assets
-public_static --> client: HTML/Assets
-client -> public_static: GET /config/versioned.json
-public_static --> client: Config Snapshot
-client -> tiles: Load 3D Tiles
-tiles --> client: Tiles
-client -> sim: Simulation lokal ausführen
+public_static --> gateway: HTML/Assets
+gateway --> client: HTML/Assets
+
+client -> gateway: GET /config/versioned.json
+gateway -> public_static: Lade Config Snapshot
+public_static --> gateway: Config Snapshot
+gateway --> client: Config Snapshot
+
+alt Tiles direct mode
+  client -> gateway: GET /tiles/*
+  gateway -> s3: Read tiles
+  s3 --> gateway: Tiles
+  gateway --> client: Tiles
+else Tiles via optional gateway
+  client -> gateway: GET /tiles/*
+  gateway -> tiles: Route tiles request
+  tiles -> s3: Read tiles
+  s3 --> tiles: Tiles
+  tiles --> gateway: Tiles
+  gateway --> client: Tiles
+end
+
+client -> sim: Simulation lokal ausfuehren
 
 alt Config oder Tiles fehlen
   client --> user: Fehler anzeigen (Retry)
 end
 
-alt Optional: Ergebnisse übermitteln
+alt Optional: Ergebnisse uebermitteln
   client -> altcha: Request Challenge
   altcha --> client: Challenge
   client -> altcha: Solve Challenge
   altcha --> client: Token
-  client -> api: POST /api/public/inputs + Token
-  api -> gateway: Rate limit check
-  gateway --> api: OK
+  client -> gateway: POST /api/public/inputs + Token
+  gateway -> gateway: Rate limit check
+  gateway -> api: Forward request
   api -> sim: Server-Recompute
   sim --> api: Ergebnis
   api -> db: Store inputs/results
   db --> api: Stored
-  api --> client: Accepted/Rejected
+  api --> gateway: Accepted/Rejected
+  gateway --> client: Accepted/Rejected
 
   alt Altcha oder Rate Limit fehlgeschlagen
-    api --> client: Rejected (Validation)
+    api --> gateway: Rejected (Validation)
+    gateway --> client: Rejected (Validation)
   end
 
   alt Server-Recompute abweichend
-    api --> client: Rejected (Mismatch)
+    api --> gateway: Rejected (Mismatch)
+    gateway --> client: Rejected (Mismatch)
   end
 end
 

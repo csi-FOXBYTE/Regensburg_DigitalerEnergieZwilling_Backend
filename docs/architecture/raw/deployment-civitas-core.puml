@@ -8,13 +8,13 @@ skinparam rectangle {
 title Deployment – Civitas Core
 
 rectangle "Civitas Core Platform" as civitas {
-  rectangle "Web Gateway" as gateway
+  rectangle "APISIX\n(Web/API Gateway)" as gateway
   rectangle "Backend Add-on\n(Container)" as backend
   rectangle "Airflow Orchestrator" as airflow
   rectangle "Konvertierungs-Container" as convert
   rectangle "Anreicherungs-Container" as enrich
   rectangle "Public Static Delivery" as static
-  rectangle "Tiles Gateway" as tiles
+  rectangle "Tiles Gateway\n(optional)" as tiles
   rectangle "PostgreSQL/PostGIS" as db
   rectangle "Keycloak (OIDC)" as keycloak
 }
@@ -23,7 +23,8 @@ rectangle "Externer Datendienst\n(S3-kompatibel / 3D Tiles Storage)" as s3
 
 gateway --> static
 gateway --> backend
-gateway --> tiles
+gateway --> tiles : optional mode
+gateway --> s3 : direct mode
 
 backend --> db
 backend --> keycloak

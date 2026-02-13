@@ -18,10 +18,10 @@ Details zur internen Struktur der Container werden im **C4 Component Diagramm** 
 
 Das System besteht aus folgenden zentralen Containern:
 
-- Web Gateway
+- Web Gateway (APISIX)
 - Frontend (statische Webanwendung)
 - Backend API
-- Tiles Gateway
+- Tiles Gateway (optional)
 - 3D Tiles Storage
 - Datenbank
 - Offline Datenpipeline
@@ -44,12 +44,13 @@ Aufgaben:
 - Routing von HTTP-Anfragen zu den jeweiligen Zielsystemen
 - Trennung von Public-, Admin-, API- und Tile-Zugriffen
 - Entkopplung des Backends von hohem statischem Traffic
+- Erzwingung des Zugriffs über APISIX für externe Datenzugriffe
 
 Typische Routen:
 - `/` → Public Frontend
 - `/admin` → Admin Frontend (geschützt)
 - `/api/*` → Backend API
-- `/tiles/*` → Tiles Gateway
+- `/tiles/*` → optional Tiles Gateway oder direkter Zugriff auf 3D Tiles Storage
 
 Das Gateway enthält keine fachliche Logik.
 
@@ -88,16 +89,17 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen w
 
 ---
 
-### Tiles Gateway
+### Tiles Gateway (optional)
 
-Das Tiles Gateway ist für die Bereitstellung der 3D Tiles zuständig.
+Das Tiles Gateway ist ein optionaler Container für die Bereitstellung der 3D Tiles.
 
 Aufgaben:
 - Auslieferung der 3D Tiles an den Public Client
 - Weiterleitung an das zugrunde liegende Storage-System
 - Unterstützung von Caching und Range Requests
 
-Durch die Auslagerung der Tiles-Auslieferung wird das Backend vor hoher Last geschützt.
+Wenn der externe S3-kompatible Datendienst den direkten HTTPS-Lesezugriff unterstützt, kann die
+Tiles-Auslieferung auch ohne Tiles Gateway erfolgen.
 
 ---
 
@@ -145,8 +147,8 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 ## Kommunikation zwischen den Containern
 
 - Der Public Client (Bürgerbereich) kommuniziert direkt mit:
-  - dem Web Gateway
-  - dem Tiles Gateway
+  - dem Web Gateway (APISIX)
+  - optional dem Tiles Gateway oder direkt dem 3D Tiles Storage (über APISIX)
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 
 - Der Admin-Bereich (Stadtverwaltung / Fachpersonal) kommuniziert ausschließlich über das Backend.

@@ -3,27 +3,33 @@ title Runtime-Flow: Public Delete
 
 actor User
 participant "Public Client" as client
+participant "APISIX (Web/API Gateway)" as gateway
 participant "Backend API" as api
 participant "User Data Service" as uds
 database "Database" as db
 
 User -> client : Open delete link/QR
-client -> api : GET /delete/{token}
+client -> gateway : GET /delete/{token}
+gateway -> api : Forward request
 api -> uds : validate token
 uds -> db : lookup record
 db --> uds : record or not found
 uds --> api : valid/invalid
-api --> client : show confirmation or error
+api --> gateway : show confirmation or error
+gateway --> client : show confirmation or error
 
 alt confirmed
-  client -> api : POST /delete/{token}\naddress confirmation
+  client -> gateway : POST /delete/{token}\naddress confirmation
+  gateway -> api : Forward request
   api -> uds : delete request
   uds -> db : verify address\nand delete record
   db --> uds : deleted
   uds --> api : success
-  api --> client : confirmation
+  api --> gateway : confirmation
+  gateway --> client : confirmation
 else invalid
-  api --> client : error (token/address)
+  api --> gateway : error (token/address)
+  gateway --> client : error (token/address)
 end
 
 @enduml

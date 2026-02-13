@@ -20,7 +20,8 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Darstellung von Sanierungseffekten (Energie-/Kosteneinsparungen, CO₂-Reduktionen).
 - Abschätzung von Investitionskosten und Wirtschaftlichkeit.
 - Niederschwelliges, digitales Bürgerangebot mit intuitiver Bedienung.
-- Langfristige Skalierbarkeit und Integration in bestehende Systeme (Geoportal/Masterportal, CIVITAS/CORE).
+- Langfristige Skalierbarkeit und Integration in bestehende Systeme (Geoportal/MasterPortal, CIVITAS/CORE).
+- Verpflichtender Einstiegspunkt aus dem MasterPortal über einen Link auf die DEZ-Plattform.
 
 ---
 
@@ -30,11 +31,12 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
+- Verbindliche farbliche Gebäudeeinfärbung im 3D-Client zur Einordnung der Effizienz
 - Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien und Solarthermie (Warmwasser-Unterstützung)
 - Einfache Simulationen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
-- Keine Registrierung; Session-Cookies für temporäre Zustände, optionale lokale Speicherung im Browser
+- Keine Registrierung; Bearbeitungszustand wird über einen notwendigen Cookie persistiert, optionale Wiederherstellung vom Server bei expliziter Speicherung
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
 ### Stadtverwaltung / Fachpersonal
@@ -79,7 +81,8 @@ Das System besteht aus:
 - einem Simulationskern als JavaScript-Modul (clientseitig, optional serverseitig)
 - einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
 - einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten
-- einem 3D Tiles Gateway zur Auslieferung statischer Tiles
+- APISIX als zentralem Web/API-Gateway für externe Zugriffe
+- einem optionalen 3D Tiles Gateway zur Auslieferung statischer Tiles
 
 Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute in 3D Tiles abgelegt. Zur Laufzeit findet keine Neuberechnung der Potenziale statt.
 

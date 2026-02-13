@@ -89,7 +89,7 @@ Bei wenigen manuell ergänzten Angaben (z.B. Baujahr) müssen schnelle Erstwerte
 Mit zunehmender manueller Eingabetiefe müssen bauteilspezifische Eingaben möglich sein.
 
 **FA-15**  
-Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; Fürderparameter pro Maßnahme sollen optional erfassbar sein.
+Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; Förderparameter pro Maßnahme sollen optional erfassbar sein.
 
 ### Eingabefelder entlang des Spektrums (Spezifikation)
 
@@ -99,7 +99,7 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; F�
 | Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
 | Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
 | Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Fürderlogik (optional) |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Förderlogik (optional) |
 
 Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
 Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
@@ -345,7 +345,7 @@ Das System muss eine anonymisierte Datenerfassung unterstützen; personenbezogen
 Personenbezogene Angaben sollen, wenn fachlich nicht zwingend erforderlich, nur in klassifizierter oder aggregierter Form erfasst werden.
 
 **FA-70**  
-Der Bürgerbereich muss ohne Registrierung nutzbar sein; temporäre Zustände dürfen über Session-Cookies gehalten werden, eine optionale lokale Speicherung im Browser ist zulässig.
+Der Bürgerbereich muss ohne Registrierung nutzbar sein; der aktuelle Bearbeitungszustand muss für Wiederbesuche standardmäßig über einen notwendigen Cookie persistiert werden.
 
 **FA-71**  
 Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten werden; zusätzlich soll ein Feedback-Button jederzeit verfügbar sein.
@@ -371,7 +371,7 @@ Der Report muss mindestens enthalten:
 - Sanierungsvorschlag basierend auf Budget (Maßnahmen, Kosten, erwartete Einsparungen)
 - Erneuerbare Energien & Eigenversorgung (PV-, Geothermie- und Solarthermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe)
 - Vergleich des Gebäudes im Regensburger Bestand (vor/nach Sanierung)
-- Farbkodierte Visualisierung (optional)
+- Farbkodierte Visualisierung der Gebäude im 3D-Client
 - Grafische Elemente (Diagramme, farbliche Gebäude-Darstellung)
 - CI/CD-konformes Layout; ein IDML-Template kann vom Auftraggeber bereitgestellt werden
 - Zusätzlich fünf Kennwerte, die im Projektverlauf definiert werden
@@ -393,7 +393,7 @@ Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepu
 Nutzer müssen Energiequelle, Energiepreis und Stromart angeben können; Standardwerte sind vorzubelegen (z.B. Erdgas, 0,09 €/kWh; Strom 0,30 €/kWh).
 
 **FA-79**  
-Das System muss Energieeffizienzklassen (A+ bis H) ausweisen und Gebäude optional farblich nach Effizienz kategorisieren.
+Das System muss Energieeffizienzklassen (A+ bis H) ausweisen und Gebäude verpflichtend farblich nach Effizienz kategorisieren.
 
 **FA-80**  
 CO₂-Emissionen müssen BISKO-konform berechnet und ausgewiesen werden.
@@ -402,7 +402,7 @@ CO₂-Emissionen müssen BISKO-konform berechnet und ausgewiesen werden.
 Für alle automatisch abgeleiteten Werte muss die Datenherkunft in UI und Export nachvollziehbar sein (z.B. LOD2, Normtabellen, Baualtersklassen).
 
 **FA-82**  
-Nutzer sollen ihre Eingaben jederzeit abbrechen und innerhalb der aktuellen Session wieder aufnehmen können; Varianten dürfen in der Session gemerkt werden.
+Nutzer sollen ihre Eingaben jederzeit abbrechen und bei Wiederbesuch automatisch aus dem Cookie wieder aufnehmen können; wenn eine Speicherung im Backend explizit ausgelöst wurde, muss zusätzlich eine Wiederherstellung vom Server möglich sein.
 
 **FA-83**  
 Das System soll einen klaren Einstieg („So funktioniert’s“) mit Hinweis auf Datenquellen sowie Aussagekraft und Grenzen der Ergebnisse bieten.
@@ -474,6 +474,9 @@ Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbil
 
 **FA-104**  
 Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung.
+
+**FA-105**  
+Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstiegspunkt erreichbar sein; hierfür muss im MasterPortal mindestens ein Link auf die DEZ-Plattform bereitgestellt werden.
 
 ---
 

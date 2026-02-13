@@ -2,6 +2,11 @@
 
 Diese Dokumentation beschreibt die Einrichtung einer vollständigen Entwicklungsumgebung für **Civitas Core** unter Windows 11 unter Verwendung von **WSL 2 (Ubuntu 24.04)**.
 
+> **Wichtiger Hinweis**
+> Diese Anleitung ist ausschließlich für **lokales Development und Tests** gedacht.
+> Sie ist **nicht** für den Aufbau oder Betrieb einer Produktivumgebung geeignet.
+> Enthaltene Zugangsdaten sind lokale Beispielwerte und dürfen außerhalb einer lokalen Entwicklungsumgebung nicht unverändert verwendet werden.
+
 **Besonderheit:** Wir nutzen **kein Docker Desktop** und **kein Minikube**, sondern natives Docker in WSL und **k3d** für maximale Performance und Stabilität.
 
 ## 📋 Voraussetzungen
@@ -154,6 +159,9 @@ HOSTS"
 ---
 
 ## ⚙️ Schritt 5: Konfiguration (Inventory)
+
+Wichtig: Das folgende Inventory ist nur für lokale Entwicklung gedacht.
+Für produktive Umgebungen müssen Secrets über ein geeignetes Secrets-Management bereitgestellt werden.
 
 Kopiere das hier in die datei `cc_cli_inventory.yml` im Hauptverzeichnis.
 ```yaml
@@ -309,7 +317,7 @@ all:
 
         inv_cm:
           frost:
-            enable: true   # Isues on k3d
+            enable: true   # Issues on k3d
             mqtt:
               enable: false
               session_affinity: "None"
@@ -360,7 +368,7 @@ all:
           geoserver:
             enable: true
 
-          # Portal Backend to support authentication in MaserPortal
+          # Portal Backend to support authentication in MasterPortal
             geoserverPassword: E+v6/3I}n,KAwC_z
           portal_backend:
             enable: true
@@ -689,7 +697,7 @@ all:
 
         inv_cm:
           frost:
-            enable: true   # Isues on k3d
+            enable: true   # Issues on k3d
             mqtt:
               enable: false
               session_affinity: "None"
@@ -740,7 +748,7 @@ all:
           geoserver:
             enable: true
 
-          # Portal Backend to support authentication in MaserPortal
+          # Portal Backend to support authentication in MasterPortal
             geoserverPassword: E+v6/3I}n,KAwC_z
           portal_backend:
             enable: true
