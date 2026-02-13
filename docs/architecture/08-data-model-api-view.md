@@ -31,7 +31,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
 - Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
 - Jede **Simulation** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
-- **Triage** ist pro Eingabeset geführt; veröffentlichte Daten werden exportierbar.
+- **Triage** ist pro Eingabeset geführt; übermittelte Daten sind nach interner Freigabe exportierbar.
 - **Quartiere** erlauben Aggregationen und Reporting auf Planungsebene.
 
 ### Eingabekategorien (Auszug)
@@ -107,7 +107,7 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Simulationskontext 
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
-- **Triage**: Stadtverwaltung / Fachpersonal prüft, markiert und veröffentlicht Ergebnisse.
+- **Triage**: Stadtverwaltung / Fachpersonal prüft, markiert und gibt Ergebnisse intern frei.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
 

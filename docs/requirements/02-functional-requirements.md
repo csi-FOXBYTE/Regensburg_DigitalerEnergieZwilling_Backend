@@ -297,7 +297,7 @@ Fachpersonal muss Förderprogramme (Links/Kategorien) pflegen können.
 Fachpersonal muss geprüfte Daten strukturiert bereitstellen können, damit sie verständlich und zuverlässig in der Wärmeplanung genutzt werden können.
 
 **FA-58**  
-Fachpersonal muss veröffentlichte Daten exportieren können, damit sie intern weiterverwendet werden können.
+Fachpersonal muss übermittelte Daten exportieren können, damit sie intern weiterverwendet werden können.
 
 **FA-59**  
 Fachpersonal muss Berichte pro Quartier generieren können.

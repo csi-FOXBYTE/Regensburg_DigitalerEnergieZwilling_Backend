@@ -219,7 +219,7 @@ Das Backend muss Eingaben gegen **konfigurierbare Wertebereiche** validieren (z.
 Das Backend muss Ergebnisse serverseitig mit dem gleichen Simulationskern neu berechnen.
 
 **TA-50**  
-Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung und Veröffentlichungen verwendet werden.
+Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung und interne Freigaben verwendet werden.
 
 **TA-51**  
 Öffentliche Schreibzugriffe müssen durch Altcha-Challenges und Rate Limiting geschützt werden.
