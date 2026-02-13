@@ -106,12 +106,8 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 - Ohne manuelle Eingaben arbeitet das System mit konfigurierten Standardannahmen.
 - Mit manuellen Grundangaben (z.B. Baujahr, Energieträger) wird die Anlage grob vorbelegt.
-- Mit weiterem Detaillierungsgrad können Erzeugerart, Heizflächenart und Regelungsart erfasst werden.
-- Optional sind weitere Detailparameter wie Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip und technische Ausführung erfassbar.
-
-Regelungsarten (Auswahl): Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung.  
-Regelprinzip: stetig, 2‑Punkt/3‑Punkt.  
-Technische Ausführung: hydraulisch, Smart‑Regelung.
+- Mit weiterem Detaillierungsgrad können Erzeugerart, Heizflächenart und Zusatzheizung erfasst werden.
+- Optional sind weitere berechnungsrelevante Anlagenparameter erfassbar.
 
 ---
 

@@ -116,7 +116,7 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; F�
 | Ohne Nutzereingabe                                     | keine                                                 | keine                                                                                                                                                                                |
 | Grundangaben                                           | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                                                |
 | Bauteile und Anlage                                    | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                                                     |
-| Detaillierung                                          | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Detaillierung                                          | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen |
 | Szenarien und Kombinationen                            | Auswahl mindestens einer Sanierungsmaßnahme           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                                        |
 
 > ⚠️ **Hinweis:** Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
@@ -477,10 +477,10 @@ Baualtersklassen müssen als klar definiertes Raster bereitgestellt werden (z.B.
 Das System soll Live-Ergebnisse nach Änderungen anzeigen (z.B. Energiebedarf, Kosten, Effizienzklasse), ohne expliziten „Berechnen“-Schritt.
 
 **FA-98**  
-Mit zunehmender manueller Eingabetiefe müssen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden können (z.B. Heizflächenart, grundlegende Regelungsart).
+Mit zunehmender manueller Eingabetiefe müssen Heizungsdetails auf Basis von Baujahr und Erzeugerart erfasst werden können (z.B. Heizflächenart, Zusatzheizung).
 
 **FA-99**  
-Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional erfasst werden können (z.B. Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung).
+Bei hoher manueller Eingabetiefe müssen weitere berechnungsrelevante Anlagenparameter optional erfasst werden können.
 
 ---
 

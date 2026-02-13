@@ -472,7 +472,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 | Ohne Nutzereingabe          | keine                                                 | keine                                                                                                                                  |
 | Grundangaben                | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                  |
 | Bauteile und Anlage         | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                       |
-| Detaillierung               | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Erzeugerleistung, technische Ausführung |
+| Detaillierung               | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen |
 | Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme           | Kombinationen, Budget, Förderlogik (optional)                                                                                          |
 
 > ⚠️ **Hinweis:** Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
