@@ -2,7 +2,7 @@
 
 Diese Dokumentation beschreibt die Einrichtung einer vollständigen Entwicklungsumgebung für **CIVITAS/CORE** unter Windows 11 unter Verwendung von **WSL 2 (Ubuntu 24.04)**.
 
-> **Wichtiger Hinweis**
+> **⚠️ Wichtiger Hinweis**
 > Diese Anleitung ist ausschließlich für **lokales Development und Tests** gedacht.
 > Sie ist **nicht** für den Aufbau oder Betrieb einer Produktivumgebung geeignet.
 > Enthaltene Zugangsdaten sind lokale Beispielwerte und dürfen außerhalb einer lokalen Entwicklungsumgebung nicht unverändert verwendet werden.

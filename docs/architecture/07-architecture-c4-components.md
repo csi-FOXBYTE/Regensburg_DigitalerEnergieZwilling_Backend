@@ -68,7 +68,7 @@ Aufgaben:
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles
 - Durchführung der energetischen Simulation
 - Darstellung der Simulationsergebnisse
-Hinweis: Die Solarpotenzial-Textur und Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt.
+> ⚠️ **Hinweis:** Die Solarpotenzial-Textur und Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt.
 
 Die Simulation wird standardmäßig vollständig im Browser ausgeführt.
 

@@ -18,6 +18,7 @@
 14. [Ergebnis](#ergebnis)
 
 <a id="ziel-dieser-sicht"></a>
+
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die **Offline-Datenpipeline**, mit der Geodaten und Potenziale
@@ -28,6 +29,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 ---
 
 <a id="datenquellen"></a>
+
 ## Datenquellen
 
 - **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; Quelle noch offen)
@@ -39,6 +41,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme (Warmwasser-Unterstützung) fachlich gewünscht, aber aktuell nachrangig priorisiert; der MVP-Umfang bleibt in Klärung.
 
 Beispiele für Datenherkünfte und Referenzen:
+
 - Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten)
 - Open Data (LOD2)
 - Behördenspezifische Lizenzen (oberflächennahe Geothermie)
@@ -47,6 +50,7 @@ Beispiele für Datenherkünfte und Referenzen:
 ---
 
 <a id="betriebs-und-orchestrierungsmodell"></a>
+
 ## Betriebs- und Orchestrierungsmodell
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
@@ -56,11 +60,12 @@ Beispiele für Datenherkünfte und Referenzen:
   (Solarpotenziale (PV) und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
 - Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
 - Add-ons unterstützen die konfigurationsbasierte Aktivierung/Deaktivierung einzelner Teilkomponenten, sofern fachlich sinnvoll entkoppelbar.
-Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
+  > ⚠️ **Hinweis:** Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
 
 ---
 
 <a id="verarbeitungsschritte"></a>
+
 ## Verarbeitungsschritte
 
 1. **CityGML → CityJSON**  
@@ -94,6 +99,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 ---
 
 <a id="dag-ablauf-vereinfachte-sicht"></a>
+
 ## DAG-Ablauf (vereinfachte Sicht)
 
 1. **Download** der Rohdaten aus dem externen Datendienst (z.B. S3) in ein Staging-Verzeichnis.
@@ -104,6 +110,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 ---
 
 <a id="spezifikation-pipeline-vertrag"></a>
+
 ## Spezifikation (Pipeline-Vertrag)
 
 ### Trigger & Orchestrierung
@@ -117,6 +124,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 - DAG-ID: `dez_offline_pipeline`.
 
 Task-Reihenfolge je `job_id`:
+
 1. `init_job` – erstellt `manifest.json`, Status `running`.
 2. `download_inputs` – lädt `jobs/{job_id}/input/` in ein Staging-Verzeichnis.
 3. `convert_tiles` – Konvertierungs-Container (CityGML → CityJSON → 3D Tiles).
@@ -138,8 +146,8 @@ Task-Reihenfolge je `job_id`:
 - `jobs/{job_id}/manifest.json`  
   Metadaten zum Lauf (Status, Zeitstempel, Eingabeparameter).
 
-Hinweis: Es gibt **keine Versionierung** im Datendienst; alte Daten müssen manuell entfernt werden.
-Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Secrets-Management; keine Tokens im Code oder in Logs.
+> ⚠️ **Hinweis:** Es gibt **keine Versionierung** im Datendienst; alte Daten müssen manuell entfernt werden.
+> Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Secrets-Management; keine Tokens im Code oder in Logs.
 
 ### Eingaben
 
@@ -149,13 +157,13 @@ Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Se
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
 - `appearance` (String) wählt **genau eine** Texture/Theme aus der CityGML-Quelle.
 - `hasAlphaChannel` (Boolean) gibt an, ob die Texture-Daten einen **Alpha-Kanal** enthalten.
-Hinweis: Für die Verarbeitung wird ein **Job-Ordner gemountet**; der Container arbeitet ausschließlich in diesem Ordner bis Abschluss.
+  > ⚠️ **Hinweis:** Für die Verarbeitung wird ein **Job-Ordner gemountet**; der Container arbeitet ausschließlich in diesem Ordner bis Abschluss.
 
 ### Ausgaben
 
 - **3D Tiles** werden als Ordner ausgegeben und in den dedizierten Bucket hochgeladen.
 - Zwischenstand nach Konvertierung liegt getrennt von der angereicherten Ausgabe.
-Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Datendienst.
+  > ⚠️ **Hinweis:** Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Datendienst.
 
 ### Exit-Codes
 
@@ -172,7 +180,12 @@ Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Dat
 - Fortschritt wird als JSON-Lines geloggt, z.B.:
 
 ```json
-{"event":"progress","stage":"convert","percent":35,"message":"Converted 120/340 files"}
+{
+  "event": "progress",
+  "stage": "convert",
+  "percent": 35,
+  "message": "Converted 120/340 files"
+}
 ```
 
 - Stufen (mindestens): `download`, `convert`, `enrich`, `upload`.
@@ -186,6 +199,7 @@ Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Dat
 ---
 
 <a id="security-by-design-pipeline"></a>
+
 ## Security by Design (Pipeline)
 
 - Zugriff auf den Datendienst ausschließlich via Secrets-Management.
@@ -197,6 +211,7 @@ Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Dat
 ---
 
 <a id="manifest-schema-manifest-json"></a>
+
 ## Manifest-Schema (manifest.json)
 
 Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`, `hasAlphaChannel`, `created_at`, `output_prefix`.
@@ -221,11 +236,12 @@ Stage-Werte: `download`, `convert`, `enrich`, `upload`.
 }
 ```
 
-Hinweis: `error` ist nur bei `status = failed` gefüllt und enthält einen technischen Fehlertext.
+> ⚠️ **Hinweis:** `error` ist nur bei `status = failed` gefüllt und enthält einen technischen Fehlertext.
 
 ---
 
 <a id="container-parameter-validierung"></a>
+
 ## Container-Parameter & Validierung
 
 ### Parameter-Mapping (Environment)
@@ -235,8 +251,8 @@ Hinweis: `error` ist nur bei `status = failed` gefüllt und enthält einen techn
 - `EPSG` (String) – z.B. `EPSG:25832`.
 - `APPEARANCE` (String) – gewünschtes Theme/Texture-Set in CityGML.
 - `HAS_ALPHA_CHANNEL` (Boolean, `true|false`).
-Hinweis: Airflow-Parameter `hasAlphaChannel` wird auf `HAS_ALPHA_CHANNEL` gemappt.
-Sicherheitsprinzip: Secrets (z.B. S3-Credentials) werden ausschließlich über Secrets-Management bereitgestellt.
+  > ⚠️ **Hinweis:** Airflow-Parameter `hasAlphaChannel` wird auf `HAS_ALPHA_CHANNEL` gemappt.
+  > Sicherheitsprinzip: Secrets (z.B. S3-Credentials) werden ausschließlich über Secrets-Management bereitgestellt.
 
 ### Validierungsregeln
 
@@ -248,6 +264,7 @@ Sicherheitsprinzip: Secrets (z.B. S3-Credentials) werden ausschließlich über S
 ---
 
 <a id="airflow-task-beispiel-dockeroperator"></a>
+
 ## Airflow Task-Beispiel (DockerOperator)
 
 ```python
@@ -273,11 +290,12 @@ DockerOperator(
 )
 ```
 
-Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run-Parameter übergeben.
+> ⚠️ **Hinweis:** `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run-Parameter übergeben.
 
 ---
 
 <a id="anreicherungs-container-spezifikation"></a>
+
 ## Anreicherungs-Container (Spezifikation)
 
 ### Zweck
@@ -318,6 +336,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 - `geothermal_potential_w_m2` (Number)
 
 Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernommen):
+
 - `solarArea` (Number)
 - `Fläche` (String)
 - `Dachneigung` (String)
@@ -335,9 +354,9 @@ Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernom
 - `directRadMonths_1..12` (Number)
 - `diffuseRadMonths_1..12` (Number)
 
-Hinweis: Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
+> ⚠️ **Hinweis:** Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
 
-Hinweis MVP: Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, bleiben Bewertungslogik und konkrete Ausgabefelder für die MVP-Phase in diesem Punkt offen.
+> ⚠️ **Hinweis MVP:** Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, bleiben Bewertungslogik und konkrete Ausgabefelder für die MVP-Phase in diesem Punkt offen.
 
 ### Validierungsregeln
 
@@ -350,10 +369,12 @@ Hinweis MVP: Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, ble
 ---
 
 <a id="pipeline-diagramm"></a>
+
 ## Pipeline-Diagramm
 
 Das Diagramm zeigt die Verarbeitungsschritte; Orchestrierung und Datenaustausch über Airflow sind im Abschnitt oben beschrieben.
-Hinweis: Die Solarpotenziale sind aktuell bereits als 3D Tiles verfügbar und werden in der Anreicherung übernommen.
+
+> ⚠️ **Hinweis:** Die Solarpotenziale sind aktuell bereits als 3D Tiles verfügbar und werden in der Anreicherung übernommen.
 
 ![offline-data-pipeline.png](./attachments/offline-data-pipeline.png)
 
@@ -362,6 +383,7 @@ Quelle: `raw/offline-data-pipeline.puml`
 ---
 
 <a id="warum-keine-datenbankzugriffe-zur-laufzeit"></a>
+
 ## Warum keine Datenbankzugriffe zur Laufzeit
 
 - **Performance**: Potenziale sind direkt in den Tiles; keine zusätzlichen Roundtrips pro Gebäude.
@@ -372,6 +394,7 @@ Quelle: `raw/offline-data-pipeline.puml`
 ---
 
 <a id="ergebnis"></a>
+
 ## Ergebnis
 
 - Statische Potenziale sind direkt in den 3D Tiles eingebettet.

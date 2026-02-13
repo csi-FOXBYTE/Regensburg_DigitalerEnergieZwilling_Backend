@@ -13,6 +13,7 @@
 9. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
 
 <a id="ziel-der-fachlichen-anforderungen"></a>
+
 ## Ziel der fachlichen Anforderungen
 
 Dieses Dokument beschreibt die **fachlichen Anforderungen** an den Digitaler Energie Zwilling (DEZ).  
@@ -25,6 +26,7 @@ Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-hav
 ---
 
 <a id="nutzerrollen"></a>
+
 ## Nutzerrollen
 
 ### Bürger (Eigentümer/Vermieter)
@@ -39,6 +41,7 @@ Fachpersonal nutzt den Digitaler Energie Zwilling (DEZ) über einen geschützten
 ---
 
 <a id="fachliche-hauptfunktionen"></a>
+
 ## Fachliche Hauptfunktionen
 
 ### Visualisierung des Stadtmodells
@@ -65,7 +68,7 @@ Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
 **FA-06**  
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
 
-Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme zur Warmwasserbereitung fachlich vorgesehen. Der konkrete MVP-Umfang bleibt in diesem Punkt in Klärung.
+> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme zur Warmwasserbereitung fachlich vorgesehen. Der konkrete MVP-Umfang bleibt in diesem Punkt in Klärung.
 
 ---
 
@@ -108,38 +111,41 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; F�
 
 ### Eingabefelder entlang des Spektrums (Spezifikation)
 
-| Orientierungsbereich im Spektrum (keine festen Stufen) | Pflichtangaben | Optionale Angaben |
-| ----- | ----- | ----- |
-| Ohne Nutzereingabe | keine | keine |
-| Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
-| Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
-| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Förderlogik (optional) |
+| Orientierungsbereich im Spektrum (keine festen Stufen) | Pflichtangaben                                        | Optionale Angaben                                                                                                                                                                    |
+| ------------------------------------------------------ | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ohne Nutzereingabe                                     | keine                                                 | keine                                                                                                                                                                                |
+| Grundangaben                                           | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                                                |
+| Bauteile und Anlage                                    | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                                                     |
+| Detaillierung                                          | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Szenarien und Kombinationen                            | Auswahl mindestens einer Sanierungsmaßnahme           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                                        |
 
-Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
-Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
-
-Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
+> ⚠️ **Hinweis:** Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+>
+> Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
+>
+> Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
 ### Konkretisierung aus dem Grobkonzept (Arbeitsmappe 30-01-26)
 
 Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 Interpretation für dieses Dokument:
+
 - Datenstufe 1 = unteres Ende des Spektrums (keine Nutzereingabe, nur LOD2/Katalog/Standardannahmen).
 - Datenstufe 2 = oberes Ende des Spektrums (maximale Nutzereingabe, inkl. Überschreibungen und Detailparameter).
 
-| Domäne | Unteres Ende (keine Nutzereingabe) | Oberes Ende (maximale Nutzereingabe) | Geplante Sanierungsmaßnahmen |
-| ----- | ----- | ----- | ----- |
-| Dach und Dachfenster | Flächen aus LOD, U-Werte über Baujahr/Baualtersklasse (Kat. 1), Standardfaktoren | Manuelle Flächenangaben, manuelle U-Werte bzw. schichtbasierte Ermittlung, Konstruktionsangaben | Dachdämmung/Komplettsanierung (Richtwert U=0,14), Dachfenstertausch (Richtwert U=1,00) |
-| OGD | Grundfläche aus LOD, U-Wert über Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächenangabe, schichtbasierte U-Wert-Ermittlung, Detaillierung der Konstruktion | OGD-Dämmung/Komplettsanierung (Richtwert U=0,14) |
-| Außenwand und Fenster/Türen | Außenwand/Fensterflächen über LOD-Annahmen, U-Werte aus Baujahr/Baualtersklasse | Manuelle Flächen/U-Werte, konstruktive Detaillierung (Rahmen/Glas/Schichten) | AW-Dämmung bzw. Austausch (Richtwert U=0,20), Fenstertausch (Richtwert U=0,95) |
-| UGD | Fläche aus LOD-Grundfläche, U-Wert aus Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächen/U-Werte und Konstruktionsdetails (z.B. Decke/Boden gegen Erdreich) | UGD-Dämmung (Richtwert U=0,25) |
-| Heizung/Anlage | Standardannahmen aus Baujahr, Energieträger- und Erzeuger-Katalog | Detaileingaben zu Systemart, Erzeugerart, Heizflächenart, Zusatzheizung und Randbedingungen | Austausch-/Modernisierungsempfehlungen je Erzeugerart (inkl. erneuerbarer Optionen) |
+| Domäne                      | Unteres Ende (keine Nutzereingabe)                                                   | Oberes Ende (maximale Nutzereingabe)                                                            | Geplante Sanierungsmaßnahmen                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Dach und Dachfenster        | Flächen aus LOD, U-Werte über Baujahr/Baualtersklasse (Kat. 1), Standardfaktoren     | Manuelle Flächenangaben, manuelle U-Werte bzw. schichtbasierte Ermittlung, Konstruktionsangaben | Dachdämmung/Komplettsanierung (Richtwert U=0,14), Dachfenstertausch (Richtwert U=1,00) |
+| OGD                         | Grundfläche aus LOD, U-Wert über Baujahr/Baualtersklasse, Standardkonstruktion       | Manuelle Flächenangabe, schichtbasierte U-Wert-Ermittlung, Detaillierung der Konstruktion       | OGD-Dämmung/Komplettsanierung (Richtwert U=0,14)                                       |
+| Außenwand und Fenster/Türen | Außenwand/Fensterflächen über LOD-Annahmen, U-Werte aus Baujahr/Baualtersklasse      | Manuelle Flächen/U-Werte, konstruktive Detaillierung (Rahmen/Glas/Schichten)                    | AW-Dämmung bzw. Austausch (Richtwert U=0,20), Fenstertausch (Richtwert U=0,95)         |
+| UGD                         | Fläche aus LOD-Grundfläche, U-Wert aus Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächen/U-Werte und Konstruktionsdetails (z.B. Decke/Boden gegen Erdreich)             | UGD-Dämmung (Richtwert U=0,25)                                                         |
+| Heizung/Anlage              | Standardannahmen aus Baujahr, Energieträger- und Erzeuger-Katalog                    | Detaileingaben zu Systemart, Erzeugerart, Heizflächenart, Zusatzheizung und Randbedingungen     | Austausch-/Modernisierungsempfehlungen je Erzeugerart (inkl. erneuerbarer Optionen)    |
 
 ### Explizite offene Punkte aus dem Grobkonzept
 
 Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
+
 - In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten.
 - Mehrere Ergebniszellen enthalten im Template `0` oder `#`; diese sind keine validierten Referenzwerte.
 - Korrekturfaktor `F` ist für mehrere Bauteile nicht fachlich ausreichend hergeleitet bzw. dokumentiert.
@@ -254,6 +260,7 @@ Bürger müssen optional die Möglichkeit haben, ihre Eingaben und Ergebnisse an
 ---
 
 <a id="fachliche-anforderungen-an-die-administration-stadtverwaltung-fachpersonal"></a>
+
 ## Fachliche Anforderungen an die Administration (Stadtverwaltung / Fachpersonal)
 
 ### Zugriff & Rollen
@@ -340,6 +347,7 @@ Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahm
 ---
 
 <a id="fachliche-abgrenzungen"></a>
+
 ## Fachliche Abgrenzungen
 
 **FA-65**  
@@ -354,6 +362,7 @@ Das System liefert keine rechtsverbindlichen Aussagen.
 ---
 
 <a id="erweiterte-anforderungen"></a>
+
 ## Erweiterte Anforderungen
 
 **FA-68**  
@@ -476,6 +485,7 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional 
 ---
 
 <a id="offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
+
 ## Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
 **FA-100**  
@@ -500,6 +510,7 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 ---
 
 <a id="priorisierung-implizit"></a>
+
 ## Priorisierung (implizit)
 
 - Kernfunktionen für Bürger (Eigentümer/Vermieter) (Visualisierung, Simulation) haben höchste Priorität.
@@ -509,6 +520,7 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 ---
 
 <a id="uebergang-zu-technischen-anforderungen"></a>
+
 ## Übergang zu technischen Anforderungen
 
 Die in diesem Dokument beschriebenen fachlichen Anforderungen werden in den **Technischen Anforderungen** konkretisiert.  

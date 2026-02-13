@@ -134,7 +134,7 @@ Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
 - Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).
 - Beide Begriffe sind nur Spektrum-Enden und keine separaten UI-Stufen.
 
-Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
+Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu kennzeichnen.
 
 ### Screen-Flow (vereinfacht)
 
@@ -145,8 +145,8 @@ Hinweis: Alle Eingaben sind als „automatisch“, „manuell“ oder „geschä
 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
-Hinweis MVP: Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
-Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
+> ⚠️ **Hinweis MVP:** Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
+> Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
 
 ### User Stories (Private Gebäudenutzer)
 

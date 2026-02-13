@@ -36,6 +36,7 @@
 32. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-der-technischen-anforderungen"></a>
+
 ## Ziel der technischen Anforderungen
 
 Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler Energie Zwilling (DEZ).  
@@ -52,6 +53,7 @@ Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-hav
 ---
 
 <a id="1-architektur-grundprinzipien"></a>
+
 ## 1. Architektur & Grundprinzipien
 
 **TA-01**  
@@ -69,6 +71,7 @@ Administrative Funktionen müssen serverseitig geschützt und nur nach erfolgrei
 ---
 
 <a id="2-frontend-auslieferung"></a>
+
 ## 2. Frontend & Auslieferung
 
 **TA-05**  
@@ -92,6 +95,7 @@ Der HTML-Code des administrativen Bereichs darf erst nach erfolgreicher Authenti
 ---
 
 <a id="3-3d-visualisierung-tiles"></a>
+
 ## 3. 3D-Visualisierung & Tiles
 
 **TA-10**  
@@ -106,7 +110,7 @@ Solarpotenziale (PV) und Geothermiepotenziale müssen als statische Attribute di
 **TA-13**  
 Zur Laufzeit dürfen keine Solar- oder Geothermiepotenziale berechnet werden.
 
-Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der finale technische Umfang für die MVP-Phase ist jedoch noch in Klärung.
+> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der finale technische Umfang für die MVP-Phase ist jedoch noch in Klärung.
 
 **TA-14**  
 3D Tiles dürfen nicht vom Backend ausgeliefert werden.
@@ -117,6 +121,7 @@ Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der f
 ---
 
 <a id="4-datenpipeline-offline"></a>
+
 ## 4. Datenpipeline (Offline)
 
 **TA-16**  
@@ -136,6 +141,7 @@ Die Datenpipeline muss unabhängig vom Laufzeitsystem betreibbar sein.
 ---
 
 <a id="5-simulationskern"></a>
+
 ## 5. Simulationskern
 
 **TA-19**  
@@ -156,6 +162,7 @@ Eine serverseitige Ausführung der Simulation darf optional für administrative 
 ---
 
 <a id="6-datenschutz-privacy-by-design"></a>
+
 ## 6. Datenschutz & Privacy-by-Design
 
 **TA-24**  
@@ -170,6 +177,7 @@ Simulation und Datenspeicherung müssen technisch voneinander entkoppelt sein.
 ---
 
 <a id="7-konfigurationsmanagement"></a>
+
 ## 7. Konfigurationsmanagement
 
 **TA-27**  
@@ -190,6 +198,7 @@ Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion repro
 ---
 
 <a id="8-backend-api"></a>
+
 ## 8. Backend & API
 
 **TA-32**  
@@ -207,6 +216,7 @@ Das Backend muss administrative Funktionen zur Sichtung und Triage von Nutzerein
 ---
 
 <a id="9-persistenz-datenhaltung"></a>
+
 ## 9. Persistenz & Datenhaltung
 
 **TA-36**  
@@ -224,6 +234,7 @@ Konfigurationsdaten müssen in der Datenbank als zentrale Quelle gepflegt werden
 ---
 
 <a id="10-betrieb-qualitaet"></a>
+
 ## 10. Betrieb & Qualität
 
 **TA-40**  
@@ -238,6 +249,7 @@ Das System muss containerisierbar sein und in einer orchestrierten Umgebung betr
 ---
 
 <a id="11-konfigurations-publishing"></a>
+
 ## 11. Konfigurations-Publishing
 
 **TA-43**  
@@ -255,6 +267,7 @@ Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfor
 ---
 
 <a id="12-oeffentliche-uebermittlung-verifikation"></a>
+
 ## 12. Öffentliche Übermittlung & Verifikation
 
 **TA-47**  
@@ -276,6 +289,7 @@ Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Se
 ---
 
 <a id="13-offline-pipeline-betrieb-airflow"></a>
+
 ## 13. Offline-Pipeline-Betrieb (Airflow)
 
 **TA-52**  
@@ -299,6 +313,7 @@ Bei Teilfehlern darf kein Teilergebnis als gültig markiert werden; fehlerhafte 
 ---
 
 <a id="14-sicherheit-security-by-design"></a>
+
 ## 14. Sicherheit (Security by Design)
 
 **TA-58**  
@@ -325,6 +340,7 @@ Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities)
 ---
 
 <a id="15-datenschutz-consent-tracking"></a>
+
 ## 15. Datenschutz, Consent & Tracking
 
 **TA-65**  
@@ -345,6 +361,7 @@ Die Oberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und die Anfor
 ---
 
 <a id="16-observability-logging"></a>
+
 ## 16. Observability & Logging
 
 **TA-70**  
@@ -353,6 +370,7 @@ Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempel
 ---
 
 <a id="17-sicherheit-sdlc"></a>
+
 ## 17. Sicherheit & SDLC
 
 **TA-71**  
@@ -361,6 +379,7 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 ---
 
 <a id="18-integration-civitas-core"></a>
+
 ## 18. Integration (CIVITAS/CORE)
 
 **TA-72**  
@@ -369,6 +388,7 @@ Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI 
 ---
 
 <a id="19-performance-skalierung"></a>
+
 ## 19. Performance & Skalierung
 
 **TA-73**  
@@ -377,6 +397,7 @@ Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstütz
 ---
 
 <a id="20-betrieb-support"></a>
+
 ## 20. Betrieb & Support
 
 **TA-74**  
@@ -385,6 +406,7 @@ Für den Betrieb sind Bugfixing, OS- und Framework-Updates, Security-Patches und
 ---
 
 <a id="21-rechenmethoden-nachweise"></a>
+
 ## 21. Rechenmethoden & Nachweise
 
 **TA-75**  
@@ -396,6 +418,7 @@ In der Projektdokumentation sind konkrete Nachweise der verwendeten Rechenmethod
 ---
 
 <a id="22-datenloeschung-sitzungen"></a>
+
 ## 22. Datenlöschung & Sitzungen
 
 **TA-77**  
@@ -413,6 +436,7 @@ Der notwendige Cookie zur Zustandswiederherstellung muss transparent ausgewiesen
 ---
 
 <a id="23-admin-triage-audit"></a>
+
 ## 23. Admin-Triage & Audit
 
 **TA-81**  
@@ -430,6 +454,7 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu 
 ---
 
 <a id="24-eingabetiefe-live-berechnung"></a>
+
 ## 24. Eingabetiefe & Live-Berechnung
 
 **TA-85**  
@@ -443,17 +468,19 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 
 ### Eingabefelder entlang des Spektrums
 
-| Eingabebereich | Pflichtangaben | Optionale Angaben |
-| ----- | ----- | ----- |
-| Ohne Nutzereingabe | keine | keine |
-| Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
-| Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
-| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
-| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Förderlogik (optional) |
+| Eingabebereich              | Pflichtangaben                                        | Optionale Angaben                                                                                                                                                                    |
+| --------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ohne Nutzereingabe          | keine                                                 | keine                                                                                                                                                                                |
+| Grundangaben                | Baujahr                                               | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen)                                                                                |
+| Bauteile und Anlage         | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil                                                                                                                                     |
+| Detaillierung               | keine zusätzlichen globalen Pflichtangaben            | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme           | Kombinationen, Budget, Förderlogik (optional)                                                                                                                                        |
 
-Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
-Hinweis: Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
-Hinweis: Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen eingabetiefenspezifisch.
+> ⚠️ **Hinweis:** Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
+>
+> Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
+>
+> Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen eingabetiefenspezifisch.
 
 ### Technische Zuordnung der Datenstufen aus der Grobkonzept-Arbeitsmappe
 
@@ -463,16 +490,17 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 - Datenstufe 2 ist technisch als maximale manuelle Überschreibbarkeit und Detailparametrisierung umzusetzen.
 - Zwischenwerte sind als kontinuierliche Kombination beider Extreme abzubilden (kein festes Stufenschema im UI oder in der API).
 
-| Domäne | Muss in Datenstufe 1 automatisiert belegt werden | Muss in Datenstufe 2 manuell überschreibbar sein |
-| ----- | ----- | ----- |
-| Dach/Dachfenster | Flächen aus LOD, U-Werte aus Baujahr/Baualtersklasse, Standardfaktoren | Flächen, U-Werte, Konstruktion/Schichtannahmen |
-| OGD/AW/UGD | Flächen und U-Werte aus LOD + Katalogwerten | Flächen, U-Werte, Konstruktionsdetails und Materialannahmen |
-| Fenster/Türen | Standardflächenanteile und U-Werte aus Baualter/Katalog | Flächen, Rahmen-/Verglasungsparameter, U-Werte |
-| Heizung/Anlage | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog | Systemart, Erzeugerart, Heizflächenart, Zusatzheizung, Detailparameter |
+| Domäne           | Muss in Datenstufe 1 automatisiert belegt werden                       | Muss in Datenstufe 2 manuell überschreibbar sein                       |
+| ---------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Dach/Dachfenster | Flächen aus LOD, U-Werte aus Baujahr/Baualtersklasse, Standardfaktoren | Flächen, U-Werte, Konstruktion/Schichtannahmen                         |
+| OGD/AW/UGD       | Flächen und U-Werte aus LOD + Katalogwerten                            | Flächen, U-Werte, Konstruktionsdetails und Materialannahmen            |
+| Fenster/Türen    | Standardflächenanteile und U-Werte aus Baualter/Katalog                | Flächen, Rahmen-/Verglasungsparameter, U-Werte                         |
+| Heizung/Anlage   | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog            | Systemart, Erzeugerart, Heizflächenart, Zusatzheizung, Detailparameter |
 
 ### Offene technische Klärungspunkte aus dem Grobkonzept
 
 Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikation zu konkretisieren:
+
 - Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
@@ -482,6 +510,7 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 ---
 
 <a id="25-anlagentechnik-detailgrad"></a>
+
 ## 25. Anlagentechnik-Detailgrad
 
 **TA-88**  
@@ -493,6 +522,7 @@ Mit zunehmender manueller Eingabetiefe müssen optionale Anlagenparameter aufgen
 ---
 
 <a id="26-open-source-foerderkulisse"></a>
+
 ## 26. Open Source & Förderkulisse
 
 **TA-90**  
@@ -525,6 +555,7 @@ Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind
 ---
 
 <a id="27-bsi-grundschutz-bezug"></a>
+
 ## 27. BSI Grundschutz Bezug
 
 **TA-99**  
@@ -542,6 +573,7 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 ---
 
 <a id="28-offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
+
 ## 28. Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
 **TA-100**  
@@ -552,6 +584,7 @@ Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vo
 
 **TA-102**  
 Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
+
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
 
@@ -564,6 +597,7 @@ Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geotherm
 ---
 
 <a id="29-civitas-core-integration-praezisierungen"></a>
+
 ## 29. CIVITAS/CORE-Integration (Präzisierungen)
 
 **TA-105**  
@@ -577,6 +611,7 @@ Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzeln
 
 **TA-108**  
 Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werden:
+
 - direkter Zugriff auf den externen S3-kompatiblen Datendienst hinter APISIX
 - Zugriff über ein optionales Tiles Gateway hinter APISIX
 
@@ -589,6 +624,7 @@ Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen 
 ---
 
 <a id="30-api-client-generierung"></a>
+
 ## 30. API-Client-Generierung
 
 **TA-109**  
@@ -611,6 +647,7 @@ Der generierte API-Client-Code muss im Pfad `src/shared/api/generated/` abgelegt
 
 **TA-115**  
 Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bereitgestellt werden:
+
 - `openapi:generate` zur Neugenerierung
 - `openapi:check` zur Prüfung, dass kein ungeprüfter Generierungs-Diff vorliegt
 
@@ -620,6 +657,7 @@ Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-L
 ---
 
 <a id="abgrenzung"></a>
+
 ## Abgrenzung
 
 Dieses Dokument beschreibt **was technisch erforderlich ist**, nicht jedoch die konkrete Implementierung.  
