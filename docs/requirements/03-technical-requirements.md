@@ -448,7 +448,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 | Ohne Nutzereingabe | keine | keine |
 | Grundangaben | Baujahr | Energieträger, Jahresverbrauch oder Kosten, Warmwasser elektrisch (Ja/Nein), Personenanzahl (Klassen) |
 | Bauteile und Anlage | Bauteilzustände je Dach/Außenwand/Fenster/Kellerdecke | Heizflächenart, Erzeugerart, Baujahre je Bauteil |
-| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Regelprinzip, technische Ausführung |
+| Detaillierung | keine zusätzlichen globalen Pflichtangaben | Überschreiben von Defaults je Bauteil, Dämmung ja/nein, Sanierungsjahr, Verglasungsart/Rahmen, Erzeugerleistung, Umwälzpumpe, technische Ausführung |
 | Szenarien und Kombinationen | Auswahl mindestens einer Sanierungsmaßnahme | Kombinationen, Budget, Förderlogik (optional) |
 
 Hinweis: Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
@@ -481,45 +481,34 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 
 ---
 
-<a id="25-anlagentechnik-detailgrad"></a>
-## 25. Anlagentechnik-Detailgrad
-
-**TA-88**  
-Die Eingabemaske muss die Heizungsregelung als auswählbare Kategorie unterstützen (Raumtemperaturregelung, witterungsgeführte Regelung, Differenzregelung).
-
-**TA-89**  
-Mit zunehmender manueller Eingabetiefe müssen optionale Anlagenparameter aufgenommen werden können (Vorlauftemperatur, Erzeugerleistung, Umwälzpumpe, Heizflächen, Regelprinzip, technische Ausführung).
-
----
-
 <a id="26-open-source-foerderkulisse"></a>
 ## 26. Open Source & Förderkulisse
 
-**TA-90**  
+**TA-88**  
 Die Lösung muss Open Source sein und als finales Release über OpenCoDE veröffentlicht werden; Zwischenstände oder Beta-Versionen dürfen dort nicht bereitgestellt werden.
 
-**TA-91**  
+**TA-89**  
 Die für OpenCoDE geforderten Qualitätskriterien müssen erfüllt werden, einschließlich: werthaltige Projektbeschreibung, benannte verantwortliche Person, CVE-Management für Abhängigkeiten, automatisierte Tests, Bug- und Security-Kontaktstellen, SBOM sowie Release Notes.
 
-**TA-92**  
+**TA-90**  
 Das Repository muss die für OpenCoDE erforderlichen Dateien enthalten (u.a. `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`, `SECURITY.md`, `publiccode.yml`). Jede Datei muss einen Urheberrechtsvermerk, eine Lizenzbezeichnung und einen SPDX-Identifier enthalten.
 
-**TA-93**  
+**TA-91**  
 Die Open-Source-Lizenz ist in Abstimmung mit dem Auftraggeber auszuwählen (permissiv vs. Copyleft). Lizenz-Compliance ist sicherzustellen; die Nutzung von CLA und/oder DCO ist vorzusehen.
 
-**TA-94**  
+**TA-92**  
 Die Dokumentation muss Wiederverwendbarkeit sicherstellen und mindestens Installationsanleitung, Schnittstellenbeschreibung sowie Benutzer- und Administrationshandbuch umfassen; die Open-Source-Guidelines der Förderkulisse sind einzuhalten.
 
-**TA-95**  
+**TA-93**  
 Vendor-Lock-in ist zu vermeiden: Die Codebase muss portabel, frei von proprietären Geheimnissen und ohne nicht-offene Abhängigkeiten bereitgestellt werden.
 
-**TA-96**  
+**TA-94**  
 Code mit Datentausch-Funktionalität muss öffentliche Standards für den Austausch verwenden; eine Liste aller verwendeten Standards ist innerhalb der Codebase zu pflegen.
 
-**TA-97**  
+**TA-95**  
 Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen (z.B. Secret-Scanning, gesicherte Release-Pfade, Vieraugenprinzip).
 
-**TA-98**  
+**TA-96**  
 Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind, müssen diese aus den verfügbaren Daten nach dem LfU/TUM-Vorgehen selbst berechnet werden; der Fallback ist in der Pipeline zu berücksichtigen.
 
 ---
@@ -527,7 +516,7 @@ Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind
 <a id="27-bsi-grundschutz-bezug"></a>
 ## 27. BSI Grundschutz Bezug
 
-**TA-99**  
+**TA-97**  
 Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz-Kompendiums orientieren. Für den Digitaler Energie Zwilling (DEZ) sind insbesondere folgende Bausteine einschlägig:
 
 - APP.3.1 Webanwendungen und Webservices
@@ -544,21 +533,21 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 <a id="28-offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
 ## 28. Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
-**TA-100**  
+**TA-98**  
 Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
 
-**TA-101**  
+**TA-99**  
 Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
 
-**TA-102**  
+**TA-100**  
 Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
 
-**TA-103**  
+**TA-101**  
 Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
 
-**TA-104**  
+**TA-102**  
 Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
@@ -566,24 +555,24 @@ Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geotherm
 <a id="29-civitas-core-integration-praezisierungen"></a>
 ## 29. CIVITAS/CORE-Integration (Präzisierungen)
 
-**TA-105**  
+**TA-103**  
 Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D Tiles) müssen ausschließlich über APISIX erfolgen; direkte öffentliche Zugriffe auf interne Dienste sind unzulässig.
 
-**TA-106**  
+**TA-104**  
 Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
 
-**TA-107**  
+**TA-105**  
 Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzelner Dienste oder Teilkomponenten unterstützen, sofern diese fachlich sinnvoll entkoppelbar sind.
 
-**TA-108**  
+**TA-106**  
 Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werden:
 - direkter Zugriff auf den externen S3-kompatiblen Datendienst hinter APISIX
 - Zugriff über ein optionales Tiles Gateway hinter APISIX
 
-**TA-117**  
+**TA-107**  
 Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich.
 
-**TA-118**  
+**TA-108**  
 Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen und muss über Cesium Tileset Styles (z.B. `Cesium3DTileStyle`) auf Basis der Effizienzklassen bzw. Ergebnisattribute steuerbar sein.
 
 ---
