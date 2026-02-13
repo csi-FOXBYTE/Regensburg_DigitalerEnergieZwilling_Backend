@@ -3,40 +3,49 @@ title Runtime-Flow: Admin Triage
 
 actor Admin
 participant "Admin-Bereich" as ui
+participant "APISIX (Web/API Gateway)" as gateway
 participant "Backend API" as api
 participant "Triage Service" as triage
 database "Database" as db
 
 Admin -> ui : Open admin area
-ui -> api : GET /admin/triage\nfilters, paging
+ui -> gateway : GET /admin/triage\nfilters, paging
+gateway -> api : Forward request
 api -> triage : list entries
 triage -> db : query entries
 db --> triage : entries
 triage --> api : list response
-api --> ui : list + status
+api --> gateway : list + status
+gateway --> ui : list + status
 
 Admin -> ui : Open building details
-ui -> api : GET /admin/buildings/{id}/entries
+ui -> gateway : GET /admin/buildings/{id}/entries
+gateway -> api : Forward request
 api -> triage : load entries
 triage -> db : fetch entries + audit
 db --> triage : entries + audit
 triage --> api : detail response
-api --> ui : compare view
+api --> gateway : compare view
+gateway --> ui : compare view
 
 Admin -> ui : Mark plausible\nadd note
-ui -> api : POST /admin/entries/{id}/status
+ui -> gateway : POST /admin/entries/{id}/status
+gateway -> api : Forward request
 api -> triage : validate and set status
 triage -> db : update status + audit log
 db --> triage : ok
 triage --> api : ok
-api --> ui : confirmation
+api --> gateway : confirmation
+gateway --> ui : confirmation
 
 Admin -> ui : Export data
-ui -> api : GET /admin/exports\nfilters
+ui -> gateway : GET /admin/exports\nfilters
+gateway -> api : Forward request
 api -> triage : create export
 triage -> db : query export data
 db --> triage : export dataset
 triage --> api : export file
-api --> ui : download
+api --> gateway : download
+gateway --> ui : download
 
 @enduml

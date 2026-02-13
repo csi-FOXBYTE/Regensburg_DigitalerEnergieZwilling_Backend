@@ -11,9 +11,11 @@ angebunden werden.
 ## Überblick
 
 - Civitas Core orchestriert die Container (Backend Add-on, Airflow, Pipeline-Container).
-- Der Web-Zugang erfolgt über ein Web Gateway.
+- Der Web-Zugang erfolgt über APISIX als Web/API-Gateway.
 - Statische Frontend-Assets und veröffentlichte Konfigurations-Snapshots werden getrennt ausgeliefert.
-- 3D Tiles liegen im externen Datendienst (S3-kompatibel) und werden über das Tiles Gateway bereitgestellt.
+- 3D Tiles liegen im externen Datendienst (S3-kompatibel) und werden über APISIX bereitgestellt:
+  - entweder direkt aus dem Datendienst
+  - oder über ein optionales Tiles Gateway
 - Datenbank und Identity Provider laufen innerhalb von Civitas Core.
 
 ---
@@ -31,3 +33,4 @@ Quelle: `raw/deployment-civitas-core.puml`
 - Der externe Datendienst entspricht dem 3D Tiles Storage.
 - Airflow ist Teil von Civitas Core und orchestriert die Offline-Pipeline.
 - Backend läuft als Civitas-Core-fähiges Add-on in einem separaten Container.
+- Ein Tiles Gateway ist optional und wird nur betrieben, wenn direkter HTTPS-Zugriff auf den Datendienst nicht ausreicht oder zusätzliche Proxy-Funktionen benötigt werden.

@@ -18,12 +18,13 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 
 ## Schnittstellen
 
-- Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen).
-- Administrative API (Konfiguration, Triage, Reporting).
+- Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen) über APISIX.
+- Administrative API (Konfiguration, Triage, Reporting) über APISIX.
+- OpenAPI-3.0-Spezifikation als Vertragsquelle für Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.
 - Relationale Datenbank mit räumlicher Erweiterung.
 - Simulationskern als eingebettetes Modul für Re-Berechnungen.
-- Externer Datendienst (z.B. S3) und Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt).
+- Externer Datendienst (z.B. S3) und optionales Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt); externer Zugriff erfolgt über APISIX.
 
 ---
 
@@ -40,6 +41,15 @@ Quelle: `raw/backend-architecture.puml`
 - Relationale Datenbank für dynamische und administrative Daten.
 - Keine Speicherung statischer Potenzialdaten oder 3D Tiles.
 - Konfigurations-Snapshots als exportierte Dateien.
+
+---
+
+## API-Vertrag
+
+- OpenAPI 3.0 wird im Backend über Fastify-toab/Fastify-Swagger bereitgestellt.
+- Diese Spezifikation ist die Source of Truth für die Generierung des Frontend-API-Clients.
+- Für die Frontend-Generierung wird die Spezifikation als Artefakt im Pfad `openapi/openapi.json` bereitgestellt.
+- Änderungen am API-Vertrag werden über OpenAPI-Diff im Review-/Release-Prozess nachvollzogen.
 
 ---
 

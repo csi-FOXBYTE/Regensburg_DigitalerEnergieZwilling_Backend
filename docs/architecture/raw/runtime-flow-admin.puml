@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 skinparam sequence {
@@ -14,7 +14,7 @@ title Runtime-Flow - Stadtverwaltung / Fachpersonal (Admin)
 
 actor Admin as admin
 participant "Admin-Bereich Client" as client
-participant "Web Gateway" as gateway
+participant "APISIX (Web/API Gateway)" as gateway
 participant "Auth Middleware" as auth
 participant "Keycloak (OIDC)" as keycloak
 participant "Backend API" as api
@@ -24,7 +24,7 @@ participant "Triage/Reporting Service" as triage
 database "Database" as db
 participant "Public Static Delivery" as public_static
 
-admin -> client: Öffnet /admin
+admin -> client: Oeffnet /admin
 client -> gateway: GET /admin
 gateway -> auth: Check Session
 auth -> keycloak: OIDC Login
@@ -38,39 +38,47 @@ alt Auth fehlgeschlagen
 end
 
 admin -> client: Konfiguration bearbeiten
-client -> api: POST /api/admin/config
+client -> gateway: POST /api/admin/config
+gateway -> api: Forward request
 api -> config: Update Config
 config -> db: Store Version
 db --> config: OK
 config --> api: OK
-api --> client: Updated
+api --> gateway: Updated
+gateway --> client: Updated
 
 alt Validierung oder Konflikt
   config --> api: Error (Validation/Conflict)
-  api --> client: Error
+  api --> gateway: Error
+  gateway --> client: Error
 end
 
-admin -> client: Konfiguration veröffentlichen
-client -> api: POST /api/admin/config/publish
+admin -> client: Konfiguration veroeffentlichen
+client -> gateway: POST /api/admin/config/publish
+gateway -> api: Forward request
 api -> config: Publish
 config -> export: Generate Snapshot
 export -> public_static: Write /config/versioned.json
 export --> config: Done
 config --> api: Published
-api --> client: Published
+api --> gateway: Published
+gateway --> client: Published
 
 alt Export fehlgeschlagen
   export --> config: Error
   config --> api: Error
-  api --> client: Error
+  api --> gateway: Error
+  gateway --> client: Error
 end
 
-admin -> client: Triage öffnen
-client -> api: GET /api/admin/triage
+admin -> client: Triage oeffnen
+client -> gateway: GET /api/admin/triage
+gateway -> api: Forward request
 api -> triage: Load Cases
 triage -> db: Query Inputs/Results
 db --> triage: Data
 triage --> api: Data
-api --> client: Triage View
+api --> gateway: Triage View
+gateway --> client: Triage View
 
 @enduml

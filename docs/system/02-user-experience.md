@@ -2,15 +2,13 @@
 
 Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwilling (DEZ): Ziele, Nutzerbedürfnisse, Interaktionslogik und die fachliche Informationsarchitektur.
 
-## Agenda
-
 ## Inhaltsverzeichnis
 
 1. [Ziel und Nutzungskontext](#ziel-und-nutzungskontext)
-2. [Hauptzielgruppe: Private Gebäudenutzer](#hauptzielgruppe-private-gebaudenutzer)
-3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-und-interaktion-im-burgerbereich)
+2. [Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)](#hauptzielgruppe)
+3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-burger)
 4. [Informationsarchitektur und Datenstruktur](#informationsarchitektur-und-datenstruktur)
-5. [Nebenzielgruppe: Stadtverwaltung / Kommunen](#nebenzielgruppe-stadtverwaltung--kommunen)
+5. [Nebenzielgruppe: Stadtverwaltung / Fachpersonal](#nebenzielgruppe-stadtverwaltung--fachpersonal)
 6. [Interaktions- und Screenkonzept](#interaktions--und-screenkonzept)
 
 ---
@@ -19,7 +17,7 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 
 Das Kapitel dient als Orientierung für fachliche, UX- und MVP-Entscheidungen.
 
-- Es beschreibt, wie Bürger (Eigentümer/Vermieter) das System verstehen und nutzen.
+- Es beschreibt, wie Bürger (Eigentümer/Vermieter/Mieter) das System verstehen und nutzen.
 - Es zeigt, welche Informationen in welcher Reihenfolge benötigt werden.
 - Es grenzt den Charakter des Tools klar als Orientierungshilfe ab.
 
@@ -27,9 +25,11 @@ Ergebnisse sind indikativ und ersetzen keine individuelle Fachberatung.
 
 ---
 
-## Hauptzielgruppe: Private Gebäudenutzer
+<a id="hauptzielgruppe"></a>
 
-Die primäre Zielgruppe des Sanierungstools sind private Gebäudenutzer (Eigentümer, Mieter, Verwalter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
+## Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)
+
+Die primäre Zielgruppe des Sanierungstools sind Bürger (Eigentümer/Vermieter/Mieter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
 
 ### Ausgangslage / Wissensstand
 
@@ -79,6 +79,8 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 ---
 
+<a id="nutzerreise-burger"></a>
+
 ## Nutzerreise und Interaktion im Bürgerbereich
 
 ### Nutzerreise (Phasen)
@@ -95,7 +97,7 @@ Die Journey dient als Grundlage für:
 | ------------- | -------------------- | --------------------------------------------- |
 | Awareness     | Problem erkennen     | Heizkosten steigen, Handlungsdruck entsteht   |
 | Consideration | Nutzen prüfen        | Tool wirkt verlässlich und einfach            |
-| Onboarding    | Gebäude finden       | Gebäude wählen, Basisdaten prüfen             |
+| Onboarding    | Gebäude finden       | Gebäude wählen, Daten prüfen                  |
 | Simulation    | Optionen testen      | Maßnahmen vergleichen, Effekte verstehen      |
 | Review        | Entscheidung stützen | Zusammenfassung, PDF-Export, nächste Schritte |
 
@@ -213,7 +215,7 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 ---
 
-## Nebenzielgruppe: Stadtverwaltung / Kommunen
+## Nebenzielgruppe: Stadtverwaltung / Fachpersonal
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
@@ -221,7 +223,7 @@ In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in d
 
 ### Rollenbeschreibung
 
-Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
+Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung / Fachpersonal (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
 Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst und strategischer Anwender.
 
 ### Ausgangslage / Datenproblem
@@ -322,7 +324,7 @@ angestrebte Zielinteraktion ab.
 
 ---
 
-## 6.1 Startseite / Einstieg
+## 1 Startseite / Einstieg
 
 ![0_Startseite.png](./attachments/0_Startseite.png)
 _Startseite_
@@ -352,7 +354,7 @@ Daten.
 
 ---
 
-## 6.2 Gebäudewahl & Energetische Ersteinschätzung
+## 2 Gebäudewahl & Energetische Ersteinschätzung
 
 ![1_Ersteinschätzung.png](./attachments/1_Ersteinschätzung.png)
 _Energetische Erstauswertung nach Gebäudeauswahl über 3D Gebäude oder Suchfeld_
@@ -363,7 +365,7 @@ _Energetische Erstauswertung nach Gebäudeauswahl über 3D Gebäude oder Suchfel
 
 Nach Auswahl eines Gebäudes auf der Karte wird eine energetische
 Ersteinschätzung angezeigt.\
-Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.
+Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.\
 
 **Angezeigt werden:**
 
@@ -381,7 +383,7 @@ Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.
 
 ---
 
-## 6.3 Allgemeine Daten prüfen & anpassen
+## 3 Allgemeine Daten prüfen & anpassen
 
 ![2_Datenanpassung.png](./attachments/2_Datenanpassung.png)
 _Gebäudedaten (Exemplarische Darstellung des Eingabebereichs)_
@@ -418,7 +420,7 @@ prüfen und korrigieren.
 
 ---
 
-## 6.4 Auswahl von Sanierungsmaßnahmen
+## 4 Auswahl von Sanierungsmaßnahmen
 
 ![3_Sanierungsmaßnahmen.png](./attachments/3_Sanierungsmaßnahmen.png)
 _Sanierungsmaßnahmen_
@@ -455,7 +457,7 @@ Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
 
 ---
 
-## 6.5 Ergebnisse & Entscheidungsübersicht
+## 5 Ergebnisse & Entscheidungsübersicht
 
 ![4_Ergebnis.png](./attachments/4_Ergebnis.png)
 _Ergebnis_

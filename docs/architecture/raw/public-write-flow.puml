@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 
@@ -7,7 +7,7 @@ title Public Write Flow - Altcha + Server-Recompute
 actor Citizen as user
 participant "Public Client" as client
 participant "Altcha Widget" as altcha
-participant "Web Gateway" as gateway
+participant "APISIX (Web/API Gateway)" as gateway
 participant "Backend API" as api
 participant "Simulation Core (Server)" as sim
 database "Database" as db
@@ -18,15 +18,16 @@ altcha --> client: Challenge data
 client -> altcha: Solve challenge
 altcha --> client: Altcha token
 
-client -> api: Submit inputs + results + config_version\n+ Altcha token
-api -> gateway: Rate limit check
-gateway --> api: OK
+client -> gateway: Submit inputs + results + config_version + Altcha token
+gateway -> gateway: Rate limit check
+gateway -> api: Forward request
 api -> api: Validate input ranges (config)
 api -> sim: Recompute with same core + config
 sim --> api: Server results
 api -> db: Store inputs + results
 db --> api: Stored
-api --> client: Accepted / Rejected
+api --> gateway: Accepted / Rejected
+gateway --> client: Accepted / Rejected
 
 note right of api
 Only verified + triaged results

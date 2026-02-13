@@ -10,8 +10,8 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
-Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Simulationen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting).  
-Beteiligte Komponenten: Web Gateway, Public Client, Tiles Gateway, Config Snapshot, Backend API (optional).  
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Simulationen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting). Der Bearbeitungszustand wird über einen notwendigen Cookie für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.  
+Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, optional Tiles Gateway oder direkter Datendienstzugriff, Config Snapshot, Backend API (optional).  
 Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, Altcha-Validierung fehlgeschlagen, Server-Recompute abweichend.
 
 ![runtime-flow-public.png](./attachments/runtime-flow-public.png)
@@ -20,7 +20,7 @@ Quelle: `raw/runtime-flow-public.puml`
 
 **Stadtverwaltung / Fachpersonal-Flow**  
 Admins authentifizieren sich via OIDC, bearbeiten Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.  
-Beteiligte Komponenten: Web Gateway, Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
+Beteiligte Komponenten: APISIX (Web/API-Gateway), Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
 Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
 
 ![runtime-flow-admin.png](./attachments/runtime-flow-admin.png)
