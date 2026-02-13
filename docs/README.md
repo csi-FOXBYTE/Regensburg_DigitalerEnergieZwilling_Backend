@@ -67,7 +67,9 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - [Definition of Ready / Done](process/dor-dod.md)
 - [Projektplanung (Entwurf)](process/project-planning.md)
 
-<a id="open-source-foerderkulisse-checkliste"></a>
+## Roadmap
+
+- [MVP-Definition und Release-Aufteilung](roadmap/mvp-definition.md)
 
 ## Open Source & Förderkulisse Checkliste
 
