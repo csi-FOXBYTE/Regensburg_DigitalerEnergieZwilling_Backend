@@ -4,11 +4,14 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 
 ## Agenda
 
-1. Ziel und Nutzungskontext
-2. Hauptzielgruppe: Private Gebäudenutzer
-3. Nutzerreise und Interaktion im Bürgerbereich
-4. Informationsarchitektur und Datenstruktur
-5. Nebenzielgruppe: Stadtverwaltung / Kommunen
+## Inhaltsverzeichnis
+
+1. [Ziel und Nutzungskontext](#ziel-und-nutzungskontext)
+2. [Hauptzielgruppe: Private Gebäudenutzer](#hauptzielgruppe-private-gebaudenutzer)
+3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-und-interaktion-im-burgerbereich)
+4. [Informationsarchitektur und Datenstruktur](#informationsarchitektur-und-datenstruktur)
+5. [Nebenzielgruppe: Stadtverwaltung / Kommunen](#nebenzielgruppe-stadtverwaltung--kommunen)
+6. [Interaktions- und Screenkonzept](#interaktions--und-screenkonzept)
 
 ---
 
@@ -214,7 +217,7 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
-Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
+    ⚠️ Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
 
 ### Rollenbeschreibung
 
@@ -309,3 +312,184 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Als Stadtverwalter/in möchte ich Energieeffizienzklassen, Gebäudetypen und Heizarten pflegen, damit Eingaben konsistent bleiben.
 - Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
 - Als Stadtverwalter/in möchte ich geprüfte Daten exportieren, um sie in der Wärmeplanung weiterzuverwenden.
+
+## Interaktions- und Screenkonzept
+
+Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des
+Digitalen Energie-Zwillings anhand zentraler Anwendungsscreens.\
+Die Darstellungen entsprechen High-Fidelity-Mockups und bilden die
+angestrebte Zielinteraktion ab.
+
+---
+
+## 6.1 Startseite / Einstieg
+
+![0_Startseite.png](./attachments/0_Startseite.png)
+_Startseite_
+
+**Ziel:** Niederschwelliger Einstieg in das Tool und Aktivierung des
+Nutzers.
+
+### Beschreibung
+
+Die Startseite vermittelt klar den Nutzen des Tools:\
+Simulation der energetischen Gebäudesanierung auf Basis städtischer
+Daten.
+
+**Zentrale Elemente:**
+
+- Prägnante Leitfrage („Wie effizient ist Ihr Gebäude...?")
+- Kurze Nutzenargumentation (kostenlos, unverbindlich, datengestützt)
+- Primärer Call-to-Action („Jetzt starten")
+- Transparenzhinweis zur Modellhaftigkeit der Berechnungen
+- Visuelle Verankerung durch 3D-Stadtmodell
+
+**UX-Prinzip:**
+
+- Reduktion auf einen klaren Einstiegspunkt
+- Vertrauensbildung durch institutionellen Kontext (Stadt Regensburg)
+- Erwartungsmanagement über Hinweisbox
+
+---
+
+## 6.2 Gebäudewahl & Energetische Ersteinschätzung
+
+![1_Ersteinschätzung.png](./attachments/1_Ersteinschätzung.png)
+_Energetische Erstauswertung nach Gebäudeauswahl über 3D Gebäude oder Suchfeld_
+
+**Ziel:** Automatische Ableitung eines energetischen Ausgangszustands.
+
+### Beschreibung
+
+Nach Auswahl eines Gebäudes auf der Karte wird eine energetische
+Ersteinschätzung angezeigt.\
+Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.
+
+**Angezeigt werden:**
+
+- Energiebedarf (kWh/m²a)
+- Energieeffizienzklasse
+- CO₂-Emissionen
+- Vergleich mit städtischem Durchschnitt
+- Einsparpotenzial (Benchmark-basierte Abschätzung)
+
+**UX-Prinzip:**
+
+- Sofortiges Feedback nach Gebäudeauswahl
+- Transparente Kennzeichnung als modellbasierte Ableitung
+- Vergleich mit Gebäudebestand zur Einordnung
+
+---
+
+## 6.3 Allgemeine Daten prüfen & anpassen
+
+![2_Datenanpassung.png](./attachments/2_Datenanpassung.png)
+_Gebäudedaten (Exemplarische Darstellung des Eingabebereichs)_
+
+**Ziel:** Validierung und Individualisierung der automatisch
+abgeleiteten Gebäudedaten.
+
+### Beschreibung
+
+In diesem Schritt können Nutzer systemseitig abgeleitete Parameter
+prüfen und korrigieren.
+
+**Beispielhafte Eingaben:**
+
+- Baualtersklasse
+- Wohnfläche
+- Anzahl der Geschosse
+- Personen im Haushalt
+- Gebäudetyp (freistehend / angrenzend)
+
+**Live-Feedback:**
+
+- Energiebedarf
+- Energieeffizienzklasse
+- Kosten
+- CO₂-Emissionen
+
+**UX-Prinzip:**
+
+- Transparente Herkunft der Daten („vom System abgeleitet")
+- Klare Trennung zwischen abgeleiteten und manuell veränderbaren
+  Werten
+- Sofortige Aktualisierung der Kennzahlen
+
+---
+
+## 6.4 Auswahl von Sanierungsmaßnahmen
+
+![3_Sanierungsmaßnahmen.png](./attachments/3_Sanierungsmaßnahmen.png)
+_Sanierungsmaßnahmen_
+
+**Ziel:** Simulation verschiedener Sanierungsszenarien.
+
+### Beschreibung
+
+Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
+
+**Bereiche:**
+
+- Dämmung (Dach, Fassade, Kellerdecke, Fenster)
+- Heizsysteme (Wärmepumpe etc.)
+- Zusatztechnik (PV, Solarthermie)
+- Anzeige von:
+  - Sparpotenzial
+  - Investitionskosten
+  - Förderungen
+  - Eigenanteil
+- Budgetbasierte Sanierungsvorschläge
+
+**Interaktionslogik:**
+
+- Mehrfachauswahl möglich
+- Live-Aktualisierung der energetischen Kennwerte
+- Kennzeichnung empfohlener Maßnahmen
+
+**UX-Prinzip:**
+
+- Vergleichbarkeit durch tabellarische Darstellung
+- Klare wirtschaftliche Transparenz
+- Entscheidungsunterstützung durch Empfehlungen
+
+---
+
+## 6.5 Ergebnisse & Entscheidungsübersicht
+
+![4_Ergebnis.png](./attachments/4_Ergebnis.png)
+_Ergebnis_
+
+**Ziel:** Ganzheitliche Bewertung der gewählten Sanierungsstrategie mit detailiertem Vergleich IST- und SOLL-Zustand.
+
+### Beschreibung
+
+Die Ergebnisseite aggregiert alle relevanten Kennzahlen:
+
+- Neuer Energiebedarf
+- Neue Effizienzklasse
+- Jährliche Kosten
+- CO₂-Emissionen
+- Vergleich mit Gebäudebestand
+- Vorher-/Nachher-Darstellung
+- Histogramm-Einordnung im Stadtbestand
+- Zugang zu Detailvergleich
+
+**UX-Prinzip:**
+
+- Fokus auf Entscheidungsfähigkeit
+- Visuelle Einordnung im städtischen Kontext
+- Transparenz von Wirkung, Kosten und Emission
+
+---
+
+# 6.6 UX-Leitprinzipien des Systems
+
+Das Interface folgt folgenden Grundprinzipien:
+
+1.  **Datenreduktion durch Vorbefüllung (LoD2, Typologien)**
+2.  **Transparenz über Modellannahmen**
+3.  **Live-Aktualisierung zentraler Kennwerte**
+4.  **Vergleichbarkeit von Maßnahmen**
+5.  **Entscheidungsunterstützung durch Visualisierung**
+6.  **Niederschwelliger Zugang ohne Fachkenntnisse**
