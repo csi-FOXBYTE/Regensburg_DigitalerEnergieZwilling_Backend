@@ -9,8 +9,8 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
 
 1. **Release 1:** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
-2. **Release 2:** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
-3. **Release 3:** Verwaltungsbereich für Stadtverwaltung / Fachpersonal (Konfiguration Berechnungsparameter und Maßnahmen)
+2. **Release 2 (primär Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter)):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
+3. **Release 3 (primär Nebenzielgruppe (Stadtverwaltung/Fachpersonal)):** Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
 
 ---
 
@@ -23,7 +23,7 @@ Umfang:
 - Aufbau der benötigten Services für den Plattformbetrieb.
 - Umsetzung der Datenpipeline zur Anreicherung der 3D-Tiles.
 - Vorgelagertes Verschneiden/Preprocessing, damit ein vollständiger Datensatz offline verfügbar ist.
-- Verortung des verpflichtenden Masterportal-Link-Outs auf die DEZ-Plattform.
+- Verortung des MasterPortal-Link-Outs auf die DEZ-Plattform.
 
 Ergebnis:
 - Betriebsfähige Plattformgrundlage für die folgenden Releases.
@@ -31,47 +31,43 @@ Ergebnis:
 
 ---
 
-## Release 2 - Öffentlicher Client (Bürgerbereich) + Backend-CRUD
+## Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter): Öffentlicher Client + Backend-CRUD
 
-Ziel: Bürger einbinden und den ersten nutzbaren End-to-End-Flow bereitstellen.
+Ziel: Primärfunktionen für die Hauptzielgruppe bereitstellen und den ersten nutzbaren End-to-End-Flow ermöglichen.
 
 Umfang öffentlicher Client:
 - 3D-Kartenansicht.
 - Auswahl eines Gebäudes über 3D-Ansicht und/oder Adresseingabe.
 - Darstellung des Ist-Zustands inklusive Berechnung und Plausibilitätscheck.
-- Basisimplementierung der Sanierungsempfehlung inklusive Auswahl von Maßnahmen.
+- Basisimplementierung der Sanierungsempfehlung, inklusive Auswahl von Maßnahmen.
 - Ergebnisanzeige inklusive Vergleich innerhalb der Stadt Regensburg.
-- Fördermöglichkeiten (einfache Implementierung).
-- Bereitstellung der Daten zur Wärmeplanung über die CIVITAS/CORE-Plattform.
-- Datenfreigabe durch Nutzer.
+- Erste Implementierung von Fördermöglichkeiten.
 - Footer-Bereich: Impressum, Datenschutz, Cookie-Consent.
-
-Hinweis Wärmeplanung:
-- Der Zugriff auf die Wärmeplanungsdaten erfolgt über die CIVITAS/CORE-Plattform.
-- Eine dedizierte Abfrage- oder Darstellungslogik ist nicht Bestandteil des MVP und wird in Phase 4 behandelt.
-- Die Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal ist nicht Bestandteil des MVP und wird in Phase 4 behandelt.
 
 Umfang Backend:
 - Backend-Implementierung inklusive CRUD-Funktionalitäten für die MVP-relevanten Datenflüsse.
 
 Ergebnis:
-- Erstes produktiv nutzbares Bürgerangebot mit Datenfreigabe durch Nutzer.
+- Erstes nutzbares Bürgerangebot.
 
 ---
 
-## Release 3 - Verwaltungsbereich für Stadtverwaltung / Fachpersonal
+## Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
 
-Ziel: Fachliche Steuerung und Pflege durch Stadtverwaltung / Fachpersonal ermöglichen.
+Ziel: Primärfunktionen für die Nebenzielgruppe bereitstellen; zusätzlich die für Datenfreigabe und Wärmeplanung sowie Abschluss des MVP erforderlichen Querschnittsfunktionen umsetzen.
 
 Umfang:
+- Technische Bereitstellung des Exports als PDF/JSON für den öffentlichen Client (Bürgerbereich).
+- Datenfreigabe durch Nutzer und Bereitstellung der freigegebenen Eingabedaten für die Wärmeplanung über die CIVITAS/CORE-Plattform.
+- Löschprozess über Export-Referenz (z. B. Link/QR) inklusive Zwei-Faktor-Verfahren.
 - Umsetzung des Verwaltungsbereichs.
 - Konfiguration der Berechnungsparameter.
 - Konfiguration der Sanierungsmaßnahmen.
-- Export als PDF/JSON.
-- Löschprozess inklusive Zwei-Faktor-Verfahren.
+- Dedizierte Abfrage- und Darstellungslogik für Wärmeplanungsdaten.
+- Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal.
 
 Ergebnis:
-- Administrierbarer MVP mit steuerbarer Berechnungslogik und Maßnahmenkatalog.
+- Administrierbarer MVP mit steuerbarer Berechnungslogik, bereitgestellten Abschlussfunktionen für den Bürgerbereich (Export und Löschung) sowie umgesetzter Datenfreigabe und Wärmeplanung.
 
 ---
 
@@ -79,8 +75,7 @@ Ergebnis:
 
 Folgende Themen werden für die verbleibende Entwicklungsdauer außerhalb bzw. nach der MVP-Phase eingeplant:
 
-- Amortisation.
-- Feedback-Funktion.
+- Darstellung der Amortisation.
+- Implementierung der Feedback-Funktion.
 - Einfärben von Gebäuden in der 3D-Ansicht.
 - Quartiersanalyse (Vergleich mit Gebiet/Stadt).
-- Verwaltungsbereich speziell für die Wärmeplanung (inklusive Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal).
