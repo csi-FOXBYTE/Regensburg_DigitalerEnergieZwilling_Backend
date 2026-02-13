@@ -7,7 +7,7 @@ skinparam rectangle {
 
 title Backend-Architektur
 
-rectangle "Civitas Core Platform" as civitas {
+rectangle "CIVITAS/CORE Platform" as civitas {
   rectangle "Orchestrierung" as orchestrator
 
   rectangle "Backend Add-on\n(Container)" as backend {

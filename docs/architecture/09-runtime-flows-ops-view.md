@@ -50,7 +50,7 @@ Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
 Airflow-Run wird manuell gestartet, Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
-Beteiligte Komponenten: Civitas Core (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
+Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
 Fehlerpfade: fehlende Eingaben, Konvertierungsfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
 
 ![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
@@ -116,7 +116,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 <a id="zustaendigkeiten-und-betriebsprozesse"></a>
 ## Zuständigkeiten und Betriebsprozesse
 
-- Betrieb und Orchestrierung liegen beim Civitas-Core-Betriebsteam.  
+- Betrieb und Orchestrierung liegen beim CIVITAS/CORE-Betriebsteam.  
   Verantwortung: Airflow, Datendienstzugriff, Deployments, Monitoring.
 - Fachlicher Betrieb (Konfiguration/Triage) liegt bei Stadtverwaltung / Fachpersonal.
 - Notfallprozess: Incident-Owner wird benannt, Runbooks definieren Wiederanlauf und Kommunikationswege.

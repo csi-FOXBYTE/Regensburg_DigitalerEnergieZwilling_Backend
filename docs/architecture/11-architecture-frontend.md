@@ -15,7 +15,7 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Frontends des Digitaler Energy Zwilling (DEZ). Fokus ist die statische Auslieferung und die Laufzeit im Browser.
+Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Frontends des Digitaler Energie Zwilling (DEZ). Fokus ist die statische Auslieferung und die Laufzeit im Browser.
 
 ---
 

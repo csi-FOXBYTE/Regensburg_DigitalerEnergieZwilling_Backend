@@ -114,7 +114,7 @@ Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wi
 *   **Gefühl**: Eher bürokratisch, "Formular ausfüllen", GIS-Experten-Look.
     
 **Option B: Standalone App (React & Cesium)**
-*   **Einstieg**: Nutzer landet auf einer dedizierten, atmosphärischen Startseite ("Regensburg Energie-Zwilling") mit automatischem Kameraflug über die Stadt.
+*   **Einstieg**: Nutzer landet auf einer dedizierten, atmosphärischen Startseite ("Regensburg Digitaler Energie Zwilling") mit automatischem Kameraflug über die Stadt.
     
 *   **Interaktion**: Mouseover über Gebäude zeigt sofort Energieklassen als farbige Tooltips (kein Klick nötig).
     
@@ -127,7 +127,7 @@ Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wi
 *   **Gefühl**: Modern, spielerisch ("Gamification"), immersiv, motivierend für Bürger (Eigentümer/Vermieter).
     
 
-> **Empfehlung:** > Um alle UX Vorgaben einhalten zu können und die Erweiterung der Interaktion so groß wie möglich zu halten, wird empfohlen eine **eigenständige Lösung** abgekapselt vom MasterPortal zu entwickeln. Um die Sichtbarkeit möglichst groß zu halten wird aber empfohlen im MasterPortal einen Link zur Anwendung zu hinterlegen, sodass Benutzer des MasterPortals zum Energie Zwilling finden.
+> **Empfehlung:** > Um alle UX Vorgaben einhalten zu können und die Erweiterung der Interaktion so groß wie möglich zu halten, wird empfohlen eine **eigenständige Lösung** abgekapselt vom MasterPortal zu entwickeln. Um die Sichtbarkeit möglichst groß zu halten wird aber empfohlen im MasterPortal einen Link zur Anwendung zu hinterlegen, sodass Benutzer des MasterPortals zum Digitaler Energie Zwilling finden.
 
 ### Anhang: Frontend Admin-Dashboard (Stadtverwaltung / Fachpersonal)
 Beide Frontend Varianten benötigen eine Adminoberfläche (Stadtverwaltung / Fachpersonal) die separat (außerhalb des öffentlich zugänglichen Systems aufgerufen werden können, dies wird in der ersten Planung vernachlässigt weil es nur eine Lösungsmöglichkeit dafür gibt.
@@ -245,7 +245,7 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 - **Container-Registry**: Die Build-Artefakte (Frontend Bundle & Backend Service) werden als Docker Images in einer zentralen Registry abgelegt.
 
 ### Authentifizierung & Sicherheit (IAM)
-- **Identity Provider (IdP)**: Für den geschützten Admin-Bereich (Stadtverwaltung / Fachpersonal) erfolgt die Authentifizierung über OpenID Connect (OIDC) gegen den zentralen CIVITAS Keycloak.
+- **Identity Provider (IdP)**: Für den geschützten Admin-Bereich (Stadtverwaltung / Fachpersonal) erfolgt die Authentifizierung über OpenID Connect (OIDC) gegen den zentralen Keycloak in CIVITAS/CORE.
 - **Rollenkonzept**: Mapping von CIVITAS-Rollen auf Anwendungsrechte (z.B. `civitas_admin` -> `app_admin`).
 - **Public Access**: Der Bürger-Client (Eigentümer/Vermieter) (Sanierungsrechner) agiert ohne Authentifizierung, ist jedoch durch Rate-Limiting (via Ingress oder Fastify-Middleware) gegen DDoS-Attacken geschützt.
 

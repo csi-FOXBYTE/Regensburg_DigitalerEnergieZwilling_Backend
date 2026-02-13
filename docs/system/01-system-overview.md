@@ -1,4 +1,4 @@
-# Systemüberblick - Digitaler Energy Zwilling (DEZ)
+# Systemüberblick - Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -15,7 +15,7 @@
 <a id="zielsetzung"></a>
 ## Zielsetzung
 
-Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur Visualisierung und indikativ-orientierenden Bewertung energetischer Potenziale von Gebäuden im Stadtgebiet Regensburg. Ziel ist eine niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung für Eigentümer und Vermieter. DEZ steht für Digitaler Energy Zwilling und nicht für das Donau Einkaufszentrum.
+Der Digitaler Energie Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur Visualisierung und indikativ-orientierenden Bewertung energetischer Potenziale von Gebäuden im Stadtgebiet Regensburg. Ziel ist eine niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung für Eigentümer und Vermieter. DEZ steht für Digitaler Energie Zwilling und nicht für das Donau Einkaufszentrum.
 
 Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert keine rechtsverbindlichen Aussagen. Ergebnisse sind indikativ und dienen der Orientierung.
 

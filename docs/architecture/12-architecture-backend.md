@@ -15,7 +15,7 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinzipien des Backends des Digitaler Energy Zwilling (DEZ).
+Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinzipien des Backends des Digitaler Energie Zwilling (DEZ).
 
 ---
 
@@ -77,7 +77,7 @@ Quelle: `raw/backend-architecture.puml`
 - Strikte Trennung von Public- und Admin-Endpunkten.
 - Rate Limiting und Altcha-Challenges für öffentliche Schreibzugriffe.
 - Statelesses Backend, containerisierbar, mit Observability (Logs, Metriken, Tracing).
-- Als **Civitas-Core-fähiges Add-on** ausgelegt: läuft als eigener Container und ist von außen orchestrierbar.
+- Als **CIVITAS/CORE-fähiges Add-on** ausgelegt: läuft als eigener Container und ist von außen orchestrierbar.
 - Security by Design: Least Privilege, Secure Defaults, Defense in Depth.
 - Secrets ausschließlich über Secrets-Management; keine Tokens im Code.
 - TLS für alle externen Verbindungen.
@@ -106,4 +106,4 @@ Quelle: `raw/backend-architecture.puml`
 
 - Keine Auslieferung großer statischer Datenmengen (3D Tiles).
 - Keine Laufzeit-Berechnung von Potenzialen.
-- Keine Orchestrierung der Offline-Datenpipeline; diese läuft in Civitas Core über Airflow als separater Container.
+- Keine Orchestrierung der Offline-Datenpipeline; diese läuft in CIVITAS/CORE über Airflow als separater Container.

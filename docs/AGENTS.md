@@ -7,7 +7,7 @@ These rules define how to extend and maintain the project documentation in `docs
 - Primary language: **German** (use proper umlauts: ä/ö/ü/ß).
 - Keep wording concise and factual; avoid marketing language.
 - Use consistent role terms:
-  - **Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter)**
+  - **Hauptzielgruppe (Bürger/Eigentümer/Vermieter)**
   - **Nebenzielgruppe (Stadtverwaltung/Fachpersonal)**
 
 ## Structure and Files

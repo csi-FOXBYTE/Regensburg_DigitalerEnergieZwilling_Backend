@@ -1,11 +1,11 @@
 # User Experience, Nutzerreise & Informationsarchitektur
 
-Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwilling (DEZ): Ziele, Nutzerbedürfnisse, Interaktionslogik und die fachliche Informationsarchitektur.
+Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energie Zwilling (DEZ): Ziele, Nutzerbedürfnisse, Interaktionslogik und die fachliche Informationsarchitektur.
 
 ## Inhaltsverzeichnis
 
 1. [Ziel und Nutzungskontext](#ziel-und-nutzungskontext)
-2. [Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)](#hauptzielgruppe-buerger-eigentuemer-vermieter-mieter)
+2. [Hauptzielgruppe: Bürger (Eigentümer/Vermieter)](#hauptzielgruppe-buerger-eigentuemer-vermieter)
 3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-und-interaktion-im-buergerbereich)
 4. [Informationsarchitektur und Datenstruktur](#informationsarchitektur-und-datenstruktur)
 5. [Nebenzielgruppe: Stadtverwaltung / Fachpersonal](#nebenzielgruppe-stadtverwaltung-fachpersonal)
@@ -18,7 +18,7 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 
 Das Kapitel dient als Orientierung für fachliche, UX- und MVP-Entscheidungen.
 
-- Es beschreibt, wie Bürger (Eigentümer/Vermieter/Mieter) das System verstehen und nutzen.
+- Es beschreibt, wie Bürger (Eigentümer/Vermieter) das System verstehen und nutzen.
 - Es zeigt, welche Informationen in welcher Reihenfolge benötigt werden.
 - Es grenzt den Charakter des Tools klar als Orientierungshilfe ab.
 
@@ -26,11 +26,11 @@ Ergebnisse sind indikativ und ersetzen keine individuelle Fachberatung.
 
 ---
 
-<a id="hauptzielgruppe-buerger-eigentuemer-vermieter-mieter"></a>
+<a id="hauptzielgruppe-buerger-eigentuemer-vermieter"></a>
 
-## Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)
+## Hauptzielgruppe: Bürger (Eigentümer/Vermieter)
 
-Die primäre Zielgruppe des Sanierungstools sind Bürger (Eigentümer/Vermieter/Mieter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
+Die primäre Zielgruppe des Sanierungstools sind Bürger (Eigentümer/Vermieter). Die Nutzer verfügen in der Regel über begrenztes technisches und energetisches Fachwissen und haben keinen vollständigen Überblick über den energetischen Zustand ihres Gebäudes.
 
 ### Ausgangslage / Wissensstand
 
@@ -225,7 +225,7 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
 > ⚠️ **Hinweis zur Priorisierung:** \
-> Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
+> Die Entwicklung einer eigenständigen Verwaltungsoberfläche ist nachrangig und nicht Fokus des MVP.
 
 ### Rollenbeschreibung
 
@@ -325,7 +325,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 ## Interaktions- und Screenkonzept
 
-Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des Digitalen Energie-Zwillings anhand zentraler Anwendungsscreens.  
+Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des Digitaler Energie Zwilling anhand zentraler Anwendungsscreens.  
 Die Darstellungen entsprechen High-Fidelity-Mockups und bilden die angestrebte Zielinteraktion ab.
 
 > ⚠️ **Hinweis zum Bearbeitungsstand:**\

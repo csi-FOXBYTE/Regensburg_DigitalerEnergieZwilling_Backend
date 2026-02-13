@@ -50,11 +50,11 @@ Beispiele für Datenherkünfte und Referenzen:
 ## Betriebs- und Orchestrierungsmodell
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
-- Die **Orchestrierung erfolgt in Civitas Core über Airflow** (DAG-basiert).
+- Die **Orchestrierung erfolgt in CIVITAS/CORE über Airflow** (DAG-basiert).
 - Ein **externer Datendienst** (z.B. S3) dient als Quelle und Ziel für Rohdaten und erzeugte 3D Tiles.
 - Die **Konvertierung** (CityGML → CityJSON → 3D Tiles) und die **Anreicherung der Metadaten**
   (Solarpotenziale (PV) und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
-- Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, Civitas-Core-fähiges Add-on betrieben.
+- Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
 - Add-ons unterstützen die konfigurationsbasierte Aktivierung/Deaktivierung einzelner Teilkomponenten, sofern fachlich sinnvoll entkoppelbar.
 Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
 

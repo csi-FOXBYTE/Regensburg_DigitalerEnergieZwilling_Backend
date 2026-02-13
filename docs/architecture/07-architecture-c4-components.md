@@ -14,7 +14,7 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt die Architektur des Digitaler Energy Zwilling (DEZ) auf **Komponenten-Ebene (C4 Level 3)**.  
+Dieses Kapitel beschreibt die Architektur des Digitaler Energie Zwilling (DEZ) auf **Komponenten-Ebene (C4 Level 3)**.  
 Die Komponenten-Sicht zeigt die **interne Struktur der zentralen Container**, deren Verantwortlichkeiten sowie die wichtigsten Kommunikations- und Datenflüsse.
 
 Die Komponenten-Sicht richtet sich primär an:

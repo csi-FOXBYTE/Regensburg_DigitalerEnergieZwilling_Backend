@@ -1,6 +1,6 @@
-﻿# Sicherheitskonzept
+# Sicherheitskonzept
 
-Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (DEZ) als technische Leitlinie für Planung, Umsetzung und Betrieb. Es konkretisiert die Anforderungen aus den technischen Anforderungen und verankert die Orientierung am BSI IT-Grundschutz.
+Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling (DEZ) als technische Leitlinie für Planung, Umsetzung und Betrieb. Es konkretisiert die Anforderungen aus den technischen Anforderungen und verankert die Orientierung am BSI IT-Grundschutz.
 
 ---
 

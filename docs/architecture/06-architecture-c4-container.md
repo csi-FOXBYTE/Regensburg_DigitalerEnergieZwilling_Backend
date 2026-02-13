@@ -11,7 +11,7 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt die Architektur des Digitaler Energy Zwilling (DEZ) auf **Container-Ebene (C4 Level 2)**.  
+Dieses Kapitel beschreibt die Architektur des Digitaler Energie Zwilling (DEZ) auf **Container-Ebene (C4 Level 2)**.  
 Die Container-Sicht zeigt, **aus welchen logisch getrennten Laufzeiteinheiten** das System besteht, welche Verantwortung diese tragen und wie sie miteinander interagieren.
 
 Die Container-Sicht dient insbesondere:

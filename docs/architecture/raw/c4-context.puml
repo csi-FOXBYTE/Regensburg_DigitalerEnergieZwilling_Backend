@@ -1,14 +1,14 @@
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
-title Digitaler Energy Zwilling (DEZ) - C4 Context Diagram
+title Digitaler Energie Zwilling (DEZ) - C4 Context Diagram
 
 Person(citizen, "Citizen (owners/landlords)", "Uses the public 3D client")
 Person(admin, "City Administration / Staff", "Configures content and reviews inputs")
 
-System_Boundary(civitas, "Civitas Core Platform") {
-  System(det, "Digitaler Energy Zwilling (DEZ)", "Web-based 3D application for energy potentials and simulations")
-  System(idp, "Keycloak CIVITAS", "OIDC identity provider")
+System_Boundary(civitas, "CIVITAS/CORE Platform") {
+  System(det, "Digitaler Energie Zwilling (DEZ)", "Web-based 3D application for energy potentials and simulations")
+  System(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
 }
 
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")

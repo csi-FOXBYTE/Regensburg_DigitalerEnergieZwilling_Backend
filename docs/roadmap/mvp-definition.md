@@ -8,7 +8,7 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 
 1. [Zielbild MVP](#zielbild-mvp)
 2. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
-3. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter): Öffentlicher Client + Backend-CRUD](#release-2)
+3. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
 4. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen](#release-3)
 5. [Phase 4 (außerhalb/nach MVP)](#phase-4-ausserhalb-nach-mvp)
 
@@ -19,7 +19,7 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
 
 1. **Release 1:** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
-2. **Release 2 (primär Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter)):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
+2. **Release 2 (primär Hauptzielgruppe (Bürger/Eigentümer/Vermieter)):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
 3. **Release 3 (primär Nebenzielgruppe (Stadtverwaltung/Fachpersonal)):** Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
 
 ---
@@ -47,7 +47,7 @@ Ergebnis:
 
 <a id="release-2"></a>
 
-## Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter/Mieter): Öffentlicher Client + Backend-CRUD
+## Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD
 
 Ziel: Primärfunktionen für die Hauptzielgruppe bereitstellen und den ersten nutzbaren End-to-End-Flow ermöglichen.
 

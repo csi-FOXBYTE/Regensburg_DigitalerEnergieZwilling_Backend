@@ -5,9 +5,9 @@ skinparam rectangle {
   BorderColor #444444
 }
 
-title Deployment – Civitas Core
+title Deployment – CIVITAS/CORE
 
-rectangle "Civitas Core Platform" as civitas {
+rectangle "CIVITAS/CORE Platform" as civitas {
   rectangle "APISIX\n(Web/API Gateway)" as gateway
   rectangle "Backend Add-on\n(Container)" as backend
   rectangle "Airflow Orchestrator" as airflow

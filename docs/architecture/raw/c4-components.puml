@@ -1,13 +1,13 @@
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Digitaler Energy Zwilling (DEZ) - C4 Component Diagram
+title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram
 
 Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
-System_Boundary(civitas, "Civitas Core Platform") {
-  System_Boundary(det, "Digitaler Energy Zwilling (DEZ)") {
+System_Boundary(civitas, "CIVITAS/CORE Platform") {
+  System_Boundary(det, "Digitaler Energie Zwilling (DEZ)") {
 
     Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
 
@@ -48,7 +48,7 @@ System_Boundary(civitas, "Civitas Core Platform") {
     SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
   }
 
-  Container(idp, "Keycloak CIVITAS", "OIDC identity provider")
+  Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
 }
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 

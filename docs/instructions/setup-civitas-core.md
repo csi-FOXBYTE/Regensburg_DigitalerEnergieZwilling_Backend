@@ -1,6 +1,6 @@
-# Civitas Core Local Development Setup (WSL 2 Native)
+# CIVITAS/CORE Local Development Setup (WSL 2 Native)
 
-Diese Dokumentation beschreibt die Einrichtung einer vollständigen Entwicklungsumgebung für **Civitas Core** unter Windows 11 unter Verwendung von **WSL 2 (Ubuntu 24.04)**.
+Diese Dokumentation beschreibt die Einrichtung einer vollständigen Entwicklungsumgebung für **CIVITAS/CORE** unter Windows 11 unter Verwendung von **WSL 2 (Ubuntu 24.04)**.
 
 > **Wichtiger Hinweis**
 > Diese Anleitung ist ausschließlich für **lokales Development und Tests** gedacht.

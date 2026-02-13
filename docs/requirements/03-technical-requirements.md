@@ -1,4 +1,4 @@
-# Technische Anforderungen - Digitaler Energy Zwilling (DEZ)
+# Technische Anforderungen - Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -38,7 +38,7 @@
 <a id="ziel-der-technischen-anforderungen"></a>
 ## Ziel der technischen Anforderungen
 
-Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler Energy Zwilling (DEZ).  
+Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler Energie Zwilling (DEZ).  
 Es legt verbindlich fest, **welche technischen Eigenschaften, Randbedingungen und Qualitätsmerkmale** das System erfüllen muss, um die fachlichen Anforderungen korrekt, sicher und wartbar umzusetzen.
 
 Die technischen Anforderungen dienen als:
@@ -279,7 +279,7 @@ Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Se
 ## 13. Offline-Pipeline-Betrieb (Airflow)
 
 **TA-52**  
-Die Offline-Datenpipeline muss in Civitas Core über Airflow orchestriert werden; DAG-Läufe werden ausschließlich manuell über die Airflow-Oberfläche gestartet.
+Die Offline-Datenpipeline muss in CIVITAS/CORE über Airflow orchestriert werden; DAG-Läufe werden ausschließlich manuell über die Airflow-Oberfläche gestartet.
 
 **TA-53**  
 Die Konvertierung (CityGML → CityJSON → 3D Tiles) und die Metadaten-Anreicherung (Solar/Geothermie) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
@@ -528,7 +528,7 @@ Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind
 ## 27. BSI Grundschutz Bezug
 
 **TA-99**  
-Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz-Kompendiums orientieren. Für den Digitaler Energy Zwilling (DEZ) sind insbesondere folgende Bausteine einschlägig:
+Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz-Kompendiums orientieren. Für den Digitaler Energie Zwilling (DEZ) sind insbesondere folgende Bausteine einschlägig:
 
 - APP.3.1 Webanwendungen und Webservices
 - APP.3.2 Webserver
@@ -570,7 +570,7 @@ Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geotherm
 Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D Tiles) müssen ausschließlich über APISIX erfolgen; direkte öffentliche Zugriffe auf interne Dienste sind unzulässig.
 
 **TA-106**  
-Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, Civitas-Core-fähiges Add-on bereitgestellt werden.
+Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
 
 **TA-107**  
 Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzelner Dienste oder Teilkomponenten unterstützen, sofern diese fachlich sinnvoll entkoppelbar sind.

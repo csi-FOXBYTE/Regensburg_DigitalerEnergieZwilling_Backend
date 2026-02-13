@@ -11,7 +11,7 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt den Digitaler Energy Zwilling (DEZ) auf **Kontext-Ebene (C4 Level 1)**.
+Dieses Kapitel beschreibt den Digitaler Energie Zwilling (DEZ) auf **Kontext-Ebene (C4 Level 1)**.
 Die Kontext-Sicht zeigt das System als Black Box, seine wichtigsten Nutzer und die
 relevanten externen Systeme sowie Datenquellen.
 
@@ -36,7 +36,7 @@ Quelle: `raw/c4-context.puml`
 
 - **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Simulation.
 - **Stadtverwaltung / Fachpersonal**: nutzt den Admin-Bereich zur Konfiguration und QS.
-- **Keycloak CIVITAS**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von Civitas Core).
+- **Keycloak (CIVITAS/CORE)**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von CIVITAS/CORE).
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
 - **CityGML LOD2 Source**: Gebäudedaten für die Offline-Aufbereitung.
 - **Solar and Geothermal Sources**: Potenzialdaten als Raster-/Vektorquellen bzw. 3D Tiles (Solar).
@@ -46,8 +46,8 @@ Quelle: `raw/c4-context.puml`
 <a id="schnittstellen-und-datenfluesse-high-level"></a>
 ## Schnittstellen und Datenflüsse (high level)
 
-- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energy Zwilling (DEZ) zu.
-- Admin-Authentifizierung erfolgt über OIDC gegen Keycloak CIVITAS.
+- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energie Zwilling (DEZ) zu.
+- Admin-Authentifizierung erfolgt über OIDC gegen Keycloak (CIVITAS/CORE).
 - Basemaps werden zur Laufzeit aus City Geo Services geladen (WMS/WMTS).
 - CityGML- und Potenzialdaten werden **offline** in das System importiert.
 
