@@ -5,13 +5,14 @@ Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energy Zwil
 ## Inhaltsverzeichnis
 
 1. [Ziel und Nutzungskontext](#ziel-und-nutzungskontext)
-2. [Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)](#hauptzielgruppe)
-3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-burger)
+2. [Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)](#hauptzielgruppe-buerger-eigentuemer-vermieter-mieter)
+3. [Nutzerreise und Interaktion im Bürgerbereich](#nutzerreise-und-interaktion-im-buergerbereich)
 4. [Informationsarchitektur und Datenstruktur](#informationsarchitektur-und-datenstruktur)
-5. [Nebenzielgruppe: Stadtverwaltung / Fachpersonal](#nebenzielgruppe-stadtverwaltung--fachpersonal)
-6. [Interaktions- und Screenkonzept](#interaktions--und-screenkonzept)
+5. [Nebenzielgruppe: Stadtverwaltung / Fachpersonal](#nebenzielgruppe-stadtverwaltung-fachpersonal)
+6. [Interaktions- und Screenkonzept](#interaktions-und-screenkonzept)
+7. [UX-Leitprinzipien des Systems](#ux-leitprinzipien-des-systems)
 
----
+<a id="ziel-und-nutzungskontext"></a>
 
 ## Ziel und Nutzungskontext
 
@@ -25,7 +26,7 @@ Ergebnisse sind indikativ und ersetzen keine individuelle Fachberatung.
 
 ---
 
-<a id="hauptzielgruppe"></a>
+<a id="hauptzielgruppe-buerger-eigentuemer-vermieter-mieter"></a>
 
 ## Hauptzielgruppe: Bürger (Eigentümer/Vermieter/Mieter)
 
@@ -79,7 +80,7 @@ Ein Erfolg aus Nutzersicht liegt nicht in einer perfekten Berechnung, sondern in
 
 ---
 
-<a id="nutzerreise-burger"></a>
+<a id="nutzerreise-und-interaktion-im-buergerbereich"></a>
 
 ## Nutzerreise und Interaktion im Bürgerbereich
 
@@ -159,6 +160,8 @@ Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensa
 
 ---
 
+<a id="informationsarchitektur-und-datenstruktur"></a>
+
 ## Informationsarchitektur und Datenstruktur
 
 ![informationsarchitektur-domaenen-datenstruktur-system.png](./attachments/informationsarchitektur-domaenen-datenstruktur-system.png)
@@ -215,12 +218,14 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 ---
 
+<a id="nebenzielgruppe-stadtverwaltung-fachpersonal"></a>
+
 ## Nebenzielgruppe: Stadtverwaltung / Fachpersonal
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
-⚠️ **Hinweis zur Priorisierung:**
-Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
+> ⚠️ **Hinweis zur Priorisierung:** \
+> Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
 
 ### Rollenbeschreibung
 
@@ -316,19 +321,23 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
 - Als Stadtverwalter/in möchte ich geprüfte Daten exportieren, um sie in der Wärmeplanung weiterzuverwenden.
 
+<a id="interaktions-und-screenkonzept"></a>
+
 ## Interaktions- und Screenkonzept
 
 Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des Digitalen Energie-Zwillings anhand zentraler Anwendungsscreens.  
 Die Darstellungen entsprechen High-Fidelity-Mockups und bilden die angestrebte Zielinteraktion ab.
 
-⚠️ **Hinweis zum Bearbeitungsstand:**
-Die folgenden Darstellungen zeigen konzeptionelle High-Fidelity-Mockups im aktuellen Arbeitsstand der Konzeptphase.
-Sie dienen der Visualisierung von Struktur, Interaktionslogik und Designrichtung und stellen **keine finale Designfreigabe** dar.
-Layout, Inhalte, visuelle Ausgestaltung sowie funktionale Details können sich im weiteren Projektverlauf (insbesondere nach Reviews, Tests und fachlicher Abstimmung) noch verändern.
+> ⚠️ **Hinweis zum Bearbeitungsstand:**\
+> Die folgenden Darstellungen zeigen konzeptionelle High-Fidelity-Mockups im aktuellen Arbeitsstand der Konzeptphase.
+> Sie dienen der Visualisierung von Struktur, Interaktionslogik und Designrichtung und stellen **keine finale Designfreigabe** dar.
+> Layout, Inhalte, visuelle Ausgestaltung sowie funktionale Details können sich im weiteren Projektverlauf (insbesondere nach Reviews, Tests und fachlicher Abstimmung) noch verändern.
 
 ---
 
-## 1 Startseite / Einstieg
+<a id="1-startseite-einstieg"></a>
+
+### 1 Startseite / Einstieg
 
 ![0_Startseite.png](./attachments/0_Startseite.png)
 _Startseite_
@@ -336,7 +345,7 @@ _Startseite_
 **Ziel:** Niederschwelliger Einstieg in das Tool und Aktivierung des
 Nutzers.
 
-### Beschreibung
+#### Beschreibung
 
 Die Startseite vermittelt klar den Nutzen des Tools:\
 Simulation der energetischen Gebäudesanierung auf Basis städtischer
@@ -358,14 +367,16 @@ Daten.
 
 ---
 
-## 2 Gebäudewahl & Energetische Ersteinschätzung
+<a id="2-gebaeudewahl-energetische-ersteinschaetzung"></a>
+
+### 2 Gebäudewahl & Energetische Ersteinschätzung
 
 ![1_Ersteinschätzung.png](./attachments/1_Ersteinschätzung.png)
 _Energetische Erstauswertung nach Gebäudeauswahl über 3D Gebäude oder Suchfeld_
 
 **Ziel:** Automatische Ableitung eines energetischen Ausgangszustands.
 
-### Beschreibung
+#### Beschreibung
 
 Nach Auswahl eines Gebäudes auf der Karte wird eine energetische
 Ersteinschätzung angezeigt.\
@@ -387,7 +398,9 @@ Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.\
 
 ---
 
-## 3 Allgemeine Daten prüfen & anpassen
+<a id="3-allgemeine-daten-pruefen-anpassen"></a>
+
+### 3 Allgemeine Daten prüfen & anpassen
 
 ![2_Datenanpassung.png](./attachments/2_Datenanpassung.png)
 _Gebäudedaten (Exemplarische Darstellung des Eingabebereichs)_
@@ -395,7 +408,7 @@ _Gebäudedaten (Exemplarische Darstellung des Eingabebereichs)_
 **Ziel:** Validierung und Individualisierung der automatisch
 abgeleiteten Gebäudedaten.
 
-### Beschreibung
+#### Beschreibung
 
 In diesem Schritt können Nutzer systemseitig abgeleitete Parameter
 prüfen und korrigieren.
@@ -424,14 +437,16 @@ prüfen und korrigieren.
 
 ---
 
-## 4 Auswahl von Sanierungsmaßnahmen
+<a id="4-auswahl-von-sanierungsmassnahmen"></a>
+
+### 4 Auswahl von Sanierungsmaßnahmen
 
 ![3_Sanierungsmaßnahmen.png](./attachments/3_Sanierungsmaßnahmen.png)
 _Sanierungsmaßnahmen_
 
 **Ziel:** Simulation verschiedener Sanierungsszenarien.
 
-### Beschreibung
+#### Beschreibung
 
 Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
 
@@ -461,14 +476,16 @@ Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
 
 ---
 
-## 5 Ergebnisse & Entscheidungsübersicht
+<a id="5-ergebnisse-entscheidungsuebersicht"></a>
+
+### 5 Ergebnisse & Entscheidungsübersicht
 
 ![4_Ergebnis.png](./attachments/4_Ergebnis.png)
 _Ergebnis_
 
 **Ziel:** Ganzheitliche Bewertung der gewählten Sanierungsstrategie mit detailiertem Vergleich IST- und SOLL-Zustand.
 
-### Beschreibung
+#### Beschreibung
 
 Die Ergebnisseite aggregiert alle relevanten Kennzahlen:
 
@@ -487,9 +504,7 @@ Die Ergebnisseite aggregiert alle relevanten Kennzahlen:
 - Visuelle Einordnung im städtischen Kontext
 - Transparenz von Wirkung, Kosten und Emission
 
----
-
-# 6.6 UX-Leitprinzipien des Systems
+## UX-Leitprinzipien des Systems
 
 Das Interface folgt folgenden Grundprinzipien:
 

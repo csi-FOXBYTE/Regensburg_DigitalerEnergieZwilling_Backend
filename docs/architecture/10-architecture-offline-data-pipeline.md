@@ -1,5 +1,23 @@
 # Architektur – Offline-Datenpipeline
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Datenquellen](#datenquellen)
+3. [Betriebs- und Orchestrierungsmodell](#betriebs-und-orchestrierungsmodell)
+4. [Verarbeitungsschritte](#verarbeitungsschritte)
+5. [DAG-Ablauf (vereinfachte Sicht)](#dag-ablauf-vereinfachte-sicht)
+6. [Spezifikation (Pipeline-Vertrag)](#spezifikation-pipeline-vertrag)
+7. [Security by Design (Pipeline)](#security-by-design-pipeline)
+8. [Manifest-Schema (manifest.json)](#manifest-schema-manifest-json)
+9. [Container-Parameter & Validierung](#container-parameter-validierung)
+10. [Airflow Task-Beispiel (DockerOperator)](#airflow-task-beispiel-dockeroperator)
+11. [Anreicherungs-Container (Spezifikation)](#anreicherungs-container-spezifikation)
+12. [Pipeline-Diagramm](#pipeline-diagramm)
+13. [Warum keine Datenbankzugriffe zur Laufzeit](#warum-keine-datenbankzugriffe-zur-laufzeit)
+14. [Ergebnis](#ergebnis)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die **Offline-Datenpipeline**, mit der Geodaten und Potenziale
@@ -9,6 +27,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 ---
 
+<a id="datenquellen"></a>
 ## Datenquellen
 
 - **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; Quelle noch offen)
@@ -27,6 +46,7 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ---
 
+<a id="betriebs-und-orchestrierungsmodell"></a>
 ## Betriebs- und Orchestrierungsmodell
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
@@ -40,6 +60,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 
 ---
 
+<a id="verarbeitungsschritte"></a>
 ## Verarbeitungsschritte
 
 1. **CityGML → CityJSON**  
@@ -72,6 +93,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 
 ---
 
+<a id="dag-ablauf-vereinfachte-sicht"></a>
 ## DAG-Ablauf (vereinfachte Sicht)
 
 1. **Download** der Rohdaten aus dem externen Datendienst (z.B. S3) in ein Staging-Verzeichnis.
@@ -81,6 +103,7 @@ Hinweis: Der **externe Datendienst** entspricht dem in den Architekturdiagrammen
 
 ---
 
+<a id="spezifikation-pipeline-vertrag"></a>
 ## Spezifikation (Pipeline-Vertrag)
 
 ### Trigger & Orchestrierung
@@ -162,6 +185,7 @@ Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Dat
 
 ---
 
+<a id="security-by-design-pipeline"></a>
 ## Security by Design (Pipeline)
 
 - Zugriff auf den Datendienst ausschließlich via Secrets-Management.
@@ -172,6 +196,7 @@ Hinweis: Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Dat
 
 ---
 
+<a id="manifest-schema-manifest-json"></a>
 ## Manifest-Schema (manifest.json)
 
 Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`, `hasAlphaChannel`, `created_at`, `output_prefix`.
@@ -200,6 +225,7 @@ Hinweis: `error` ist nur bei `status = failed` gefüllt und enthält einen techn
 
 ---
 
+<a id="container-parameter-validierung"></a>
 ## Container-Parameter & Validierung
 
 ### Parameter-Mapping (Environment)
@@ -221,6 +247,7 @@ Sicherheitsprinzip: Secrets (z.B. S3-Credentials) werden ausschließlich über S
 
 ---
 
+<a id="airflow-task-beispiel-dockeroperator"></a>
 ## Airflow Task-Beispiel (DockerOperator)
 
 ```python
@@ -250,6 +277,7 @@ Hinweis: `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run
 
 ---
 
+<a id="anreicherungs-container-spezifikation"></a>
 ## Anreicherungs-Container (Spezifikation)
 
 ### Zweck
@@ -321,6 +349,7 @@ Hinweis MVP: Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, ble
 
 ---
 
+<a id="pipeline-diagramm"></a>
 ## Pipeline-Diagramm
 
 Das Diagramm zeigt die Verarbeitungsschritte; Orchestrierung und Datenaustausch über Airflow sind im Abschnitt oben beschrieben.
@@ -332,6 +361,7 @@ Quelle: `raw/offline-data-pipeline.puml`
 
 ---
 
+<a id="warum-keine-datenbankzugriffe-zur-laufzeit"></a>
 ## Warum keine Datenbankzugriffe zur Laufzeit
 
 - **Performance**: Potenziale sind direkt in den Tiles; keine zusätzlichen Roundtrips pro Gebäude.
@@ -341,6 +371,7 @@ Quelle: `raw/offline-data-pipeline.puml`
 
 ---
 
+<a id="ergebnis"></a>
 ## Ergebnis
 
 - Statische Potenziale sind direkt in den 3D Tiles eingebettet.

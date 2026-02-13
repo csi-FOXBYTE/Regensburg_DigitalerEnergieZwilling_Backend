@@ -1,5 +1,18 @@
 # Fachliche Anforderungen – Digitaler Energy Zwilling (DEZ)
 
+## Inhaltsverzeichnis
+
+1. [Ziel der fachlichen Anforderungen](#ziel-der-fachlichen-anforderungen)
+2. [Nutzerrollen](#nutzerrollen)
+3. [Fachliche Hauptfunktionen](#fachliche-hauptfunktionen)
+4. [Fachliche Anforderungen an die Administration (Stadtverwaltung / Fachpersonal)](#fachliche-anforderungen-an-die-administration-stadtverwaltung-fachpersonal)
+5. [Fachliche Abgrenzungen](#fachliche-abgrenzungen)
+6. [Erweiterte Anforderungen](#erweiterte-anforderungen)
+7. [Offene MVP-Klärung: Solarthermie, PV und Geothermie](#offene-mvp-klaerung-solarthermie-pv-und-geothermie)
+8. [Priorisierung (implizit)](#priorisierung-implizit)
+9. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
+
+<a id="ziel-der-fachlichen-anforderungen"></a>
 ## Ziel der fachlichen Anforderungen
 
 Dieses Dokument beschreibt die **fachlichen Anforderungen** an den Digitaler Energy Zwilling (DEZ).  
@@ -11,6 +24,7 @@ Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-hav
 
 ---
 
+<a id="nutzerrollen"></a>
 ## Nutzerrollen
 
 ### Bürger (Eigentümer/Vermieter)
@@ -24,6 +38,7 @@ Fachpersonal nutzt den Digitaler Energy Zwilling (DEZ) über einen geschützten 
 
 ---
 
+<a id="fachliche-hauptfunktionen"></a>
 ## Fachliche Hauptfunktionen
 
 ### Visualisierung des Stadtmodells
@@ -238,6 +253,7 @@ Bürger müssen optional die Möglichkeit haben, ihre Eingaben und Ergebnisse an
 
 ---
 
+<a id="fachliche-anforderungen-an-die-administration-stadtverwaltung-fachpersonal"></a>
 ## Fachliche Anforderungen an die Administration (Stadtverwaltung / Fachpersonal)
 
 ### Zugriff & Rollen
@@ -323,6 +339,7 @@ Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahm
 
 ---
 
+<a id="fachliche-abgrenzungen"></a>
 ## Fachliche Abgrenzungen
 
 **FA-65**  
@@ -336,6 +353,7 @@ Das System liefert keine rechtsverbindlichen Aussagen.
 
 ---
 
+<a id="erweiterte-anforderungen"></a>
 ## Erweiterte Anforderungen
 
 **FA-68**  
@@ -457,6 +475,7 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Anlagenparameter optional 
 
 ---
 
+<a id="offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
 ## Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
 **FA-100**  
@@ -480,6 +499,7 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 
 ---
 
+<a id="priorisierung-implizit"></a>
 ## Priorisierung (implizit)
 
 - Kernfunktionen für Bürger (Eigentümer/Vermieter) (Visualisierung, Simulation) haben höchste Priorität.
@@ -488,9 +508,8 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 
 ---
 
+<a id="uebergang-zu-technischen-anforderungen"></a>
 ## Übergang zu technischen Anforderungen
 
 Die in diesem Dokument beschriebenen fachlichen Anforderungen werden in den **Technischen Anforderungen** konkretisiert.  
 Dort wird festgelegt, **wie** diese Funktionen technisch umzusetzen sind und welche nicht-funktionalen Randbedingungen einzuhalten sind.
-
-

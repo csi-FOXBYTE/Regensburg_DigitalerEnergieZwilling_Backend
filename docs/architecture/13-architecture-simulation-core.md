@@ -1,17 +1,37 @@
 # Architektur - Simulationskern
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Hinweis zum Reifegrad](#hinweis-zum-reifegrad)
+3. [Verantwortlichkeiten](#verantwortlichkeiten)
+4. [Laufzeit und Einbettung](#laufzeit-und-einbettung)
+5. [Eingaben und Ausgaben](#eingaben-und-ausgaben)
+6. [Eingabetiefe (Spektrum)](#eingabetiefe-spektrum)
+7. [Defaultannahmen (konfigurierbar)](#defaultannahmen-konfigurierbar)
+8. [Lüftung (Parameterbeispiele)](#lueftung-parameterbeispiele)
+9. [Anlagentechnik (Detailgrad)](#anlagentechnik-detailgrad)
+10. [Wärmebrücken (Hinweis)](#waermebruecken-hinweis)
+11. [Offene Modellierungsfragen aus dem Grobkonzept](#offene-modellierungsfragen-aus-dem-grobkonzept)
+12. [Diagramm](#diagramm)
+13. [Versionierung und Nachvollziehbarkeit](#versionierung-und-nachvollziehbarkeit)
+14. [Abgrenzung](#abgrenzung)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt Aufbau und Verwendung des Simulationskerns als gemeinsamen Rechenkern für Frontend und Backend.
 
 ---
 
+<a id="hinweis-zum-reifegrad"></a>
 ## Hinweis zum Reifegrad
 
 Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und Schnittstellen dieses Kapitels können sich im weiteren Projektverlauf ändern.
 
 ---
 
+<a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
 - Berechnung von Energiebedarf, CO₂, Primärenergie, Kosten und Effizienzklassen.
@@ -20,6 +40,7 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ---
 
+<a id="laufzeit-und-einbettung"></a>
 ## Laufzeit und Einbettung
 
 - Implementiert als eigenständiges JavaScript-Modul.
@@ -28,6 +49,7 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ---
 
+<a id="eingaben-und-ausgaben"></a>
 ## Eingaben und Ausgaben
 
 - Eingaben: Konfigurations-Snapshot (Version), Gebäudedaten/Potenziale, Nutzereingaben.
@@ -35,6 +57,7 @@ Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ---
 
+<a id="eingabetiefe-spektrum"></a>
 ## Eingabetiefe (Spektrum)
 
 - Ohne Nutzereingabe erfolgt die Vorbelegung über LOD2, Baualtersklasse und Standardannahmen.
@@ -61,6 +84,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 ---
 
+<a id="defaultannahmen-konfigurierbar"></a>
 ## Defaultannahmen (konfigurierbar)
 
 - Fensteranteil am Fassadenbereich: Standardannahme (z.B. 40%), wenn nicht bekannt.
@@ -69,6 +93,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 ---
 
+<a id="lueftung-parameterbeispiele"></a>
 ## Lüftung (Parameterbeispiele)
 
 - Luftdichtheit wird als referenzierter Parameter aus Katalogwerten und Baualter modelliert (keine direkte Nutzereingabe).
@@ -76,6 +101,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 ---
 
+<a id="anlagentechnik-detailgrad"></a>
 ## Anlagentechnik (Detailgrad)
 
 - Ohne manuelle Eingaben arbeitet das System mit konfigurierten Standardannahmen.
@@ -89,12 +115,14 @@ Technische Ausführung: hydraulisch, Smart‑Regelung.
 
 ---
 
+<a id="waermebruecken-hinweis"></a>
 ## Wärmebrücken (Hinweis)
 
 Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fensteranschlüsse, Gebäudekanten/-ecken, Rollladenkästen, Attiken.
 
 ---
 
+<a id="offene-modellierungsfragen-aus-dem-grobkonzept"></a>
 ## Offene Modellierungsfragen aus dem Grobkonzept
 
 - Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt.
@@ -104,6 +132,7 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 
 ---
 
+<a id="diagramm"></a>
 ## Diagramm
 
 ![simulation-core-architecture.png](./attachments/simulation-core-architecture.png)
@@ -112,6 +141,7 @@ Quelle: `raw/simulation-core-architecture.puml`
 
 ---
 
+<a id="versionierung-und-nachvollziehbarkeit"></a>
 ## Versionierung und Nachvollziehbarkeit
 
 - Ergebnisse referenzieren die verwendete Konfigurationsversion.
@@ -119,6 +149,7 @@ Quelle: `raw/simulation-core-architecture.puml`
 
 ---
 
+<a id="abgrenzung"></a>
 ## Abgrenzung
 
 - Keine UI, keine Persistenz, keine Netzwerkanfragen.

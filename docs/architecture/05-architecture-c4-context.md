@@ -1,5 +1,14 @@
 # Architektur - C4 Kontext Diagramm
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Kontextdiagramm](#kontextdiagramm)
+3. [Akteure und Systeme](#akteure-und-systeme)
+4. [Schnittstellen und Datenflüsse (high level)](#schnittstellen-und-datenfluesse-high-level)
+5. [Abgrenzung zur Container-Sicht](#abgrenzung-zur-container-sicht)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt den Digitaler Energy Zwilling (DEZ) auf **Kontext-Ebene (C4 Level 1)**.
@@ -13,6 +22,7 @@ Die Sicht dient:
 
 ---
 
+<a id="kontextdiagramm"></a>
 ## Kontextdiagramm
 
 ![c4-context.png](./attachments/c4-context.png)
@@ -21,6 +31,7 @@ Quelle: `raw/c4-context.puml`
 
 ---
 
+<a id="akteure-und-systeme"></a>
 ## Akteure und Systeme
 
 - **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Simulation.
@@ -32,6 +43,7 @@ Quelle: `raw/c4-context.puml`
 
 ---
 
+<a id="schnittstellen-und-datenfluesse-high-level"></a>
 ## Schnittstellen und Datenflüsse (high level)
 
 - Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energy Zwilling (DEZ) zu.
@@ -41,6 +53,7 @@ Quelle: `raw/c4-context.puml`
 
 ---
 
+<a id="abgrenzung-zur-container-sicht"></a>
 ## Abgrenzung zur Container-Sicht
 
 Dieses Kapitel enthält **keine internen Container oder Komponenten**.

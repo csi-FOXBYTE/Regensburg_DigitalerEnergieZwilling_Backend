@@ -1,5 +1,13 @@
 # Datenmodell und API-Sicht
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Datenmodell (abgeleitet)](#datenmodell-abgeleitet)
+3. [API-Sicht (erste Ableitung)](#api-sicht-erste-ableitung)
+4. [Abgleich und Entscheidungen](#abgleich-und-entscheidungen)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt das fachliche Datenmodell und die API-Schnittstellen des
@@ -8,6 +16,7 @@ strukturelle Daten- und Vertrags-Ebene.
 
 ---
 
+<a id="datenmodell-abgeleitet"></a>
 ## Datenmodell (abgeleitet)
 
 Das Datenmodell wurde aus den fachlichen Anforderungen und den Nutzerzielen
@@ -132,6 +141,7 @@ Quelle: `raw/public-write-flow.puml`
 
 ---
 
+<a id="api-sicht-erste-ableitung"></a>
 ## API-Sicht (erste Ableitung)
 
 - **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
@@ -154,6 +164,7 @@ Quelle: `raw/public-write-flow.puml`
 
 ---
 
+<a id="abgleich-und-entscheidungen"></a>
 ## Abgleich und Entscheidungen
 
 ### Abgleich mit technischen Anforderungen

@@ -7,6 +7,8 @@ DEZ steht hier für **Digitaler Energy Zwilling** und nicht für das Donau Einka
 Sie dient als zentrale Referenz für fachliche Entscheidungen, technische Umsetzung und Betrieb.
 Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
+<a id="schreibweise-begriffe"></a>
+
 ## Schreibweise & Begriffe
 
 - **3D Tiles** (nicht „3D-Tiles“)
@@ -15,9 +17,13 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **Eingabetiefe (kontinuierliches Spektrum)** von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert"
 - **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
 
+<a id="grundlagen"></a>
+
 ## Grundlagen
 
 - **00** [Technisches Konzept](legacy/00-technical-concept.md) (historisch, wird nicht mehr genutzt)
+
+<a id="system"></a>
 
 ## System
 
@@ -25,10 +31,14 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
 - **03** [Sicherheitskonzept](system/03-security-concept.md)
 
+<a id="anforderungen"></a>
+
 ## Anforderungen
 
 - **02** [Fachliche Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/02-functional-requirements.md)
 - **03** [Technische Anforderungen – Digitaler Energy Zwilling (DEZ)](requirements/03-technical-requirements.md)
+
+<a id="architektur"></a>
 
 ## Architektur
 
@@ -44,14 +54,20 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **13** [Simulationskern](architecture/13-architecture-simulation-core.md)
 - **14** [Deployment (Civitas Core)](architecture/14-architecture-deployment.md)
 
+<a id="anleitungen"></a>
+
 ## Anleitungen
 
 - [Civitas-Core Setup](instructions/setup-civitas-core.md)
+
+<a id="prozesse"></a>
 
 ## Prozesse
 
 - [Definition of Ready / Done](process/dor-dod.md)
 - [Projektplanung (Entwurf)](process/project-planning.md)
+
+<a id="open-source-foerderkulisse-checkliste"></a>
 
 ## Open Source & Förderkulisse Checkliste
 

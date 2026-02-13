@@ -1,5 +1,16 @@
 # Runtime-Flows und Ops-Sicht
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Runtime-Flows](#runtime-flows)
+3. [Ops-Sicht](#ops-sicht)
+4. [Sicherheit (Betrieb)](#sicherheit-betrieb)
+5. [Daten-Governance](#daten-governance)
+6. [Teststrategie (Minimal)](#teststrategie-minimal)
+7. [Zuständigkeiten und Betriebsprozesse](#zustaendigkeiten-und-betriebsprozesse)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die zentralen Laufzeitabläufe (Runtime-Flows) sowie
@@ -7,6 +18,7 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 
 ---
 
+<a id="runtime-flows"></a>
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
@@ -57,6 +69,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 
+<a id="ops-sicht"></a>
 ## Ops-Sicht
 
 - **Observability**: strukturierte Logs, Metriken und verteilte Traces.  
@@ -70,6 +83,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 
+<a id="sicherheit-betrieb"></a>
 ## Sicherheit (Betrieb)
 
 - Secrets ausschließlich über Secrets-Management, keine Tokens im Code.
@@ -80,6 +94,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 
+<a id="daten-governance"></a>
 ## Daten-Governance
 
 - Aufbewahrung der Job-Ordner erfolgt nach Bedarf; Löschung erfolgt manuell durch Betrieb.
@@ -89,6 +104,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 
+<a id="teststrategie-minimal"></a>
 ## Teststrategie (Minimal)
 
 - **Smoke-Test Pipeline**: Ein kleiner CityGML-Datensatz wird manuell über Airflow verarbeitet.
@@ -97,6 +113,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 ---
 
+<a id="zustaendigkeiten-und-betriebsprozesse"></a>
 ## Zuständigkeiten und Betriebsprozesse
 
 - Betrieb und Orchestrierung liegen beim Civitas-Core-Betriebsteam.  

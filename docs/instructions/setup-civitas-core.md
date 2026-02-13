@@ -9,14 +9,30 @@ Diese Dokumentation beschreibt die Einrichtung einer vollständigen Entwicklungs
 
 **Besonderheit:** Wir nutzen **kein Docker Desktop** und **kein Minikube**, sondern natives Docker in WSL und **k3d** für maximale Performance und Stabilität.
 
-## 📋 Voraussetzungen
-* Windows 10 oder 11
-* Administrator-Rechte (nur für die einmalige WSL-Installation)
-* Virtualisierung im BIOS aktiviert
+## Inhaltsverzeichnis
+
+1. [Voraussetzungen](#voraussetzungen)
+2. [Schritt 1: WSL Installation & Basis-Setup](#schritt-1-wsl-installation-basis-setup)
+3. [Schritt 2: Native Tools installieren](#schritt-2-native-tools-installieren)
+4. [Schritt 3: Projekt Setup](#schritt-3-projekt-setup)
+5. [Schritt 4: Cluster Start & Netzwerk](#schritt-4-cluster-start-netzwerk)
+6. [Schritt 5: Konfiguration (Inventory)](#schritt-5-konfiguration-inventory)
+7. [Schritt 6: Deployment starten](#schritt-6-deployment-starten)
+8. [Schritt 7: Zugriff & Verifikation](#schritt-7-zugriff-verifikation)
+
+<a id="voraussetzungen"></a>
+
+## Voraussetzungen
+
+- Windows 10 oder 11
+- Administrator-Rechte (nur für die einmalige WSL-Installation)
+- Virtualisierung im BIOS aktiviert
 
 ---
 
-## 🚀 Schritt 1: WSL Installation & Basis-Setup
+<a id="schritt-1-wsl-installation-basis-setup"></a>
+
+## Schritt 1: WSL Installation & Basis-Setup
 
 Öffne die **Windows PowerShell** als Administrator:
 
@@ -31,6 +47,7 @@ wsl --install -d Ubuntu-24.04
 Nach der Installation Computer neu starten und User/Passwort für Ubuntu vergeben.
 
 ### Wichtig: Systemd aktivieren
+
 Öffne die Ubuntu-Konsole und führe folgendes aus, damit Docker später automatisch startet:
 
 ```bash
@@ -38,23 +55,29 @@ Nach der Installation Computer neu starten und User/Passwort für Ubuntu vergebe
 sudo bash -c 'printf "[boot]\nsystemd=true\n" > /etc/wsl.conf'
 ```
 
-🛑 **ACHTUNG:** Jetzt zwingend die WSL neustarten!
+**ACHTUNG:** Jetzt zwingend die WSL neustarten!
 Führe in der **PowerShell** aus:
+
 ```powershell
 wsl --shutdown
 ```
+
 Öffne danach Ubuntu wieder.
+
 ```powershell
 wsl -d Ubuntu-24.04
 ```
 
 ---
 
-## 🐳 Schritt 2: Native Tools installieren
+<a id="schritt-2-native-tools-installieren"></a>
+
+## Schritt 2: Native Tools installieren
 
 Wir installieren Docker, Firefox (ohne Snap) und die Kubernetes-Tools direkt in Ubuntu.
 
 ### Docker & User-Rechte
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install docker.io -y
@@ -63,7 +86,9 @@ newgrp docker
 ```
 
 ### Firefox (Native Version)
+
 Wichtig für lokale Tests, da die Snap-Version in WSL oft Probleme macht.
+
 ```bash
 sudo add-apt-repository ppa:mozillateam/ppa -y
 echo '
@@ -76,6 +101,7 @@ sudo apt install firefox -y
 ```
 
 ### Kubernetes Tools (K3d, Kubectl, Helm)
+
 ```bash
 # K3d (Leichtgewichtiger K8s Cluster in Docker)
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
@@ -93,7 +119,9 @@ sudo apt-get install -y openssl gettext
 
 ---
 
-## 🛠️ Schritt 3: Projekt Setup
+<a id="schritt-3-projekt-setup"></a>
+
+## Schritt 3: Projekt Setup
 
 ```bash
 # Repo klonen
@@ -112,14 +140,18 @@ ansible-galaxy collection install -r ansible-collections.yml
 
 ---
 
-## 🌐 Schritt 4: Cluster Start & Netzwerk
+<a id="schritt-4-cluster-start-netzwerk"></a>
+
+## Schritt 4: Cluster Start & Netzwerk
 
 ### Cluster hochfahren
+
 ```bash
 ./local_deployment/startup.sh -k
 ```
 
 ### SSL Zertifikate vertrauen (Linux System)
+
 ```bash
 sudo cp ./local_deployment/.ssl/civitas.crt /usr/local/share/ca-certificates/civitas.crt
 sudo update-ca-certificates
@@ -127,6 +159,7 @@ sudo update-ca-certificates
 ```
 
 ### DNS Routing (/etc/hosts)
+
 Damit die lokalen Domains (`.test`) auf den Cluster (localhost) zeigen.
 
 ```bash
@@ -158,12 +191,15 @@ HOSTS"
 
 ---
 
-## ⚙️ Schritt 5: Konfiguration (Inventory)
+<a id="schritt-5-konfiguration-inventory"></a>
+
+## Schritt 5: Konfiguration (Inventory)
 
 Wichtig: Das folgende Inventory ist nur für lokale Entwicklung gedacht.
 Für produktive Umgebungen müssen Secrets über ein geeignetes Secrets-Management bereitgestellt werden.
 
 Kopiere das hier in die datei `cc_cli_inventory.yml` im Hauptverzeichnis.
+
 ```yaml
 # yaml-language-server: $schema=https://gitlab.com/civitas-connect/civitas-core/civitas-core/-/raw/main/core_platform/inventory_schema.json
 
@@ -175,7 +211,7 @@ all:
   vars:
     DOMAIN: "civitas.test"
     INGRESS_DOMAIN: "{{ DOMAIN }}"
-    ENVIRONMENT: 'cc-loc'
+    ENVIRONMENT: "cc-loc"
     kubeconfig_file: config
 
   children:
@@ -187,7 +223,6 @@ all:
           ansible_python_interpreter: "{{ ansible_playbook_python }}"
 
       vars:
-
         ###########################################################
         ## Kubernetes general settings
         ###########################################################
@@ -208,16 +243,16 @@ all:
           cert_manager:
             issuer_name: "selfsigned-ca"
 
-        ###########################################################
-        ## Operation stack
-        ## The operation stack will be the place, where all management components will live.
-        ###########################################################
+          ###########################################################
+          ## Operation stack
+          ## The operation stack will be the place, where all management components will live.
+          ###########################################################
 
           ingress_class: nginx
           gitlab_access:
-            user_email: ''
-            user: ''
-            token: ''
+            user_email: ""
+            user: ""
+            token: ""
         inv_op_stack:
           prometheus: # sammelt Log-Daten über die Umgebung. Kann man dann über Grafana angucken
             enable: false
@@ -250,7 +285,6 @@ all:
               enable: true
             promtail:
               enable: true
-
 
         ###########################################################
         ## Access management stack
@@ -296,7 +330,6 @@ all:
                 username: "admin@{{ DOMAIN }}"
                 password: "1_jftS{g9ZSht.9E"
 
-
             api_credentials:
               admin_role: V/AE23M}37QXQhXC
               viewer_role: PD/K7~9K5}?e_j<i
@@ -317,23 +350,22 @@ all:
 
         inv_cm:
           frost:
-            enable: true   # Issues on k3d
+            enable: true # Issues on k3d
             mqtt:
               enable: false
               session_affinity: "None"
 
-
-        ###########################################################
-        ## Dashboards: Grafana and Superset
-        ###########################################################
+          ###########################################################
+          ## Dashboards: Grafana and Superset
+          ###########################################################
 
           quantumleap:
             enable: false
           stellio:
             enable: false
             helm_credentials:
-              username: ''
-              password: ''
+              username: ""
+              password: ""
         inv_da:
           superset:
             enable: true
@@ -368,15 +400,15 @@ all:
           geoserver:
             enable: true
 
-          # Portal Backend to support authentication in MasterPortal
+            # Portal Backend to support authentication in MasterPortal
             geoserverPassword: E+v6/3I}n,KAwC_z
           portal_backend:
             enable: true
 
-        ###########################################################
-        ## AddOns
-        ## Platform addons can be added and configured here. See example addon repository for documentation
-        ###########################################################
+          ###########################################################
+          ## AddOns
+          ## Platform addons can be added and configured here. See example addon repository for documentation
+          ###########################################################
 
           gd_components: []
         inv_addons:
@@ -401,18 +433,21 @@ all:
         inv_email:
           server: mail.civitas.test
           user: admin@civitas.test
-          password: '|oQINe_91<qyV6be'
+          password: "|oQINe_91<qyV6be"
           email_from: noreply@civitas.test
         inv_datacatalog:
           piveau:
             enable: false
             hub_repo:
               virtuoso:
-                password: '|PPO.bw}8bcNOgLn'
+                password: "|PPO.bw}8bcNOgLn"
 ```
+
 ---
 
-## ▶️ Schritt 6: Deployment starten
+<a id="schritt-6-deployment-starten"></a>
+
+## Schritt 6: Deployment starten
 
 Jetzt wird die Plattform installiert:
 
@@ -425,21 +460,27 @@ Wenn alles durchläuft: **Success!** 🎉
 
 ---
 
-## 🔎 Schritt 7: Zugriff & Verifikation
+<a id="schritt-7-zugriff-verifikation"></a>
+
+## Schritt 7: Zugriff & Verifikation
 
 ### URLs
-* **Keycloak:** [https://idm.civitas.test](https://idm.civitas.test)
-* **Login:** `admin@civitas.test`
-* **Passwort:** `O-C4BInm>-?nYvEa`
+
+- **Keycloak:** [https://idm.civitas.test](https://idm.civitas.test)
+- **Login:** `admin@civitas.test`
+- **Passwort:** `O-C4BInm>-?nYvEa`
 
 ### Browser Config (Einmalig)
+
 Damit Firefox nicht meckert:
+
 1.  Firefox in WSL öffnen (`firefox &`)
 2.  `Settings` -> `Privacy & Security` -> `Certificates` -> `View Certificates`
 3.  `Import...` -> Datei `civitas-core/local_deployment/.ssl/civitas.crt` auswählen.
 4.  Haken setzen bei "Trust this CA to identify websites".
 
 ### Täglicher Start (Nach Reboot)
+
 1.  WSL öffnen.
 2.  `./local_deployment/startup.sh -k` (Startet den Cluster).
 3.  Prüfen ob alles läuft: `kubectl get pods -A`.

@@ -9,6 +9,18 @@
 
 [[_TOC_]]
 # 1. Technische Anforderungsanalyse & Planung
+
+## Inhaltsverzeichnis
+
+1. [Systemüberblick und Zielsetzung](#systemueberblick-und-zielsetzung)
+2. [Funktionale Anforderungen](#funktionale-anforderungen)
+3. [Nicht-Funktionale Anforderungen](#nicht-funktionale-anforderungen)
+4. [Architektur-Entwurf](#architektur-entwurf)
+5. [Anbindung an CIVITAS/CORE](#anbindung-an-civitas-core)
+6. [Tests & Qualitätssicherung](#tests-qualitaetssicherung)
+7. [Fazit und Entscheidungsempfehlung](#fazit-und-entscheidungsempfehlung)
+
+<a id="systemueberblick-und-zielsetzung"></a>
 ## Systemüberblick und Zielsetzung
 Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadtmodell (LOD2) von Regensburg mit Energiepotenzialen verknüpft. Das System fungiert als Entscheidungsunterstützungssystem (DSS) für Bürger (Eigentümer/Vermieter), um energetische Sanierungsmaßnahmen zu simulieren.
 ### Datenanforderungen
@@ -16,6 +28,8 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 - **Geothermie**: Quelle Raster/Vektordaten -> Gebäude müssen mit Potentialen verknüpft werden (GDAL)
 - **Solarthermie**: Quelle Raster/Vektordaten -> Dachflächengeometrie muss mit Solardaten "verschnitten" werden (GDAL)
 - **Sanierungslogik**: Quelle tbd -> Welche Maßnahmen werden empfohlen?
+
+<a id="funktionale-anforderungen"></a>
 ## Funktionale Anforderungen
 ### Visualisierung (Frontend / Cesium)
 - **Rendering**: Flüssige Darstellung (min. 30 Fps) des gesamten Stadtgebiets Regensburg im Browser (auf technisch relevanten Geräten, d.h. Gerät hat GPU und ist in der Lage Cesium.Js sinnvoll darzustellen)
@@ -27,6 +41,8 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 	- Dämmung
 	- Heizungsart
 - **Feedback**: wenn möglich sofort, lange Wartezeiten vermeiden
+
+<a id="nicht-funktionale-anforderungen"></a>
 ## Nicht-Funktionale Anforderungen
 - **Datenschutz**
   - Authentifizierung: nur durch Stadtverwaltung / Fachpersonal, Bürger (Eigentümer/Vermieter) kommen ohne Authentifizierung auf den Sanierungsrechner
@@ -40,6 +56,8 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 - **Betrieb**:
   - Im Städtischen Rechenzentrum angeschlossen an CIVITAS/CORE
   - OpenTelemetry Monitoring + Logging
+
+<a id="architektur-entwurf"></a>
 ## Architektur-Entwurf
 ### Datenaufbereitung (Offline)
 - **3D Tiles**: Erstellung durch @csi-foxbyte/cityjson-to-3d-tiles (unterstützt auch Texturdaten)
@@ -217,6 +235,7 @@ StaticStore -- "lädt (Tiles)" --> Engine3D
 ReactApp -- "Interaktion/Berechnung (via OpenAPI)" --> APIServer
 :::
 
+<a id="anbindung-an-civitas-core"></a>
 ## Anbindung an CIVITAS/CORE
 
 Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE erfolgt nach dem Prinzip der losen Kopplung (Loose Coupling), um Wartbarkeit und Sicherheit zu gewährleisten. Die Anwendung wird als Container-Lösung (Docker) bereitgestellt und orchestriert.
@@ -234,6 +253,7 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 - **Basiskarten**: Die 3D-Anwendung bindet städtische 2D-Grundkarten (WMS/WMTS) direkt über die Geo-Dienste der Stadt Regensburg ein, um Redundanzen zu vermeiden.
 - **Rückkanal (Optional)**: Daten aus der Datenaufbereitung werden zurückgespeist und allgemein verfügbar gemacht.
 
+<a id="tests-qualitaetssicherung"></a>
 ## Tests & Qualitätssicherung
 
 - **Simulationskern**: Falls Eigenentwicklung Unit Tests
@@ -241,6 +261,8 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 - **User-Tests**: Nur durch Stadtverwaltung / Fachpersonal (Kunde), dafür muss Anwendung "testbar" sein.
 - **End2End Tests**: tbd
 ------
+
+<a id="fazit-und-entscheidungsempfehlung"></a>
 ## Fazit und Entscheidungsempfehlung
 Zusammenfassend wird für die Realisierung des digitalen Energiezwillings die **Option B (Standalone-Lösung)** empfohlen. Diese Architektur bietet die notwendige technologische Freiheit, um mittels **CesiumJS** und **React** eine performante und intuitiv bedienbare 3D-Anwendung bereitzustellen, die modernen UX-Standards entspricht.
 Für die energetische Bewertung wird initial auf einen **vereinfachten Simulationskern (Option A)** gesetzt, der auf Typvertretern (ähnlich TABULA/EPISCOPE) basiert. Dies ermöglicht eine schnelle, indikative Potentialanalyse für Bürger (Eigentümer/Vermieter), minimiert externe Abhängigkeiten und reduziert die anfängliche Komplexität. Die modulare Systemarchitektur gewährleistet dabei, dass Komponenten wie der Rechenkern bei Bedarf in zukünftigen Ausbaustufen gegen zertifizierte Module ausgetauscht werden können.

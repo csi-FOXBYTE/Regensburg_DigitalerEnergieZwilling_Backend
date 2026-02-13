@@ -1,11 +1,25 @@
 # Architektur - Backend
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Verantwortlichkeiten](#verantwortlichkeiten)
+3. [Schnittstellen](#schnittstellen)
+4. [Diagramm](#diagramm)
+5. [Datenhaltung](#datenhaltung)
+6. [API-Vertrag](#api-vertrag)
+7. [Sicherheits- und Betriebsprinzipien](#sicherheits-und-betriebsprinzipien)
+8. [Kubernetes-Fähigkeit (Container)](#kubernetes-faehigkeit-container)
+9. [Abgrenzung](#abgrenzung)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinzipien des Backends des Digitaler Energy Zwilling (DEZ).
 
 ---
 
+<a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
 - Authentifizierung und Autorisierung (OIDC für Stadtverwaltung / Fachpersonal).
@@ -16,6 +30,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 
 ---
 
+<a id="schnittstellen"></a>
 ## Schnittstellen
 
 - Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen) über APISIX.
@@ -28,6 +43,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 
 ---
 
+<a id="diagramm"></a>
 ## Diagramm
 
 ![backend-architecture.png](./attachments/backend-architecture.png)
@@ -36,6 +52,7 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="datenhaltung"></a>
 ## Datenhaltung
 
 - Relationale Datenbank für dynamische und administrative Daten.
@@ -44,6 +61,7 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="api-vertrag"></a>
 ## API-Vertrag
 
 - OpenAPI 3.0 wird im Backend über Fastify-toab/Fastify-Swagger bereitgestellt.
@@ -53,6 +71,7 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="sicherheits-und-betriebsprinzipien"></a>
 ## Sicherheits- und Betriebsprinzipien
 
 - Strikte Trennung von Public- und Admin-Endpunkten.
@@ -66,6 +85,7 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="kubernetes-faehigkeit-container"></a>
 ## Kubernetes-Fähigkeit (Container)
 
 - Konfiguration über Umgebungsvariablen und Configs, keine Hardcodierung.
@@ -81,6 +101,7 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="abgrenzung"></a>
 ## Abgrenzung
 
 - Keine Auslieferung großer statischer Datenmengen (3D Tiles).

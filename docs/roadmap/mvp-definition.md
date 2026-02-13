@@ -4,6 +4,15 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 
 ---
 
+## Inhaltsverzeichnis
+
+1. [Zielbild MVP](#zielbild-mvp)
+2. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
+3. [Release 2 - Öffentlicher Client (Bürgerbereich) + Backend-CRUD](#release-2-oeffentlicher-client-buergerbereich-backend-crud)
+4. [Release 3 - Verwaltungsbereich für Stadtverwaltung / Fachpersonal](#release-3-verwaltungsbereich-fuer-stadtverwaltung-fachpersonal)
+5. [Phase 4 (außerhalb/nach MVP)](#phase-4-ausserhalb-nach-mvp)
+
+<a id="zielbild-mvp"></a>
 ## Zielbild MVP
 
 Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
@@ -14,6 +23,7 @@ Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
 
 ---
 
+<a id="release-1-plattformaufbau"></a>
 ## Release 1 - Plattformaufbau
 
 Ziel: Technische Basis in CIVITAS/CORE bereitstellen und Datenverfügbarkeit für den weiteren Ausbau schaffen.
@@ -31,6 +41,7 @@ Ergebnis:
 
 ---
 
+<a id="release-2-oeffentlicher-client-buergerbereich-backend-crud"></a>
 ## Release 2 - Öffentlicher Client (Bürgerbereich) + Backend-CRUD
 
 Ziel: Bürger einbinden und den ersten nutzbaren End-to-End-Flow bereitstellen.
@@ -59,6 +70,7 @@ Ergebnis:
 
 ---
 
+<a id="release-3-verwaltungsbereich-fuer-stadtverwaltung-fachpersonal"></a>
 ## Release 3 - Verwaltungsbereich für Stadtverwaltung / Fachpersonal
 
 Ziel: Fachliche Steuerung und Pflege durch Stadtverwaltung / Fachpersonal ermöglichen.
@@ -75,6 +87,7 @@ Ergebnis:
 
 ---
 
+<a id="phase-4-ausserhalb-nach-mvp"></a>
 ## Phase 4 (außerhalb/nach MVP)
 
 Folgende Themen werden für die verbleibende Entwicklungsdauer außerhalb bzw. nach der MVP-Phase eingeplant:

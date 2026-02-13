@@ -1,5 +1,41 @@
 # Technische Anforderungen - Digitaler Energy Zwilling (DEZ)
 
+## Inhaltsverzeichnis
+
+1. [Ziel der technischen Anforderungen](#ziel-der-technischen-anforderungen)
+2. [1. Architektur & Grundprinzipien](#1-architektur-grundprinzipien)
+3. [2. Frontend & Auslieferung](#2-frontend-auslieferung)
+4. [3. 3D-Visualisierung & Tiles](#3-3d-visualisierung-tiles)
+5. [4. Datenpipeline (Offline)](#4-datenpipeline-offline)
+6. [5. Simulationskern](#5-simulationskern)
+7. [6. Datenschutz & Privacy-by-Design](#6-datenschutz-privacy-by-design)
+8. [7. Konfigurationsmanagement](#7-konfigurationsmanagement)
+9. [8. Backend & API](#8-backend-api)
+10. [9. Persistenz & Datenhaltung](#9-persistenz-datenhaltung)
+11. [10. Betrieb & Qualität](#10-betrieb-qualitaet)
+12. [11. Konfigurations-Publishing](#11-konfigurations-publishing)
+13. [12. Öffentliche Übermittlung & Verifikation](#12-oeffentliche-uebermittlung-verifikation)
+14. [13. Offline-Pipeline-Betrieb (Airflow)](#13-offline-pipeline-betrieb-airflow)
+15. [14. Sicherheit (Security by Design)](#14-sicherheit-security-by-design)
+16. [15. Datenschutz, Consent & Tracking](#15-datenschutz-consent-tracking)
+17. [16. Observability & Logging](#16-observability-logging)
+18. [17. Sicherheit & SDLC](#17-sicherheit-sdlc)
+19. [18. Integration (CIVITAS/CORE)](#18-integration-civitas-core)
+20. [19. Performance & Skalierung](#19-performance-skalierung)
+21. [20. Betrieb & Support](#20-betrieb-support)
+22. [21. Rechenmethoden & Nachweise](#21-rechenmethoden-nachweise)
+23. [22. Datenlöschung & Sitzungen](#22-datenloeschung-sitzungen)
+24. [23. Admin-Triage & Audit](#23-admin-triage-audit)
+25. [24. Eingabetiefe & Live-Berechnung](#24-eingabetiefe-live-berechnung)
+26. [25. Anlagentechnik-Detailgrad](#25-anlagentechnik-detailgrad)
+27. [26. Open Source & Förderkulisse](#26-open-source-foerderkulisse)
+28. [27. BSI Grundschutz Bezug](#27-bsi-grundschutz-bezug)
+29. [28. Offene MVP-Klärung: Solarthermie, PV und Geothermie](#28-offene-mvp-klaerung-solarthermie-pv-und-geothermie)
+30. [29. CIVITAS/CORE-Integration (Präzisierungen)](#29-civitas-core-integration-praezisierungen)
+31. [30. API-Client-Generierung](#30-api-client-generierung)
+32. [Abgrenzung](#abgrenzung)
+
+<a id="ziel-der-technischen-anforderungen"></a>
 ## Ziel der technischen Anforderungen
 
 Dieses Dokument beschreibt die **technischen Anforderungen** an den Digitaler Energy Zwilling (DEZ).  
@@ -15,6 +51,7 @@ Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-hav
 
 ---
 
+<a id="1-architektur-grundprinzipien"></a>
 ## 1. Architektur & Grundprinzipien
 
 **TA-01**  
@@ -31,6 +68,7 @@ Administrative Funktionen müssen serverseitig geschützt und nur nach erfolgrei
 
 ---
 
+<a id="2-frontend-auslieferung"></a>
 ## 2. Frontend & Auslieferung
 
 **TA-05**  
@@ -53,6 +91,7 @@ Der HTML-Code des administrativen Bereichs darf erst nach erfolgreicher Authenti
 
 ---
 
+<a id="3-3d-visualisierung-tiles"></a>
 ## 3. 3D-Visualisierung & Tiles
 
 **TA-10**  
@@ -77,6 +116,7 @@ Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der f
 
 ---
 
+<a id="4-datenpipeline-offline"></a>
 ## 4. Datenpipeline (Offline)
 
 **TA-16**  
@@ -95,6 +135,7 @@ Die Datenpipeline muss unabhängig vom Laufzeitsystem betreibbar sein.
 
 ---
 
+<a id="5-simulationskern"></a>
 ## 5. Simulationskern
 
 **TA-19**  
@@ -114,6 +155,7 @@ Eine serverseitige Ausführung der Simulation darf optional für administrative 
 
 ---
 
+<a id="6-datenschutz-privacy-by-design"></a>
 ## 6. Datenschutz & Privacy-by-Design
 
 **TA-24**  
@@ -127,6 +169,7 @@ Simulation und Datenspeicherung müssen technisch voneinander entkoppelt sein.
 
 ---
 
+<a id="7-konfigurationsmanagement"></a>
 ## 7. Konfigurationsmanagement
 
 **TA-27**  
@@ -146,6 +189,7 @@ Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion repro
 
 ---
 
+<a id="8-backend-api"></a>
 ## 8. Backend & API
 
 **TA-32**  
@@ -162,6 +206,7 @@ Das Backend muss administrative Funktionen zur Sichtung und Triage von Nutzerein
 
 ---
 
+<a id="9-persistenz-datenhaltung"></a>
 ## 9. Persistenz & Datenhaltung
 
 **TA-36**  
@@ -178,6 +223,7 @@ Konfigurationsdaten müssen in der Datenbank als zentrale Quelle gepflegt werden
 
 ---
 
+<a id="10-betrieb-qualitaet"></a>
 ## 10. Betrieb & Qualität
 
 **TA-40**  
@@ -191,6 +237,7 @@ Das System muss containerisierbar sein und in einer orchestrierten Umgebung betr
 
 ---
 
+<a id="11-konfigurations-publishing"></a>
 ## 11. Konfigurations-Publishing
 
 **TA-43**  
@@ -207,6 +254,7 @@ Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfor
 
 ---
 
+<a id="12-oeffentliche-uebermittlung-verifikation"></a>
 ## 12. Öffentliche Übermittlung & Verifikation
 
 **TA-47**  
@@ -227,6 +275,7 @@ Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Se
 
 ---
 
+<a id="13-offline-pipeline-betrieb-airflow"></a>
 ## 13. Offline-Pipeline-Betrieb (Airflow)
 
 **TA-52**  
@@ -249,6 +298,7 @@ Bei Teilfehlern darf kein Teilergebnis als gültig markiert werden; fehlerhafte 
 
 ---
 
+<a id="14-sicherheit-security-by-design"></a>
 ## 14. Sicherheit (Security by Design)
 
 **TA-58**  
@@ -274,6 +324,7 @@ Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities)
 
 ---
 
+<a id="15-datenschutz-consent-tracking"></a>
 ## 15. Datenschutz, Consent & Tracking
 
 **TA-65**  
@@ -293,6 +344,7 @@ Die Oberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und die Anfor
 
 ---
 
+<a id="16-observability-logging"></a>
 ## 16. Observability & Logging
 
 **TA-70**  
@@ -300,6 +352,7 @@ Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempel
 
 ---
 
+<a id="17-sicherheit-sdlc"></a>
 ## 17. Sicherheit & SDLC
 
 **TA-71**  
@@ -307,6 +360,7 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 
 ---
 
+<a id="18-integration-civitas-core"></a>
 ## 18. Integration (CIVITAS/CORE)
 
 **TA-72**  
@@ -314,6 +368,7 @@ Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI 
 
 ---
 
+<a id="19-performance-skalierung"></a>
 ## 19. Performance & Skalierung
 
 **TA-73**  
@@ -321,6 +376,7 @@ Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstütz
 
 ---
 
+<a id="20-betrieb-support"></a>
 ## 20. Betrieb & Support
 
 **TA-74**  
@@ -328,6 +384,7 @@ Für den Betrieb sind Bugfixing, OS- und Framework-Updates, Security-Patches und
 
 ---
 
+<a id="21-rechenmethoden-nachweise"></a>
 ## 21. Rechenmethoden & Nachweise
 
 **TA-75**  
@@ -338,6 +395,7 @@ In der Projektdokumentation sind konkrete Nachweise der verwendeten Rechenmethod
 
 ---
 
+<a id="22-datenloeschung-sitzungen"></a>
 ## 22. Datenlöschung & Sitzungen
 
 **TA-77**  
@@ -354,6 +412,7 @@ Der notwendige Cookie zur Zustandswiederherstellung muss transparent ausgewiesen
 
 ---
 
+<a id="23-admin-triage-audit"></a>
 ## 23. Admin-Triage & Audit
 
 **TA-81**  
@@ -370,6 +429,7 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu 
 
 ---
 
+<a id="24-eingabetiefe-live-berechnung"></a>
 ## 24. Eingabetiefe & Live-Berechnung
 
 **TA-85**  
@@ -421,6 +481,7 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 
 ---
 
+<a id="25-anlagentechnik-detailgrad"></a>
 ## 25. Anlagentechnik-Detailgrad
 
 **TA-88**  
@@ -431,6 +492,7 @@ Mit zunehmender manueller Eingabetiefe müssen optionale Anlagenparameter aufgen
 
 ---
 
+<a id="26-open-source-foerderkulisse"></a>
 ## 26. Open Source & Förderkulisse
 
 **TA-90**  
@@ -462,6 +524,7 @@ Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind
 
 ---
 
+<a id="27-bsi-grundschutz-bezug"></a>
 ## 27. BSI Grundschutz Bezug
 
 **TA-99**  
@@ -478,6 +541,7 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 
 ---
 
+<a id="28-offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
 ## 28. Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
 **TA-100**  
@@ -499,6 +563,7 @@ Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geotherm
 
 ---
 
+<a id="29-civitas-core-integration-praezisierungen"></a>
 ## 29. CIVITAS/CORE-Integration (Präzisierungen)
 
 **TA-105**  
@@ -523,6 +588,7 @@ Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen 
 
 ---
 
+<a id="30-api-client-generierung"></a>
 ## 30. API-Client-Generierung
 
 **TA-109**  
@@ -553,6 +619,7 @@ Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-L
 
 ---
 
+<a id="abgrenzung"></a>
 ## Abgrenzung
 
 Dieses Dokument beschreibt **was technisch erforderlich ist**, nicht jedoch die konkrete Implementierung.  

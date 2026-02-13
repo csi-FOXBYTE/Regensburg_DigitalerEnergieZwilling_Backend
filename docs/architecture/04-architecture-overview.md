@@ -1,5 +1,13 @@
 # Architekturübersicht – Digitaler Energy Zwilling (DEZ)
 
+## Inhaltsverzeichnis
+
+1. [Ziel der Architektur](#ziel-der-architektur)
+2. [Architekturprinzipien](#architekturprinzipien)
+3. [Zentrale Systembausteine](#zentrale-systembausteine)
+4. [Einordnung im Gesamtsystem](#einordnung-im-gesamtsystem)
+
+<a id="ziel-der-architektur"></a>
 ## Ziel der Architektur
 
 Die Architektur des Digitaler Energy Zwilling (DEZ) verfolgt das Ziel, eine **performante, skalierbare und datenschutzfreundliche Webanwendung** bereitzustellen, die Bürgern (Eigentümern/Vermietern) einen niedrigschwelligen Zugang zu energetischen Potenzialen von Gebäuden ermöglicht und gleichzeitig der Stadtverwaltung / dem Fachpersonal Werkzeuge zur Konfiguration, Qualitätssicherung und Triage bereitstellt.
@@ -13,6 +21,7 @@ Zentrale Leitprinzipien der Architektur sind:
 
 ---
 
+<a id="architekturprinzipien"></a>
 ## Architekturprinzipien
 
 ### Statische Daten statt Laufzeitberechnung
@@ -64,6 +73,7 @@ Die interaktiven Teile der Anwendung werden über klar abgegrenzte Client-Kompon
 
 ---
 
+<a id="zentrale-systembausteine"></a>
 ## Zentrale Systembausteine
 
 ### Frontend
@@ -110,6 +120,7 @@ Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend un
 
 ---
 
+<a id="einordnung-im-gesamtsystem"></a>
 ## Einordnung im Gesamtsystem
 
 Die Architektur ist bewusst so gestaltet, dass:

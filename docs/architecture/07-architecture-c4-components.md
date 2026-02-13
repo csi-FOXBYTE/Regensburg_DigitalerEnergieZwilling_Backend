@@ -1,5 +1,17 @@
 # Architektur – C4 Component Diagramm
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Überblick](#ueberblick)
+3. [Frontend-Komponenten](#frontend-komponenten)
+4. [Backend-Komponenten](#backend-komponenten)
+5. [Simulationskern](#simulationskern)
+6. [Offline-Datenpipeline](#offline-datenpipeline)
+7. [Datenflüsse (zusammengefasst)](#datenfluesse-zusammengefasst)
+8. [Abgrenzung](#abgrenzung)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die Architektur des Digitaler Energy Zwilling (DEZ) auf **Komponenten-Ebene (C4 Level 3)**.  
@@ -14,6 +26,7 @@ Sie baut auf der Container-Sicht auf und ergänzt diese um technische Details.
 
 ---
 
+<a id="ueberblick"></a>
 ## Überblick
 
 Das C4 Component Diagramm stellt die folgenden Aspekte dar:
@@ -30,6 +43,7 @@ Quelle: `raw/c4-components.puml`
 
 ---
 
+<a id="frontend-komponenten"></a>
 ## Frontend-Komponenten
 
 ### Astro Static Build
@@ -84,6 +98,7 @@ Aufgaben:
 
 ---
 
+<a id="backend-komponenten"></a>
 ## Backend-Komponenten
 
 ### Public Static Delivery
@@ -189,6 +204,7 @@ Aufgaben:
 
 ---
 
+<a id="simulationskern"></a>
 ## Simulationskern
 
 Der Simulationskern ist als **eigenständiges JavaScript-Modul** umgesetzt.
@@ -202,6 +218,7 @@ Der Simulationskern ist bewusst frei von Infrastrukturabhängigkeiten.
 
 ---
 
+<a id="offline-datenpipeline"></a>
 ## Offline-Datenpipeline
 
 Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad modelliert.
@@ -216,6 +233,7 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
 
 ---
 
+<a id="datenfluesse-zusammengefasst"></a>
 ## Datenflüsse (zusammengefasst)
 
 - Statische Potenziale:  
@@ -233,6 +251,7 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
 
 ---
 
+<a id="abgrenzung"></a>
 ## Abgrenzung
 
 Dieses Kapitel beschreibt die **interne Struktur der Container**, nicht deren Deployment.  

@@ -1,18 +1,38 @@
-# Sicherheitskonzept
+﻿# Sicherheitskonzept
 
 Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (DEZ) als technische Leitlinie für Planung, Umsetzung und Betrieb. Es konkretisiert die Anforderungen aus den technischen Anforderungen und verankert die Orientierung am BSI IT-Grundschutz.
 
 ---
 
-**Ziele**
+## Inhaltsverzeichnis
+
+1. [Ziele](#ziele)
+2. [Geltungsbereich](#geltungsbereich)
+3. [BSI-Grundschutz-Bezug (Auswahl)](#bsi-grundschutz-bezug-auswahl)
+4. [Mapping: Baustein DEZ-Maßnahmen (Kurzfassung)](#mapping-baustein-dez-massnahmen-kurzfassung)
+5. [Sicherheitsprinzipien](#sicherheitsprinzipien)
+6. [Identität, Zugriff und Rollen](#identitaet-zugriff-und-rollen)
+7. [Daten- und Datenschutzkonzept](#daten-und-datenschutzkonzept)
+8. [Netzwerk- und Plattformschutz](#netzwerk-und-plattformschutz)
+9. [Systemhärtung](#systemhaertung)
+10. [Logging, Monitoring und Nachvollziehbarkeit](#logging-monitoring-und-nachvollziehbarkeit)
+11. [Lieferkette und Open Source](#lieferkette-und-open-source)
+12. [Prüfungen und Tests](#pruefungen-und-tests)
+13. [Betrieb und Incident-Handling](#betrieb-und-incident-handling)
+
+<a id="ziele"></a>
+
+## Ziele
 
 - Vertraulichkeit, Integrität und Verfügbarkeit der Systeme und Daten sicherstellen.
-- Missbrauch öffentlicher Endpunkte verhindern und administrative Zugriffe schätzen.
+- Missbrauch öffentlicher Endpunkte verhindern und administrative Zugriffe schützen.
 - Datenschutzfreundliche Nutzung ohne Zwang zur Speicherung persönlicher Daten.
 
 ---
 
-**Geltungsbereich**
+<a id="geltungsbereich"></a>
+
+## Geltungsbereich
 
 - Öffentlicher Bürger-Client (statische Auslieferung).
 - Administrativer Client (geschützter Bereich).
@@ -22,7 +42,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**BSI-Grundschutz-Bezug (Auswahl)**
+<a id="bsi-grundschutz-bezug-auswahl"></a>
+
+## BSI-Grundschutz-Bezug (Auswahl)
 
 - APP.3.1 Webanwendungen und Webservices.
 - APP.3.2 Webserver.
@@ -35,7 +57,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Mapping: Baustein DEZ-Maßnahmen (Kurzfassung)**
+<a id="mapping-baustein-dez-massnahmen-kurzfassung"></a>
+
+## Mapping: Baustein DEZ-Maßnahmen (Kurzfassung)
 
 - **APP.3.1 Webanwendungen und Webservices**: Trennung öffentlicher/administrativer Funktionen, serverseitige Validierung, Rate Limiting und Challenge für öffentliche Writes.
 - **APP.3.2 Webserver**: Härtung der Auslieferung, TLS erzwingen, minimale Angriffsfläche, keine serverseitige Renderlogik im öffentlichen Client.
@@ -48,7 +72,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Sicherheitsprinzipien**
+<a id="sicherheitsprinzipien"></a>
+
+## Sicherheitsprinzipien
 
 - Least Privilege und minimal notwendige Berechtigungen.
 - Secure Defaults und Defense in Depth.
@@ -57,7 +83,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Identität, Zugriff und Rollen**
+<a id="identitaet-zugriff-und-rollen"></a>
+
+## Identität, Zugriff und Rollen
 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
 - Rollenbasierte Freigaben für Systempflege und Triage.
@@ -65,7 +93,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Daten- und Datenschutzkonzept**
+<a id="daten-und-datenschutzkonzept"></a>
+
+## Daten- und Datenschutzkonzept
 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
 - Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
@@ -74,7 +104,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Netzwerk- und Plattformschutz**
+<a id="netzwerk-und-plattformschutz"></a>
+
+## Netzwerk- und Plattformschutz
 
 - Verschlüsselte Datenübertragung (TLS) für alle externen Zugriffe.
 - Backend nicht direkt aus dem Internet erreichbar; Zugriff über API-Management.
@@ -82,7 +114,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Systemhärtung**
+<a id="systemhaertung"></a>
+
+## Systemhärtung
 
 - Container mit minimalen Rechten (Non-Root, minimale Capabilities).
 - Secrets ausschließlich über Secrets-Management.
@@ -90,7 +124,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Logging, Monitoring und Nachvollziehbarkeit**
+<a id="logging-monitoring-und-nachvollziehbarkeit"></a>
+
+## Logging, Monitoring und Nachvollziehbarkeit
 
 - Protokollierung von Nutzeraktionen, Systemprozessen und Fehlerereignissen.
 - Maschinenlesbare Logs mit Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL).
@@ -98,7 +134,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Lieferkette und Open Source**
+<a id="lieferkette-und-open-source"></a>
+
+## Lieferkette und Open Source
 
 - Abhängigkeiten werden über CVE-Management beobachtet.
 - SBOM wird gepflegt und mit Releases veröffentlicht.
@@ -106,7 +144,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Prüfungen und Tests**
+<a id="pruefungen-und-tests"></a>
+
+## Prüfungen und Tests
 
 - Secure Development Lifecycle nach OWASP.
 - Code-Reviews und automatisierte Tests als Standard.
@@ -114,7 +154,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energy Zwilling (
 
 ---
 
-**Betrieb und Incident-Handling**
+<a id="betrieb-und-incident-handling"></a>
+
+## Betrieb und Incident-Handling
 
 - Zuständigkeiten für Betrieb und Support sind dokumentiert.
 - Sicherheitsvorfälle werden klassifiziert, priorisiert und nachvollziehbar dokumentiert.

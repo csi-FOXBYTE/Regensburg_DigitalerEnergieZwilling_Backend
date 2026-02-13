@@ -1,11 +1,25 @@
 # Architektur - Frontend
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Umfang und Abgrenzung](#umfang-und-abgrenzung)
+3. [Verantwortlichkeiten](#verantwortlichkeiten)
+4. [Schnittstellen](#schnittstellen)
+5. [Diagramm](#diagramm)
+6. [Datenhaltung und Privacy](#datenhaltung-und-privacy)
+7. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
+8. [Build und Auslieferung](#build-und-auslieferung)
+9. [Konventionen API-Client (Frontend-Repo)](#konventionen-api-client-frontend-repo)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Frontends des Digitaler Energy Zwilling (DEZ). Fokus ist die statische Auslieferung und die Laufzeit im Browser.
 
 ---
 
+<a id="umfang-und-abgrenzung"></a>
 ## Umfang und Abgrenzung
 
 - Umfasst Public Client und Admin-Bereich.
@@ -13,6 +27,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 
 ---
 
+<a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
 - Darstellung des 3D-Stadtmodells und Auswahl einzelner Gebäude.
@@ -33,6 +48,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 
 ---
 
+<a id="schnittstellen"></a>
 ## Schnittstellen
 
 - 3D Tiles über APISIX:
@@ -45,6 +61,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 
 ---
 
+<a id="diagramm"></a>
 ## Diagramm
 
 ![frontend-architecture.png](./attachments/frontend-architecture.png)
@@ -53,6 +70,7 @@ Quelle: `raw/frontend-architecture.puml`
 
 ---
 
+<a id="datenhaltung-und-privacy"></a>
 ## Datenhaltung und Privacy
 
 - Der Bearbeitungszustand wird im Public Client über einen notwendigen Cookie für Wiederbesuche persistiert.
@@ -61,6 +79,7 @@ Quelle: `raw/frontend-architecture.puml`
 
 ---
 
+<a id="mvp-klaerungsbedarf-erneuerbare-massnahmen"></a>
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
 - Solarthermie ist vorgesehen, hat aber derzeit geringere Umsetzungspriorität; finaler MVP-Umfang offen.
@@ -69,6 +88,7 @@ Quelle: `raw/frontend-architecture.puml`
 
 ---
 
+<a id="build-und-auslieferung"></a>
 ## Build und Auslieferung
 
 - Statische Webanwendung; Build erfolgt zur Projekt-Build-Zeit.
@@ -81,6 +101,7 @@ Begriff: **Island-Architektur** bezeichnet in Astro die Kombination aus statisch
 
 ---
 
+<a id="konventionen-api-client-frontend-repo"></a>
 ## Konventionen API-Client (Frontend-Repo)
 
 - Konfigurationsdatei: `openapi-ts.config.ts` im Root des Frontend-Repositories.

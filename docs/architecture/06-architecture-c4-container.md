@@ -1,5 +1,14 @@
 # Architektur – C4 Container Diagramm
 
+## Inhaltsverzeichnis
+
+1. [Ziel dieser Sicht](#ziel-dieser-sicht)
+2. [Überblick über die Container](#ueberblick-ueber-die-container)
+3. [Beschreibung der Container](#beschreibung-der-container)
+4. [Kommunikation zwischen den Containern](#kommunikation-zwischen-den-containern)
+5. [Abgrenzung zur Komponenten-Sicht](#abgrenzung-zur-komponenten-sicht)
+
+<a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
 Dieses Kapitel beschreibt die Architektur des Digitaler Energy Zwilling (DEZ) auf **Container-Ebene (C4 Level 2)**.  
@@ -14,6 +23,7 @@ Details zur internen Struktur der Container werden im **C4 Component Diagramm** 
 
 ---
 
+<a id="ueberblick-ueber-die-container"></a>
 ## Überblick über die Container
 
 Das System besteht aus folgenden zentralen Containern:
@@ -34,6 +44,7 @@ Quelle: `raw/c4-container.puml`
 
 ---
 
+<a id="beschreibung-der-container"></a>
 ## Beschreibung der Container
 
 ### Web Gateway
@@ -144,6 +155,7 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 
 ---
 
+<a id="kommunikation-zwischen-den-containern"></a>
 ## Kommunikation zwischen den Containern
 
 - Der Public Client (Bürgerbereich) kommuniziert direkt mit:
@@ -162,6 +174,7 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 
 ---
 
+<a id="abgrenzung-zur-komponenten-sicht"></a>
 ## Abgrenzung zur Komponenten-Sicht
 
 Dieses Kapitel beschreibt **nur die Container-Ebene**.  

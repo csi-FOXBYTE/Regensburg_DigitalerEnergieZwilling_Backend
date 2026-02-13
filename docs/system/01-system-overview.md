@@ -1,5 +1,18 @@
-﻿# Systemüberblick - Digitaler Energy Zwilling (DEZ)
+# Systemüberblick - Digitaler Energy Zwilling (DEZ)
 
+## Inhaltsverzeichnis
+
+1. [Zielsetzung](#zielsetzung)
+2. [Zielgruppen](#zielgruppen)
+3. [Nutzen](#nutzen)
+4. [Abgrenzung und Nicht-Ziele](#abgrenzung-und-nicht-ziele)
+5. [Systemkontext](#systemkontext)
+6. [Datenhaltung und Datenfluss](#datenhaltung-und-datenfluss)
+7. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
+8. [Zentrale Leitprinzipien](#zentrale-leitprinzipien)
+9. [Dokumentstruktur](#dokumentstruktur)
+
+<a id="zielsetzung"></a>
 ## Zielsetzung
 
 Der Digitaler Energy Zwilling (DEZ) ist eine webbasierte 3D-Anwendung zur Visualisierung und indikativ-orientierenden Bewertung energetischer Potenziale von Gebäuden im Stadtgebiet Regensburg. Ziel ist eine niedrigschwellige, verständliche und datenschutzfreundliche Entscheidungsunterstützung für Eigentümer und Vermieter. DEZ steht für Digitaler Energy Zwilling und nicht für das Donau Einkaufszentrum.
@@ -25,6 +38,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 
 ---
 
+<a id="zielgruppen"></a>
 ## Zielgruppen
 
 ### Bürger (Eigentümer/Vermieter)
@@ -47,6 +61,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 
 ---
 
+<a id="nutzen"></a>
 ## Nutzen
 
 ### Allgemein
@@ -63,6 +78,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 
 ---
 
+<a id="abgrenzung-und-nicht-ziele"></a>
 ## Abgrenzung und Nicht-Ziele
 
 Der DEZ ist kein:
@@ -73,6 +89,7 @@ Der DEZ ist kein:
 
 ---
 
+<a id="systemkontext"></a>
 ## Systemkontext
 
 Das System besteht aus:
@@ -88,6 +105,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 
 ---
 
+<a id="datenhaltung-und-datenfluss"></a>
 ## Datenhaltung und Datenfluss
 
 - Statische, allgemein gültige Potenziale liegen ausschließlich in den 3D Tiles.
@@ -99,6 +117,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 
 ---
 
+<a id="mvp-klaerungsbedarf-erneuerbare-massnahmen"></a>
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
 - **Solarthermie**: als zusätzliche Maßnahme zur Warmwasserbereitung fachlich gewünscht, aber in der Umsetzung nachrangig priorisiert; finaler MVP-Umfang offen.
@@ -109,6 +128,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 
 ---
 
+<a id="zentrale-leitprinzipien"></a>
 ## Zentrale Leitprinzipien
 
 ### Privacy-by-Design
@@ -125,6 +145,7 @@ Das Backend stellt ausschließlich Konfiguration, Authentifizierung und Persiste
 
 ---
 
+<a id="dokumentstruktur"></a>
 ## Dokumentstruktur
 
 Die weitere Dokumentation ist wie folgt aufgebaut:
