@@ -219,7 +219,8 @@ Das Raster der Baualtersklassen ist in den fachlichen Anforderungen festgelegt (
 
 In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in der Gebäudedaten angezeigt und weiterverarbeitet werden.
 
-    ⚠️ Hinweis zur Priorisierung: Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
+⚠️ **Hinweis zur Priorisierung:**
+Die Bedürfnisse der Nebenzielgruppe (Wärmeplanung) sind in der aktuellen Entwicklung nachrangig und nicht Fokus des MVP.
 
 ### Rollenbeschreibung
 
@@ -317,10 +318,13 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 ## Interaktions- und Screenkonzept
 
-Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des
-Digitalen Energie-Zwillings anhand zentraler Anwendungsscreens.\
-Die Darstellungen entsprechen High-Fidelity-Mockups und bilden die
-angestrebte Zielinteraktion ab.
+Dieses Kapitel beschreibt die visuelle und funktionale Ausgestaltung des Digitalen Energie-Zwillings anhand zentraler Anwendungsscreens.  
+Die Darstellungen entsprechen High-Fidelity-Mockups und bilden die angestrebte Zielinteraktion ab.
+
+⚠️ **Hinweis zum Bearbeitungsstand:**
+Die folgenden Darstellungen zeigen konzeptionelle High-Fidelity-Mockups im aktuellen Arbeitsstand der Konzeptphase.
+Sie dienen der Visualisierung von Struktur, Interaktionslogik und Designrichtung und stellen **keine finale Designfreigabe** dar.
+Layout, Inhalte, visuelle Ausgestaltung sowie funktionale Details können sich im weiteren Projektverlauf (insbesondere nach Reviews, Tests und fachlicher Abstimmung) noch verändern.
 
 ---
 
