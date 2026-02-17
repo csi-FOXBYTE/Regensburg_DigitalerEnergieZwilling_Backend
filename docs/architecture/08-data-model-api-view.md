@@ -5,7 +5,8 @@
 1. [Ziel dieser Sicht](#ziel-dieser-sicht)
 2. [Datenmodell (abgeleitet)](#datenmodell-abgeleitet)
 3. [API-Sicht (erste Ableitung)](#api-sicht-erste-ableitung)
-4. [Abgleich und Entscheidungen](#abgleich-und-entscheidungen)
+4. [Security by Design im Daten- und API-Vertrag](#security-by-design-im-daten-und-api-vertrag)
+5. [Abgleich und Entscheidungen](#abgleich-und-entscheidungen)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -161,6 +162,22 @@ Quelle: `raw/public-write-flow.puml`
 - **Source of Truth**: OpenAPI 3.0 aus dem Backend (Fastify-toab/Fastify-Swagger).
 - **Generator**: `@hey-api/openapi-ts`.
 - **Frontend-Integration**: Nutzung der React-Query-Erweiterung für typsichere Query-/Mutation-Hooks.
+
+---
+
+<a id="security-by-design-im-daten-und-api-vertrag"></a>
+## Security by Design im Daten- und API-Vertrag
+
+Security by Design wird in Datenmodell und API-Vertrag explizit verankert:
+
+- **Minimale Datenerhebung**: Pflicht zur Berechnung ohne obligatorische personenbezogene Übermittlung; Persistenz bleibt optional und explizit.
+- **Vertragsbasierte Eingabehärtung**: Public-Write-Requests werden über Schema und Wertebereiche geprüft; ungültige Payloads werden verworfen.
+- **Verifikation vor Weiterverwendung**: Serverseitige Neu-Berechnung und Triage sind Voraussetzungen für interne Indexierung.
+- **Lebenszyklus-Kontrolle**: Statuswechsel folgen einem definierten Triage-Lifecycle und werden auditierbar protokolliert.
+- **Konfigurationsintegrität**: Versionierte Snapshots und Checksummen sichern Reproduzierbarkeit und Änderungsnachvollziehbarkeit.
+- **Zugriffsmodell**: OIDC-geschützte Admin-Endpunkte, getrennt von öffentlichen Endpunkten.
+
+Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-81 bis TA-84, TA-43 bis TA-46 sowie TA-58 bis TA-64.
 
 ---
 

@@ -19,12 +19,14 @@ client -> altcha: Solve challenge
 altcha --> client: Altcha token
 
 client -> gateway: Submit inputs + results + config_version + Altcha token
-gateway -> gateway: Rate limit check
+gateway -> gateway: Rate limit and API policy check
 gateway -> api: Forward request
+api -> api: Validate Altcha token
 api -> api: Validate input ranges (config)
 api -> calc: Recompute with same core + config
 calc --> api: Server results
 api -> db: Store inputs + results
+api -> api: Write audit event
 db --> api: Stored
 api --> gateway: Accepted / Rejected
 gateway --> client: Accepted / Rejected

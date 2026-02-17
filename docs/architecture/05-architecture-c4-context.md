@@ -6,7 +6,8 @@
 2. [Kontextdiagramm](#kontextdiagramm)
 3. [Akteure und Systeme](#akteure-und-systeme)
 4. [Schnittstellen und Datenflüsse (high level)](#schnittstellen-und-datenfluesse-high-level)
-5. [Abgrenzung zur Container-Sicht](#abgrenzung-zur-container-sicht)
+5. [Security-Perspektive auf Kontext-Ebene](#security-perspektive-auf-kontext-ebene)
+6. [Abgrenzung zur Container-Sicht](#abgrenzung-zur-container-sicht)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -50,6 +51,25 @@ Quelle: `raw/c4-context.puml`
 - Admin-Authentifizierung erfolgt über OIDC gegen Keycloak (CIVITAS/CORE).
 - Basemaps werden zur Laufzeit aus City Geo Services geladen (WMS/WMTS).
 - CityGML- und Potenzialdaten werden **offline** in das System importiert.
+
+---
+
+<a id="security-perspektive-auf-kontext-ebene"></a>
+## Security-Perspektive auf Kontext-Ebene
+
+Auf Kontext-Ebene sind drei Sicherheitsgrenzen maßgeblich:
+
+- **Internet zu DEZ**: Externe Zugriffe erfolgen ausschließlich verschlüsselt über den öffentlichen Plattformzugang; Public- und Admin-Pfade sind getrennt.
+- **DEZ zu Plattformdiensten**: Administrative Authentifizierung erfolgt nur über den zentralen OIDC-Provider (Keycloak).
+- **Offline-Datenzufluss**: CityGML- und Potenzialdaten werden außerhalb der Laufzeit verarbeitet; Laufzeitpfade bleiben schlank und kontrollierbar.
+
+Sicherheitsrelevante Konsequenzen:
+
+- Kein direkter Client-Zugriff auf interne Persistenz.
+- Keine direkte öffentliche Exponierung interner Services.
+- Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt (Challenge, Rate Limiting, Validierung, Verifikation).
+
+Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-103.
 
 ---
 

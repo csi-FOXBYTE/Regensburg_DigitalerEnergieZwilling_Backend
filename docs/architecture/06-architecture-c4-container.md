@@ -5,8 +5,9 @@
 1. [Ziel dieser Sicht](#ziel-dieser-sicht)
 2. [Überblick über die Container](#ueberblick-ueber-die-container)
 3. [Beschreibung der Container](#beschreibung-der-container)
-4. [Kommunikation zwischen den Containern](#kommunikation-zwischen-den-containern)
-5. [Abgrenzung zur Komponenten-Sicht](#abgrenzung-zur-komponenten-sicht)
+4. [Security-Verantwortung pro Container](#security-verantwortung-pro-container)
+5. [Kommunikation zwischen den Containern](#kommunikation-zwischen-den-containern)
+6. [Abgrenzung zur Komponenten-Sicht](#abgrenzung-zur-komponenten-sicht)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -152,6 +153,24 @@ Aufgaben:
 - Erzeugung der finalen 3D Tiles
 
 Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
+
+---
+
+<a id="security-verantwortung-pro-container"></a>
+## Security-Verantwortung pro Container
+
+Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
+
+| Container | Security-Kernpunkte |
+| --- | --- |
+| APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, trennt Public/Admin-Pfade, setzt Transportschutz und Richtlinien für öffentliche Schreibzugriffe durch. |
+| Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
+| Backend API | Erzwingt AuthN/AuthZ, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
+| Datenbank | Ist nicht öffentlich erreichbar; Zugriffe erfolgen ausschließlich über das Backend mit rollenbasierten Rechten. |
+| 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
+| Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
+
+Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie den BSI-Bezug aus TA-97 ab.
 
 ---
 

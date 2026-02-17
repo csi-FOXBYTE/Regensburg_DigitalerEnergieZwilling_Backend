@@ -11,6 +11,7 @@ database "Database" as db
 Admin -> ui : Open admin area
 ui -> gateway : GET /admin/triage\nfilters, paging
 gateway -> api : Forward request
+api -> api : Verify RBAC
 api -> triage : list entries
 triage -> db : query entries
 db --> triage : entries
@@ -21,6 +22,7 @@ gateway --> ui : list + status
 Admin -> ui : Open building details
 ui -> gateway : GET /admin/buildings/{id}/entries
 gateway -> api : Forward request
+api -> api : Verify RBAC
 api -> triage : load entries
 triage -> db : fetch entries + audit
 db --> triage : entries + audit
@@ -31,16 +33,25 @@ gateway --> ui : compare view
 Admin -> ui : Mark plausible\nadd note
 ui -> gateway : POST /admin/entries/{id}/status
 gateway -> api : Forward request
+api -> api : Verify RBAC
 api -> triage : validate and set status
-triage -> db : update status + audit log
-db --> triage : ok
-triage --> api : ok
-api --> gateway : confirmation
-gateway --> ui : confirmation
+triage -> triage : enforce lifecycle transition
+alt valid transition
+  triage -> db : update status + audit log
+  db --> triage : ok
+  triage --> api : ok
+  api --> gateway : confirmation
+  gateway --> ui : confirmation
+else invalid transition
+  triage --> api : error (invalid transition)
+  api --> gateway : error
+  gateway --> ui : error
+end
 
 Admin -> ui : Export data
 ui -> gateway : GET /admin/exports\nfilters
 gateway -> api : Forward request
+api -> api : Verify RBAC
 api -> triage : create export
 triage -> db : query export data
 db --> triage : export dataset

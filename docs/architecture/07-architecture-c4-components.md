@@ -7,9 +7,10 @@
 3. [Frontend-Komponenten](#frontend-komponenten)
 4. [Backend-Komponenten](#backend-komponenten)
 5. [Berechnungskern](#berechnungskern)
-6. [Offline-Datenpipeline](#offline-datenpipeline)
-7. [Datenflüsse (zusammengefasst)](#datenfluesse-zusammengefasst)
-8. [Abgrenzung](#abgrenzung)
+6. [Security-Kontrollpunkte](#security-kontrollpunkte)
+7. [Offline-Datenpipeline](#offline-datenpipeline)
+8. [Datenflüsse (zusammengefasst)](#datenfluesse-zusammengefasst)
+9. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -215,6 +216,22 @@ Eigenschaften:
 - Übergabe von Konfiguration und Nutzereingaben als Parameter
 
 Der Berechnungskern ist bewusst frei von Infrastrukturabhängigkeiten.
+
+---
+
+<a id="security-kontrollpunkte"></a>
+## Security-Kontrollpunkte
+
+Auf Komponentenebene werden Sicherheitsanforderungen als konkrete Kontrollpunkte umgesetzt:
+
+- **Protected Admin HTML Gateway + Auth Middleware**: Erzwingen OIDC-basierte Authentifizierung und rollenbasierte Autorisierung vor Auslieferung administrativer Inhalte.
+- **OpenAPI Controllers**: Trennen öffentliche und administrative Endpunkte, validieren Anfragen und leiten nur validierte Daten an Fachservices weiter.
+- **User Data Service**: Verarbeitet öffentliche Schreibzugriffe nur nach Schutzkette aus Challenge/Rate-Limit/Validierung/Verifikation.
+- **Configuration Service + Snapshot Exporter**: Erzwingen versionierte, unveränderliche Veröffentlichungen statt in-place-Änderungen.
+- **Triage/Reporting-Pfad**: Statuswechsel werden nachvollziehbar geführt und für Audit-Zwecke protokolliert.
+- **Observability**: Erfasst sicherheitsrelevante Ereignisse (Auth, Zugriffsentscheidungen, Fehlerpfade) als Grundlage für Incident-Analyse.
+
+Damit sind die Security-by-Design-Prinzipien aus TA-58 bis TA-64 in den Kernkomponenten technisch verankert.
 
 ---
 

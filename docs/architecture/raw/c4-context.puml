@@ -22,6 +22,13 @@ Rel(det, geo, "loads basemaps", "WMS/WMTS")
 Rel(citygml, det, "provides building data (offline)")
 Rel(potentials, det, "provides potentials (offline)")
 
+note right of det
+Security by Design:
+- External access only via APISIX (TA-103)
+- Admin access only via OIDC (TA-04)
+- Public writes protected and verified (TA-47..TA-51)
+end note
+
 @enduml
 
 

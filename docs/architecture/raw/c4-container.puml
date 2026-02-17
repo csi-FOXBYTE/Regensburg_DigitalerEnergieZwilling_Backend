@@ -41,7 +41,7 @@ Rel(citizen, gateway, "uses", "HTTPS")
 Rel(admin, gateway, "uses", "HTTPS")
 
 Rel(gateway, frontend, "routes public site", "GET /")
-Rel(gateway, backend, "routes admin site and API", "GET /admin and /api")
+Rel(gateway, backend, "routes admin site and API", "GET /admin and /api (authz and policy)")
 Rel(gateway, tilesGw, "routes tiles (optional mode)", "GET /tiles")
 Rel(gateway, tilesStore, "routes tiles (direct mode)", "GET /tiles")
 
@@ -56,7 +56,7 @@ Rel(frontend, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGw, tilesStore, "fetches tiles", "HTTP")
 
 Rel(backend, db, "reads and writes", "SQL")
-Rel(frontend, backend, "calls API for user data and admin actions", "REST")
+Rel(frontend, backend, "calls API for user data and admin actions", "REST via APISIX")
 
 Rel(citygml, citygmlTools, "feeds")
 Rel(potentials, gdal, "feeds")
@@ -64,6 +64,18 @@ Rel(vegetation, gdal, "feeds")
 Rel(citygmlTools, tilesConv, "outputs CityJSON")
 Rel(gdal, tilesConv, "provides computed attributes")
 Rel(tilesConv, tilesStore, "writes tiles with embedded potentials")
+
+note right of gateway
+Security controls:
+- Single external entrypoint
+- Route isolation for public/admin
+- Rate limiting and policy enforcement
+end note
+
+note right of db
+Database is not public.
+Access only via backend API.
+end note
 
 @enduml
 

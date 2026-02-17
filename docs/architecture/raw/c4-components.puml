@@ -57,7 +57,7 @@ Rel(admin, gateway, "uses", "HTTPS")
 
 Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
 Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
-Rel(gateway, apiControllers, "routes API", "GET/POST /api")
+Rel(gateway, apiControllers, "routes API", "GET/POST /api (policy and rate limit)")
 Rel(gateway, tilesGateway, "routes tiles (optional mode)", "GET /tiles")
 Rel(gateway, staticTiles, "routes tiles (direct mode)", "GET /tiles")
 
@@ -110,6 +110,22 @@ Rel(srcVegetation, gdal, "feeds")
 Rel(citygmlTools, converter, "outputs CityJSON")
 Rel(gdal, converter, "provides computed attributes")
 Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")
+
+note right of auth
+OIDC token validation and
+role based access control.
+end note
+
+note right of apiControllers
+Public write path:
+Altcha token check, input validation,
+server recompute and reject paths.
+end note
+
+note bottom of db
+No direct client access.
+All writes are controlled by backend services.
+end note
 
 @enduml
 

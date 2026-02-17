@@ -4,8 +4,9 @@
 
 1. [Ziel der Architektur](#ziel-der-architektur)
 2. [Architekturprinzipien](#architekturprinzipien)
-3. [Zentrale Systembausteine](#zentrale-systembausteine)
-4. [Einordnung im Gesamtsystem](#einordnung-im-gesamtsystem)
+3. [Security by Design in der Architektur](#security-by-design-in-der-architektur)
+4. [Zentrale Systembausteine](#zentrale-systembausteine)
+5. [Einordnung im Gesamtsystem](#einordnung-im-gesamtsystem)
 
 <a id="ziel-der-architektur"></a>
 ## Ziel der Architektur
@@ -70,6 +71,23 @@ Ein Static-Site-Generator wird ausschließlich zur Build-Zeit eingesetzt.
 Zur Laufzeit existiert keine serverseitige Renderlogik.
 
 Die interaktiven Teile der Anwendung werden über klar abgegrenzte Client-Komponenten realisiert.
+
+---
+
+<a id="security-by-design-in-der-architektur"></a>
+## Security by Design in der Architektur
+
+Security by Design wird nicht als separates Add-on verstanden, sondern als feste Architekturinvariante:
+
+- **Single Entry Point**: Externe Zugriffe erfolgen ausschließlich über APISIX; interne Dienste sind nicht direkt öffentlich erreichbar (TA-103, TA-59).
+- **Trust-Boundary Public/Admin**: Öffentliche und administrative Pfade sind technisch getrennt; Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert (TA-02, TA-04, TA-09).
+- **Missbrauchsschutz bei Public Write**: Altcha, Rate Limiting, serverseitige Validierung und Server-Recompute wirken als kombinierte Schutzkette (TA-47 bis TA-51, TA-62).
+- **Datenminimierung und Angriffsflächenreduktion**: Statische Potenziale liegen in Tiles statt in der Datenbank; das Backend liefert keine großen Tile-Daten aus (TA-14, TA-38).
+- **Konfigurationsintegrität**: Veröffentlicht werden unveränderliche, versionierte Snapshots; Berechnungsergebnisse bleiben reproduzierbar (TA-43 bis TA-46, TA-31).
+- **Plattformhärtung**: Secrets-Management, TLS, Non-Root-Container und auditierbare Security-Events sind verbindlich (TA-60, TA-61, TA-63, TA-64).
+
+Abgrenzung: Das Sicherheitskonzept in `docs/system/03-security-concept.md` beschreibt Ziele, BSI-Bezug und Maßnahmenrahmen.  
+Die Architekturdokumente konkretisieren, **wo** diese Kontrollen technisch verankert sind.
 
 ---
 

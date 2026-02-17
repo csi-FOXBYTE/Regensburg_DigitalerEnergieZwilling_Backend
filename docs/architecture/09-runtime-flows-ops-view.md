@@ -4,11 +4,12 @@
 
 1. [Ziel dieser Sicht](#ziel-dieser-sicht)
 2. [Runtime-Flows](#runtime-flows)
-3. [Ops-Sicht](#ops-sicht)
-4. [Sicherheit (Betrieb)](#sicherheit-betrieb)
-5. [Daten-Governance](#daten-governance)
-6. [Teststrategie (Minimal)](#teststrategie-minimal)
-7. [Zuständigkeiten und Betriebsprozesse](#zustaendigkeiten-und-betriebsprozesse)
+3. [Security by Design in Runtime-Flows](#security-by-design-in-runtime-flows)
+4. [Ops-Sicht](#ops-sicht)
+5. [Sicherheit (Betrieb)](#sicherheit-betrieb)
+6. [Daten-Governance](#daten-governance)
+7. [Teststrategie (Minimal)](#teststrategie-minimal)
+8. [Zuständigkeiten und Betriebsprozesse](#zustaendigkeiten-und-betriebsprozesse)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -66,6 +67,21 @@ Fehlerpfade: ungültiger Token, Adresse stimmt nicht, Datensatz nicht gefunden, 
 ![runtime-flow-delete.png](./attachments/runtime-flow-delete.png)
 
 Quelle: `raw/runtime-flow-delete.puml`
+
+---
+
+<a id="security-by-design-in-runtime-flows"></a>
+## Security by Design in Runtime-Flows
+
+Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
+
+- **Public Flow**: Challenge-Token, Rate Limiting, serverseitige Eingabevalidierung und Recompute-Verifikation vor Persistenz.
+- **Admin Flow**: OIDC-Anmeldung, Rollenprüfung und geschützte Auslieferung des Admin-HTMLs vor administrativen Aktionen.
+- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung.
+- **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
+- **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
+
+Übergreifende Invariante: Jeder Flow besitzt einen klaren Reject-Pfad mit nachvollziehbarer Protokollierung.
 
 ---
 

@@ -25,6 +25,7 @@ database "Database" as db
 
 user -> client: Oeffnet Anwendung
 client -> gateway: GET /
+gateway -> gateway: Enforce TLS and API policy
 gateway -> public_static: Lade HTML/Assets
 public_static --> gateway: HTML/Assets
 gateway --> client: HTML/Assets
@@ -60,16 +61,19 @@ alt Optional: Ergebnisse uebermitteln
   client -> altcha: Solve Challenge
   altcha --> client: Token
   client -> gateway: POST /api/public/inputs + Token
-  gateway -> gateway: Rate limit check
+  gateway -> gateway: Rate limit and API policy check
   gateway -> api: Forward request
+  api -> api: Validate Altcha token
+  api -> api: Validate input ranges (config)
   api -> calc: Server-Recompute
   calc --> api: Ergebnis
   api -> db: Store inputs/results
+  api -> api: Write audit event
   db --> api: Stored
   api --> gateway: Accepted/Rejected
   gateway --> client: Accepted/Rejected
 
-  alt Altcha oder Rate Limit fehlgeschlagen
+  alt Altcha, Validation oder Rate Limit fehlgeschlagen
     api --> gateway: Rejected (Validation)
     gateway --> client: Rejected (Validation)
   end

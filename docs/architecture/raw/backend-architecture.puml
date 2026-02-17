@@ -42,6 +42,21 @@ triage --> db
 calc --> config
 keycloak --> auth
 
+note right of protect
+Public write protection:
+Altcha + rate limiting + validation
+end note
+
+note right of auth
+OIDC authentication and
+role based authorization
+end note
+
+note right of db
+No public access.
+Writes only via backend services.
+end note
+
 @enduml
 
 

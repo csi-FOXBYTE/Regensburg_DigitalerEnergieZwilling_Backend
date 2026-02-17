@@ -29,6 +29,7 @@ client -> gateway: GET /admin
 gateway -> auth: Check Session
 auth -> keycloak: OIDC Login
 keycloak --> auth: Tokens
+auth -> auth: Validate role and scope
 auth --> gateway: OK
 gateway --> client: Admin HTML
 
@@ -40,9 +41,11 @@ end
 admin -> client: Konfiguration bearbeiten
 client -> gateway: POST /api/admin/config
 gateway -> api: Forward request
+api -> api: Authorize admin action
 api -> config: Update Config
 config -> db: Store Version
 db --> config: OK
+api -> api: Write audit event
 config --> api: OK
 api --> gateway: Updated
 gateway --> client: Updated
@@ -56,10 +59,12 @@ end
 admin -> client: Konfiguration veroeffentlichen
 client -> gateway: POST /api/admin/config/publish
 gateway -> api: Forward request
+api -> api: Authorize admin action
 api -> config: Publish
 config -> export: Generate Snapshot
 export -> public_static: Write /config/versioned.json
 export --> config: Done
+api -> api: Write audit event
 config --> api: Published
 api --> gateway: Published
 gateway --> client: Published
@@ -74,6 +79,7 @@ end
 admin -> client: Triage oeffnen
 client -> gateway: GET /api/admin/triage
 gateway -> api: Forward request
+api -> api: Authorize admin action
 api -> triage: Load Cases
 triage -> db: Query Inputs/Results
 db --> triage: Data
