@@ -1,4 +1,4 @@
-# Technische Anforderungen - Digitaler Energie Zwilling (DEZ)
+﻿# Technische Anforderungen - Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -7,7 +7,7 @@
 3. [2. Frontend & Auslieferung](#2-frontend-auslieferung)
 4. [3. 3D-Visualisierung & Tiles](#3-3d-visualisierung-tiles)
 5. [4. Datenpipeline (Offline)](#4-datenpipeline-offline)
-6. [5. Simulationskern](#5-simulationskern)
+6. [5. Berechnungskern](#5-berechnungskern)
 7. [6. Datenschutz & Privacy-by-Design](#6-datenschutz-privacy-by-design)
 8. [7. Konfigurationsmanagement](#7-konfigurationsmanagement)
 9. [8. Backend & API](#8-backend-api)
@@ -139,24 +139,24 @@ Die Datenpipeline muss unabhängig vom Laufzeitsystem betreibbar sein.
 
 ---
 
-<a id="5-simulationskern"></a>
+<a id="5-berechnungskern"></a>
 
-## 5. Simulationskern
+## 5. Berechnungskern
 
 **TA-19**  
-Der Simulationskern muss als eigenständiges JavaScript-Modul implementiert sein.
+Der Berechnungskern muss als eigenständiges JavaScript-Modul implementiert sein.
 
 **TA-20**  
-Der Simulationskern muss sowohl im Browser als auch in einer Node.js-Umgebung lauffähig sein.
+Der Berechnungskern muss sowohl im Browser als auch in einer Node.js-Umgebung lauffähig sein.
 
 **TA-21**  
-Die Simulation muss vollständig clientseitig ausführbar sein.
+Die Berechnung muss vollständig clientseitig ausführbar sein.
 
 **TA-22**  
-Für die Durchführung einer Simulation dürfen keine Nutzereingaben zwingend an den Server übertragen werden.
+Für die Durchführung einer Berechnung dürfen keine Nutzereingaben zwingend an den Server übertragen werden.
 
 **TA-23**  
-Eine serverseitige Ausführung der Simulation darf optional für administrative oder technische Zwecke möglich sein.
+Eine serverseitige Ausführung der Berechnung darf optional für administrative oder technische Zwecke möglich sein.
 
 ---
 
@@ -171,7 +171,7 @@ Das System muss eine datenschutzfreundliche Nutzung ohne Übertragung personenbe
 Die Speicherung von Nutzereingaben muss optional und explizit durch den Nutzer ausgelöst werden.
 
 **TA-26**  
-Simulation und Datenspeicherung müssen technisch voneinander entkoppelt sein.
+Berechnung und Datenspeicherung müssen technisch voneinander entkoppelt sein.
 
 ---
 
@@ -180,10 +180,10 @@ Simulation und Datenspeicherung müssen technisch voneinander entkoppelt sein.
 ## 7. Konfigurationsmanagement
 
 **TA-27**  
-Simulationsparameter müssen ohne Codeänderung anpassbar sein.
+Berechnungsparameter müssen ohne Codeänderung anpassbar sein.
 
 **TA-28**  
-Simulationskonfigurationen müssen versionierbar sein.
+Berechnungskonfigurationen müssen versionierbar sein.
 
 **TA-29**  
 Jede Konfiguration muss eindeutig einer Version oder einem zeitlichen Gültigkeitsbereich zugeordnet sein.
@@ -192,7 +192,7 @@ Jede Konfiguration muss eindeutig einer Version oder einem zeitlichen Gültigkei
 Für den öffentlichen Bürger-Client muss eine veröffentlichte, versionierte Konfigurationsdatei bereitgestellt werden.
 
 **TA-31**  
-Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion reproduzierbar sein.
+Berechnungsergebnisse müssen anhand der verwendeten Konfigurationsversion reproduzierbar sein.
 
 ---
 
@@ -201,7 +201,7 @@ Simulationsergebnisse müssen anhand der verwendeten Konfigurationsversion repro
 ## 8. Backend & API
 
 **TA-32**  
-Das Backend muss Schnittstellen zur Verwaltung von Simulationskonfigurationen bereitstellen.
+Das Backend muss Schnittstellen zur Verwaltung von Berechnungskonfigurationen bereitstellen.
 
 **TA-33**  
 Das Backend muss Schnittstellen zur optionalen Speicherung und Wiederherstellung von Nutzereingaben bereitstellen.
@@ -258,7 +258,7 @@ Konfigurationen müssen in der Datenbank als **Source of Truth** gepflegt und ve
 Für jede veröffentlichte Konfiguration muss ein JSON-Snapshot erzeugt und als Datei exportiert werden.
 
 **TA-45**  
-Der Simulationskern muss die veröffentlichte JSON-Konfiguration lesen können, ohne direkten Datenbankzugriff.
+Der Berechnungskern muss die veröffentlichte JSON-Konfiguration lesen können, ohne direkten Datenbankzugriff.
 
 **TA-46**  
 Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfordern eine neue Version.
@@ -270,13 +270,13 @@ Veröffentlichte Konfigurationen müssen unveränderlich sein; Änderungen erfor
 ## 12. Öffentliche Übermittlung & Verifikation
 
 **TA-47**  
-Der öffentliche Bürger-Client muss Simulationsergebnisse **inklusive Eingaben** an das Backend übermitteln können.
+Der öffentliche Bürger-Client muss Berechnungsergebnisse **inklusive Eingaben** an das Backend übermitteln können.
 
 **TA-48**  
 Das Backend muss Eingaben gegen **konfigurierbare Wertebereiche** validieren (z.B. min/max).
 
 **TA-49**  
-Das Backend muss Ergebnisse serverseitig mit dem gleichen Simulationskern neu berechnen.
+Das Backend muss Ergebnisse serverseitig mit dem gleichen Berechnungskern neu berechnen.
 
 **TA-50**  
 Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung und interne Freigaben verwendet werden.
@@ -457,7 +457,7 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu 
 ## 24. Eingabetiefe & Live-Berechnung
 
 **TA-85**  
-Der Simulationskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen; am unteren Ende basiert die Simulation ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
+Der Berechnungskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen; am unteren Ende basiert die Berechnung ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
 
 **TA-86**  
 Am oberen Ende des Spektrums müssen Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
@@ -649,3 +649,5 @@ Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-L
 
 Dieses Dokument beschreibt **was technisch erforderlich ist**, nicht jedoch die konkrete Implementierung.  
 Details zur Architektur, zu Komponenten und Datenflüssen werden in den Architekturkapiteln beschrieben.
+
+

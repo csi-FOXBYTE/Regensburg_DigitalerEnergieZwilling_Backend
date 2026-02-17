@@ -1,4 +1,4 @@
-# Architektur - Simulationskern
+﻿# Architektur - Berechnungskern
 
 ## Inhaltsverzeichnis
 
@@ -20,14 +20,14 @@
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
 
-Dieses Kapitel beschreibt Aufbau und Verwendung des Simulationskerns als gemeinsamen Rechenkern für Frontend und Backend.
+Dieses Kapitel beschreibt Aufbau und Verwendung des Berechnungskerns als gemeinsamen Rechenkern für Frontend und Backend.
 
 ---
 
 <a id="hinweis-zum-reifegrad"></a>
 ## Hinweis zum Reifegrad
 
-Der Simulationskern befindet sich noch nicht in einem finalen Stand. Inhalte und Schnittstellen dieses Kapitels können sich im weiteren Projektverlauf ändern.
+Der Berechnungskern befindet sich noch nicht in einem finalen Stand. Inhalte und Schnittstellen dieses Kapitels können sich im weiteren Projektverlauf ändern.
 
 ---
 
@@ -131,9 +131,9 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 <a id="diagramm"></a>
 ## Diagramm
 
-![simulation-core-architecture.png](./attachments/simulation-core-architecture.png)
+![berechnung-core-architecture.png](./attachments/berechnung-core-architecture.png)
 
-Quelle: `raw/simulation-core-architecture.puml`
+Quelle: `raw/berechnung-core-architecture.puml`
 
 ---
 
@@ -150,3 +150,5 @@ Quelle: `raw/simulation-core-architecture.puml`
 
 - Keine UI, keine Persistenz, keine Netzwerkanfragen.
 - Potenzialdaten werden nicht berechnet, sondern als Eingabe genutzt.
+
+

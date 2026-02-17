@@ -1,4 +1,4 @@
-# Architektur - Backend
+﻿# Architektur - Backend
 
 ## Inhaltsverzeichnis
 
@@ -23,10 +23,10 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 ## Verantwortlichkeiten
 
 - Authentifizierung und Autorisierung (OIDC für Stadtverwaltung / Fachpersonal).
-- Verwaltung, Versionierung und Veröffentlichung von Simulationskonfigurationen.
+- Verwaltung, Versionierung und Veröffentlichung von Berechnungskonfigurationen.
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
-- Optionale serverseitige Simulation über den Simulationskern.
+- Optionale serverseitige Berechnung über den Berechnungskern.
 
 ---
 
@@ -38,7 +38,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 - OpenAPI-3.0-Spezifikation als Vertragsquelle für Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.
 - Relationale Datenbank mit räumlicher Erweiterung.
-- Simulationskern als eingebettetes Modul für Re-Berechnungen.
+- Berechnungskern als eingebettetes Modul für Re-Berechnungen.
 - Externer Datendienst (z.B. S3) und optionales Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt); externer Zugriff erfolgt über APISIX.
 
 ---
@@ -107,3 +107,4 @@ Quelle: `raw/backend-architecture.puml`
 - Keine Auslieferung großer statischer Datenmengen (3D Tiles).
 - Keine Laufzeit-Berechnung von Potenzialen.
 - Keine Orchestrierung der Offline-Datenpipeline; diese läuft in CIVITAS/CORE über Airflow als separater Container.
+

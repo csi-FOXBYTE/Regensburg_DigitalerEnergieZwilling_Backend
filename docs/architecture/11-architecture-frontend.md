@@ -1,4 +1,4 @@
-# Architektur - Frontend
+﻿# Architektur - Frontend
 
 ## Inhaltsverzeichnis
 
@@ -39,7 +39,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Auswahl von Solarthermie als zusätzliche Sanierungsmaßnahme zur Warmwasser-Unterstützung.
 - Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise.
 - Darstellung von Vegetationsobjekten (Bäume) zur besseren räumlichen Orientierung.
-- Durchführung der Simulation im Browser über den Simulationskern.
+- Durchführung der Berechnung im Browser über den Berechnungskern.
 - Darstellung der Ergebnisse und Hinweise für Bürger (Eigentümer/Vermieter).
 - Administrative Funktionen für Stadtverwaltung / Fachpersonal (Konfiguration, Triage).
 - Einfacher/erweiterter Modus für Eingaben sowie Feedback-Formular nach Berechnung.
@@ -110,3 +110,4 @@ Begriff: **Island-Architektur** bezeichnet in Astro die Kombination aus statisch
 - Generierungsskript: `pnpm openapi:generate`.
 - Konsistenzprüfung in CI: `pnpm openapi:check` (Build schlägt fehl bei ungeprüftem Diff).
 - Nutzung in der UI: API-Zugriffe über generierte React-Query-Hooks statt ad-hoc-HTTP-Calls.
+

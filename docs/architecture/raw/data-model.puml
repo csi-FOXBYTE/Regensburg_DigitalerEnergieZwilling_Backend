@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 hide circle
 skinparam classAttributeIconSize 0
 left to right direction
@@ -80,7 +80,7 @@ class SubsidyProgram {
   +url
 }
 
-class SimulationConfigVersion {
+class BerechnungConfigVersion {
   +config_version_id
   +version
   +status
@@ -97,7 +97,7 @@ class InputConstraint {
   +unit
 }
 
-class SimulationConfigSnapshot {
+class BerechnungConfigSnapshot {
   +snapshot_id
   +config_version_id
   +json_payload
@@ -114,14 +114,14 @@ class ConfigOption {
   +value
 }
 
-class SimulationRun {
+class BerechnungRun {
   +run_id
   +input_id
   +config_version_id
   +created_at
 }
 
-class SimulationResult {
+class BerechnungResult {
   +result_id
   +run_id
   +scenario_label
@@ -180,12 +180,12 @@ InputSet "1" -- "many" MeasureSelection
 MeasureSelection "*" -- "1" MeasureOption
 MeasureOption "*" -- "*" SubsidyProgram
 
-SimulationConfigVersion "1" -- "many" ConfigOption
-SimulationConfigVersion "1" -- "many" InputConstraint
-SimulationConfigVersion "1" -- "0..1" SimulationConfigSnapshot
-SimulationConfigVersion "1" -- "many" SimulationRun
-SimulationRun "1" -- "many" SimulationResult
-SimulationResult "*" -- "1" EfficiencyClass
+BerechnungConfigVersion "1" -- "many" ConfigOption
+BerechnungConfigVersion "1" -- "many" InputConstraint
+BerechnungConfigVersion "1" -- "0..1" BerechnungConfigSnapshot
+BerechnungConfigVersion "1" -- "many" BerechnungRun
+BerechnungRun "1" -- "many" BerechnungResult
+BerechnungResult "*" -- "1" EfficiencyClass
 
 InputSet "1" -- "1" TriageRecord
 TriageRecord "1" -- "0..1" BuildingIndex
@@ -208,3 +208,5 @@ and building age (no direct user input).
 end note
 
 @enduml
+
+

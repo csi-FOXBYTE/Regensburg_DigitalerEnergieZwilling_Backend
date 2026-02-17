@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 title Digitaler Energie Zwilling (DEZ) - C4 Container Diagram
@@ -15,12 +15,12 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
 
     Container(backend, "Backend API", "Node.js and Fastify", "Auth, admin HTML delivery, APIs for config publish and user data triage")
 
-    Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+    Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGw, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
     Container(tilesStore, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
-    ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and simulation configuration")
+    ContainerDb(db, "Database", "PostgreSQL and PostGIS", "Stores user inputs, triage state and Berechnungskonfigurationen")
   }
 
   Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
@@ -48,8 +48,8 @@ Rel(gateway, tilesStore, "routes tiles (direct mode)", "GET /tiles")
 Rel(admin, idp, "authenticates", "OIDC")
 Rel(backend, idp, "validates tokens", "OIDC or JWT")
 
-Rel(frontend, simCore, "imports and runs", "browser runtime")
-Rel(backend, simCore, "imports and runs", "Node runtime optional")
+Rel(frontend, calcCore, "imports and runs", "browser runtime")
+Rel(backend, calcCore, "imports and runs", "Node runtime optional")
 
 Rel(frontend, geo, "loads basemaps", "WMS or WMTS")
 Rel(frontend, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
@@ -66,3 +66,5 @@ Rel(gdal, tilesConv, "provides computed attributes")
 Rel(tilesConv, tilesStore, "writes tiles with embedded potentials")
 
 @enduml
+
+

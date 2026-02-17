@@ -1,4 +1,4 @@
-# Systemüberblick - Digitaler Energie Zwilling (DEZ)
+﻿# Systemüberblick - Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -47,7 +47,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen
 - Verbindliche farbliche Gebäudeeinfärbung im 3D-Client zur Einordnung der Effizienz
 - Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien und Solarthermie (Warmwasser-Unterstützung)
-- Einfache Simulationen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
+- Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
 - Keine Registrierung; Bearbeitungszustand wird über einen notwendigen Cookie persistiert, optionale Wiederherstellung vom Server bei expliziter Speicherung
@@ -55,7 +55,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 
 ### Stadtverwaltung / Fachpersonal
 - Zugriff über geschützten Admin-Bereich
-- Pflege und Veröffentlichung von Simulationskonfigurationen
+- Pflege und Veröffentlichung von Berechnungskonfigurationen
 - Sichtung, Triage und Qualitätssicherung von Nutzereingaben
 - Auswertung für Quartiersanalyse und interne Berichte
 
@@ -85,7 +85,7 @@ Der DEZ ist kein:
 - förderfähiges Berechnungstool
 - Ersatz für individuelle Energieberatung
 - amtliches Auskunftssystem
-- Echtzeit-Simulationssystem mit detaillierter Gebäudephysik
+- Echtzeit-Berechnungssystem mit detaillierter Gebäudephysik
 
 ---
 
@@ -93,9 +93,9 @@ Der DEZ ist kein:
 ## Systemkontext
 
 Das System besteht aus:
-- einem öffentlichen 3D-Client für Visualisierung und Simulation
+- einem öffentlichen 3D-Client für Visualisierung und Berechnung
 - einem administrativen Bereich für Fachpersonal
-- einem Simulationskern als JavaScript-Modul (clientseitig, optional serverseitig)
+- einem Berechnungskern als JavaScript-Modul (clientseitig, optional serverseitig)
 - einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
 - einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten
 - APISIX als zentralem Web/API-Gateway für externe Zugriffe
@@ -132,7 +132,7 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 ## Zentrale Leitprinzipien
 
 ### Privacy-by-Design
-Simulationen können vollständig clientseitig durchgeführt werden. Nutzereingaben werden nur auf expliziten Wunsch übertragen und gespeichert.
+Berechnungen können vollständig clientseitig durchgeführt werden. Nutzereingaben werden nur auf expliziten Wunsch übertragen und gespeichert.
 
 ### Trennung von statisch und dynamisch
 Statische Potenziale liegen in Tiles, dynamische Nutzereingaben und Konfigurationen in der Datenbank. Diese Trennung reduziert Komplexität und schützt personenbezogene Daten.
@@ -154,7 +154,8 @@ Die weitere Dokumentation ist wie folgt aufgebaut:
 - Architekturübersicht und C4-Diagramme
 - Datenmodell & API-View
 - Runtime-Flows & Betriebsaspekte
-- Offline-Datenpipeline & Simulation
+- Offline-Datenpipeline & Berechnung
 - Betrieb, Sicherheit und Datenschutz
 
 Dieses Dokument dient als Einstieg und Referenzpunkt für die übrigen Kapitel.
+

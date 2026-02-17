@@ -1,4 +1,4 @@
-# Architektur - C4 Kontext Diagramm
+﻿# Architektur - C4 Kontext Diagramm
 
 ## Inhaltsverzeichnis
 
@@ -34,7 +34,7 @@ Quelle: `raw/c4-context.puml`
 <a id="akteure-und-systeme"></a>
 ## Akteure und Systeme
 
-- **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Simulation.
+- **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Berechnung.
 - **Stadtverwaltung / Fachpersonal**: nutzt den Admin-Bereich zur Konfiguration und QS.
 - **Keycloak (CIVITAS/CORE)**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von CIVITAS/CORE).
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
@@ -59,3 +59,4 @@ Quelle: `raw/c4-context.puml`
 Dieses Kapitel enthält **keine internen Container oder Komponenten**.
 Die detaillierte Laufzeitstruktur ist in den folgenden C4-Sichten (Container und Component)
 beschrieben.
+

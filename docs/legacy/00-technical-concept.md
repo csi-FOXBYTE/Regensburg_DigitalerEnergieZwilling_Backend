@@ -1,4 +1,4 @@
-> ⚠️ **Hinweis zum Dokumentstatus**
+﻿> ⚠️ **Hinweis zum Dokumentstatus**
 >  
 > Dieses Dokument stammt aus einer frühen Konzeptions- und Planungsphase.
 >  
@@ -22,7 +22,7 @@
 
 <a id="systemueberblick-und-zielsetzung"></a>
 ## Systemüberblick und Zielsetzung
-Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadtmodell (LOD2) von Regensburg mit Energiepotenzialen verknüpft. Das System fungiert als Entscheidungsunterstützungssystem (DSS) für Bürger (Eigentümer/Vermieter), um energetische Sanierungsmaßnahmen zu simulieren.
+Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadtmodell (LOD2) von Regensburg mit Energiepotenzialen verknüpft. Das System fungiert als Entscheidungsunterstützungssystem (DSS) für Bürger (Eigentümer/Vermieter), um energetische Sanierungsmaßnahmen zu berechnen.
 ### Datenanforderungen
 - **3D-Gebäudemodell**: Quelle CityGML (LOD2) -> muss gewandelt werden in 3D Tiles zur performanten Darstellung in Cesium (@csi-foxbyte/cityjson-to-3d-tiles)
 - **Geothermie**: Quelle Raster/Vektordaten -> Gebäude müssen mit Potentialen verknüpft werden (GDAL)
@@ -33,7 +33,7 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 ## Funktionale Anforderungen
 ### Visualisierung (Frontend / Cesium)
 - **Rendering**: Flüssige Darstellung (min. 30 Fps) des gesamten Stadtgebiets Regensburg im Browser (auf technisch relevanten Geräten, d.h. Gerät hat GPU und ist in der Lage Cesium.Js sinnvoll darzustellen)
-### Interaktion & Simulation
+### Interaktion & Berechnung
 - **Objektauswahl**: Klick auf Haus öffnet Detail-Panel.
 - **Status-Quo-Anzeige**: Anzeige der geschätzten Werte aus den Katasterdaten
 - **Interaktiver Rechner**: Eingabemaske für den Nutzer
@@ -48,7 +48,7 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
   - Authentifizierung: nur durch Stadtverwaltung / Fachpersonal, Bürger (Eigentümer/Vermieter) kommen ohne Authentifizierung auf den Sanierungsrechner
 
 - **Performance**
-  - Antwortzeit der Simulation möglichst "Realtime"
+  - Antwortzeit der Berechnung möglichst "Realtime"
   - Initiales Laden des 3D-Modells / der Seite < 5 Sekunden
 - **Skalierbarkeit**:
   - Maximale Anzahl gleichzeitiger Nutzer < 1.000
@@ -97,9 +97,9 @@ Für das Frontend bieten sich zwei Optionen an, welche nachfolgend grob umrissen
 |Wartbarkeit|Schwierig (komplette Abhängigkeit vom MasterPortal / der Version des Kunden)|Einfach (eigener Release Zyklus)|
 |UX-Freiheit|Eingeschränkt (Seiten panel Zwang)|Unbegrenzt (Full-Screen / Overlays)|
 
-#### Beispielhafter UX-Vergleich: Szenario "Sanierung simulieren"
+#### Beispielhafter UX-Vergleich: Szenario "Sanierung berechnen"
 
-Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wird hier der Ablauf einer energetischen Simulation gegenübergestellt:
+Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wird hier der Ablauf einer energetischen Berechnung gegenübergestellt:
 **Option A: MasterPortal (Integration)**
 *   **Einstieg**: Nutzer öffnet das allgemeine Stadtportal, sucht im komplexen Menübaum nach "Werkzeuge" -> "Energiezwillng".
     
@@ -107,7 +107,7 @@ Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wi
     
 *   **Auswahl**: Nutzer klickt auf ein Gebäude. Die Selektion wird durch eine einfache Umrandung (Highlight) angezeigt.
     
-*   **Simulation**: Alle Eingaben (Dämmung, Fenster, Heizung) erfolgen in statischen Textfeldern und Dropdowns in der Sidebar.
+*   **Berechnung**: Alle Eingaben (Dämmung, Fenster, Heizung) erfolgen in statischen Textfeldern und Dropdowns in der Sidebar.
     
 *   **Feedback**: Ergebnisse werden als Zahlenwerte in der Tabelle der Sidebar aktualisiert. Der Bezug zum 3D-Objekt ist rein kognitiv.
     
@@ -120,9 +120,9 @@ Um den Unterschied in der Nutzererfahrung (User Experience) zu verdeutlichen, wi
     
 *   **Auswahl**: Klick auf Gebäude zoomt die Kamera dynamisch heran (Fokus-Ansicht). Der Hintergrund wird optional unscharf (Depth of Field), um den Fokus auf das Haus zu lenken.
     
-*   **Simulation**: Schwebende UI-Elemente (Overlays) oder direkte Slider am unteren Bildrand erlauben Anpassungen.
+*   **Berechnung**: Schwebende UI-Elemente (Overlays) oder direkte Slider am unteren Bildrand erlauben Anpassungen.
     
-*   **Feedback**: Das Gebäude ändert in Echtzeit seine Einfärbung (z.B. von Rot zu Grün oder eine Wärmebild-Simulation), während sich animierte Balkendiagramme verändern.
+*   **Feedback**: Das Gebäude ändert in Echtzeit seine Einfärbung (z.B. von Rot zu Grün oder eine Wärmebild-Berechnung), während sich animierte Balkendiagramme verändern.
     
 *   **Gefühl**: Modern, spielerisch ("Gamification"), immersiv, motivierend für Bürger (Eigentümer/Vermieter).
     
@@ -134,14 +134,14 @@ Beide Frontend Varianten benötigen eine Adminoberfläche (Stadtverwaltung / Fac
 - Muss authentifiziert sein über IDP (z.B. Keycloak)
 - **Framework**: React (Vite)
 
-### Simulationskern
-#### Simulationskern Option A
+### Berechnungskern
+#### Berechnungskern Option A
 - Selbstentwicklung eines sehr abgespeckten Kerns nach Vorgaben aus beliebiger DIN aber mit stark reduzierter Komplexität
 - **Risiko hoch**
-#### ~~Simulationskern Option B~~ (Wird verworfen weil nicht zielführend für Projekt)
+#### ~~Berechnungskern Option B~~ (Wird verworfen weil nicht zielführend für Projekt)
 - Einbindung von "Fremdkern" Bereitstellung über API / separates Modul. Wichtig hierbei es muss austauschbar sein.
 - **Risiko niedrig**
-#### Simulationskerne Vergleich
+#### Berechnungskerne Vergleich
 |Kriterium|Option A: Selbstbau (vereinfacht)|Option B: Fremdkern (API)|
 |--|--|--|
 |Entwicklungsaufwand|Hoch (je nach gewähltem Modell, z.B. TABULA mittel, DIN 18599 extrem)|Niedrig (Schnittstelle anbinde)|
@@ -256,7 +256,7 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 <a id="tests-qualitaetssicherung"></a>
 ## Tests & Qualitätssicherung
 
-- **Simulationskern**: Falls Eigenentwicklung Unit Tests
+- **Berechnungskern**: Falls Eigenentwicklung Unit Tests
 - **Datenaufbereitung**: Integrationstests / Validierung
 - **User-Tests**: Nur durch Stadtverwaltung / Fachpersonal (Kunde), dafür muss Anwendung "testbar" sein.
 - **End2End Tests**: tbd
@@ -265,10 +265,11 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 <a id="fazit-und-entscheidungsempfehlung"></a>
 ## Fazit und Entscheidungsempfehlung
 Zusammenfassend wird für die Realisierung des digitalen Energiezwillings die **Option B (Standalone-Lösung)** empfohlen. Diese Architektur bietet die notwendige technologische Freiheit, um mittels **CesiumJS** und **React** eine performante und intuitiv bedienbare 3D-Anwendung bereitzustellen, die modernen UX-Standards entspricht.
-Für die energetische Bewertung wird initial auf einen **vereinfachten Simulationskern (Option A)** gesetzt, der auf Typvertretern (ähnlich TABULA/EPISCOPE) basiert. Dies ermöglicht eine schnelle, indikative Potentialanalyse für Bürger (Eigentümer/Vermieter), minimiert externe Abhängigkeiten und reduziert die anfängliche Komplexität. Die modulare Systemarchitektur gewährleistet dabei, dass Komponenten wie der Rechenkern bei Bedarf in zukünftigen Ausbaustufen gegen zertifizierte Module ausgetauscht werden können.
+Für die energetische Bewertung wird initial auf einen **vereinfachten Berechnungskern (Option A)** gesetzt, der auf Typvertretern (ähnlich TABULA/EPISCOPE) basiert. Dies ermöglicht eine schnelle, indikative Potentialanalyse für Bürger (Eigentümer/Vermieter), minimiert externe Abhängigkeiten und reduziert die anfängliche Komplexität. Die modulare Systemarchitektur gewährleistet dabei, dass Komponenten wie der Rechenkern bei Bedarf in zukünftigen Ausbaustufen gegen zertifizierte Module ausgetauscht werden können.
 
 ------
 
 # 2. Datenanalyse
 
 Weitere Schritte folgen sobald Phase 1 abgeschlossen ist
+

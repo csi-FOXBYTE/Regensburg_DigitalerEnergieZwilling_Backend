@@ -1,4 +1,4 @@
-# Runtime-Flows und Ops-Sicht
+﻿# Runtime-Flows und Ops-Sicht
 
 ## Inhaltsverzeichnis
 
@@ -22,7 +22,7 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
-Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Simulationen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting). Der Bearbeitungszustand wird über einen notwendigen Cookie für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.  
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting). Der Bearbeitungszustand wird über einen notwendigen Cookie für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.  
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, optional Tiles Gateway oder direkter Datendienstzugriff, Config Snapshot, Backend API (optional).  
 Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, Altcha-Validierung fehlgeschlagen, Server-Recompute abweichend.
 
@@ -121,3 +121,4 @@ Quelle: `raw/runtime-flow-delete.puml`
 - Fachlicher Betrieb (Konfiguration/Triage) liegt bei Stadtverwaltung / Fachpersonal.
 - Notfallprozess: Incident-Owner wird benannt, Runbooks definieren Wiederanlauf und Kommunikationswege.
 - Wartungsprozess: geplante Wartungsfenster, Rollbacks über vorherige Konfigurationsversionen.
+

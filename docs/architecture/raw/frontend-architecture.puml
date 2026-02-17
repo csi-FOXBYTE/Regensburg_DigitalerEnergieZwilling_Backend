@@ -12,7 +12,7 @@ rectangle "Statische Assets\n(HTML/JS/CSS)" as assets
 rectangle "APISIX\n(Web/API Gateway)" as apisix
 rectangle "Public Client\n(BÃ¼rgerbereich)" as public_client
 rectangle "Admin-Bereich\n(Fachpersonal)" as admin_client
-rectangle "Simulationskern\n(JS-Modul)" as core
+rectangle "Berechnungskern\n(JS-Modul)" as core
 rectangle "Tiles Gateway\n(optional)" as tiles
 rectangle "Externer Datendienst\n(S3-kompatibel, 3D Tiles)" as s3
 rectangle "Backend API\n(Ã¶ffentlich)" as api_public
@@ -33,3 +33,4 @@ admin_client --> api_admin
 public_client --> basemap
 
 @enduml
+

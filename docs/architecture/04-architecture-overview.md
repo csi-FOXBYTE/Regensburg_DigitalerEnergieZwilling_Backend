@@ -1,4 +1,4 @@
-# Architekturübersicht – Digitaler Energie Zwilling (DEZ)
+﻿# Architekturübersicht – Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -36,17 +36,17 @@ Dies reduziert:
 
 ---
 
-### Clientseitige Simulation als Standard
+### Clientseitige Berechnung als Standard
 
-Der Simulationskern ist als **eigenständiges JavaScript-Modul** konzipiert und kann vollständig im Browser ausgeführt werden.  
-Damit ist es möglich, energetische Simulationen durchzuführen, **ohne Nutzereingaben an einen Server zu übertragen**.
+Der Berechnungskern ist als **eigenständiges JavaScript-Modul** konzipiert und kann vollständig im Browser ausgeführt werden.  
+Damit ist es möglich, energetische Berechnungen durchzuführen, **ohne Nutzereingaben an einen Server zu übertragen**.
 
 Diese Architekturentscheidung dient insbesondere:
 - dem Datenschutz
 - der Transparenz gegenüber Bürgern (Eigentümern/Vermietern)
 - der Reduktion von Backend-Abhängigkeiten
 
-Eine serverseitige Ausführung der Simulation ist optional vorgesehen, z.B. für administrative Zwecke oder zukünftige Erweiterungen.
+Eine serverseitige Ausführung der Berechnung ist optional vorgesehen, z.B. für administrative Zwecke oder zukünftige Erweiterungen.
 
 ---
 
@@ -89,10 +89,10 @@ Die interaktiven Teile der Anwendung werden über klar abgegrenzte Client-Kompon
 
 Das Backend übernimmt ausschließlich Aufgaben, die nicht sinnvoll clientseitig gelöst werden können:
 - Authentifizierung und Autorisierung
-- Verwaltung und Veröffentlichung von Simulationskonfigurationen
+- Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Administrative Triage-Funktionen
-- Optionale serverseitige Simulation
+- Optionale serverseitige Berechnung
 
 Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen zuständig.
 
@@ -125,7 +125,8 @@ Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend un
 
 Die Architektur ist bewusst so gestaltet, dass:
 - ein funktionsfähiger MVP mit überschaubarem Aufwand realisiert werden kann
-- spätere Erweiterungen (z.B. komplexere Simulationen, zusätzliche Datenquellen) möglich bleiben
+- spätere Erweiterungen (z.B. komplexere Berechnungen, zusätzliche Datenquellen) möglich bleiben
 - Datenschutz- und Sicherheitsanforderungen frühzeitig berücksichtigt werden
 
 Die folgenden Kapitel vertiefen die Architektur auf Container- und Komponentenebene sowie die Datenpipeline im Detail.
+

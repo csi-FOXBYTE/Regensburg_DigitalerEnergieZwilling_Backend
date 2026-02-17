@@ -1,4 +1,4 @@
-# Architektur – C4 Component Diagramm
+﻿# Architektur – C4 Component Diagramm
 
 ## Inhaltsverzeichnis
 
@@ -6,7 +6,7 @@
 2. [Überblick](#ueberblick)
 3. [Frontend-Komponenten](#frontend-komponenten)
 4. [Backend-Komponenten](#backend-komponenten)
-5. [Simulationskern](#simulationskern)
+5. [Berechnungskern](#berechnungskern)
 6. [Offline-Datenpipeline](#offline-datenpipeline)
 7. [Datenflüsse (zusammengefasst)](#datenfluesse-zusammengefasst)
 8. [Abgrenzung](#abgrenzung)
@@ -33,7 +33,7 @@ Das C4 Component Diagramm stellt die folgenden Aspekte dar:
 
 - den Aufbau des statischen Frontends mit Public- und Admin-Bereich
 - die internen Komponenten des Backends
-- den Simulationskern als geteiltes Modul
+- den Berechnungskern als geteiltes Modul
 - die Entkopplung von 3D Tiles, Backend und Datenhaltung
 - die Offline-Datenpipeline zur Erzeugung der 3D Tiles
 
@@ -66,11 +66,11 @@ Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
 - Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles
-- Durchführung der energetischen Simulation
-- Darstellung der Simulationsergebnisse
+- Durchführung der energetischen Berechnung
+- Darstellung der Berechnungsergebnisse
 > ⚠️ **Hinweis:** Die Solarpotenzial-Textur und Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt.
 
-Die Simulation wird standardmäßig vollständig im Browser ausgeführt.
+Die Berechnung wird standardmäßig vollständig im Browser ausgeführt.
 
 ---
 
@@ -79,7 +79,7 @@ Die Simulation wird standardmäßig vollständig im Browser ausgeführt.
 Die Admin Island stellt die administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal bereit.
 
 Aufgaben:
-- Pflege und Veröffentlichung von Simulationskonfigurationen
+- Pflege und Veröffentlichung von Berechnungskonfigurationen
 - Sichtung und Triage von Nutzereingaben
 - Qualitätssicherung
 
@@ -147,25 +147,25 @@ Aufgaben:
 
 ### Configuration Service
 
-Der Configuration Service verwaltet die Simulationskonfigurationen.
+Der Configuration Service verwaltet die Berechnungskonfigurationen.
 
 Aufgaben:
 - Pflege von Parametern
 - Versionierung und zeitliche Gültigkeit
 - Veröffentlichung versionierter Konfigurationsdateien
 
-Er fungiert als zentrale Quelle für Simulationsparameter.
+Er fungiert als zentrale Quelle für Berechnungsparameter.
 
 ---
 
-### Simulation Service
+### Berechnungsservice
 
-Der Simulation Service stellt eine optionale serverseitige Ausführung der Simulation bereit.
+Der Berechnungsservice stellt eine optionale serverseitige Ausführung der Berechnung bereit.
 
 Aufgaben:
 - Laden der aktiven Konfiguration
-- Aufruf des Simulationskerns
-- Rückgabe von Simulationsergebnissen
+- Aufruf des Berechnungskerns
+- Rückgabe von Berechnungsergebnissen
 
 Im Regelfall wird dieser Service nur für administrative oder zukünftige Erweiterungen genutzt.
 
@@ -204,17 +204,17 @@ Aufgaben:
 
 ---
 
-<a id="simulationskern"></a>
-## Simulationskern
+<a id="berechnungskern"></a>
+## Berechnungskern
 
-Der Simulationskern ist als **eigenständiges JavaScript-Modul** umgesetzt.
+Der Berechnungskern ist als **eigenständiges JavaScript-Modul** umgesetzt.
 
 Eigenschaften:
 - identischer Code für Frontend und Backend
 - deterministisches Verhalten bei gleicher Konfiguration
 - Übergabe von Konfiguration und Nutzereingaben als Parameter
 
-Der Simulationskern ist bewusst frei von Infrastrukturabhängigkeiten.
+Der Berechnungskern ist bewusst frei von Infrastrukturabhängigkeiten.
 
 ---
 
@@ -239,9 +239,9 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
 - Statische Potenziale:  
   Offline-Datenpipeline → 3D Tiles → Public Client
 
-- Simulation:  
-  Public Client → Simulationskern → Ergebnisanzeige  
-  Optional: Backend → Simulationskern → Ergebnis
+- Berechnung:  
+  Public Client → Berechnungskern → Ergebnisanzeige  
+  Optional: Backend → Berechnungskern → Ergebnis
 
 - Konfiguration:  
   Admin (Stadtverwaltung / Fachpersonal) → Backend → Konfigurationsdatei → Public Client
@@ -256,3 +256,5 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
 
 Dieses Kapitel beschreibt die **interne Struktur der Container**, nicht deren Deployment.  
 Details zu Betrieb, Skalierung und Infrastruktur werden im Kapitel **Betrieb und Deployment** behandelt.
+
+

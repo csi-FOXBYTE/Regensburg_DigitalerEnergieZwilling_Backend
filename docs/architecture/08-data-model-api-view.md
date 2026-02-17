@@ -1,4 +1,4 @@
-# Datenmodell und API-Sicht
+﻿# Datenmodell und API-Sicht
 
 ## Inhaltsverzeichnis
 
@@ -29,8 +29,8 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Eingabesets** (Eingabetiefe/Detailgrad, Quelle, Zeitstempel)
 - **Bauteil- und Systemeingaben** (Hülle, Lüftung, Warmwasser, Anlagentechnik)
 - **Maßnahmenkatalog** und **Maßnahmenselektion** (inkl. Förderprogramme)
-- **Simulationskonfiguration (versioniert)** und **Konfigurationsoptionen**
-- **Simulationen & Ergebnisse** (Energiebedarf, CO₂, Primärenergie, Kosten, Effizienzklassen)
+- **Berechnungskonfiguration (versioniert)** und **Konfigurationsoptionen**
+- **Berechnungen & Ergebnisse** (Energiebedarf, CO₂, Primärenergie, Kosten, Effizienzklassen)
 - **Triage/Status** für administrative Prüfung und Veröffentlichung
 - **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung)
 - **Reports** (Anzeige in der Anwendung) und **optionale Exporte** (z.B. PDF für Bürger, Quartiersberichte für Verwaltung)
@@ -39,7 +39,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 - Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
 - Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
-- Jede **Simulation** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
+- Jede **Berechnung** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
 - **Triage** ist pro Eingabeset geführt; übermittelte Daten sind nach interner Freigabe exportierbar.
 - **Quartiere** erlauben Aggregationen und Reporting auf Planungsebene.
 
@@ -95,7 +95,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 ### Abgeleitete Gebäudeparameter (LOD2)
 
-Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Simulationskontext genutzt:
+Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext genutzt:
 - Nutzfläche, Wohnfläche, Nettoraumvolumen
 - Hüllflächen (Außenwände, Dachflächen)
 - Ausrichtung der Wände / Himmelsrichtungen
@@ -107,12 +107,12 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Simulationskontext 
 
 - **Source of Truth**: Konfigurationen werden in der Datenbank gepflegt und versioniert.
 - **Snapshot**: Beim Veröffentlichen wird ein JSON-Snapshot erzeugt, gespeichert und exportiert.
-- **Konsistenz**: Simulationen referenzieren eine Config-Version und deren Checksumme.
+- **Konsistenz**: Berechnungen referenzieren eine Config-Version und deren Checksumme.
 
 ### Ergebnis-Publishing und Indexierung
 
-- **Public Write**: Der öffentliche Bereich darf Simulationsergebnisse schreiben (inkl. Eingaben und Config-Version).
-- **Server-Recompute**: Beim Speichern werden die Ergebnisse serverseitig mit dem gleichen Simulationskern
+- **Public Write**: Der öffentliche Bereich darf Berechnungsergebnisse schreiben (inkl. Eingaben und Config-Version).
+- **Server-Recompute**: Beim Speichern werden die Ergebnisse serverseitig mit dem gleichen Berechnungskern
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
@@ -145,8 +145,8 @@ Quelle: `raw/public-write-flow.puml`
 ## API-Sicht (erste Ableitung)
 
 - **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
-- **Ressourcen**: Gebäude, Eingaben, Simulationen, Konfigurationen, Kataloge, Triage, Reports
-- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit notwendigem Cookie für Zustandswiederherstellung und optionalem Schreibzugriff für Simulationsergebnisse
+- **Ressourcen**: Gebäude, Eingaben, Berechnungen, Konfigurationen, Kataloge, Triage, Reports
+- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit notwendigem Cookie für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
@@ -180,7 +180,7 @@ Quelle: `raw/public-write-flow.puml`
 - **Config Snapshot Exporter**: Export der JSON-Snapshots (TA-44 bis TA-45).
 - **User Data Service**: Public Write, Persistenz der Eingaben und Ergebnisse (TA-33, TA-36).
 - **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views (TA-34, TA-50).
-- **Simulation Service**: Server-Recompute für Verifikation (TA-49).
+- **Berechnungsservice**: Server-Recompute für Verifikation (TA-49).
 - **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
 - **Auth Middleware**: OIDC/JWT für Admin-Endpoints (TA-04).
 
@@ -189,3 +189,5 @@ Quelle: `raw/public-write-flow.puml`
 - Reports werden **nicht** als eigene dauerhafte Objekte gespeichert.
 - Reports werden in der Anwendung **dynamisch aus der Datenbank** aggregiert.
 - Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.
+
+

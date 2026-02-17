@@ -1,4 +1,4 @@
-# User Experience, Nutzerreise & Informationsarchitektur
+﻿# User Experience, Nutzerreise & Informationsarchitektur
 
 Dieses Kapitel bündelt die nutzerzentrierte Sicht auf den Digitaler Energie Zwilling (DEZ): Ziele, Nutzerbedürfnisse, Interaktionslogik und die fachliche Informationsarchitektur.
 
@@ -99,7 +99,7 @@ Die Journey dient als Grundlage für:
 | Awareness     | Problem erkennen     | Heizkosten steigen, Handlungsdruck entsteht   |
 | Consideration | Nutzen prüfen        | Tool wirkt verlässlich und einfach            |
 | Onboarding    | Gebäude finden       | Gebäude wählen, Daten prüfen                  |
-| Simulation    | Optionen testen      | Maßnahmen vergleichen, Effekte verstehen      |
+| Berechnung    | Optionen testen      | Maßnahmen vergleichen, Effekte verstehen      |
 | Review        | Entscheidung stützen | Zusammenfassung, PDF-Export, nächste Schritte |
 
 ### Schritte & Aktionen (Kurzfassung)
@@ -348,7 +348,7 @@ Nutzers.
 #### Beschreibung
 
 Die Startseite vermittelt klar den Nutzen des Tools:\
-Simulation der energetischen Gebäudesanierung auf Basis städtischer
+Berechnung der energetischen Gebäudesanierung auf Basis städtischer
 Daten.
 
 **Zentrale Elemente:**
@@ -444,7 +444,7 @@ prüfen und korrigieren.
 ![3_Sanierungsmaßnahmen.png](./attachments/3_Sanierungsmaßnahmen.png)
 _Sanierungsmaßnahmen_
 
-**Ziel:** Simulation verschiedener Sanierungsszenarien.
+**Ziel:** Berechnung verschiedener Sanierungsszenarien.
 
 #### Beschreibung
 
@@ -514,3 +514,4 @@ Das Interface folgt folgenden Grundprinzipien:
 4.  **Vergleichbarkeit von Maßnahmen**
 5.  **Entscheidungsunterstützung durch Visualisierung**
 6.  **Niederschwelliger Zugang ohne Fachkenntnisse**
+

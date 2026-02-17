@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram
@@ -13,7 +13,7 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
 
     Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
       Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
-      Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and simulation UI")
+      Component(publicIsland, "Public Client Island", "React and Cesium", "Public 3D viewer and Berechnungs-UI")
       Component(adminIsland, "Admin Island", "React", "Admin area, available only after authentication")
       Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
     }
@@ -25,12 +25,12 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
       Component(auth, "Auth Middleware", "OIDC and JWT", "Authentication and authorization enforcement")
       Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
       Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
-      Component(simService, "Simulation Service", "TypeScript JavaScript", "Optional server side simulation execution for admin or fallback")
+      Component(calcService, "Berechnungsservice", "TypeScript JavaScript", "Optionale serverseitige Berechnungsausführung für Admin oder Fallback")
       Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
       Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
     }
 
-    Container(simCore, "Simulation Core Module", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+    Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGateway, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
     Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
@@ -80,8 +80,8 @@ Rel(publicIsland, geo, "loads basemaps")
 
 Rel(publicIsland, publicStatic, "loads published config file", "GET /config/versioned.json")
 
-Rel(publicIsland, simCore, "imports and runs locally", "privacy option no user data required")
-Rel(simService, simCore, "imports and runs in Node", "optional admin or fallback execution")
+Rel(publicIsland, calcCore, "imports and runs locally", "privacy option no user data required")
+Rel(calcService, calcCore, "imports and runs in Node", "optional admin or fallback execution")
 
 Rel(publicIsland, apiControllers, "sends user inputs for persistence", "REST optional")
 Rel(adminIsland, apiControllers, "triages user inputs and manages config", "REST")
@@ -90,7 +90,7 @@ Rel(apiControllers, auth, "uses")
 Rel(apiControllers, userData, "delegates user data persistence and triage")
 Rel(apiControllers, configService, "delegates config management and publishing")
 Rel(apiControllers, geoService, "delegates spatial queries")
-Rel(apiControllers, simService, "delegates server side simulation", "optional")
+Rel(apiControllers, calcService, "delegates serverseitige Berechnung", "optional")
 
 Rel(userData, db, "reads and writes user inputs and triage state")
 Rel(configService, db, "reads and writes configuration")
@@ -101,7 +101,7 @@ Rel(telemetry, apiControllers, "instruments")
 Rel(telemetry, userData, "instruments")
 Rel(telemetry, configService, "instruments")
 Rel(telemetry, geoService, "instruments")
-Rel(telemetry, simService, "instruments")
+Rel(telemetry, calcService, "instruments")
 
 Rel(srcCityGML, citygmlTools, "feeds")
 Rel(srcSolarTiles, gdal, "feeds")
@@ -112,3 +112,5 @@ Rel(gdal, converter, "provides computed attributes")
 Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")
 
 @enduml
+
+

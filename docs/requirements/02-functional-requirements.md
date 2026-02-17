@@ -1,4 +1,4 @@
-# Fachliche Anforderungen – Digitaler Energie Zwilling (DEZ)
+﻿# Fachliche Anforderungen – Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -31,7 +31,7 @@ Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-hav
 
 ### Bürger (Eigentümer/Vermieter)
 
-Bürger (Eigentümer/Vermieter) nutzen den Digitaler Energie Zwilling (DEZ) ohne Authentifizierung, um sich einen Überblick über energetische Potenziale einzelner Gebäude zu verschaffen und einfache Szenarien zu simulieren.  
+Bürger (Eigentümer/Vermieter) nutzen den Digitaler Energie Zwilling (DEZ) ohne Authentifizierung, um sich einen Überblick über energetische Potenziale einzelner Gebäude zu verschaffen und einfache Szenarien zu berechnen.  
 Fokus liegt auf einer ersten Orientierung für Sanierungsentscheidungen.
 
 ### Stadtverwaltung / Fachpersonal
@@ -72,23 +72,23 @@ Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestell
 
 ---
 
-### Interaktive Simulation (Bürger (Eigentümer/Vermieter))
+### Interaktive Berechnung (Bürger (Eigentümer/Vermieter))
 
 **FA-07**  
-Bürger müssen für ein ausgewähltes Gebäude einfache energetische Szenarien simulieren können.
+Bürger müssen für ein ausgewähltes Gebäude einfache energetische Szenarien berechnen können.
 
 **FA-08**  
-Die Simulation muss Eingabemöglichkeiten für typische Sanierungsmaßnahmen bieten, z.B.:
+Die Berechnung muss Eingabemöglichkeiten für typische Sanierungsmaßnahmen bieten, z.B.:
 
 - Fenster
 - Dämmung
 - Heizungsart
 
 **FA-09**  
-Simulationsergebnisse müssen unmittelbar oder mit minimaler Verzögerung dargestellt werden.
+Berechnungsergebnisse müssen unmittelbar oder mit minimaler Verzögerung dargestellt werden.
 
 **FA-10**  
-Simulationsergebnisse müssen verständlich und nicht fachlich überladen präsentiert werden.
+Berechnungsergebnisse müssen verständlich und nicht fachlich überladen präsentiert werden.
 
 ---
 
@@ -98,7 +98,7 @@ Simulationsergebnisse müssen verständlich und nicht fachlich überladen präse
 Das System muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen, von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert", ohne feste Stufenlogik.
 
 **FA-12**  
-Am unteren Ende des Spektrums müssen Simulationen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
+Am unteren Ende des Spektrums müssen Berechnungen ohne Nutzereingaben auskommen und auf LOD2, Baualtersklasse und Standardannahmen basieren.
 
 **FA-13**  
 Bei wenigen manuell ergänzten Angaben (z.B. Baujahr) müssen schnelle Erstwerte geliefert werden.
@@ -158,7 +158,7 @@ Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unkla
 ### Berechnungslogik (fachlich)
 
 **FA-16**  
-Die Simulation muss Gebäudehülle, Lüftung, Warmwasser und Anlagentechnik berücksichtigen.
+Die Berechnung muss Gebäudehülle, Lüftung, Warmwasser und Anlagentechnik berücksichtigen.
 
 **FA-17**  
 Transmissionswärmeverluste über Dach, Außenwände, Fenster und Kellerdecke müssen über U-Werte modelliert werden.
@@ -245,7 +245,7 @@ Das System muss konkrete Hinweise zu möglichen nächsten Schritten geben.
 Bürger müssen den Digitaler Energie Zwilling (DEZ) nutzen können, ohne personenbezogene Daten zu übermitteln.
 
 **FA-41**  
-Die Durchführung einer Simulation darf nicht zwingend eine Speicherung oder Übertragung von Nutzereingaben erfordern.
+Die Durchführung einer Berechnung darf nicht zwingend eine Speicherung oder Übertragung von Nutzereingaben erfordern.
 
 ---
 
@@ -273,13 +273,13 @@ Fachpersonal muss sich im internen Bereich des Systems anmelden können, um admi
 ### Konfigurationsmanagement
 
 **FA-45**  
-Fachpersonal muss Simulationsparameter pflegen und anpassen können.
+Fachpersonal muss Berechnungsparameter pflegen und anpassen können.
 
 **FA-46**  
-Änderungen an Simulationsparametern müssen ohne Softwareanpassung möglich sein.
+Änderungen an Berechnungsparametern müssen ohne Softwareanpassung möglich sein.
 
 **FA-47**  
-Simulationsparameter müssen versionierbar sein.
+Berechnungsparameter müssen versionierbar sein.
 
 ---
 
@@ -354,7 +354,7 @@ Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahm
 Der Digitaler Energie Zwilling (DEZ) ersetzt keine individuelle Energieberatung.
 
 **FA-66**  
-Simulationsergebnisse stellen keine förderfähigen Berechnungen dar.
+Berechnungsergebnisse stellen keine förderfähigen Berechnungen dar.
 
 **FA-67**  
 Das System liefert keine rechtsverbindlichen Aussagen.
@@ -513,7 +513,7 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 
 ## Priorisierung (implizit)
 
-- Kernfunktionen für Bürger (Eigentümer/Vermieter) (Visualisierung, Simulation) haben höchste Priorität.
+- Kernfunktionen für Bürger (Eigentümer/Vermieter) (Visualisierung, Berechnung) haben höchste Priorität.
 - Administrative Funktionen dienen der Qualitätssicherung und Weiterentwicklung.
 - Erweiterte Analyse- oder Beratungsfunktionen sind nicht Bestandteil der initialen fachlichen Anforderungen.
 
@@ -525,3 +525,4 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 
 Die in diesem Dokument beschriebenen fachlichen Anforderungen werden in den **Technischen Anforderungen** konkretisiert.  
 Dort wird festgelegt, **wie** diese Funktionen technisch umzusetzen sind und welche nicht-funktionalen Randbedingungen einzuhalten sind.
+

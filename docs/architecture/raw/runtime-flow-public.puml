@@ -18,7 +18,7 @@ participant "APISIX (Web/API Gateway)" as gateway
 participant "Public Static Delivery" as public_static
 participant "Tiles Gateway (optional)" as tiles
 participant "Datendienst (S3)" as s3
-participant "Simulation Core (Browser)" as sim
+participant "Berechnungskern (Browser)" as calc
 participant "Altcha Widget" as altcha
 participant "Backend API" as api
 database "Database" as db
@@ -48,7 +48,7 @@ else Tiles via optional gateway
   gateway --> client: Tiles
 end
 
-client -> sim: Simulation lokal ausfuehren
+client -> calc: Berechnung lokal ausfuehren
 
 alt Config oder Tiles fehlen
   client --> user: Fehler anzeigen (Retry)
@@ -62,8 +62,8 @@ alt Optional: Ergebnisse uebermitteln
   client -> gateway: POST /api/public/inputs + Token
   gateway -> gateway: Rate limit check
   gateway -> api: Forward request
-  api -> sim: Server-Recompute
-  sim --> api: Ergebnis
+  api -> calc: Server-Recompute
+  calc --> api: Ergebnis
   api -> db: Store inputs/results
   db --> api: Stored
   api --> gateway: Accepted/Rejected
@@ -81,3 +81,4 @@ alt Optional: Ergebnisse uebermitteln
 end
 
 @enduml
+

@@ -1,4 +1,4 @@
-@startuml
+﻿@startuml
 left to right direction
 skinparam rectangle {
   BackgroundColor #F7F7F7
@@ -18,7 +18,7 @@ rectangle "CIVITAS/CORE Platform" as civitas {
     rectangle "Configuration Service" as config
     rectangle "User Data Service" as user_data
     rectangle "Triage/Reporting" as triage
-    rectangle "Simulation Service" as sim
+    rectangle "Berechnungsservice" as calc
     rectangle "Config Snapshot\nExporter" as export
   }
 
@@ -30,7 +30,7 @@ orchestrator ..> backend : orchestriert
 
 public_api --> protect
 protect --> user_data
-public_api --> sim
+public_api --> calc
 admin_api --> auth
 auth --> config
 auth --> triage
@@ -39,7 +39,9 @@ config --> export
 config --> db
 user_data --> db
 triage --> db
-sim --> config
+calc --> config
 keycloak --> auth
 
 @enduml
+
+

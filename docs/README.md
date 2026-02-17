@@ -1,4 +1,4 @@
-# Dokumentation
+﻿# Dokumentation
 
 ![Docs](https://img.shields.io/badge/docs-internal-2ea44f)
 
@@ -16,6 +16,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **Solarpotenzial (PV)**, **Geothermiepotenzial**, **Solarthermie**
 - **Eingabetiefe (kontinuierliches Spektrum)** von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert"
 - **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
+- **Berechnung**, alternativ **Kalkulation** (nicht "Simulation")
 
 <a id="grundlagen"></a>
 
@@ -51,7 +52,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **10** [Offline-Datenpipeline](architecture/10-architecture-offline-data-pipeline.md)
 - **11** [Frontend](architecture/11-architecture-frontend.md)
 - **12** [Backend](architecture/12-architecture-backend.md)
-- **13** [Simulationskern](architecture/13-architecture-simulation-core.md)
+- **13** [Berechnungskern](architecture/13-architecture-berechnung-core.md)
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
 
 <a id="anleitungen"></a>
@@ -82,3 +83,5 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - Vendor-Lock-in vermeiden: portabel, keine proprietären Secrets/Abhängigkeiten.
 - Datentausch über offene Standards; Liste der verwendeten Standards im Code führen.
 - Security-Grundsätze im Contribution/Release-Prozess (Secret-Scanning, abgesicherte Releases, Vieraugenprinzip).
+
+

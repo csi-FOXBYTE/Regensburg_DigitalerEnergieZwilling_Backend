@@ -1,4 +1,4 @@
-# Architektur – C4 Container Diagramm
+﻿# Architektur – C4 Container Diagramm
 
 ## Inhaltsverzeichnis
 
@@ -74,7 +74,7 @@ Das Frontend wird vollständig als **statische Webanwendung** erzeugt.
 Aufgaben:
 - Bereitstellung der Benutzeroberflächen
 - Visualisierung des 3D-Stadtmodells
-- Durchführung der Simulationen im Browser
+- Durchführung der Berechnungen im Browser
 - Darstellung von Ergebnissen und Potenzialen
 
 Das Frontend besteht fachlich aus:
@@ -91,10 +91,10 @@ Das Backend stellt alle serverseitigen Funktionen bereit, die nicht sinnvoll cli
 
 Aufgaben:
 - Authentifizierung und Autorisierung
-- Verwaltung und Veröffentlichung von Simulationskonfigurationen
+- Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Administrative Triage-Funktionen
-- Optionale serverseitige Simulation
+- Optionale serverseitige Berechnung
 
 Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen wie 3D Tiles verantwortlich.
 
@@ -133,9 +133,9 @@ Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erze
 Die Datenbank dient als persistente Datenhaltung für dynamische und nutzerspezifische Informationen.
 
 Enthält:
-- Nutzereingaben aus Simulationen
+- Nutzereingaben aus Berechnungen
 - Triage- und Statusinformationen
-- Simulationskonfigurationen und Versionen
+- Berechnungskonfigurationen und Versionen
 
 Die Datenbank enthält **keine statischen Potenzialdaten**.
 
@@ -168,7 +168,7 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 - Das Backend greift auf:
   - die Datenbank
   - die veröffentlichte Konfiguration
-  - optional den Simulationskern
+  - optional den Berechnungskern
 
 - Die Offline-Datenpipeline schreibt ausschließlich in das 3D Tiles Storage.
 
@@ -180,7 +180,8 @@ Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
 Dieses Kapitel beschreibt **nur die Container-Ebene**.  
 Die interne Struktur von Frontend und Backend, einschließlich:
 - Authentifizierungslogik
-- Simulationskern
+- Berechnungskern
 - Konfigurations- und Triage-Services
 
 wird im folgenden Kapitel **C4 Component Diagramm** detailliert beschrieben.
+
