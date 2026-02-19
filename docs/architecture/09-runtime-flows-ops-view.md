@@ -50,7 +50,7 @@ Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Upd
 Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
-Airflow-Run wird manuell gestartet, Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
+Airflow-Run wird manuell gestartet (vollständiger Lauf oder Teil-Update je Datendomäne), Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
 Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
 Fehlerpfade: fehlende Eingaben, Konvertierungsfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
 

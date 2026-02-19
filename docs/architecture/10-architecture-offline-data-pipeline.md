@@ -4,18 +4,20 @@
 
 1. [Ziel dieser Sicht](#ziel-dieser-sicht)
 2. [Datenquellen](#datenquellen)
-3. [Betriebs- und Orchestrierungsmodell](#betriebs-und-orchestrierungsmodell)
-4. [Verarbeitungsschritte](#verarbeitungsschritte)
-5. [DAG-Ablauf (vereinfachte Sicht)](#dag-ablauf-vereinfachte-sicht)
-6. [Spezifikation (Pipeline-Vertrag)](#spezifikation-pipeline-vertrag)
-7. [Security by Design (Pipeline)](#security-by-design-pipeline)
-8. [Manifest-Schema (manifest.json)](#manifest-schema-manifest-json)
-9. [Container-Parameter & Validierung](#container-parameter-validierung)
-10. [Airflow Task-Beispiel (DockerOperator)](#airflow-task-beispiel-dockeroperator)
-11. [Anreicherungs-Container (Spezifikation)](#anreicherungs-container-spezifikation)
-12. [Pipeline-Diagramm](#pipeline-diagramm)
-13. [Warum keine Datenbankzugriffe zur Laufzeit](#warum-keine-datenbankzugriffe-zur-laufzeit)
-14. [Ergebnis](#ergebnis)
+3. [Aktualisierungsstrategie der Basisdaten](#aktualisierungsstrategie-der-basisdaten)
+4. [Betriebs- und Orchestrierungsmodell](#betriebs-und-orchestrierungsmodell)
+5. [Zugriffsmuster auf den Datendienst (intern/extern)](#zugriffsmuster-auf-den-datendienst-internextern)
+6. [Verarbeitungsschritte](#verarbeitungsschritte)
+7. [DAG-Ablauf (vereinfachte Sicht)](#dag-ablauf-vereinfachte-sicht)
+8. [Spezifikation (Pipeline-Vertrag)](#spezifikation-pipeline-vertrag)
+9. [Security by Design (Pipeline)](#security-by-design-pipeline)
+10. [Manifest-Schema (manifest.json)](#manifest-schema-manifest-json)
+11. [Container-Parameter & Validierung](#container-parameter-validierung)
+12. [Airflow Task-Beispiel (DockerOperator)](#airflow-task-beispiel-dockeroperator)
+13. [Anreicherungs-Container (Spezifikation)](#anreicherungs-container-spezifikation)
+14. [Pipeline-Diagramm](#pipeline-diagramm)
+15. [Warum keine Datenbankzugriffe zur Laufzeit](#warum-keine-datenbankzugriffe-zur-laufzeit)
+16. [Ergebnis](#ergebnis)
 
 <a id="ziel-dieser-sicht"></a>
 
@@ -49,6 +51,18 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ---
 
+<a id="aktualisierungsstrategie-der-basisdaten"></a>
+
+## Aktualisierungsstrategie der Basisdaten
+
+- Der LOD2-Basisdatensatz wird im Regelfall in einem Zyklus von **2 Jahren** aktualisiert.
+- Solarpotenzial- und Geothermie-Basisdaten können abweichende Aktualisierungszeiträume haben; ein gemeinsamer, fester Gesamtzyklus ist nicht erforderlich.
+- Aktualisierungen müssen je Datendomäne vollständig optional und separat durchführbar sein (z.B. nur LOD2, nur Solar, nur Geothermie).
+- Eine Aktualisierung einer Datendomäne darf keine obligatorische Neuberechnung anderer Datendomänen erzwingen.
+- Für die Nachnutzung durch andere Kommunen muss die Pipeline entkoppelte Aktualisierungspfade je Datenquelle unterstützen.
+
+---
+
 <a id="betriebs-und-orchestrierungsmodell"></a>
 
 ## Betriebs- und Orchestrierungsmodell
@@ -61,6 +75,35 @@ Beispiele für Datenherkünfte und Referenzen:
 - Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
 - Add-ons unterstützen die konfigurationsbasierte Aktivierung/Deaktivierung einzelner Teilkomponenten, sofern fachlich sinnvoll entkoppelbar.
   > ⚠️ **Hinweis:** Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
+
+---
+
+<a id="zugriffsmuster-auf-den-datendienst-internextern"></a>
+
+## Zugriffsmuster auf den Datendienst (intern/extern)
+
+### Interner Zugriff (innerhalb UDP/CIVITAS/CORE)
+
+- Der Konvertierungs-Container und der Anreicherungs-Container greifen direkt auf den S3-kompatiblen Datendienst zu (Download/Upload je `job_id`).
+- Optional greift ein Tiles Gateway intern auf denselben Datendienst zu, wenn der externe Read-Pfad nicht direkt aus APISIX bedient wird.
+- Die Authentifizierung erfolgt mit technischen Service-Credentials aus dem Secrets-Management (keine statischen Credentials im Code oder in Container-Images).
+- Berechtigungen sind strikt auf Bucket/Prefix-Ebene zu begrenzen (Least Privilege), mindestens:
+  - Lesen: `jobs/{job_id}/input/`
+  - Schreiben: `jobs/{job_id}/convert/`, `jobs/{job_id}/enriched/`, `jobs/{job_id}/logs/`, `jobs/{job_id}/manifest.json`
+
+### Externer Zugriff (außerhalb UDP/CIVITAS/CORE)
+
+- Direkter externer Zugriff auf den Datendienst ist nicht vorgesehen.
+- Externe Zugriffe auf 3D Tiles erfolgen ausschließlich über APISIX (TA-103):
+  - entweder APISIX -> Datendienst (direct mode)
+  - oder APISIX -> Tiles Gateway -> Datendienst (optional mode)
+- Externe Zugriffe sind auf veröffentlichte Read-Pfade zu begrenzen; Schreibzugriffe auf den Datendienst bleiben interne Betriebsfunktionen.
+
+### Keycloak-Bezug für Authentifizierung
+
+- Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene (z.B. APISIX, Backend).
+- Für direkte S3-Protokollzugriffe der Pipeline-Container werden technische Datendienst-Credentials verwendet; OIDC-Tokens werden dort nicht direkt als S3-Schreibberechtigung genutzt.
+- Falls der Datendienst OIDC-Föderation/STS unterstützt, kann Keycloak optional zur Ausgabe kurzlebiger Datendienst-Credentials eingebunden werden.
 
 ---
 
@@ -122,6 +165,18 @@ Beispiele für Datenherkünfte und Referenzen:
 ### Airflow DAG (konkret)
 
 - DAG-ID: `dez_offline_pipeline`.
+- Jeder Lauf definiert einen `update_scope` (z.B. `lod2`, `solar`, `geothermie`, `full`), damit Basisdaten unabhängig voneinander aktualisiert werden können.
+- Teil-Updates sind zulässig; nur die vom `update_scope` betroffenen Pipeline-Schritte werden ausgeführt.
+
+### Kommunenprofil und Mapping-Profil
+
+- **SoT-Hinweis (Basisdaten):** Als Single Point of Truth gilt die Kombination aus Quell-Datensatzversion, `mapping_profile_version` und veröffentlichtem Release-Manifest.
+- Jeder Pipeline-Lauf verwendet zusätzlich ein `municipality_profile` (z.B. `regensburg`) und ein `mapping_profile_version`.
+- Das `municipality_profile` ist deployment-spezifisch festgelegt; es dient nicht zur parallelen Mehrkommunen-Nutzung innerhalb derselben Instanz.
+- Das `municipality_profile` kapselt kommunenspezifische Einstellungen (Datenquellen, Klassifikationen, optionale Branding-/Textreferenzen für Exporte).
+- Das `mapping_profile_version` definiert die Transformation in das kanonische Zielschema (Feldmapping, Einheiten, Fallbacks, Herkunftskennzeichnung).
+- Regensburg-spezifische Annahmen dürfen nicht implizit in der Kernpipeline verankert sein, sondern müssen über das jeweilige Profil eingebracht werden.
+- Mapping-Profile sind versioniert und unabhängig von der Pipeline-Kernlogik austauschbar.
 
 Task-Reihenfolge je `job_id`:
 
@@ -145,6 +200,8 @@ Task-Reihenfolge je `job_id`:
   Laufzeit-Logs (inkl. Fortschritt).
 - `jobs/{job_id}/manifest.json`  
   Metadaten zum Lauf (Status, Zeitstempel, Eingabeparameter).
+- `releases/{municipality_profile}/active.json`  
+  Veröffentlichtes Release-Manifest mit Referenzen auf die aktive Quell-Datensatzversion, `mapping_profile_version` und die auszuliefernden Artefaktpfade.
 
 > ⚠️ **Hinweis:** Es gibt **keine Versionierung** im Datendienst; alte Daten müssen manuell entfernt werden.
 > Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Secrets-Management; keine Tokens im Code oder in Logs.
@@ -152,12 +209,20 @@ Task-Reihenfolge je `job_id`:
 ### Eingaben
 
 - Ein Ordner mit **CityGML-Dateien** (LOD2, inkl. Adressen; Dateistruktur innerhalb des Ordners ist beliebig).
+- Optionaler Ordner/Layer mit **CityGML Energy ADE**-Inhalten.
 - Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe.
 - Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
 - `appearance` (String) wählt **genau eine** Texture/Theme aus der CityGML-Quelle.
 - `hasAlphaChannel` (Boolean) gibt an, ob die Texture-Daten einen **Alpha-Kanal** enthalten.
   > ⚠️ **Hinweis:** Für die Verarbeitung wird ein **Job-Ordner gemountet**; der Container arbeitet ausschließlich in diesem Ordner bis Abschluss.
+
+Hinweis zu Teil-Updates:
+
+- Für `update_scope = full` gelten alle oben aufgeführten Eingaben.
+- Für Teil-Updates (`lod2`, `solar`, `geothermie`) sind nur die jeweils scope-relevanten Eingaben verpflichtend.
+- Ein Teil-Update darf nicht an fehlenden Eingaben nicht betroffener Datendomänen scheitern.
+- Fehlen Energy-ADE-Inhalte, muss der Lauf über definierte Fallback-Pfade (LOD2 + externe Potenzialdaten + Konfigurationswerte) weiterhin ausführbar bleiben.
 
 ### Ausgaben
 
@@ -318,6 +383,7 @@ DockerOperator(
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
+- **Energy-ADE-Priorität**: Wenn Energy-ADE-Attribute vorhanden sind, werden diese gemäß `mapping_profile_version` vorrangig übernommen; andernfalls greifen die definierten Fallback-Regeln.
 - **Solarpotenziale** werden aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional.
 - **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).

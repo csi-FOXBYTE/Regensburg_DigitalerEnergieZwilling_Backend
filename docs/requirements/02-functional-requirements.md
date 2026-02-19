@@ -9,8 +9,10 @@
 5. [Fachliche Abgrenzungen](#fachliche-abgrenzungen)
 6. [Erweiterte Anforderungen](#erweiterte-anforderungen)
 7. [Offene MVP-Klärung: Solarthermie, PV und Geothermie](#offene-mvp-klaerung-solarthermie-pv-und-geothermie)
-8. [Priorisierung (implizit)](#priorisierung-implizit)
-9. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
+8. [Nachnutzung und White-Labeling](#nachnutzung-und-white-labeling)
+9. [Offene Klärung: Nutzungsdaten und Tracking](#offene-klaerung-nutzungsdaten-und-tracking)
+10. [Priorisierung (implizit)](#priorisierung-implizit)
+11. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
 
 <a id="ziel-der-fachlichen-anforderungen"></a>
 
@@ -506,6 +508,54 @@ Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in fol
 
 **FA-105**  
 Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstiegspunkt erreichbar sein; hierfür muss im MasterPortal mindestens ein Link auf die DEZ-Plattform bereitgestellt werden.
+
+---
+
+<a id="nachnutzung-und-white-labeling"></a>
+
+## Nachnutzung und White-Labeling
+
+**FA-106**  
+Das System muss fachlich so nutzbar sein, dass neben Regensburg auch weitere Kommunen mit eigenen Datenbeständen betrieben werden können.
+
+**FA-107**  
+Für jede Kommune muss ein eigenes Profil nutzbar sein, das mindestens Name, Branding, Texte, Basiskartenbezug und lokale Datenquellen beschreibt.
+
+**FA-108**  
+Regensburg-spezifische Inhalte (z.B. Vergleiche gegen den lokalen Gebäudebestand, lokale Begriffe, lokale Förderbezüge) müssen als kommunenspezifischer Profilinhalt austauschbar sein.
+
+**FA-109**  
+Die Nutzerführung und Kernfunktionen (Gebäudeauswahl, Berechnung, Maßnahmenvergleich, Ergebnisdarstellung) müssen über alle Kommunen hinweg fachlich gleichartig bleiben.
+
+**FA-110**  
+Für den Datenimport neuer Kommunen muss eine fachlich nachvollziehbare Zuordnung auf ein einheitliches Zielmodell möglich sein, damit die gleichen Ergebniskategorien bereitgestellt werden können.
+
+**FA-111**  
+Wenn erweiterte Fachdaten (z.B. CityGML Energy ADE) vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben.
+
+**FA-112**  
+Für automatisch übernommene oder transformierte Werte muss die Herkunft für Fachpersonal nachvollziehbar sein (Quelle der Kommune, verwendetes Profil, ggf. Fallback).
+
+**FA-113**  
+Die Einführbarkeit in weiteren Kommunen soll ohne fachliche Neudefinition der Kernlogik möglich sein; kommunenspezifische Unterschiede sollen primär über Profile und Konfigurationen abgebildet werden.
+
+**FA-114**  
+Eine DEZ-Instanz soll fachlich immer genau eine Kommune abbilden; die Nachnutzung für weitere Kommunen erfolgt über getrennte Deployments und nicht über eine gleichzeitige Mehrkommunen-Nutzung in derselben Instanz.
+
+---
+
+<a id="offene-klaerung-nutzungsdaten-und-tracking"></a>
+
+## Offene Klärung: Nutzungsdaten und Tracking
+
+**FA-115**  
+Für optionale Nutzungsanalysen ist Matomo als bevorzugte Analytics-Option vorgesehen.
+
+**FA-116**  
+Nutzungsdatenanalysen dürfen fachlich nur nach expliziter Einwilligung (Opt-in) erfolgen.
+
+**FA-117**  
+Der konkrete fachliche Umfang für Tracking (Metriken, Auswertungsziele, Berichtskreise) ist vor produktiver Aktivierung verbindlich festzulegen.
 
 ---
 

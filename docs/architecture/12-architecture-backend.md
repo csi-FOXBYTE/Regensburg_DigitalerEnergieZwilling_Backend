@@ -37,6 +37,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 - Administrative API (Konfiguration, Triage, Reporting) über APISIX.
 - OpenAPI-3.0-Spezifikation als Vertragsquelle für Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.
+- Keycloak (OIDC) wird für Benutzer-/Client-Authentifizierung gegenüber APISIX und Backend genutzt; direkte S3-Protokollzugriffe nutzen technische Datendienst-Credentials.
 - Relationale Datenbank mit räumlicher Erweiterung.
 - Berechnungskern als eingebettetes Modul für Re-Berechnungen.
 - Externer Datendienst (z.B. S3) und optionales Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt); externer Zugriff erfolgt über APISIX.

@@ -32,7 +32,11 @@
 28. [27. Offene MVP-Klärung: Solarthermie, PV und Geothermie](#27-offene-mvp-klaerung-solarthermie-pv-und-geothermie)
 29. [28. CIVITAS/CORE-Integration (Präzisierungen)](#28-civitas-core-integration-praezisierungen)
 30. [29. API-Client-Generierung](#29-api-client-generierung)
-31. [Abgrenzung](#abgrenzung)
+31. [30. Aktualisierung der Basisdaten](#30-aktualisierung-der-basisdaten)
+32. [31. Nachnutzung und White-Labeling](#31-nachnutzung-und-white-labeling)
+33. [32. Offene Klärung: Nutzungsdaten und Tracking](#32-offene-klaerung-nutzungsdaten-und-tracking)
+34. [33. Single Point of Truth für Basisdaten](#33-single-point-of-truth-fuer-basisdaten)
+35. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-der-technischen-anforderungen"></a>
 
@@ -382,7 +386,7 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 ## 18. Integration (CIVITAS/CORE)
 
 **TA-72**  
-Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI unterstützen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX; Multimandantenfähigkeit (Dataspace) ist zu berücksichtigen. Die Kommunikation zwischen Komponenten muss über standardisierte Schnittstellen (z.B. REST, MQTT, OGC-Dienste) erfolgen; offene, dokumentierte APIs wie OpenAPI 3.x oder OGC API Features sind verbindlich zu verwenden. Zusätzliche Datensenken sind zu vermeiden.
+Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI unterstützen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Die Kommunikation zwischen Komponenten muss über standardisierte Schnittstellen (z.B. REST, MQTT, OGC-Dienste) erfolgen; offene, dokumentierte APIs wie OpenAPI 3.x oder OGC API Features sind verbindlich zu verwenden. Zusätzliche Datensenken sind zu vermeiden.
 
 ---
 
@@ -640,6 +644,101 @@ Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bere
 
 **TA-116**  
 Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-Layer erfolgen; direkte, untypisierte HTTP-Aufrufe für API-Endpunkte sind zu vermeiden.
+
+---
+
+<a id="30-aktualisierung-der-basisdaten"></a>
+
+## 30. Aktualisierung der Basisdaten
+
+**TA-117**  
+Der LOD2-Basisdatensatz muss mit einem Zielzyklus von zwei Jahren aktualisiert werden können.
+
+**TA-118**  
+Solarpotenzial- und Geothermie-Basisdaten müssen unabhängig vom LOD2-Zyklus mit jeweils eigenen Aktualisierungszeiträumen aktualisierbar sein.
+
+**TA-119**  
+Die Offline-Pipeline muss vollständig optionale, getrennte Aktualisierungsruns je Datendomäne unterstützen (mindestens: `lod2`, `solar`, `geothermie`, `full`).
+
+**TA-120**  
+Ein Aktualisierungsrun einer Datendomäne darf keine obligatorische Neuberechnung oder Neuveröffentlichung nicht betroffener Datendomänen erzwingen.
+
+**TA-121**  
+Für die Nachnutzung durch andere Kommunen muss die Pipeline so ausgelegt sein, dass Aktualisierungen je Datenquelle unabhängig voneinander konfiguriert, gestartet und validiert werden können.
+
+---
+
+<a id="31-nachnutzung-und-white-labeling"></a>
+
+## 31. Nachnutzung und White-Labeling
+
+**TA-122**  
+Das System muss ein konfigurierbares Kommunenprofil unterstützen, in dem mindestens Branding, Basemap-Quellen, Datenquellen-Endpunkte, Default-Parameter und Textbausteine kommunenspezifisch gepflegt werden können.
+
+**TA-123**  
+Regensburg-spezifische Inhalte dürfen nicht hartcodiert in Kernkomponenten liegen, sondern müssen über das Kommunenprofil oder über austauschbare Konfigurationspakete gekapselt sein.
+
+**TA-124**  
+Für die Offline-Datenpipeline muss ein kanonisches Zielschema für Gebäude-, Potenzial- und Adressattribute definiert werden, auf das kommunenspezifische Quellschemata gemappt werden.
+
+**TA-125**  
+Für jede angebundene Kommune muss ein versioniertes Mapping-Profil (Quelle -> kanonisches Schema) vorliegen, inklusive Feldzuordnung, Einheiten, Transformationsregeln und Fallback-Strategien.
+
+**TA-126**  
+CityGML Energy ADE muss als optionaler Eingabestandard unterstützt werden. Wenn Energy-ADE-Daten vorliegen, müssen diese vorrangig über das Mapping-Profil in das kanonische Schema überführt werden können.
+
+**TA-127**  
+Wenn keine Energy-ADE-Daten vorliegen, muss das System über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) weiterhin lauffähig sein.
+
+**TA-128**  
+Mapping-Ergebnisse müssen pro Attribut eine Herkunftskennzeichnung (Quelle, Transformationsregel, Mapping-Version) bereitstellen, damit Nachvollziehbarkeit und kommunenübergreifende Vergleichbarkeit sichergestellt sind.
+
+**TA-129**  
+Mapping-Profile und Kommunenprofile müssen unabhängig voneinander versioniert, getestet und ausgerollt werden können, ohne die Kernlogik des Berechnungskerns zu ändern.
+
+---
+
+<a id="32-offene-klaerung-nutzungsdaten-und-tracking"></a>
+
+## 32. Offene Klärung: Nutzungsdaten und Tracking
+
+**TA-130**  
+Wenn optionale Nutzungsanalysen umgesetzt werden, ist Matomo als bevorzugte Analytics-Lösung vorzusehen.
+
+**TA-131**  
+Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in aktiviert werden.
+
+**TA-132**  
+Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein.
+
+**TA-133**  
+Bis zur abschließenden Klärung der Analytics-Details müssen Tracking-Funktionen standardmäßig deaktiviert bleiben.
+
+---
+
+<a id="33-single-point-of-truth-fuer-basisdaten"></a>
+
+## 33. Single Point of Truth für Basisdaten
+
+**Hinweis (SoT):** Für Basisdaten bedeutet Single Point of Truth die eindeutige Kombination aus **Quell-Datensatzversion**, **Mapping-Profil-Version** und **veröffentlichtem Release-Manifest**.
+
+**TA-134**  
+Basisdaten müssen je Kommune über einen versionierten Quellnachweis (Datensatz-ID, Quelle, Zeitpunkt, Prüfsumme, EPSG) geführt werden.
+
+**TA-135**  
+Die Transformation von LOD2- und Ergänzungsdaten in 3D Tiles muss ausschließlich über ein versioniertes Mapping-Profil erfolgen.
+
+**TA-136**  
+Für die Laufzeit muss je Kommune ein veröffentlichtes Release-Manifest den aktiven Stand der Basisdaten eindeutig festlegen.
+
+**TA-137**  
+Jeder abgeleitete Basisdatenwert in 3D Tiles muss provenance-fähig auf Quellversion, Mapping-Version und Transformationszeitpunkt rückführbar sein.
+
+**TA-138**  
+Teil-Updates dürfen nur den betroffenen Daten-Scope neu veröffentlichen; der aktive Stand nicht betroffener Scopes muss unverändert gültig bleiben.
+
+**TA-139**  
+Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Kommunen erfolgt über getrennte Deployments und nicht über gleichzeitige Mehrkommunen-Nutzung innerhalb derselben Instanz.
 
 ---
 

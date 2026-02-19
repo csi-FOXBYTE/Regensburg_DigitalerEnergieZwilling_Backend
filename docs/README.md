@@ -30,7 +30,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 - **01** [Systemüberblick – Digitaler Energie Zwilling (DEZ)](system/01-system-overview.md)
 - **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
-- **03** [Sicherheitskonzept](system/03-security-concept.md)
+- **03** [Sicherheitskonzept](system/03-security-concept.md) (inkl. Abschnitt [„Tracking-Strategie (offene Festlegungen)”](system/03-security-concept.md#tracking-strategie-offene-festlegungen))
 
 <a id="anforderungen"></a>
 

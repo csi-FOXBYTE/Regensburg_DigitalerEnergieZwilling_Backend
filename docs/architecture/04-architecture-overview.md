@@ -74,6 +74,23 @@ Die interaktiven Teile der Anwendung werden über klar abgegrenzte Client-Kompon
 
 ---
 
+### Nachnutzung und White-Labeling
+
+Die Architektur trennt **Kernlogik** von **kommunenspezifischen Profilen**.
+Kernkomponenten (Berechnungskern, Backend-Services, Pipeline-Orchestrierung) bleiben unverändert,
+während Branding, Texte, Datenquellen und Mapping-Regeln über versionierte Profile ausgetauscht werden.
+
+Kernprinzipien:
+- Regensburg-spezifische Inhalte sind zu kapseln und nicht in Kernkomponenten zu hartcodieren.
+- Für jede Kommune wird ein eigenes Daten-Mapping auf ein kanonisches Zielschema geführt.
+- Optionale Erweiterungsstandards wie **CityGML Energy ADE** werden über dieselbe Mapping-Schicht integriert.
+- Pro Deployment bedient eine DEZ-Instanz genau eine Kommune; weitere Kommunen werden über getrennte Deployments angebunden.
+
+Damit kann dieselbe Plattform für weitere Kommunen und angrenzende Use Cases betrieben werden,
+ohne die Systemarchitektur pro Kommune neu aufzubauen (vgl. TA-122 bis TA-129).
+
+---
+
 <a id="security-by-design-in-der-architektur"></a>
 ## Security by Design in der Architektur
 
