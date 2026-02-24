@@ -76,6 +76,26 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 - **Client-Zustand**: Bearbeitungszustand wird über einen notwendigen Cookie persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
+### Kommunenprofile und kanonisches Mapping
+
+- **SoT-Hinweis (Basisdaten)**: Die fachlich eindeutige Referenz besteht aus Quell-Datensatzversion + Mapping-Profil-Version + veröffentlichtem Release-Manifest.
+- Das Kommunenprofil ist pro Deployment eindeutig; innerhalb einer Instanz wird kein paralleler Mehrkommunen-Kontext geführt.
+- Für die Nachnutzung wird ein **kanonisches Datenmodell** als Zielschema geführt (Gebäude, Adresse, Potenziale, Kennwerte).
+- Kommunenspezifische Quellformate werden über ein **versioniertes Mapping-Profil** in das Zielschema überführt.
+- Ein Mapping-Profil enthält mindestens:
+  - Feldzuordnungen (Quelle -> Zielattribut)
+  - Einheiten- und Wertebereichstransformationen
+  - Fallback-Regeln bei fehlenden Quellfeldern
+  - Herkunftsinformationen (Quelle, Mapping-Version, Transformationsregel)
+- Regensburg-spezifische Felder, Texte oder Klassifikationen sind als Profilinhalt zu behandeln und nicht als implizite Kernannahme.
+
+### Optionale CityGML Energy ADE Einbindung
+
+- CityGML LOD2 bleibt die Basiseingabe für Geometrie und Adressbezug.
+- Liegen **CityGML Energy ADE**-Inhalte vor, werden sie vorrangig über das jeweilige Mapping-Profil in das kanonische Modell übernommen.
+- Ohne Energy ADE greifen definierte Fallback-Pfade (LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte).
+- Dadurch bleibt das System sowohl mit minimalen als auch mit erweiterten kommunalen Datensätzen lauffähig.
+
 ### Status-Lifecycle (Triage)
 
 - `neu` → `in_pruefung`
