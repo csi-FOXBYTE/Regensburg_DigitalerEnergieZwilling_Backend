@@ -1,14 +1,8 @@
 {
-  "name": "mubea-trs-backend",
+  "name": "rg-dez-backend",
   "dockerComposeFile": [
     "docker-compose.yml"
   ],
-  "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ],
-  "postCreateCommand": {
-    "configure-docker": "chown $(whoami) /var/run/docker.sock"
-  },
   "service": "dev",
   "workspaceFolder": "/workspace",
   "overrideCommand": false,
@@ -25,6 +19,7 @@
         "knisterpeter.vscode-commitizen"
       ],
       "settings": {
+        "dev.containers.dockerCredentialHelper": false,
         // ---- Global editor hygiene ----
         "files.eol": "\n",
         "editor.detectIndentation": false,

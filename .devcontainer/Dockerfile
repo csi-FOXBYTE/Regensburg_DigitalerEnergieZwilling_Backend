@@ -2,11 +2,13 @@ FROM node:23-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
+    curl \
     openssl \
     sqlite3 libsqlite3-dev \
     gdal-bin libgdal-dev \
     python3 make g++ \
     openjdk-17-jdk-headless \
+    gnupg \
     && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=noninteractive

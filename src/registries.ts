@@ -8,7 +8,6 @@ import {
   WorkerRegistry,
 } from "@csi-foxbyte/fastify-toab";
 import auth_auth$service from "./auth/auth.service.js";
-import admin_admin$controller from "./admin/admin.controller.js";
 import auth_auth$controller from "./auth/auth.controller.js";
 
 let serviceRegistry: ServiceRegistry | null = null;
@@ -32,7 +31,6 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   await workerRegistry.resumeQueues();
 
   controllerRegistry = new ControllerRegistry(serviceRegistry);
-  controllerRegistry.register(admin_admin$controller);
   controllerRegistry.register(auth_auth$controller);
 
   return { controllerRegistry, serviceRegistry, workerRegistry };

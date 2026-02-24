@@ -4,6 +4,7 @@ import { FastifyAdapter } from '@bull-board/fastify';
 import fastifyToab from "@csi-foxbyte/fastify-toab";
 import fastifyCors from "@fastify/cors";
 import fastifyHelmet from "@fastify/helmet";
+import fastifyHttpProxy from '@fastify/http-proxy';
 import fastifyMultipart from "@fastify/multipart";
 import { FastifyOtelInstrumentation } from "@fastify/otel";
 import fastifyRateLimit from "@fastify/rate-limit";
@@ -13,7 +14,6 @@ import fastifyUnderPressure from "@fastify/under-pressure";
 import "dotenv/config";
 import Fastify from "fastify";
 import json from "../package.json" with { type: "json" };
-import fastifyHttpProxy from '@fastify/http-proxy';
 
 const fastify = await Fastify({
   logger: true,
@@ -25,25 +25,6 @@ const fastifyOtel = new FastifyOtelInstrumentation();
 await fastify.register(fastifyOtel.plugin(), {
   logLevel: "info",
 });
-
-// This is a workaround for an azure quirk where empty bodied responses are wrongly manipulated
-fastify.addContentTypeParser(
-  '*',
-  { parseAs: 'buffer' },
-  (req, body, done) => {
-    // Treat zero-length as "no body"
-    if (!body || body.length === 0) return done(null, null);
-
-    // Optional: if header is missing but it looks like JSON, try parsing
-    const ct = req.headers['content-type'] || '';
-    if (!ct && body[0] === 0x7B /* '{' */) {
-      try { return done(null, JSON.parse(body.toString('utf8'))); }
-      catch { }
-    }
-
-    return done(null, body); // raw Buffer
-  }
-);
 
 process.on("unhandledRejection", (reason) => {
   fastify.log.error({ err: reason, type: "UNHANDLED_REJECTION" });
@@ -146,7 +127,7 @@ if (process.env.NODE_ENV === "development") fastify.register(fastifyHttpProxy, {
 
     await fastify.listen({
       host: "0.0.0.0",
-      port: parseInt(process.env.PORT!),
+      port: parseInt(process.env.PORT ?? "5000"),
     });
   } catch (err) {
     fastify.log.error(err);

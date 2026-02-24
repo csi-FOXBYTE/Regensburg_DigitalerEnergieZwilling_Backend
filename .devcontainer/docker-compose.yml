@@ -1,5 +1,5 @@
-version: '3.9'
-name: fhh-vrvis-backend
+version: "3.9"
+name: rg-dez-backend
 services:
   dev:
     build:
@@ -9,12 +9,12 @@ services:
       - ..:/workspace
     command: sleep infinity
     ports:
-      - 3001:3001
+      - 5000:5000
     environment:
       NODE_ENV: development
-    networks:
-      - fhh-vrvis-net
 
-networks:
-  fhh-vrvis-net:
-    external: true
+  redis:
+    image: redis
+    restart: on-failure
+    ports:
+      - 6379:6379
