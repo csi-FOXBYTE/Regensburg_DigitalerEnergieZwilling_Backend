@@ -1,43 +1,33 @@
 import { Static, Type } from "@sinclair/typebox";
 
-export const VerifyAuthHeadersDto = Type.Object({
-  "x-access-token": Type.String(),
-});
-
 export const AccessTokenResourceRolesDto = Type.Object({
   roles: Type.Array(Type.String()),
 });
 
-export const AccessTokenDto = Type.Object({
-  exp: Type.Number(),
-  iat: Type.Number(),
-  auth_time: Type.Number(),
-  jti: Type.String(),
-  iss: Type.String(),
-  aud: Type.Array(Type.String()),
-  sub: Type.String(),
-  typ: Type.String(),
-  azp: Type.String(),
-  sid: Type.String(),
-  acr: Type.String(),
-  "allowed-origins": Type.Array(Type.String()),
-  realm_access: Type.Object({
-    roles: Type.Array(Type.String()),
-  }),
-  resource_access: Type.Object({
-    grafana: AccessTokenResourceRolesDto,
-    "api-access": AccessTokenResourceRolesDto,
-    admin_tools: AccessTokenResourceRolesDto,
-    account: AccessTokenResourceRolesDto,
-  }),
-  scope: Type.String(),
-  email_verified: Type.Boolean(),
-  name: Type.String(),
-  preferred_username: Type.String(),
-  given_name: Type.String(),
-  family_name: Type.String(),
-  email: Type.String(),
-});
+export const AccessTokenDto = Type.Object(
+  {
+    scope: Type.Optional(Type.String()),
+    client_id: Type.Optional(Type.String()),
+    username: Type.Optional(Type.String()),
+    token_type: Type.Optional(Type.String()),
+    exp: Type.Optional(Type.Number()),
+    iat: Type.Optional(Type.Number()),
+    nbf: Type.Optional(Type.Number()),
+    sub: Type.Optional(Type.String()),
+    aud: Type.Optional(Type.Union([Type.String(), Type.Array(Type.String())])),
+    iss: Type.Optional(Type.String()),
+    jti: Type.Optional(Type.String()),
+    realm_access: Type.Optional(
+      Type.Object({
+        roles: Type.Array(Type.String()),
+      }),
+    ),
+    resource_access: Type.Optional(
+      Type.Record(Type.String(), AccessTokenResourceRolesDto),
+    ),
+  },
+  { additionalProperties: true },
+);
 
 export const VerifyAuthOutputDto = Type.Object({
   accessToken: AccessTokenDto,

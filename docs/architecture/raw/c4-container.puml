@@ -11,9 +11,10 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
 
     Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
 
-    Container(frontend, "Web Frontend Static Site", "Astro SSG", "Static pages plus two interactive islands for public and admin")
+    Container(frontendPublic, "Public Frontend Static Site", "Astro SSG + nginx", "Static public client for citizens, delivered via nginx")
+    Container(frontendAdmin, "Admin Frontend Static Site", "Astro SSG + nginx", "Static admin client for city administration/staff, delivered via nginx")
 
-    Container(backend, "Backend API", "Node.js and Fastify", "Auth, admin HTML delivery, APIs for config publish and user data triage")
+    Container(backend, "Backend API", "Node.js and Fastify", "APIs for config publish and user data triage; validates APISIX-forwarded access tokens and roles")
 
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
@@ -40,23 +41,26 @@ System_Boundary(pipeline, "Offline Data Pipeline") {
 Rel(citizen, gateway, "uses", "HTTPS")
 Rel(admin, gateway, "uses", "HTTPS")
 
-Rel(gateway, frontend, "routes public site", "GET /")
-Rel(gateway, backend, "routes admin site and API", "GET /admin and /api (authz and policy)")
+Rel(gateway, frontendPublic, "routes public site", "GET /")
+Rel(gateway, frontendAdmin, "routes admin site", "GET /admin")
+Rel(gateway, backend, "routes API", "GET/POST /api (authz and policy)")
 Rel(gateway, tilesGw, "routes tiles (optional mode)", "GET /tiles")
 Rel(gateway, tilesStore, "routes tiles (direct mode)", "GET /tiles")
 
 Rel(admin, idp, "authenticates", "OIDC")
-Rel(backend, idp, "validates tokens", "OIDC or JWT")
+Rel(gateway, idp, "obtains/validates tokens", "OIDC/JWT")
 
-Rel(frontend, calcCore, "imports and runs", "browser runtime")
+Rel(frontendPublic, calcCore, "imports and runs", "browser runtime")
+Rel(frontendAdmin, calcCore, "imports and runs", "browser runtime optional")
 Rel(backend, calcCore, "imports and runs", "Node runtime optional")
 
-Rel(frontend, geo, "loads basemaps", "WMS or WMTS")
-Rel(frontend, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
+Rel(frontendPublic, geo, "loads basemaps", "WMS or WMTS")
+Rel(frontendPublic, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGw, tilesStore, "fetches tiles", "HTTP")
 
 Rel(backend, db, "reads and writes", "SQL")
-Rel(frontend, backend, "calls API for user data and admin actions", "REST via APISIX")
+Rel(frontendPublic, backend, "calls API for user data", "REST via APISIX")
+Rel(frontendAdmin, backend, "calls API for admin actions", "REST via APISIX")
 
 Rel(citygml, citygmlTools, "feeds")
 Rel(potentials, gdal, "feeds")
@@ -78,5 +82,4 @@ Access only via backend API.
 end note
 
 @enduml
-
 

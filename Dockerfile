@@ -12,17 +12,10 @@ FROM node:23-slim AS build
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     openssl \
-    sqlite3 libsqlite3-dev \
-    gdal-bin libgdal-dev \
     python3 make g++ \
-    openjdk-17-jdk-headless \
     && rm -rf /var/lib/apt/lists/*
 
 ENV HOME=/home/nodeuser
-
-# Set up Java environment
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Enable pnpm via corepack
 RUN npm i -g corepack@latest && corepack enable pnpm
@@ -49,7 +42,7 @@ RUN --mount=type=secret,id=env,target=.env \
     pnpm install --frozen-lockfile --loglevel verbose
 
 RUN --mount=type=secret,id=env,target=.env \
-    pnpm zenstack-generate && pnpm run build
+    pnpm zenstack generate && pnpm run build
 
 #-------------------------------------------------------------------------------
 # Stage 2: Production Image
@@ -63,17 +56,12 @@ FROM node:23-slim AS production
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     openssl \
-    sqlite3 \
-    gdal-bin \
-    openjdk-17-jdk-headless \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up environment
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH="$JAVA_HOME/bin:$PATH"
 ENV NODE_ENV=production
 ENV HOSTNAME="0.0.0.0"
-ENV PORT=3000
+ENV PORT=80
 
 WORKDIR /app
 
@@ -84,9 +72,6 @@ RUN chown nodeuser:nodejs /app
 
 USER nodeuser
 
-# Copy bins
-COPY --chown=nodeuser:nodejs /bin ./bin
-
 # Copy production dependencies from the build stage
 COPY --from=build --chown=nodeuser:nodejs /app/node_modules ./node_modules
 
@@ -94,6 +79,6 @@ COPY --from=build --chown=nodeuser:nodejs /app/node_modules ./node_modules
 COPY --from=build --chown=nodeuser:nodejs /app/.build ./.build
 COPY --from=build --chown=nodeuser:nodejs /app/package.json ./
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "--expose-gc", ".build/index.js"]

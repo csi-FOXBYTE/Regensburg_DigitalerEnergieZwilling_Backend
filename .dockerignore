@@ -1,0 +1,11 @@
+node_modules/
+pnpm-store/
+docs/
+scripts/
+.dev/
+.build/
+.github/
+.devcontainer/
+README.md
+eslint.config.js
+.fastify-toab.rc.json

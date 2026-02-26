@@ -1,4 +1,3 @@
-version: "3.9"
 name: rg-dez-backend
 services:
   dev:
@@ -8,13 +7,53 @@ services:
     volumes:
       - ..:/workspace
     command: sleep infinity
-    ports:
-      - 5000:5000
+    expose:
+      - "5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
       NODE_ENV: development
 
   redis:
     image: redis
     restart: on-failure
+    expose:
+      - "6379"
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: app
+    expose:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev -d app"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  apisix:
+    image: apache/apisix:3.11.0-debian
+    user: "0:0"
+    restart: unless-stopped
+    depends_on:
+      - dev
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      APISIX_STAND_ALONE: "true"
+    volumes:
+      - ./apisix/apisix.yaml:/usr/local/apisix/conf/apisix.yaml:ro
+      - ./apisix/config.yaml:/usr/local/apisix/conf/config.yaml
     ports:
-      - 6379:6379
+      - "5000:9080"
+
+volumes:
+  postgres_data:

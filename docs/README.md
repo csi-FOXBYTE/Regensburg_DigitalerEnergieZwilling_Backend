@@ -31,6 +31,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **01** [Systemüberblick – Digitaler Energie Zwilling (DEZ)](system/01-system-overview.md)
 - **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
 - **03** [Sicherheitskonzept](system/03-security-concept.md) (inkl. Abschnitt [„Tracking-Strategie (offene Festlegungen)”](system/03-security-concept.md#tracking-strategie-offene-festlegungen))
+- **04** [Fehler- und Ausnahmebehandlung (AppError)](system/04-error-handling.md)
 
 <a id="anforderungen"></a>
 
@@ -83,5 +84,4 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - Vendor-Lock-in vermeiden: portabel, keine proprietären Secrets/Abhängigkeiten.
 - Datentausch über offene Standards; Liste der verwendeten Standards im Code führen.
 - Security-Grundsätze im Contribution/Release-Prozess (Secret-Scanning, abgesicherte Releases, Vieraugenprinzip).
-
 

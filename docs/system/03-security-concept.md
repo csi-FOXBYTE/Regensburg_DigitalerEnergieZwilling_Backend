@@ -90,6 +90,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
 - Rollenbasierte Freigaben für Systempflege und Triage.
 - Öffentliche Schreibzugriffe nur mit Schutzmechanismen (Altcha, Rate Limiting).
+- Namespace-Policy für APIs:
+  - `"/api/admin/*"` ist per Default geschützt und erfordert sowohl APISIX-AuthN/AuthZ als auch Backend-`authMiddleware`.
+  - `"/api/public/*"` ist per Default nicht über Backend-Auth-Middleware geschützt; Absicherung erfolgt über APISIX-Policies plus serverseitige Validierung.
 
 ---
 
@@ -117,7 +120,8 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 ## Netzwerk- und Plattformschutz
 
 - Verschlüsselte Datenübertragung (TLS) für alle externen Zugriffe.
-- Backend nicht direkt aus dem Internet erreichbar; Zugriff über API-Management.
+- Backend nicht direkt aus dem Internet erreichbar; Zugriff über API-Management (APISIX).
+- Route-Schutz (public/protected) wird zentral im API-Gateway definiert und versioniert (lokal: `.devcontainer/apisix/apisix.yaml`).
 - Datenbankzugriff nur aus dem Backend, keine direkten Client-Verbindungen.
 
 ---

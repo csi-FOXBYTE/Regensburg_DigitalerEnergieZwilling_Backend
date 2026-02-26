@@ -5,7 +5,9 @@
   ],
   "service": "dev",
   "workspaceFolder": "/workspace",
-  "overrideCommand": false,
+  "forwardPorts": [5000],
+  "overrideCommand": true,
+  "postStartCommand": "bash -lc \"pnpm i && pnpm dev\"",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -31,6 +33,8 @@
         "editor.codeActionsOnSave": {
           "source.organizeImports": "always"
         },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
         // i18n settings
         "i18n-ally.localesPaths": [
           "src/locales"

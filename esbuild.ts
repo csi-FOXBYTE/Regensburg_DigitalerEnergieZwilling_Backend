@@ -1,6 +1,6 @@
 import { build, context } from "esbuild";
-import glob from "tiny-glob";
 import { copy } from "esbuild-plugin-copy";
+import glob from "tiny-glob";
 
 let lastGlobbedFiles: string = "";
 

@@ -1,10 +1,13 @@
-import { createBullBoard } from '@bull-board/api';
+import { injectPinoLogger, logger } from "./lib/pino.js";
+
+injectPinoLogger();
+
+import { createBullBoard } from "@bull-board/api";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
-import { FastifyAdapter } from '@bull-board/fastify';
+import { FastifyAdapter } from "@bull-board/fastify";
 import fastifyToab from "@csi-foxbyte/fastify-toab";
 import fastifyCors from "@fastify/cors";
 import fastifyHelmet from "@fastify/helmet";
-import fastifyHttpProxy from '@fastify/http-proxy';
 import fastifyMultipart from "@fastify/multipart";
 import { FastifyOtelInstrumentation } from "@fastify/otel";
 import fastifyRateLimit from "@fastify/rate-limit";
@@ -14,10 +17,11 @@ import fastifyUnderPressure from "@fastify/under-pressure";
 import "dotenv/config";
 import Fastify from "fastify";
 import json from "../package.json" with { type: "json" };
+import { routeErrorHandler } from "./errors/route-error-handler.js";
 
 const fastify = await Fastify({
-  logger: true,
-  maxParamLength: 32768
+  loggerInstance: logger,
+  maxParamLength: 32768,
 });
 
 const fastifyOtel = new FastifyOtelInstrumentation();
@@ -30,18 +34,21 @@ process.on("unhandledRejection", (reason) => {
   fastify.log.error({ err: reason, type: "UNHANDLED_REJECTION" });
 });
 
-if (process.env.NODE_ENV !== "development") {fastify.register(fastifyHelmet, {}); fastify.register(fastifyRateLimit, {
-  max: 500,
-  timeWindow: "1 minute",
-});
-fastify.register(fastifyUnderPressure, {});}
+if (process.env.NODE_ENV !== "development") {
+  fastify.register(fastifyHelmet, {});
+  fastify.register(fastifyRateLimit, {
+    max: 500,
+    timeWindow: "1 minute",
+  });
+  fastify.register(fastifyUnderPressure, {});
+}
 
 fastify.register(fastifyCors, {
-  origin: "http://localhost:3000",
+  origin: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["*"],
   credentials: true,
-  maxAge: 86400
+  maxAge: 86400,
 });
 
 fastify.register(fastifyMultipart, {
@@ -74,7 +81,7 @@ fastify.register(fastifySwagger, {
         },
       },
     },
-    security: [],
+    security: [{ bearerAuth: [] }],
   },
 });
 
@@ -96,16 +103,8 @@ fastify.register(fastifyToab, {
   async getRegistries() {
     return registries;
   },
+  onRouteError: routeErrorHandler,
 });
-
-if (process.env.NODE_ENV === "development") fastify.register(fastifyHttpProxy, {
-  upstream: "http://localhost:4321",
-  prefix: "/",
-  http2: false,
-  websocket: true,
-  httpMethods: ["GET"]
-});
-
 
 (async () => {
   try {
@@ -113,11 +112,14 @@ if (process.env.NODE_ENV === "development") fastify.register(fastifyHttpProxy, {
 
     createBullBoard({
       //@ts-expect-error wrong types here
-      queues: Array.from(registries.workerRegistry.queues.values()).map(queue => new BullMQAdapter(queue)),
+      queues: Array.from(registries.workerRegistry.queues.values()).map(
+        //@ts-expect-error wrong types here
+        (queue) => new BullMQAdapter(queue),
+      ),
       serverAdapter,
-    })
+    });
 
-    serverAdapter.setBasePath("/bullMQ")
+    serverAdapter.setBasePath("/bullMQ");
 
     fastify.register(serverAdapter.registerPlugin(), { prefix: "/bullMQ" });
 
@@ -134,4 +136,3 @@ if (process.env.NODE_ENV === "development") fastify.register(fastifyHttpProxy, {
     process.exit(1);
   }
 })();
-

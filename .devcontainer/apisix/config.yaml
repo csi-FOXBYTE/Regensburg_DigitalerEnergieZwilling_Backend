@@ -1,0 +1,15 @@
+apisix:
+  node_listen: 9080
+  enable_admin: true
+
+deployment:
+  role: data_plane
+  role_data_plane:
+    config_provider: yaml
+
+admin:
+  admin_key:
+    -
+      name: local-admin
+      key: local-dev-admin-key-change-me
+      role: admin

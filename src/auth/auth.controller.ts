@@ -1,19 +1,15 @@
 import { createController } from "@csi-foxbyte/fastify-toab";
 import { getAuthService } from "../@internals/index.js";
-import {
-  VerifyAuthHeadersDto,
-  VerifyAuthOutputDto,
-} from "./auth.dto.js";
+import { VerifyAuthOutputDto } from "./auth.dto.js";
 
-const authController = createController().rootPath("/admin/api/auth");
+const authController = createController().rootPath("/api/admin/auth");
 
 authController
   .addRoute("GET", "/verify")
-  .headers(VerifyAuthHeadersDto)
   .output(VerifyAuthOutputDto)
-  .handler(async ({ headers, services }) => {
+  .handler(async ({ request, services }) => {
     const authService = await getAuthService(services);
-    const accessToken = authService.verifyAccessToken(headers["x-access-token"]);
+    const accessToken = authService.verifyRequest(request);
     return { accessToken };
   });
 

@@ -30,7 +30,8 @@ Details zur internen Struktur der Container werden im **C4 Component Diagramm** 
 Das System besteht aus folgenden zentralen Containern:
 
 - Web Gateway (APISIX)
-- Frontend (statische Webanwendung)
+- Public Frontend (statische Webanwendung)
+- Admin Frontend (statische Webanwendung)
 - Backend API
 - Tiles Gateway (optional)
 - 3D Tiles Storage
@@ -68,21 +69,30 @@ Das Gateway enthält keine fachliche Logik.
 
 ---
 
-### Frontend – Statische Webanwendung
+### Public Frontend – Statische Webanwendung
 
-Das Frontend wird vollständig als **statische Webanwendung** erzeugt.
+Das Public Frontend wird vollständig als **statische Webanwendung** erzeugt und über **nginx** ausgeliefert.
 
 Aufgaben:
-- Bereitstellung der Benutzeroberflächen
+- Bereitstellung der öffentlichen Benutzeroberfläche für die Hauptzielgruppe (Bürger/Eigentümer/Vermieter)
 - Visualisierung des 3D-Stadtmodells
 - Durchführung der Berechnungen im Browser
 - Darstellung von Ergebnissen und Potenzialen
 
-Das Frontend besteht fachlich aus:
-- einem öffentlichen Client für Bürger (Eigentümer/Vermieter)
-- einem administrativen Bereich für Stadtverwaltung / Fachpersonal
+Die Generierung erfolgt zur Build-Zeit mit **Astro SSG**, zur Laufzeit existiert keine serverseitige Renderlogik.
 
-Die Generierung erfolgt zur Build-Zeit, zur Laufzeit existiert keine serverseitige Renderlogik.
+---
+
+### Admin Frontend – Statische Webanwendung
+
+Das Admin Frontend wird vollständig als **statische Webanwendung** erzeugt und über **nginx** ausgeliefert.
+
+Aufgaben:
+- Bereitstellung der administrativen Benutzeroberfläche für die Nebenzielgruppe (Stadtverwaltung/Fachpersonal)
+- Pflege und Veröffentlichung von Berechnungskonfigurationen
+- Triage und Qualitätssicherung von Nutzereingaben
+
+Die Generierung erfolgt zur Build-Zeit mit **Astro SSG**, zur Laufzeit existiert keine serverseitige Renderlogik.
 
 ---
 
@@ -91,7 +101,8 @@ Die Generierung erfolgt zur Build-Zeit, zur Laufzeit existiert keine serverseiti
 Das Backend stellt alle serverseitigen Funktionen bereit, die nicht sinnvoll clientseitig umgesetzt werden können.
 
 Aufgaben:
-- Authentifizierung und Autorisierung
+- Entgegennahme des vom APISIX Gateway bereitgestellten Access-Tokens
+- Authentifizierung und Autorisierung auf Basis von Token-Claims und Rollen (z.B. `admin`)
 - Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Administrative Triage-Funktionen
@@ -164,8 +175,9 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 | Container | Security-Kernpunkte |
 | --- | --- |
 | APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, trennt Public/Admin-Pfade, setzt Transportschutz und Richtlinien für öffentliche Schreibzugriffe durch. |
-| Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
-| Backend API | Erzwingt AuthN/AuthZ, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
+| Public Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
+| Admin Frontend | Statischer Admin-Client ohne eigene Serverlogik; sensible Aktionen erfolgen ausschließlich über geschützte Backend-APIs. |
+| Backend API | Führt AuthN/AuthZ auf Basis des von APISIX bereitgestellten Access-Tokens und Rollen durch, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
 | Datenbank | Ist nicht öffentlich erreichbar; Zugriffe erfolgen ausschließlich über das Backend mit rollenbasierten Rechten. |
 | 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
@@ -177,12 +189,12 @@ Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie 
 <a id="kommunikation-zwischen-den-containern"></a>
 ## Kommunikation zwischen den Containern
 
-- Der Public Client (Bürgerbereich) kommuniziert direkt mit:
+- Der Public Frontend-Client (Hauptzielgruppe) kommuniziert direkt mit:
   - dem Web Gateway (APISIX)
   - optional dem Tiles Gateway oder direkt dem 3D Tiles Storage (über APISIX)
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 
-- Der Admin-Bereich (Stadtverwaltung / Fachpersonal) kommuniziert ausschließlich über das Backend.
+- Der Admin Frontend-Client (Nebenzielgruppe) kommuniziert ausschließlich über das Backend (über APISIX).
 
 - Das Backend greift auf:
   - die Datenbank
@@ -203,4 +215,3 @@ Die interne Struktur von Frontend und Backend, einschließlich:
 - Konfigurations- und Triage-Services
 
 wird im folgenden Kapitel **C4 Component Diagramm** detailliert beschrieben.
-

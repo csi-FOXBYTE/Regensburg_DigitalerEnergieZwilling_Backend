@@ -8,9 +8,10 @@
 4. [Diagramm](#diagramm)
 5. [Datenhaltung](#datenhaltung)
 6. [API-Vertrag](#api-vertrag)
-7. [Sicherheits- und Betriebsprinzipien](#sicherheits-und-betriebsprinzipien)
-8. [Kubernetes-Fähigkeit (Container)](#kubernetes-faehigkeit-container)
-9. [Abgrenzung](#abgrenzung)
+7. [Routing- und Schutzmodell (APISIX und fastify-toab)](#routing-und-schutzmodell-apisix-und-fastify-toab)
+8. [Sicherheits- und Betriebsprinzipien](#sicherheits-und-betriebsprinzipien)
+9. [Kubernetes-Fähigkeit (Container)](#kubernetes-faehigkeit-container)
+10. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -72,6 +73,24 @@ Quelle: `raw/backend-architecture.puml`
 
 ---
 
+<a id="routing-und-schutzmodell-apisix-und-fastify-toab"></a>
+## Routing- und Schutzmodell (APISIX und fastify-toab)
+
+- Externe Zugriffe laufen ausschließlich über APISIX (Single Entry Point); direkte externe Zugriffe auf den Backend-Port sind unzulässig.
+- Die Zuordnung `public` vs. `protected` wird in APISIX pro Route konfiguriert (lokales Dev-Setup: `.devcontainer/apisix/apisix.yaml`).
+- Namespace-Konvention für Backend-Routen (fastify-toab Controller-`rootPath`):
+  - `"/api/admin/*"`: per Default **protected**.
+  - `"/api/public/*"`: per Default **public**.
+- Für `"/api/admin/*"` gilt:
+  - APISIX muss Authentifizierung/Autorisierung erzwingen (z.B. OIDC-Plugin).
+  - Backend-Endpunkte müssen die Auth-Middleware verwenden (z.B. `authMiddleware`), damit Token/Claims serverseitig validiert und Rollen geprüft werden.
+- Für `"/api/public/*"` gilt:
+  - Keine Auth-Middleware als Default.
+  - Schutz erfolgt über APISIX-Policies (z.B. Rate Limiting) und fachliche Validierung im Backend.
+- Diese Konvention stellt sicher, dass die Trennung aus APISIX-Routing und fastify-toab-Namespace konsistent und prüfbar bleibt.
+
+---
+
 <a id="sicherheits-und-betriebsprinzipien"></a>
 ## Sicherheits- und Betriebsprinzipien
 
@@ -108,4 +127,3 @@ Quelle: `raw/backend-architecture.puml`
 - Keine Auslieferung großer statischer Datenmengen (3D Tiles).
 - Keine Laufzeit-Berechnung von Potenzialen.
 - Keine Orchestrierung der Offline-Datenpipeline; diese läuft in CIVITAS/CORE über Airflow als separater Container.
-
