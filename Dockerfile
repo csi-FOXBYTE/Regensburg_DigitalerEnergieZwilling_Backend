@@ -44,6 +44,9 @@ RUN --mount=type=secret,id=env,target=.env \
 RUN --mount=type=secret,id=env,target=.env \
     pnpm zenstack generate && pnpm run build
 
+# Transpile generated ZenStack schema for runtime import in .build/database/database.service.js
+RUN pnpm exec esbuild zenstack/schema.ts --platform=node --format=esm --outfile=zenstack/schema.js
+
 #-------------------------------------------------------------------------------
 # Stage 2: Production Image
 #
@@ -72,12 +75,14 @@ RUN chown nodeuser:nodejs /app
 
 USER nodeuser
 
+RUN mkdir -p /app/zenstack
+
 # Copy production dependencies from the build stage
 COPY --from=build --chown=nodeuser:nodejs /app/node_modules ./node_modules
 
 # Copy the built application code
 COPY --from=build --chown=nodeuser:nodejs /app/.build ./.build
-COPY --from=build --chown=nodeuser:nodejs /app/zenstack ./zenstack
+COPY --from=build --chown=nodeuser:nodejs /app/zenstack/schema.js ./zenstack/schema.js
 COPY --from=build --chown=nodeuser:nodejs /app/package.json ./
 
 EXPOSE 80
