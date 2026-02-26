@@ -77,6 +77,7 @@ COPY --from=build --chown=nodeuser:nodejs /app/node_modules ./node_modules
 
 # Copy the built application code
 COPY --from=build --chown=nodeuser:nodejs /app/.build ./.build
+COPY --from=build --chown=nodeuser:nodejs /app/zenstack ./zenstack
 COPY --from=build --chown=nodeuser:nodejs /app/package.json ./
 
 EXPOSE 80
