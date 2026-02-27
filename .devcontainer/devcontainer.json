@@ -5,7 +5,9 @@
   ],
   "service": "dev",
   "workspaceFolder": "/workspace",
-  "forwardPorts": [5000],
+  "forwardPorts": [
+    5000
+  ],
   "overrideCommand": true,
   "postStartCommand": "bash -lc \"pnpm i && pnpm dev\"",
   "customizations": {
@@ -18,7 +20,8 @@
         "dbaeumer.vscode-eslint",
         "ms-vscode.vscode-typescript-next",
         "lokalise.i18n-ally",
-        "knisterpeter.vscode-commitizen"
+        "knisterpeter.vscode-commitizen",
+        "zenstack.zenstack-v3"
       ],
       "settings": {
         "dev.containers.dockerCredentialHelper": false,

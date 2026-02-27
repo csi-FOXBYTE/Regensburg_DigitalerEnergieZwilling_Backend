@@ -172,7 +172,7 @@ Quelle: `raw/public-write-flow.puml`
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
 - **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das serverseitig geprüft wird.
-- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird in APISIX (Web Gateway) und zusätzlich im Backend durchgesetzt.
+- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird im APISIX Web Gateway durchgesetzt.
 - **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
 - **Versionierung**: Konfigurations- und API-Versionen klar trennen
 - **Fehlerformate**: Standardisierte Fehlercodes und Validierungsdetails
@@ -226,5 +226,4 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-81 bis TA-84, 
 - Reports werden **nicht** als eigene dauerhafte Objekte gespeichert.
 - Reports werden in der Anwendung **dynamisch aus der Datenbank** aggregiert.
 - Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.
-
 

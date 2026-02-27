@@ -39,21 +39,11 @@ Außerhalb von Development wird kein Stacktrace an Clients ausgeliefert.
 - `UNAUTHORIZED` / `401` / `Authorization header must be a Bearer token`
 - `UNAUTHORIZED` / `401` / `Access token is missing`
 
-### Proxy-Signatur (APISIX -> Backend)
-
-- `INTERNAL_ERROR` / `500` / `Proxy signature secret is not configured`
-- `UNAUTHORIZED` / `401` / `Missing trusted proxy signature headers`
-- `UNAUTHORIZED` / `401` / `Proxy signature timestamp is invalid`
-- `UNAUTHORIZED` / `401` / `Proxy signature has expired`
-- `UNAUTHORIZED` / `401` / `Proxy signature replay detected`
-- `UNAUTHORIZED` / `401` / `Proxy signature is invalid`
-
 ### JWT / Token-Inhalt
 
 - `UNAUTHORIZED` / `401` / `Access token payload is invalid`
 - `UNAUTHORIZED` / `401` / `Access token has expired`
 - `UNAUTHORIZED` / `401` / `Access token is not active yet`
-- `UNAUTHORIZED` / `401` / `Access token was not issued for the expected gateway key`
 
 ### Fallback (unbekannte Fehler)
 

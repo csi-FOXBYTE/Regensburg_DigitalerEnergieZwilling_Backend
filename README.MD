@@ -76,25 +76,8 @@ Interner App-Port ist `5000` (falls `PORT` nicht gesetzt ist). Externe Requests 
 
 ## Umgebungsvariablen (.env)
 
-Aktuell verwendete Auth-Variablen:
-
-```env
-AUTH_PROXY_SIGNATURE_ENABLED=true
-AUTH_PROXY_SIGNATURE_SECRET=proxy-signature-secret-change-me
-AUTH_JWT_VERIFY_SECRET=dev_admin-secret-change-me
-AUTH_EXPECTED_APISIX_KEY=dev_admin
-AUTH_PROXY_SIGNATURE_TTL_MS=30000
-AUTH_PROXY_SIGNATURE_NONCE_TTL_MS=120000
-```
-
-Bedeutung:
-
-- `AUTH_JWT_VERIFY_SECRET`: Falls gesetzt, wird JWT mit HS256 signaturvalidiert.
-- `AUTH_EXPECTED_APISIX_KEY`: Wenn gesetzt, muss Claim `key` exakt passen.
-- `AUTH_PROXY_SIGNATURE_ENABLED`: aktiviert zusaetzliche Header-Signaturpruefung.
-- `AUTH_PROXY_SIGNATURE_SECRET`: HMAC-Secret fuer Proxy-Signatur.
-- `AUTH_PROXY_SIGNATURE_TTL_MS`: erlaubte Zeitabweichung fuer `x-proxy-timestamp`.
-- `AUTH_PROXY_SIGNATURE_NONCE_TTL_MS`: Replay-Schutz fuer Nonce-Cache.
+Aktuell sind keine verpflichtenden Auth-Umgebungsvariablen konfiguriert.
+Das Backend erwartet ein Access-Token (Bearer oder `x-access-token`) und prueft den decodierten Payload inkl. `exp`/`nbf`.
 
 ## JWT fuer Entwicklung erzeugen
 
@@ -131,7 +114,7 @@ pnpm jwt:dev --help
 
 ## API-Aufrufe mit Token
 
-### 1) Ohne Proxy-Signatur (nur Bearer bzw. x-access-token)
+### 1) Mit Bearer bzw. x-access-token
 
 ```bash
 TOKEN="$(pnpm -s jwt:dev --output raw)"
@@ -141,35 +124,6 @@ curl -i http://localhost:5000/admin/api/auth/verify \
 
 curl -i http://localhost:5000/api/admin/test/ \
   -H "Authorization: Bearer ${TOKEN}"
-```
-
-### 2) Mit Proxy-Signatur (wenn `AUTH_PROXY_SIGNATURE_ENABLED=true`)
-
-Hinweis: Lokal ist standardmaessig `AUTH_PROXY_SIGNATURE_ENABLED=true`.
-Bei Requests ueber APISIX werden die Proxy-Signatur-Header fuer `/api/admin/*` automatisch gesetzt.
-
-Fuer geschuetzte Routen mit Middleware (z. B. `/api/admin/test/`) muessen diese Header zusaetzlich gesetzt werden:
-
-- `x-proxy-timestamp` (Unix ms)
-- `x-proxy-nonce` (einmaliger Wert)
-- `x-proxy-signature` (HMAC SHA-256 ueber kanonischen String)
-
-Kanonischer String (durch `\n` getrennt):
-
-1. HTTP-Methode in Grossbuchstaben
-2. URL/Path (z. B. `/api/admin/test/`)
-3. Timestamp
-4. Nonce
-5. kompletter Authorization Header (`Bearer ...`)
-
-Also:
-
-```text
-GET
-/api/admin/test/
-<timestamp-ms>
-<nonce>
-Bearer <token>
 ```
 
 ## Logging

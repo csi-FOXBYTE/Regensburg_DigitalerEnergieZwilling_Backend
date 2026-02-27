@@ -27,46 +27,10 @@ routes:
       nodes:
         "dev:5000": 1
 
-  - id: admin-auth-api
-    uri: /admin/api/*
-    upstream:
-      type: roundrobin
-      nodes:
-        "dev:5000": 1
-
   - id: admin-api
     uri: /api/admin/*
     plugins:
       jwt-auth: {}
-      serverless-pre-function:
-        phase: rewrite
-        functions:
-          - |
-            return function(conf, ctx)
-              local hmac = require("resty.openssl.hmac")
-              local str = require("resty.string")
-
-              local secret = "proxy-signature-secret-change-me"
-              local headers = ngx.req.get_headers()
-              local authorization = headers["authorization"] or ""
-              local timestamp = tostring(math.floor(ngx.now() * 1000))
-              local nonce = tostring(ngx.now()) .. ":" .. tostring(math.random(1000000, 9999999))
-              local canonical = table.concat({
-                ngx.req.get_method(),
-                ngx.var.request_uri,
-                timestamp,
-                nonce,
-                authorization
-              }, "\n")
-
-              local signer = hmac.new(secret, "sha256")
-              signer:update(canonical)
-              local signature = str.to_hex(signer:final())
-
-              ngx.req.set_header("X-Proxy-Timestamp", timestamp)
-              ngx.req.set_header("X-Proxy-Nonce", nonce)
-              ngx.req.set_header("X-Proxy-Signature", signature)
-            end
     upstream:
       type: roundrobin
       nodes:

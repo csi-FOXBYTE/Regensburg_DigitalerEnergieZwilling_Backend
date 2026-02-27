@@ -6,11 +6,8 @@ import { createBullBoard } from "@bull-board/api";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { FastifyAdapter } from "@bull-board/fastify";
 import fastifyToab from "@csi-foxbyte/fastify-toab";
-import fastifyCors from "@fastify/cors";
-import fastifyHelmet from "@fastify/helmet";
 import fastifyMultipart from "@fastify/multipart";
 import { FastifyOtelInstrumentation } from "@fastify/otel";
-import fastifyRateLimit from "@fastify/rate-limit";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyUnderPressure from "@fastify/under-pressure";
@@ -21,7 +18,6 @@ import { routeErrorHandler } from "./errors/route-error-handler.js";
 
 const fastify = await Fastify({
   loggerInstance: logger,
-  maxParamLength: 32768,
 });
 
 const fastifyOtel = new FastifyOtelInstrumentation();
@@ -35,21 +31,8 @@ process.on("unhandledRejection", (reason) => {
 });
 
 if (process.env.NODE_ENV !== "development") {
-  fastify.register(fastifyHelmet, {});
-  fastify.register(fastifyRateLimit, {
-    max: 500,
-    timeWindow: "1 minute",
-  });
   fastify.register(fastifyUnderPressure, {});
 }
-
-fastify.register(fastifyCors, {
-  origin: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["*"],
-  credentials: true,
-  maxAge: 86400,
-});
 
 fastify.register(fastifyMultipart, {
   limits: {

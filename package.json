@@ -9,7 +9,8 @@
     "lint": "oxlint && eslint",
     "dev": "tsx dev.ts",
     "build": "tsx build.ts",
-    "jwt:dev": "node scripts/create-dev-jwt.mjs"
+    "jwt:dev": "node scripts/create-dev-jwt.mjs",
+    "zenstack:generate": "zenstack generate --schema src/zenstack/schema.zmodel"
   },
   "keywords": [],
   "author": "",
@@ -24,12 +25,9 @@
     "@bull-board/api": "^6.15.0",
     "@bull-board/fastify": "^6.15.0",
     "@csi-foxbyte/fastify-toab": "^0.1.8",
-    "@fastify/cors": "^11.2.0",
-    "@fastify/helmet": "^13.0.2",
     "@fastify/http-proxy": "^11.4.1",
     "@fastify/multipart": "^9.3.0",
     "@fastify/otel": "^0.16.0",
-    "@fastify/rate-limit": "^10.3.0",
     "@fastify/swagger": "^9.6.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@fastify/under-pressure": "^9.0.3",
