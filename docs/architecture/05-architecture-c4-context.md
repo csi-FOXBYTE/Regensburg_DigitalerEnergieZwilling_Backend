@@ -38,6 +38,7 @@ Quelle: `raw/c4-context.puml`
 - **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Berechnung.
 - **Stadtverwaltung / Fachpersonal**: nutzt den Admin-Bereich zur Konfiguration und QS.
 - **Keycloak (CIVITAS/CORE)**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von CIVITAS/CORE).
+- **MasterPortal**: Externer Einstiegspunkt mit Link-Out auf den öffentlichen DEZ-Client.
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
 - **CityGML LOD2 Source**: Gebäudedaten für die Offline-Aufbereitung.
 - **Solar and Geothermal Sources**: Potenzialdaten als Raster-/Vektorquellen bzw. 3D Tiles (Solar).
@@ -48,6 +49,7 @@ Quelle: `raw/c4-context.puml`
 ## Schnittstellen und Datenflüsse (high level)
 
 - Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energie Zwilling (DEZ) zu.
+- Das MasterPortal verweist per Link-Out auf den öffentlichen DEZ-Client; es gibt keine API-Kopplung für Fachdaten.
 - Admin-Authentifizierung erfolgt über OIDC gegen Keycloak (CIVITAS/CORE).
 - Basemaps werden zur Laufzeit aus City Geo Services geladen (WMS/WMTS).
 - CityGML- und Potenzialdaten werden **offline** in das System importiert.
@@ -79,4 +81,3 @@ Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-103.
 Dieses Kapitel enthält **keine internen Container oder Komponenten**.
 Die detaillierte Laufzeitstruktur ist in den folgenden C4-Sichten (Container und Component)
 beschrieben.
-

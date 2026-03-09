@@ -162,6 +162,6 @@ Die Architektur ist bewusst so gestaltet, dass:
 - ein funktionsfähiger MVP mit überschaubarem Aufwand realisiert werden kann
 - spätere Erweiterungen (z.B. komplexere Berechnungen, zusätzliche Datenquellen) möglich bleiben
 - Datenschutz- und Sicherheitsanforderungen frühzeitig berücksichtigt werden
+- die Integration in das MasterPortal im MVP als reiner Link-Out auf den öffentlichen DEZ-Client umgesetzt werden kann (ohne API- oder SSO-Kopplung)
 
 Die folgenden Kapitel vertiefen die Architektur auf Container- und Komponentenebene sowie die Datenpipeline im Detail.
-
