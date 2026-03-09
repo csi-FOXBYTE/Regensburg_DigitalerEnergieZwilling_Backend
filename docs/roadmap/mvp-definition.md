@@ -7,10 +7,11 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 ## Inhaltsverzeichnis
 
 1. [Zielbild MVP](#zielbild-mvp)
-2. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
-3. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
-4. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen](#release-3)
-5. [Phase 4 (außerhalb/nach MVP)](#phase-4-ausserhalb-nach-mvp)
+2. [Roadmap-Diagramm (PlantUML)](#roadmap-diagramm-plantuml)
+3. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
+4. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
+5. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen](#release-3)
+6. [Phase 4 (außerhalb/nach MVP)](#phase-4-ausserhalb-nach-mvp)
 
 <a id="zielbild-mvp"></a>
 
@@ -21,6 +22,16 @@ Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
 1. **Release 1:** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
 2. **Release 2 (primär Hauptzielgruppe (Bürger/Eigentümer/Vermieter)):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
 3. **Release 3 (primär Nebenzielgruppe (Stadtverwaltung/Fachpersonal)):** Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
+
+---
+
+<a id="roadmap-diagramm-plantuml"></a>
+
+## Roadmap-Diagramm (PlantUML)
+
+![mvp-roadmap.png](./attachments/mvp-roadmap.png)
+
+Quelle: `raw/mvp-roadmap.puml`
 
 ---
 
