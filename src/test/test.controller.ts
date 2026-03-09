@@ -1,9 +1,9 @@
 import { createController } from "@csi-foxbyte/fastify-toab";
 import { Type } from "@sinclair/typebox";
-import { authMiddleware } from "../auth/auth.middleware.js";
+import { authMiddlewareWithRoles } from "../auth/auth.middleware.js";
 
 const testController = createController()
-  .use(authMiddleware)
+  .use(authMiddlewareWithRoles(["admin"]))
   .rootPath("/api/admin/test");
 
 testController
