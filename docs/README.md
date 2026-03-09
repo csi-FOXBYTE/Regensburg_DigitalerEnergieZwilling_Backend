@@ -73,6 +73,16 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 - [MVP-Definition und Release-Aufteilung](roadmap/mvp-definition.md)
 
+## Implementierungsartefakte
+
+- [Admin Frontend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_AdminFrontend)
+- [Airflow DAGs](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_AirflowDAGs)
+- [Backend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Backend)
+- [Digital Energy Twin Add-on](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_digital-energy-twin_addon)
+- [Energy Calculation Core](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore)
+- [Frontend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Frontend)
+- [Offline Enrichment](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_OfflineEnrichment)
+
 ## Open Source & Förderkulisse Checkliste
 
 - Veröffentlichung des finalen Releases auf **OpenCoDE** (keine Beta-/Zwischenstände).
@@ -84,4 +94,3 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - Vendor-Lock-in vermeiden: portabel, keine proprietären Secrets/Abhängigkeiten.
 - Datentausch über offene Standards; Liste der verwendeten Standards im Code führen.
 - Security-Grundsätze im Contribution/Release-Prozess (Secret-Scanning, abgesicherte Releases, Vieraugenprinzip).
-
