@@ -34,9 +34,12 @@ Das System besteht aus folgenden zentralen Containern:
 - Admin Frontend (statische Webanwendung)
 - Backend API
 - Tiles Gateway (optional)
-- 3D Tiles Storage
 - Datenbank
-- Offline Datenpipeline
+- Airflow Offline Datenpipeline (separates CIVITAS/CORE-Add-on)
+
+Externer angebundener Dienst:
+
+- 3D Tiles Storage (S3)
 
 Jeder Container erfüllt eine klar abgegrenzte Aufgabe und ist lose mit den anderen Komponenten gekoppelt.
 
@@ -128,21 +131,24 @@ Tiles-Auslieferung auch ohne Tiles Gateway erfolgen.
 
 ### 3D Tiles Storage
 
-Das 3D Tiles Storage enthält die vorverarbeiteten 3D Tiles.
+Das 3D Tiles Storage ist ein externer S3-kompatibler Datendienst und **kein** Bestandteil des `digital-energy-twin_addon` oder von CIVITAS/CORE.
 
 Eigenschaften:
 - Statische Datenhaltung
-- Enthält Gebäudestrukturen, Adressen aus LOD2, Solarpotenzial-Attribute (inkl. Textur) sowie Vegetation (Bäume)
+- Enthält Gebäudestrukturen, Adressen aus LOD2 sowie Solarpotenzial-Attribute (inkl. Textur)
 - Geothermiepotenziale werden ergänzt, sobald eine belastbare Quelle verfügbar ist; die Abfrage erfolgt priorisiert über Grundwasser, Erdreich, Luft (MVP-Klärung noch offen)
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.
 
+Vegetationsdaten (Bäume) werden nicht in der Offline-Datenpipeline verarbeitet, sondern im Public Client ausschließlich als visuelle Ebene genutzt.
+
 ---
 
 ### Datenbank
 
-Die Datenbank dient als persistente Datenhaltung für dynamische und nutzerspezifische Informationen.
+Die DEZ-Datenbank dient als persistente Datenhaltung für dynamische und nutzerspezifische Informationen.
+Sie ist logisch Teil des `digital-energy-twin_addon` (eigene Schemata/Objekte), läuft physisch jedoch auf dem PostgreSQL-Server der CIVITAS/CORE-Plattform.
 
 Enthält:
 - Nutzereingaben aus Berechnungen
@@ -153,9 +159,9 @@ Die Datenbank enthält **keine statischen Potenzialdaten**.
 
 ---
 
-### Offline Datenpipeline
+### Airflow Offline Datenpipeline (separates Add-on)
 
-Die Offline Datenpipeline ist ein eigenständiger Verarbeitungspfad außerhalb des Laufzeitsystems.
+Die Offline Datenpipeline läuft in CIVITAS/CORE, wird jedoch **nicht** durch das `digital-energy-twin_addon` ausgerollt, sondern durch ein separates Add-on.
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
@@ -163,7 +169,7 @@ Aufgaben:
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung der finalen 3D Tiles
 
-Die Pipeline wird unabhängig vom Betrieb des Live-Systems ausgeführt.
+Die Pipeline wird als Airflow-DAG unabhängig vom Betrieb des Live-Systems ausgeführt.
 
 ---
 
@@ -178,8 +184,8 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 | Public Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
 | Admin Frontend | Statischer Admin-Client ohne eigene Serverlogik; sensible Aktionen erfolgen ausschließlich über geschützte Backend-APIs. |
 | Backend API | Führt AuthN/AuthZ auf Basis des von APISIX bereitgestellten Access-Tokens und Rollen durch, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
-| Datenbank | Ist nicht öffentlich erreichbar; Zugriffe erfolgen ausschließlich über das Backend mit rollenbasierten Rechten. |
-| 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
+| Datenbank | Logische DEZ-Datenhaltung auf dem Plattform-PostgreSQL; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
+| 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
 
 Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie den BSI-Bezug aus TA-97 ab.
@@ -192,6 +198,7 @@ Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie 
 - Der Public Frontend-Client (Hauptzielgruppe) kommuniziert direkt mit:
   - dem Web Gateway (APISIX)
   - optional dem Tiles Gateway oder direkt dem 3D Tiles Storage (über APISIX)
+  - der externen Vegetationsquelle (nur visuelle Darstellung)
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 
 - Der Admin Frontend-Client (Nebenzielgruppe) kommuniziert ausschließlich über das Backend (über APISIX).
@@ -201,7 +208,7 @@ Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie 
   - die veröffentlichte Konfiguration
   - optional den Berechnungskern
 
-- Die Offline-Datenpipeline schreibt ausschließlich in das 3D Tiles Storage.
+- Die Offline-Datenpipeline schreibt ausschließlich in das 3D Tiles Storage und wird über Airflow im separaten Pipeline-Add-on orchestriert.
 
 ---
 

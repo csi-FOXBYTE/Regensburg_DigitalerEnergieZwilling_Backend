@@ -10,7 +10,7 @@
 6. [Erweiterte Anforderungen](#erweiterte-anforderungen)
 7. [Offene MVP-Klärung: Solarthermie, PV und Geothermie](#offene-mvp-klaerung-solarthermie-pv-und-geothermie)
 8. [Nachnutzung und White-Labeling](#nachnutzung-und-white-labeling)
-9. [Offene Klärung: Nutzungsdaten und Tracking](#offene-klaerung-nutzungsdaten-und-tracking)
+9. [Festlegung: Nutzungsdaten und Tracking](#festlegung-nutzungsdaten-und-tracking)
 10. [Priorisierung (implizit)](#priorisierung-implizit)
 11. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
 
@@ -544,12 +544,12 @@ Eine DEZ-Instanz soll fachlich immer genau eine Kommune abbilden; die Nachnutzun
 
 ---
 
-<a id="offene-klaerung-nutzungsdaten-und-tracking"></a>
+<a id="festlegung-nutzungsdaten-und-tracking"></a>
 
-## Offene Klärung: Nutzungsdaten und Tracking
+## Festlegung: Nutzungsdaten und Tracking
 
 **FA-115**  
-Für optionale Nutzungsanalysen ist Matomo als bevorzugte Analytics-Option vorgesehen.
+Für Nutzungsanalysen wird Matomo verbindlich eingesetzt.
 
 **FA-116**  
 Nutzungsdatenanalysen dürfen fachlich nur nach expliziter Einwilligung (Opt-in) erfolgen.
@@ -575,4 +575,3 @@ Der konkrete fachliche Umfang für Tracking (Metriken, Auswertungsziele, Bericht
 
 Die in diesem Dokument beschriebenen fachlichen Anforderungen werden in den **Technischen Anforderungen** konkretisiert.  
 Dort wird festgelegt, **wie** diese Funktionen technisch umzusetzen sind und welche nicht-funktionalen Randbedingungen einzuhalten sind.
-

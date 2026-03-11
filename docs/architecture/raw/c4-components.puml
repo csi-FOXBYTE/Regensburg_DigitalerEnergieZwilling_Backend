@@ -7,7 +7,7 @@ Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
 System_Boundary(civitas, "CIVITAS/CORE Platform") {
-  System_Boundary(det, "Digitaler Energie Zwilling (DEZ)") {
+  System_Boundary(detAddon, "digital-energy-twin_addon (DEZ)") {
 
     Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
 
@@ -33,24 +33,29 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGateway, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
-    Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
 
-    Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
-      Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
-      Component(srcSolarTiles, "Solar Potentials", "3D Tiles + Texture", "Input solar potential tiles")
-      Component(srcGeothermal, "Geothermal Potentials", "WMS/Raster", "Input geothermal dataset (pending)")
-      Component(srcVegetation, "Vegetation (Trees)", "3D Tiles Layer", "Input vegetation for visualization")
-      Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
-      Component(gdal, "Geodata Processing", "GDAL + custom", "Joins geothermal WMS and solar tiles attributes to buildings and roofs")
-      Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
-    }
+    SystemDb(db, "DEZ Database (logical)", "PostgreSQL Schema + PostGIS extensions", "Stores user inputs and triage state and configuration source of truth")
+  }
 
-    SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
+  Container_Boundary(pipelineAddon, "offline-data-pipeline_addon (separates CIVITAS/CORE Add-on)", "Airflow + Batch Processing") {
+    Component(airflow, "Airflow DAG Orchestrator", "Apache Airflow", "Orchestrates DEZ offline pipeline tasks")
+    Component(extract, "Extract-Container", "Batch Container", "Downloads and extracts input ZIP artifacts from external data service")
+    Component(convert, "Konvertierungs-Container (Add-on)", "citygml-tools", "Converts CityGML to CityJSON")
+    Component(enrich, "Anreicherungs-Container (Add-on)", "GDAL + custom", "Enriches CityJSON with solar and geothermal attributes")
+    Component(calcOffline, "Calculation Core (optional)", "JavaScript Module", "Adds optional calculated metrics on enriched CityJSON")
+    Component(exportTiles, "Export-Container A", "cityjson-to-3d-tiles", "Exports enriched CityJSON to 3D Tiles")
+    Component(exportGml, "Export-Container B", "CityJSON to CityGML Tooling", "Exports enriched CityJSON to CityGML")
   }
 
   Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
+  ContainerDb(platformPostgres, "PostgreSQL Server (CIVITAS/CORE Platform)", "PostgreSQL", "Shared database server operated by the platform")
 }
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
+System_Ext(staticTiles, "Externer Datendienst (S3-kompatibel)", "External object storage for input artifacts and published outputs")
+System_Ext(citygml, "LOD2 Daten (CityGML, inkl. Adressen)", "Input dataset")
+System_Ext(solar, "Solarpotenziale (3D Tiles + Textur)", "Input dataset")
+System_Ext(geothermal, "Geothermiepotenziale (WMS, offen)", "Input dataset")
+System_Ext(vegetation, "Vegetation (Baeume) (3D Tiles)", "External visual layer for public map rendering")
 
 Rel(citizen, gateway, "uses", "HTTPS")
 Rel(admin, gateway, "uses", "HTTPS")
@@ -61,7 +66,6 @@ Rel(gateway, apiControllers, "routes API", "GET/POST /api (policy and rate limit
 Rel(gateway, tilesGateway, "routes tiles (optional mode)", "GET /tiles")
 Rel(gateway, staticTiles, "routes tiles (direct mode)", "GET /tiles")
 
-Rel(admin, idp, "authenticates", "OIDC")
 Rel(htmlGateway, auth, "enforces authentication")
 Rel(auth, idp, "validates tokens")
 
@@ -77,6 +81,7 @@ Rel(adminIsland, sharedUI, "uses")
 Rel(publicIsland, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGateway, staticTiles, "fetches tiles")
 Rel(publicIsland, geo, "loads basemaps")
+Rel(publicIsland, vegetation, "loads vegetation layer (visual only)")
 
 Rel(publicIsland, publicStatic, "loads published config file", "GET /config/versioned.json")
 
@@ -96,6 +101,7 @@ Rel(userData, db, "reads and writes user inputs and triage state")
 Rel(configService, db, "reads and writes configuration")
 Rel(configService, publicStatic, "publishes versioned config file")
 Rel(geoService, db, "reads spatial data")
+Rel(db, platformPostgres, "hosted on", "schema/database on platform PostgreSQL")
 
 Rel(telemetry, apiControllers, "instruments")
 Rel(telemetry, userData, "instruments")
@@ -103,13 +109,29 @@ Rel(telemetry, configService, "instruments")
 Rel(telemetry, geoService, "instruments")
 Rel(telemetry, calcService, "instruments")
 
-Rel(srcCityGML, citygmlTools, "feeds")
-Rel(srcSolarTiles, gdal, "feeds")
-Rel(srcGeothermal, gdal, "feeds")
-Rel(srcVegetation, gdal, "feeds")
-Rel(citygmlTools, converter, "outputs CityJSON")
-Rel(gdal, converter, "provides computed attributes")
-Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")
+Rel(airflow, extract, "orchestrates task")
+Rel(airflow, convert, "orchestrates task")
+Rel(airflow, enrich, "orchestrates task")
+Rel(airflow, calcOffline, "orchestrates task (optional)")
+Rel(airflow, exportTiles, "orchestrates task")
+Rel(airflow, exportGml, "orchestrates task")
+
+Rel(citygml, staticTiles, "uploads source data")
+Rel(solar, staticTiles, "uploads source data")
+Rel(geothermal, staticTiles, "uploads source data")
+Rel(vegetation, staticTiles, "uploads visual layer data")
+
+Rel(staticTiles, extract, "download input ZIP")
+Rel(extract, convert, "extracted files")
+Rel(convert, staticTiles, "upload cityjson/")
+Rel(staticTiles, enrich, "download cityjson/")
+Rel(enrich, staticTiles, "upload cityjson_enriched/")
+Rel(staticTiles, calcOffline, "download cityjson_enriched/ (optional)")
+Rel(calcOffline, staticTiles, "upload cityjson_enriched/ (updated, optional)")
+Rel(staticTiles, exportTiles, "download cityjson_enriched/")
+Rel(exportTiles, staticTiles, "upload tiles/")
+Rel(staticTiles, exportGml, "download cityjson_enriched/")
+Rel(exportGml, staticTiles, "upload citygml/")
 
 note right of auth
 OIDC token validation and
@@ -128,5 +150,3 @@ All writes are controlled by backend services.
 end note
 
 @enduml
-
-
