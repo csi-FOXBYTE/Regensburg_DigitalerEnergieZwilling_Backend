@@ -14,8 +14,12 @@ rectangle "Vegetation (Baeume)\n(3D Tiles)" as trees
 
 rectangle "Externer Datendienst\n(S3-kompatibel)" as s3
 rectangle "CIVITAS/CORE\n(Airflow Orchestrator)" as airflow
-rectangle "Konvertierungs-Container (Add-on)\nCityGML -> CityJSON\nCityJSON -> 3D Tiles" as convert
-rectangle "Anreicherungs-Container (Add-on)\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
+rectangle "Extract-Container\nZIP entpacken" as extract
+rectangle "Konvertierungs-Container (Add-on)\nCityGML -> CityJSON" as convert
+rectangle "Anreicherungs-Container (Add-on)\nEnrichment auf CityJSON\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
+rectangle "Calculation Core (optional)\nKennwerte auf CityJSON" as calc
+rectangle "Export-Container A\nCityJSON -> 3D Tiles" as export_tiles
+rectangle "Export-Container B\nCityJSON -> CityGML" as export_gml
 
 rectangle "APISIX\n(Web/API Gateway)" as apisix
 rectangle "Tiles Gateway\n(optional)" as gw
@@ -27,11 +31,22 @@ geo --> s3
 trees --> s3
 
 airflow ..> convert : orchestriert
+airflow ..> extract : orchestriert
 airflow ..> enrich : orchestriert
-s3 --> convert : Download
-convert --> s3 : Upload
-s3 --> enrich : Download
-enrich --> s3 : Upload
+airflow ..> calc : orchestriert (optional)
+airflow ..> export_tiles : orchestriert
+airflow ..> export_gml : orchestriert
+s3 --> extract : Download input ZIP
+extract --> convert : extracted files
+convert --> s3 : Upload cityjson/
+s3 --> enrich : Download cityjson/
+enrich --> s3 : Upload cityjson_enriched/
+s3 --> calc : Download cityjson_enriched/
+calc --> s3 : Upload cityjson_enriched/ (updated)
+s3 --> export_tiles : Download cityjson_enriched/
+export_tiles --> s3 : Upload tiles/
+s3 --> export_gml : Download cityjson_enriched/
+export_gml --> s3 : Upload citygml/
 
 s3 --> apisix : direct mode
 apisix --> client : direct mode

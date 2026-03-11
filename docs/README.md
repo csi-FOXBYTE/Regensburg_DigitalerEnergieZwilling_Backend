@@ -55,6 +55,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **12** [Backend](architecture/12-architecture-backend.md)
 - **13** [Berechnungskern](architecture/13-architecture-berechnung-core.md)
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
+- **15** [Manuelles Deployment ohne Kubernetes/Cluster (nicht empfohlen)](architecture/15-architecture-deployment-standalone.md)
 
 <a id="anleitungen"></a>
 

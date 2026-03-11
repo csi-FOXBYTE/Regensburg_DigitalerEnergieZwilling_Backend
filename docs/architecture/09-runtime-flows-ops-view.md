@@ -50,13 +50,20 @@ Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Upd
 Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
-Airflow-Run wird manuell gestartet (vollständiger Lauf oder Teil-Update je Datendomäne), Rohdaten werden geladen, Konvertierung und Anreicherung laufen in separaten Containern, Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert.  
-Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Konvertierungs-Container, Anreicherungs-Container.  
-Fehlerpfade: fehlende Eingaben, Konvertierungsfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
+Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update je Datendomäne); Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles und CityGML exportiert; Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.  
+Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML).  
+Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
 
 ![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
 
 Quelle: `raw/runtime-flow-pipeline.puml`
+
+**Datenpipeline-Flow (vereinfacht)**  
+Reduzierte Darstellung ohne zusätzliche Hinweise und Abhängigkeiten.
+
+![runtime-flow-pipeline-simple.png](./attachments/runtime-flow-pipeline-simple.png)
+
+Quelle: `raw/runtime-flow-pipeline-simple.puml`
 
 **Lösch-Flow (Public)**  
 Wenn ein Nutzer Ergebnisse gespeichert hat, kann er eine Löschung aus dem PDF (Link/QR) anstoßen.  
@@ -137,4 +144,3 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 - Fachlicher Betrieb (Konfiguration/Triage) liegt bei Stadtverwaltung / Fachpersonal.
 - Notfallprozess: Incident-Owner wird benannt, Runbooks definieren Wiederanlauf und Kommunikationswege.
 - Wartungsprozess: geplante Wartungsfenster, Rollbacks über vorherige Konfigurationsversionen.
-

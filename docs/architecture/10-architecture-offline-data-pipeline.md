@@ -68,11 +68,13 @@ Beispiele für Datenherkünfte und Referenzen:
 ## Betriebs- und Orchestrierungsmodell
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
-- Die **Orchestrierung erfolgt in CIVITAS/CORE über Airflow** (DAG-basiert).
+- Die **Orchestrierung erfolgt in CIVITAS/CORE über Airflow** als **kombinierter DAG**.
 - Ein **externer Datendienst** (z.B. S3) dient als Quelle und Ziel für Rohdaten und erzeugte 3D Tiles.
-- Die **Konvertierung** (CityGML → CityJSON → 3D Tiles) und die **Anreicherung der Metadaten**
-  (Solarpotenziale (PV) und Geothermiepotenziale) sind **getrennte Verarbeitungsschritte** und laufen in **separaten Containern**.
-- Der Schritt **CityGML → CityJSON → 3D Tiles** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
+- Die Verarbeitung erfolgt als Schrittkette mit optionalem Rechenkern:
+  **Download → ZIP-Extraktion → CityGML→CityJSON → Enrichment auf CityJSON → (Calculation Core) → paralleler Export nach 3D Tiles und CityGML → Upload**.
+- Nach dem Enrichment wird in zwei Artefaktpfade verzweigt: **CityJSON→3D Tiles** und **CityJSON→CityGML** (parallel).
+- Der Schritt **CityGML → CityJSON** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
+- Teilschritte werden innerhalb desselben DAG-Runs orchestriert und **nicht** separat manuell gestartet.
 - Add-ons unterstützen die konfigurationsbasierte Aktivierung/Deaktivierung einzelner Teilkomponenten, sofern fachlich sinnvoll entkoppelbar.
   > ⚠️ **Hinweis:** Der **externe Datendienst** entspricht dem in den Architekturdiagrammen referenzierten **3D Tiles Storage**.
 
@@ -84,12 +86,12 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ### Interner Zugriff (innerhalb UDP/CIVITAS/CORE)
 
-- Der Konvertierungs-Container und der Anreicherungs-Container greifen direkt auf den S3-kompatiblen Datendienst zu (Download/Upload je `job_id`).
+- Die beteiligten Pipeline-Container (Extraktion, Konvertierung, Enrichment, Export) greifen direkt auf den S3-kompatiblen Datendienst zu (Download/Upload je `job_id`).
 - Optional greift ein Tiles Gateway intern auf denselben Datendienst zu, wenn der externe Read-Pfad nicht direkt aus APISIX bedient wird.
 - Die Authentifizierung erfolgt mit technischen Service-Credentials aus dem Secrets-Management (keine statischen Credentials im Code oder in Container-Images).
 - Berechtigungen sind strikt auf Bucket/Prefix-Ebene zu begrenzen (Least Privilege), mindestens:
   - Lesen: `jobs/{job_id}/input/`
-  - Schreiben: `jobs/{job_id}/convert/`, `jobs/{job_id}/enriched/`, `jobs/{job_id}/logs/`, `jobs/{job_id}/manifest.json`
+  - Schreiben: `jobs/{job_id}/cityjson/`, `jobs/{job_id}/cityjson_enriched/`, `jobs/{job_id}/tiles/`, `jobs/{job_id}/citygml/`, `jobs/{job_id}/logs/`, `jobs/{job_id}/manifest.json`
 
 ### Externer Zugriff (außerhalb UDP/CIVITAS/CORE)
 
@@ -111,31 +113,32 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ## Verarbeitungsschritte
 
-1. **CityGML → CityJSON**  
+1. **Download + ZIP-Extraktion**  
+   Rohdaten werden aus S3 geladen und in ein Job-Staging-Verzeichnis entpackt.
+
+2. **CityGML → CityJSON**  
    Umwandlung der CityGML-Quellen mit `citygml-tools`  
    <https://github.com/citygml4j/citygml-tools>
 
-2. **CityJSON → 3D Tiles**  
-   Konvertierung der CityJSON-Daten mit `cityjson-to-3d-tiles`  
-   <https://github.com/csi-FOXBYTE/cityjson-to-3d-tiles>
-
-3. **Anreicherung der Metadaten (separater Schritt)**  
+3. **Anreicherung der Metadaten auf CityJSON (separater Schritt)**  
    Solarpotenziale liegen als 3D Tiles mit Attributen und Textur vor und werden
-   in einem separaten Verarbeitungsschritt mit den konvertierten Tiles zusammengeführt.
+   in einem separaten Verarbeitungsschritt mit den CityJSON-Gebäuden zusammengeführt.
    Geothermiepotenziale werden (sobald verfügbar) über eine priorisierte Datensatzabfrage ergänzt:
    Grundwasser → Erdreich → Luft.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
    Dadurch werden Laufzeit-DB-Zugriffe minimiert.
 
-4. **Optionale visuelle Ableitungen**  
-   Weitere visuelle Attribute oder Aggregationen können in diesem Schritt verknüpft oder generiert werden, z.B.:
-   - Solarpotenzial-Textur (aus der Lieferung) als Dachflächen-Overlay
-   - Geothermiepotenzial als Gebäude-Overlay (Skala/Klassifizierung)
-   - Energieeffizienzklasse als Label oder Icon am Gebäude
+4. **Optionaler Calculation-Core-Schritt**  
+   Der Rechenkern kann auf dem angereicherten CityJSON ausgeführt werden, um weitere Kennwerte zu ergänzen.
 
-5. **Bereitstellung**  
-   Der fertig angereicherte Datensatz wird im 3D Tiles Storage bereitgestellt
-   und über APISIX ausgeliefert:
+5. **Parallele Artefakterzeugung ab angereichertem CityJSON**  
+   - **CityJSON → 3D Tiles** mit `cityjson-to-3d-tiles`  
+     <https://github.com/csi-FOXBYTE/cityjson-to-3d-tiles>
+   - **CityJSON → CityGML** für den parallelen Exportpfad.
+
+6. **Bereitstellung**  
+   Die erzeugten Artefakte (3D Tiles und CityGML) werden im Datendienst bereitgestellt.
+   3D Tiles werden über APISIX ausgeliefert:
    - entweder direkt aus dem externen Datendienst
    - oder über ein optionales Tiles Gateway.
 
@@ -146,9 +149,14 @@ Beispiele für Datenherkünfte und Referenzen:
 ## DAG-Ablauf (vereinfachte Sicht)
 
 1. **Download** der Rohdaten aus dem externen Datendienst (z.B. S3) in ein Staging-Verzeichnis.
-2. **Konvertierung im Container** (CityGML → CityJSON → 3D Tiles).
-3. **Anreicherung im separaten Container** (Solar-/Geothermiepotenziale + optionale Kennwerte).
-4. **Upload** der erzeugten 3D Tiles und Metadaten in den externen Datendienst.
+2. **ZIP-Extraktion** der Eingabedaten.
+3. **Konvertierung** CityGML → CityJSON.
+4. **Anreicherung** des CityJSON (Solar/Geothermie + optionale Kennwerte).
+5. **Optionaler Calculation-Core-Schritt** auf dem angereicherten CityJSON.
+6. **Paralleler Export** in zwei Branches:
+   - CityJSON → 3D Tiles
+   - CityJSON → CityGML
+7. **Upload** der erzeugten Artefakte und Metadaten in den externen Datendienst.
 
 ---
 
@@ -161,12 +169,14 @@ Beispiele für Datenherkünfte und Referenzen:
 - Start erfolgt **manuell über die Airflow-Oberfläche**.
 - Die `job_id` wird von Airflow vorgegeben und **als deterministischer Ordnername** genutzt.
 - Pro `job_id` wird exakt **ein Pipeline-Lauf** erzeugt; Wiederholung erfolgt über neue `job_id`.
+- Der manuelle Trigger startet immer den **gesamten kombinierten DAG**; einzelne Tasks/Container sind kein eigenständiger Trigger-Endpunkt.
 
 ### Airflow DAG (konkret)
 
 - DAG-ID: `dez_offline_pipeline`.
 - Jeder Lauf definiert einen `update_scope` (z.B. `lod2`, `solar`, `geothermie`, `full`), damit Basisdaten unabhängig voneinander aktualisiert werden können.
 - Teil-Updates sind zulässig; nur die vom `update_scope` betroffenen Pipeline-Schritte werden ausgeführt.
+- Auch bei Teil-Updates bleibt die Ausführung ein einzelner DAG-Run; nur nicht benötigte Schritte werden innerhalb des DAG übersprungen.
 
 ### Kommunenprofil und Mapping-Profil
 
@@ -182,20 +192,27 @@ Task-Reihenfolge je `job_id`:
 
 1. `init_job` – erstellt `manifest.json`, Status `running`.
 2. `download_inputs` – lädt `jobs/{job_id}/input/` in ein Staging-Verzeichnis.
-3. `convert_tiles` – Konvertierungs-Container (CityGML → CityJSON → 3D Tiles).
-4. `upload_converted` – lädt `jobs/{job_id}/convert/` in den Datendienst.
-5. `enrich_tiles` – Anreicherungs-Container (Solar/Geothermie + optionale Kennwerte).
-6. `upload_enriched` – lädt `jobs/{job_id}/enriched/` in den Datendienst.
-7. `finalize_job` – aktualisiert `manifest.json` (Status, Zeiten, Exit-Code).
+3. `extract_inputs` – entpackt ZIP-Dateien in das Job-Staging-Verzeichnis.
+4. `convert_citygml_to_cityjson` – Konvertierung CityGML → CityJSON.
+5. `enrich_cityjson` – Anreicherungs-Container (Solar/Geothermie + optionale Kennwerte).
+6. `run_calculation_core` *(optional)* – ergänzt weitere Kennwerte auf CityJSON.
+7. `convert_cityjson_to_tiles` – Exportpfad 1: CityJSON → 3D Tiles.
+8. `convert_cityjson_to_citygml` – Exportpfad 2: CityJSON → CityGML.
+9. `upload_outputs` – lädt `jobs/{job_id}/tiles/` und `jobs/{job_id}/citygml/` in den Datendienst.
+10. `finalize_job` – aktualisiert `manifest.json` (Status, Zeiten, Exit-Code).
 
 ### Storage-Layout (S3-kompatibel)
 
 - `jobs/{job_id}/input/`  
   Eingabedaten (CityGML-Dateien, Solarpotenzial-3D Tiles, Vegetationsdaten; Struktur beliebig).
-- `jobs/{job_id}/convert/`  
-  Ausgabe der Konvertierung (3D Tiles ohne Metadaten-Anreicherung).
-- `jobs/{job_id}/enriched/`  
-  Ausgabe nach Anreicherung (3D Tiles mit Metadaten).
+- `jobs/{job_id}/cityjson/`  
+  Ausgabe der Konvertierung (CityJSON vor Anreicherung).
+- `jobs/{job_id}/cityjson_enriched/`  
+  Ausgabe nach Anreicherung und optionalem Calculation-Core-Schritt.
+- `jobs/{job_id}/tiles/`  
+  Ausgabe des Exportpfads CityJSON → 3D Tiles.
+- `jobs/{job_id}/citygml/`  
+  Ausgabe des Exportpfads CityJSON → CityGML.
 - `jobs/{job_id}/logs/`  
   Laufzeit-Logs (inkl. Fortschritt).
 - `jobs/{job_id}/manifest.json`  
@@ -212,6 +229,7 @@ Task-Reihenfolge je `job_id`:
 - Optionaler Ordner/Layer mit **CityGML Energy ADE**-Inhalten.
 - Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe.
 - Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
+- Optional ZIP-Container als Eingabeformat (muss in `extract_inputs` entpackbar sein).
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
 - `appearance` (String) wählt **genau eine** Texture/Theme aus der CityGML-Quelle.
 - `hasAlphaChannel` (Boolean) gibt an, ob die Texture-Daten einen **Alpha-Kanal** enthalten.
@@ -226,16 +244,17 @@ Hinweis zu Teil-Updates:
 
 ### Ausgaben
 
-- **3D Tiles** werden als Ordner ausgegeben und in den dedizierten Bucket hochgeladen.
-- Zwischenstand nach Konvertierung liegt getrennt von der angereicherten Ausgabe.
+- **3D Tiles** und **CityGML** werden als getrennte Ausgaben erzeugt und in den dedizierten Bucket hochgeladen.
+- Zwischenstände (`cityjson/`, `cityjson_enriched/`) liegen getrennt von den finalen Exportpfaden.
   > ⚠️ **Hinweis:** Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Datendienst.
 
 ### Exit-Codes
 
 - `0` Erfolgreich abgeschlossen
 - `10` Eingabefehler (z.B. keine CityGML-Dateien, fehlender EPSG-Code)
-- `20` Fehler in der Konvertierung (CityGML → CityJSON → 3D Tiles)
+- `20` Fehler in der Konvertierung (CityGML → CityJSON)
 - `30` Fehler in der Anreicherung
+- `40` Fehler in der Artefakterzeugung (CityJSON → 3D Tiles / CityGML)
 - `50` Infrastrukturfehler (S3/Netzwerk/Filesystem)
 
 ### Fortschritt & Logging
@@ -247,13 +266,13 @@ Hinweis zu Teil-Updates:
 ```json
 {
   "event": "progress",
-  "stage": "convert",
+  "stage": "convert_cityjson",
   "percent": 35,
   "message": "Converted 120/340 files"
 }
 ```
 
-- Stufen (mindestens): `download`, `convert`, `enrich`, `upload`.
+- Stufen (mindestens): `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `upload`.
 
 ### Fehlerbehandlung & Wiederanlauf
 
@@ -281,13 +300,13 @@ Hinweis zu Teil-Updates:
 
 Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`, `hasAlphaChannel`, `created_at`, `output_prefix`.
 Statuswerte: `pending`, `running`, `failed`, `succeeded`.
-Stage-Werte: `download`, `convert`, `enrich`, `upload`.
+Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `upload`.
 
 ```json
 {
   "job_id": "dez-2026-02-04-001",
   "status": "running",
-  "stage": "convert",
+  "stage": "enrich_cityjson",
   "epsg": "EPSG:25832",
   "appearance": "main-texture",
   "hasAlphaChannel": true,
@@ -334,8 +353,8 @@ Stage-Werte: `download`, `convert`, `enrich`, `upload`.
 
 ```python
 DockerOperator(
-    task_id="convert_tiles",
-    image="dez/tiles-converter:latest",
+    task_id="convert_citygml_to_cityjson",
+    image="dez/citygml-cityjson-converter:latest",
     api_version="auto",
     auto_remove=True,
     environment={
@@ -365,19 +384,19 @@ DockerOperator(
 
 ### Zweck
 
-- Ergänzung von 3D Tiles um Solarpotenziale (PV) und Geothermiepotenziale.
+- Ergänzung von CityJSON um Solarpotenziale (PV) und Geothermiepotenziale.
 - Optionale Berechnung abgeleiteter Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen).
 
 ### Erwartete Eingaben
 
-- Pfad zu konvertierten 3D Tiles (`jobs/{job_id}/convert/`).
+- Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
 - Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet, Quelle noch offen).
 - Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
 ### Erwartete Ausgaben
 
-- Angereicherte 3D Tiles (`jobs/{job_id}/enriched/`).
+- Angereichertes CityJSON (`jobs/{job_id}/cityjson_enriched/`).
 - Laufprotokolle und Fortschrittslogs (`jobs/{job_id}/logs/`).
 
 ### Mapping-Regeln

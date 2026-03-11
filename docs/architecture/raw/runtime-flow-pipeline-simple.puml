@@ -1,5 +1,5 @@
 @startuml
-title Runtime-Flow - Offline-Datenpipeline (Airflow, kombinierter DAG)
+title Runtime-Flow - Offline-Datenpipeline (vereinfacht)
 top to bottom direction
 
 skinparam shadowing false
@@ -27,10 +27,5 @@ D --> E
 D --> F
 E --> G
 F --> G
-
-note right of D
-Ein Airflow-Trigger startet den gesamten kombinierten DAG.
-Keine separaten manuellen Trigger fuer Einzelschritte.
-end note
 
 @enduml
