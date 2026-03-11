@@ -1,0 +1,48 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram (Offline Pipeline)
+
+System_Boundary(civitas, "CIVITAS/CORE Platform") {
+  Container_Boundary(pipelineAddon, "offline-data-pipeline_addon", "Airflow + Batch Processing") {
+    Component(airflow, "Airflow DAG Orchestrator", "Apache Airflow", "Orchestrates DEZ offline pipeline tasks")
+    Component(extract, "Extract-Container", "Batch Container", "Downloads and extracts input ZIP artifacts from external data service")
+    Component(convert, "Konvertierungs-Container", "citygml-tools", "Converts CityGML to CityJSON")
+    Component(enrich, "Anreicherungs-Container", "GDAL + custom", "Enriches CityJSON with solar and geothermal attributes")
+    Component(calcOffline, "Calculation Core (optional)", "JavaScript Module", "Adds optional calculated metrics on enriched CityJSON")
+    Component(exportTiles, "Export-Container A", "cityjson-to-3d-tiles", "Exports enriched CityJSON to 3D Tiles")
+    Component(exportGml, "Export-Container B", "CityJSON to CityGML Tooling", "Exports enriched CityJSON to CityGML")
+  }
+}
+
+System_Ext(staticTiles, "Externer Datendienst (S3-kompatibel)", "External object storage for input artifacts and published outputs")
+System_Ext(citygml, "LOD2 Daten (CityGML, inkl. Adressen)", "Input dataset")
+System_Ext(solar, "Solarpotenziale (3D Tiles + Textur)", "Input dataset")
+System_Ext(geothermal, "Geothermiepotenziale (WMS, offen)", "Input dataset")
+System_Ext(vegetation, "Vegetation (Baeume) (3D Tiles)", "External visual layer for public map rendering")
+
+Rel(airflow, extract, "orchestrates task")
+Rel(airflow, convert, "orchestrates task")
+Rel(airflow, enrich, "orchestrates task")
+Rel(airflow, calcOffline, "orchestrates task (optional)")
+Rel(airflow, exportTiles, "orchestrates task")
+Rel(airflow, exportGml, "orchestrates task")
+
+Rel(citygml, staticTiles, "uploads source data")
+Rel(solar, staticTiles, "uploads source data")
+Rel(geothermal, staticTiles, "uploads source data")
+Rel(vegetation, staticTiles, "uploads visual layer data")
+
+Rel(staticTiles, extract, "download input ZIP")
+Rel(extract, convert, "extracted files")
+Rel(convert, staticTiles, "upload cityjson/")
+Rel(staticTiles, enrich, "download cityjson/")
+Rel(enrich, staticTiles, "upload cityjson_enriched/")
+Rel(staticTiles, calcOffline, "download cityjson_enriched/ (optional)")
+Rel(calcOffline, staticTiles, "upload cityjson_enriched/ (updated, optional)")
+Rel(staticTiles, exportTiles, "download cityjson_enriched/")
+Rel(exportTiles, staticTiles, "upload tiles/")
+Rel(staticTiles, exportGml, "download cityjson_enriched/")
+Rel(exportGml, staticTiles, "upload citygml/")
+
+@enduml

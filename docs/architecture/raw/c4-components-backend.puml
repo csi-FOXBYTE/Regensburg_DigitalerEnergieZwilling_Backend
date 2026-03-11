@@ -1,0 +1,78 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram (Backend)
+
+Person(admin, "City Administration / Staff")
+
+System_Boundary(civitas, "CIVITAS/CORE Platform") {
+  System_Boundary(detAddon, "digital-energy-twin_addon (DEZ)") {
+    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint")
+
+    Container_Boundary(backend, "Backend API", "Node and Fastify") {
+      Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
+      Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
+      Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
+      Component(auth, "Auth Middleware", "APISIX forwarded token", "Validates APISIX-forwarded standard token and enforces roles")
+      Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
+      Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
+      Component(calcService, "Berechnungsservice", "TypeScript JavaScript", "Optionale serverseitige Berechnungsausfuehrung fuer Admin oder Fallback")
+      Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
+      Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
+    }
+
+    Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
+    SystemDb(db, "DEZ Database (logical)", "PostgreSQL Schema + PostGIS extensions", "Stores user inputs, triage state and configuration source of truth")
+  }
+
+  Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
+  ContainerDb(platformPostgres, "PostgreSQL Server (CIVITAS/CORE Platform)", "PostgreSQL", "Shared database server operated by the platform")
+}
+
+Container_Ext(frontendPublic, "Public Frontend", "Astro Static Site", "Public client")
+Container_Ext(frontendAdmin, "Admin Frontend", "Astro Static Site", "Admin client")
+
+Rel(admin, gateway, "uses", "HTTPS")
+Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
+Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
+Rel(gateway, apiControllers, "routes API", "GET/POST /api")
+Rel(gateway, idp, "obtains and validates tokens", "OIDC/JWT")
+
+Rel(htmlGateway, auth, "enforces authentication")
+Rel(auth, gateway, "validates APISIX-forwarded standard token")
+
+Rel(frontendPublic, apiControllers, "sends user inputs for persistence", "REST optional")
+Rel(frontendAdmin, apiControllers, "triages user inputs and manages config", "REST")
+
+Rel(apiControllers, auth, "uses")
+Rel(apiControllers, userData, "delegates user data persistence and triage")
+Rel(apiControllers, configService, "delegates config management and publishing")
+Rel(apiControllers, geoService, "delegates spatial queries")
+Rel(apiControllers, calcService, "delegates serverseitige Berechnung", "optional")
+
+Rel(calcService, calcCore, "imports and runs in Node", "optional admin or fallback execution")
+
+Rel(userData, db, "reads and writes user inputs and triage state")
+Rel(configService, db, "reads and writes configuration")
+Rel(configService, publicStatic, "publishes versioned config file")
+Rel(geoService, db, "reads spatial data")
+Rel(db, platformPostgres, "hosted on", "schema/database on platform PostgreSQL")
+
+Rel(telemetry, apiControllers, "instruments")
+Rel(telemetry, userData, "instruments")
+Rel(telemetry, configService, "instruments")
+Rel(telemetry, geoService, "instruments")
+Rel(telemetry, calcService, "instruments")
+
+note right of auth
+Validates APISIX-forwarded standard token
+and enforces role-based access control.
+end note
+
+note right of apiControllers
+Public write path:
+Altcha token check, input validation,
+server recompute and reject paths.
+end note
+
+@enduml
