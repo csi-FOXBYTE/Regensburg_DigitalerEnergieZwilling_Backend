@@ -102,14 +102,14 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
 - Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
-- Notwendiger Cookie für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und optionales Tracking.
+- Notwendiger Cookie für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und Matomo-Tracking.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
 
-### Tracking-Strategie (offene Festlegungen)
+### Tracking-Strategie (verbindliche Festlegung)
 
-- Für optionale Nutzungsanalysen ist Matomo als bevorzugte Analytics-Lösung vorgesehen.
+- Für Nutzungsanalysen wird Matomo verbindlich als Analytics-Lösung eingesetzt.
 - Tracking und Analytics dürfen ausschließlich nach explizitem Opt-in aktiviert werden.
-- Bis zur finalen fachlich-technischen Klärung bleiben Tracking-Funktionen standardmäßig deaktiviert.
+- Ohne gültiges Opt-in bleiben Tracking-Funktionen standardmäßig deaktiviert.
 - Vor produktiver Aktivierung sind Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich zu dokumentieren und freizugeben.
 - Diese Leitplanken konkretisieren insbesondere FA-115 bis FA-117 sowie TA-130 bis TA-133.
 

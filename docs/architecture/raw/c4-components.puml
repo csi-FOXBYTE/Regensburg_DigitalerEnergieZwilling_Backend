@@ -1,15 +1,14 @@
-﻿@startuml
+@startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram
+title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram (Frontend)
 
 Person(citizen, "Citizen (owners/landlords)")
 Person(admin, "City Administration / Staff")
 
 System_Boundary(civitas, "CIVITAS/CORE Platform") {
-  System_Boundary(det, "Digitaler Energie Zwilling (DEZ)") {
-
-    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
+  System_Boundary(detAddon, "digital-energy-twin_addon (DEZ)") {
+    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint")
 
     Container_Boundary(frontend, "Web Frontend Static Site", "Astro SSG") {
       Component(astroSSG, "Astro Static Build", "Astro", "Generates static HTML and island bundles without SSR")
@@ -18,115 +17,35 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
       Component(sharedUI, "Shared UI Components", "React", "Shared design system components")
     }
 
-    Container_Boundary(backend, "Backend API", "Node and Fastify") {
-      Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
-      Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
-      Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
-      Component(auth, "Auth Middleware", "OIDC and JWT", "Authentication and authorization enforcement")
-      Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
-      Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
-      Component(calcService, "Berechnungsservice", "TypeScript JavaScript", "Optionale serverseitige Berechnungsausführung für Admin oder Fallback")
-      Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
-      Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
-    }
-
+    Container(backendApi, "Backend API", "Node and Fastify", "REST APIs, static delivery and admin HTML gateway")
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
-
-    Container(tilesGateway, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
-    Container(staticTiles, "3D Tiles Storage", "Object Storage", "3D tiles with solar (PV) attributes, textures, vegetation and geothermal attributes")
-
-    Container_Boundary(pipeline, "Offline Data Pipeline", "Batch Processing") {
-      Component(srcCityGML, "CityGML Source", "LOD2 CityGML", "Input building model")
-      Component(srcSolarTiles, "Solar Potentials", "3D Tiles + Texture", "Input solar potential tiles")
-      Component(srcGeothermal, "Geothermal Potentials", "WMS/Raster", "Input geothermal dataset (pending)")
-      Component(srcVegetation, "Vegetation (Trees)", "3D Tiles Layer", "Input vegetation for visualization")
-      Component(citygmlTools, "CityGML to CityJSON", "citygml-tools", "Converts CityGML to CityJSON")
-      Component(gdal, "Geodata Processing", "GDAL + custom", "Joins geothermal WMS and solar tiles attributes to buildings and roofs")
-      Component(converter, "CityJSON to 3D Tiles", "cityjson-to-3d-tiles", "Generates 3D tiles and embeds attributes")
-    }
-
-    SystemDb(db, "PostgreSQL and PostGIS", "Database", "Stores user inputs and triage state and configuration source of truth")
+    Container(tilesGateway, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles")
   }
-
-  Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
 }
+
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
+System_Ext(staticTiles, "Externer Datendienst (S3-kompatibel)", "External object storage for published outputs")
+System_Ext(vegetation, "Vegetation (Baeume) (3D Tiles)", "External visual layer for public map rendering")
 
 Rel(citizen, gateway, "uses", "HTTPS")
 Rel(admin, gateway, "uses", "HTTPS")
 
-Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
-Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
-Rel(gateway, apiControllers, "routes API", "GET/POST /api (policy and rate limit)")
+Rel(gateway, backendApi, "routes public/admin/API", "GET /, GET /admin, GET/POST /api")
 Rel(gateway, tilesGateway, "routes tiles (optional mode)", "GET /tiles")
 Rel(gateway, staticTiles, "routes tiles (direct mode)", "GET /tiles")
 
-Rel(admin, idp, "authenticates", "OIDC")
-Rel(htmlGateway, auth, "enforces authentication")
-Rel(auth, idp, "validates tokens")
-
 Rel(astroSSG, publicIsland, "builds static HTML")
 Rel(astroSSG, adminIsland, "builds static HTML")
-
-Rel(publicStatic, publicIsland, "delivers public HTML and assets")
-Rel(htmlGateway, adminIsland, "delivers admin HTML after login")
-
 Rel(publicIsland, sharedUI, "uses")
 Rel(adminIsland, sharedUI, "uses")
 
 Rel(publicIsland, gateway, "loads 3D tiles with embedded potentials", "GET /tiles")
 Rel(tilesGateway, staticTiles, "fetches tiles")
 Rel(publicIsland, geo, "loads basemaps")
+Rel(publicIsland, vegetation, "loads vegetation layer (visual only)")
+Rel(publicIsland, backendApi, "loads published config and sends optional user input", "GET /config, REST")
+Rel(adminIsland, backendApi, "triages user inputs and manages config", "REST")
 
-Rel(publicIsland, publicStatic, "loads published config file", "GET /config/versioned.json")
-
-Rel(publicIsland, calcCore, "imports and runs locally", "privacy option no user data required")
-Rel(calcService, calcCore, "imports and runs in Node", "optional admin or fallback execution")
-
-Rel(publicIsland, apiControllers, "sends user inputs for persistence", "REST optional")
-Rel(adminIsland, apiControllers, "triages user inputs and manages config", "REST")
-
-Rel(apiControllers, auth, "uses")
-Rel(apiControllers, userData, "delegates user data persistence and triage")
-Rel(apiControllers, configService, "delegates config management and publishing")
-Rel(apiControllers, geoService, "delegates spatial queries")
-Rel(apiControllers, calcService, "delegates serverseitige Berechnung", "optional")
-
-Rel(userData, db, "reads and writes user inputs and triage state")
-Rel(configService, db, "reads and writes configuration")
-Rel(configService, publicStatic, "publishes versioned config file")
-Rel(geoService, db, "reads spatial data")
-
-Rel(telemetry, apiControllers, "instruments")
-Rel(telemetry, userData, "instruments")
-Rel(telemetry, configService, "instruments")
-Rel(telemetry, geoService, "instruments")
-Rel(telemetry, calcService, "instruments")
-
-Rel(srcCityGML, citygmlTools, "feeds")
-Rel(srcSolarTiles, gdal, "feeds")
-Rel(srcGeothermal, gdal, "feeds")
-Rel(srcVegetation, gdal, "feeds")
-Rel(citygmlTools, converter, "outputs CityJSON")
-Rel(gdal, converter, "provides computed attributes")
-Rel(converter, staticTiles, "writes 3D tiles with embedded potentials")
-
-note right of auth
-OIDC token validation and
-role based access control.
-end note
-
-note right of apiControllers
-Public write path:
-Altcha token check, input validation,
-server recompute and reject paths.
-end note
-
-note bottom of db
-No direct client access.
-All writes are controlled by backend services.
-end note
+Rel(publicIsland, calcCore, "imports and runs locally", "privacy option")
 
 @enduml
-
-

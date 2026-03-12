@@ -34,7 +34,7 @@
 30. [29. API-Client-Generierung](#29-api-client-generierung)
 31. [30. Aktualisierung der Basisdaten](#30-aktualisierung-der-basisdaten)
 32. [31. Nachnutzung und White-Labeling](#31-nachnutzung-und-white-labeling)
-33. [32. Offene Klärung: Nutzungsdaten und Tracking](#32-offene-klaerung-nutzungsdaten-und-tracking)
+33. [32. Festlegung: Nutzungsdaten und Tracking](#32-festlegung-nutzungsdaten-und-tracking)
 34. [33. Single Point of Truth für Basisdaten](#33-single-point-of-truth-fuer-basisdaten)
 35. [Abgrenzung](#abgrenzung)
 
@@ -698,12 +698,12 @@ Mapping-Profile und Kommunenprofile müssen unabhängig voneinander versioniert,
 
 ---
 
-<a id="32-offene-klaerung-nutzungsdaten-und-tracking"></a>
+<a id="32-festlegung-nutzungsdaten-und-tracking"></a>
 
-## 32. Offene Klärung: Nutzungsdaten und Tracking
+## 32. Festlegung: Nutzungsdaten und Tracking
 
 **TA-130**  
-Wenn optionale Nutzungsanalysen umgesetzt werden, ist Matomo als bevorzugte Analytics-Lösung vorzusehen.
+Für Nutzungsanalysen ist Matomo verbindlich als Analytics-Lösung einzusetzen.
 
 **TA-131**  
 Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in aktiviert werden.
@@ -712,7 +712,7 @@ Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in akti
 Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein.
 
 **TA-133**  
-Bis zur abschließenden Klärung der Analytics-Details müssen Tracking-Funktionen standardmäßig deaktiviert bleiben.
+Tracking-Funktionen müssen ohne gültiges Opt-in standardmäßig deaktiviert bleiben.
 
 ---
 
@@ -748,5 +748,3 @@ Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Komm
 
 Dieses Dokument beschreibt **was technisch erforderlich ist**, nicht jedoch die konkrete Implementierung.  
 Details zur Architektur, zu Komponenten und Datenflüssen werden in den Architekturkapiteln beschrieben.
-
-

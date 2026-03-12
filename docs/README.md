@@ -30,7 +30,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 - **01** [Systemüberblick – Digitaler Energie Zwilling (DEZ)](system/01-system-overview.md)
 - **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
-- **03** [Sicherheitskonzept](system/03-security-concept.md) (inkl. Abschnitt [„Tracking-Strategie (offene Festlegungen)”](system/03-security-concept.md#tracking-strategie-offene-festlegungen))
+- **03** [Sicherheitskonzept](system/03-security-concept.md) (inkl. Abschnitt [„Tracking-Strategie (verbindliche Festlegung)”](system/03-security-concept.md#tracking-strategie-verbindliche-festlegung))
 - **04** [Fehler- und Ausnahmebehandlung (AppError)](system/04-error-handling.md)
 
 <a id="anforderungen"></a>
@@ -55,6 +55,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **12** [Backend](architecture/12-architecture-backend.md)
 - **13** [Berechnungskern](architecture/13-architecture-berechnung-core.md)
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
+- **15** [Manuelles Deployment ohne Kubernetes/Cluster (nicht empfohlen)](architecture/15-architecture-deployment-standalone.md)
 
 <a id="anleitungen"></a>
 
@@ -73,6 +74,16 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 
 - [MVP-Definition und Release-Aufteilung](roadmap/mvp-definition.md)
 
+## Implementierungsartefakte
+
+- [Admin Frontend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_AdminFrontend)
+- [Airflow DAGs](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_AirflowDAGs)
+- [Backend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Backend)
+- [Digital Energy Twin Add-on](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_digital-energy-twin_addon)
+- [Energy Calculation Core](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore)
+- [Frontend](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Frontend)
+- [Offline Enrichment](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_OfflineEnrichment)
+
 ## Open Source & Förderkulisse Checkliste
 
 - Veröffentlichung des finalen Releases auf **OpenCoDE** (keine Beta-/Zwischenstände).
@@ -84,4 +95,3 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - Vendor-Lock-in vermeiden: portabel, keine proprietären Secrets/Abhängigkeiten.
 - Datentausch über offene Standards; Liste der verwendeten Standards im Code führen.
 - Security-Grundsätze im Contribution/Release-Prozess (Secret-Scanning, abgesicherte Releases, Vieraugenprinzip).
-

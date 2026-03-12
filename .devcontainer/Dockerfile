@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     ca-certificates \
     curl \
+    git \
+    git-lfs \
     openssl \
     sqlite3 libsqlite3-dev \
     gdal-bin libgdal-dev \
@@ -14,14 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY .devcontainer/installScripts/ /tmp/installScripts/
-
-# Make scripts executable, run in sorted order, then clean up
-RUN set -eux; \
-  find /tmp/installScripts -type f -name '*.sh' -print0 \
-  | sort -z \
-  | xargs -r -0 -I{} bash -lc 'f="{}"; sed -i "s/\r$//" "$f" || true; chmod +x "$f"; echo "Running $f"; bash "$f"'; \
-  rm -rf /tmp/installScripts
+RUN git config --system --add safe.directory '*'
+RUN corepack enable pnpm && corepack prepare pnpm@latest --activate
 
 # Allow git to work inside workspace
 

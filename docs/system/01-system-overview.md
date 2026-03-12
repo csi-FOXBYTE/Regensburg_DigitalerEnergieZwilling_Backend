@@ -7,10 +7,11 @@
 3. [Nutzen](#nutzen)
 4. [Abgrenzung und Nicht-Ziele](#abgrenzung-und-nicht-ziele)
 5. [Systemkontext](#systemkontext)
-6. [Datenhaltung und Datenfluss](#datenhaltung-und-datenfluss)
-7. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
-8. [Zentrale Leitprinzipien](#zentrale-leitprinzipien)
-9. [Dokumentstruktur](#dokumentstruktur)
+6. [MasterPortal-Integration (Link-Out)](#masterportal-integration-link-out)
+7. [Datenhaltung und Datenfluss](#datenhaltung-und-datenfluss)
+8. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
+9. [Zentrale Leitprinzipien](#zentrale-leitprinzipien)
+10. [Dokumentstruktur](#dokumentstruktur)
 
 <a id="zielsetzung"></a>
 ## Zielsetzung
@@ -105,6 +106,18 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 
 ---
 
+<a id="masterportal-integration-link-out"></a>
+## MasterPortal-Integration (Link-Out)
+
+Die Integration in das MasterPortal erfolgt im MVP ausschließlich als **Link-Out** auf die DEZ-Plattform.
+
+- Im MasterPortal wird ein Einstiegspunkt (Link) auf die öffentliche DEZ-URL bereitgestellt.
+- Es besteht **keine** fachliche oder technische Kopplung über APIs zwischen MasterPortal und DEZ.
+- Es besteht **keine** gemeinsame Session oder SSO-Kopplung zwischen MasterPortal und DEZ.
+- Datenhaltung, Berechnung und Persistenz verbleiben vollständig innerhalb der DEZ-Architektur.
+
+---
+
 <a id="datenhaltung-und-datenfluss"></a>
 ## Datenhaltung und Datenfluss
 
@@ -158,4 +171,3 @@ Die weitere Dokumentation ist wie folgt aufgebaut:
 - Betrieb, Sicherheit und Datenschutz
 
 Dieses Dokument dient als Einstieg und Referenzpunkt für die übrigen Kapitel.
-

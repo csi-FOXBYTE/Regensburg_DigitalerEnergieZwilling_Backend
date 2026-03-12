@@ -1,0 +1,33 @@
+@startuml
+!theme plain
+
+title DEZ MVP Roadmap - Release-Aufteilung
+top to bottom direction
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam rectangle {
+  RoundCorner 12
+  BorderColor #1F2937
+  FontColor #111827
+}
+skinparam ArrowColor #1F2937
+
+rectangle "Release 1\nPlattformaufbau\n---\nCIVITAS/CORE Basis\nServices\nDatenpipeline + Preprocessing\nMasterPortal Link-Out" as R1 #DCEBFF
+
+rectangle "Release 2\nHauptzielgruppe\n---\nÖffentlicher 3D-Client\nGebäudeauswahl + Berechnung\nMaßnahmen + Ergebnisse\nBackend CRUD" as R2 #DFF7E2
+
+rectangle "Release 3\nNebenzielgruppe + Abschluss\n---\nVerwaltungsbereich\nKonfiguration\nDatenfreigabe Wärmeplanung\nExport + Löschprozess" as R3 #FFEFD6
+
+rectangle "Phase 4\nAußerhalb/Nach MVP\n---\nAmortisation\nFeedback-Funktion\nGebäudeeinfärbung\nQuartiersanalyse" as P4 #F3F4F6
+
+R1 --> R2 : baut auf
+R2 --> R3 : erweitert
+R3 --> P4 : nachgelagert
+
+legend right
+  Quelle: docs/roadmap/mvp-definition.md
+  Stand: 2026-03-09
+endlegend
+
+@enduml

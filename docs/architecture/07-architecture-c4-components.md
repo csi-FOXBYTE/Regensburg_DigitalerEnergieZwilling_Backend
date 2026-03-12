@@ -30,17 +30,25 @@ Sie baut auf der Container-Sicht auf und ergänzt diese um technische Details.
 <a id="ueberblick"></a>
 ## Überblick
 
-Das C4 Component Diagramm stellt die folgenden Aspekte dar:
+Die C4 Component Sichten stellen die folgenden Aspekte dar:
 
 - den Aufbau des statischen Frontends mit Public- und Admin-Bereich
 - die internen Komponenten des Backends
 - den Berechnungskern als geteiltes Modul
-- die Entkopplung von 3D Tiles, Backend und Datenhaltung
-- die Offline-Datenpipeline zur Erzeugung der 3D Tiles
+- die Entkopplung von 3D Tiles, Backend und Datenhaltung (3D Tiles Storage als externer S3-Dienst)
+- die Airflow-basierte Offline-Datenpipeline als separates CIVITAS/CORE-Add-on zur Erzeugung der 3D Tiles
 
-![image.png](./attachments/c4-components.png)
+### Frontend View
 
-Quelle: `raw/c4-components.puml`
+![c4-components-frontend.png](./attachments/c4-components.png)
+
+Quelle: `raw/c4-components.puml` (Frontend View)
+
+### Backend View
+
+![c4-components-backend.png](./attachments/c4-components-backend.png)
+
+Quelle: `raw/c4-components-backend.puml` (Backend View)
 
 ---
 
@@ -140,7 +148,7 @@ Aufgaben:
 Die Auth Middleware ist für Authentifizierung und Autorisierung zuständig.
 
 Aufgaben:
-- Validierung von OIDC Tokens
+- Validierung des von APISIX mitgesendeten Standard-Tokens
 - Durchsetzung von Rollen- und Zugriffskonzepten
 - Schutz administrativer Endpunkte
 
@@ -224,7 +232,7 @@ Der Berechnungskern ist bewusst frei von Infrastrukturabhängigkeiten.
 
 Auf Komponentenebene werden Sicherheitsanforderungen als konkrete Kontrollpunkte umgesetzt:
 
-- **Protected Admin HTML Gateway + Auth Middleware**: Erzwingen OIDC-basierte Authentifizierung und rollenbasierte Autorisierung vor Auslieferung administrativer Inhalte.
+- **Protected Admin HTML Gateway + Auth Middleware**: Erzwingen APISIX-gestützte Authentifizierung und rollenbasierte Autorisierung vor Auslieferung administrativer Inhalte.
 - **OpenAPI Controllers**: Trennen öffentliche und administrative Endpunkte, validieren Anfragen und leiten nur validierte Daten an Fachservices weiter.
 - **User Data Service**: Verarbeitet öffentliche Schreibzugriffe nur nach Schutzkette aus Challenge/Rate-Limit/Validierung/Verifikation.
 - **Configuration Service + Snapshot Exporter**: Erzwingen versionierte, unveränderliche Veröffentlichungen statt in-place-Änderungen.
@@ -238,7 +246,7 @@ Damit sind die Security-by-Design-Prinzipien aus TA-58 bis TA-64 in den Kernkomp
 <a id="offline-datenpipeline"></a>
 ## Offline-Datenpipeline
 
-Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad modelliert.
+Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad in CIVITAS/CORE modelliert, wird jedoch nicht über das `digital-energy-twin_addon` bereitgestellt.
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
@@ -247,6 +255,13 @@ Aufgaben:
 - Erzeugung der finalen 3D Tiles
 
 Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff auf Laufzeitdaten.
+Vegetationsdaten werden nicht durch die Pipeline verarbeitet, sondern im Public Client als reine Visualisierungsebene eingebunden.
+
+### Offline Pipeline View
+
+![c4-components-pipeline.png](./attachments/c4-components-pipeline.png)
+
+Quelle: `raw/c4-components-pipeline.puml` (Offline Pipeline View)
 
 ---
 
@@ -264,7 +279,7 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
   Admin (Stadtverwaltung / Fachpersonal) → Backend → Konfigurationsdatei → Public Client
 
 - Nutzerdaten:  
-  Public Client → Backend → Datenbank → Admin-Triage (Stadtverwaltung / Fachpersonal)
+  Public Client → Backend → DEZ-Datenbank (logisch im Add-on, physisch auf Plattform-PostgreSQL) → Admin-Triage (Stadtverwaltung / Fachpersonal)
 
 ---
 
@@ -273,5 +288,3 @@ Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff 
 
 Dieses Kapitel beschreibt die **interne Struktur der Container**, nicht deren Deployment.  
 Details zu Betrieb, Skalierung und Infrastruktur werden im Kapitel **Betrieb und Deployment** behandelt.
-
-

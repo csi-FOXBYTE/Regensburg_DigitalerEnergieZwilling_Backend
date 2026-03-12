@@ -78,6 +78,13 @@ Interner App-Port ist `5000` (falls `PORT` nicht gesetzt ist). Externe Requests 
 
 Aktuell sind keine verpflichtenden Auth-Umgebungsvariablen konfiguriert.
 Das Backend erwartet ein Access-Token (Bearer oder `x-access-token`) und prueft den decodierten Payload inkl. `exp`/`nbf`.
+Optional fuer Rollenpruefung ueber `resource_access`:
+
+```env
+AUTH_RESOURCE_ACCESS_CLIENT_ID=digital-energy-twin
+```
+
+Wenn nicht gesetzt, wird standardmaessig `digital-energy-twin` verwendet.
 
 ## JWT fuer Entwicklung erzeugen
 
