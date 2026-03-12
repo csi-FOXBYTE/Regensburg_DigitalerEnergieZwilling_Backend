@@ -15,26 +15,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
 
-ENV HOME=/home/nodeuser
+ENV HOME=/home/node
 
 # Enable pnpm via corepack
 RUN npm i -g corepack@latest && corepack enable pnpm
 
 WORKDIR /app
 
-# Create a non-root user for security
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodeuser
-RUN chown nodeuser:nodejs /app
-RUN chown nodeuser:nodejs /
-
-RUN mkdir -p $HOME && chown -R nodeuser:nodejs $HOME
+# Ensure workspace is writable for the non-root user shipped with the Node image
+RUN chown -R node:node /app
 
 # Copy all source files and configuration
-COPY --chown=nodeuser:nodejs . .
+COPY --chown=node:node . .
 
 # Set user for the rest of the build process
-USER nodeuser
+USER node
 
 # Install all dependencies and run build scripts.
 # Postinstall hooks will run here correctly because all files are present.
@@ -61,24 +56,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set up environment
 ENV NODE_ENV=production
 ENV HOSTNAME="0.0.0.0"
-ENV PORT=80
+ENV PORT=5000
 
 WORKDIR /app
 
-# Create the non-root user again
-RUN addgroup --system --gid 999 nodejs
-RUN adduser --system --uid 999 nodeuser
-RUN chown nodeuser:nodejs /app
+# Ensure runtime directory is writable by non-root user
+RUN chown -R node:node /app
 
-USER nodeuser
+USER node
 
 # Copy production dependencies from the build stage
-COPY --from=build --chown=nodeuser:nodejs /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/node_modules ./node_modules
 
 # Copy the built application code
-COPY --from=build --chown=nodeuser:nodejs /app/.build ./.build
-COPY --from=build --chown=nodeuser:nodejs /app/package.json ./
+COPY --from=build --chown=node:node /app/.build ./.build
+COPY --from=build --chown=node:node /app/package.json ./
 
-EXPOSE 80
+EXPOSE 5000
 
 CMD ["node", "--expose-gc", ".build/index.js"]
