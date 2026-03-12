@@ -29,7 +29,7 @@ RUN chown -R node:node /app
 COPY --chown=node:node . .
 
 # Set user for the rest of the build process
-USER node
+USER 1000:1000
 
 # Install all dependencies and run build scripts.
 # Postinstall hooks will run here correctly because all files are present.
@@ -63,7 +63,7 @@ WORKDIR /app
 # Ensure runtime directory is writable by non-root user
 RUN chown -R node:node /app
 
-USER node
+USER 1000:1000
 
 # Copy production dependencies from the build stage
 COPY --from=build --chown=node:node /app/node_modules ./node_modules
