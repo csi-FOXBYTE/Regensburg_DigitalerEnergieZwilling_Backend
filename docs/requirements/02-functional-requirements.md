@@ -567,7 +567,7 @@ Der konkrete fachliche Umfang für Tracking (Metriken, Auswertungsziele, Bericht
 ## Abnahmeprozess und Ansprechpartner
 
 **FA-118**  
-Für den Abnahmeprozess müssen bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner benannt sein.
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Projektleiter als Ansprechpartner benannt.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿# Technische Anforderungen - Digitaler Energie Zwilling (DEZ)
+# Technische Anforderungen - Digitaler Energie Zwilling (DEZ)
 
 ## Inhaltsverzeichnis
 
@@ -22,21 +22,22 @@
 18. [17. Sicherheit & SDLC](#17-sicherheit-sdlc)
 19. [18. Integration (CIVITAS/CORE)](#18-integration-civitas-core)
 20. [19. Performance & Skalierung](#19-performance-skalierung)
-21. [20. Betrieb & Support](#20-betrieb-support)
-22. [21. Rechenmethoden & Nachweise](#21-rechenmethoden-nachweise)
-23. [22. Datenlöschung & Sitzungen](#22-datenloeschung-sitzungen)
-24. [23. Admin-Triage & Audit](#23-admin-triage-audit)
-25. [24. Eingabetiefe & Live-Berechnung](#24-eingabetiefe-live-berechnung)
-26. [25. Open Source & Förderkulisse](#25-open-source-foerderkulisse)
-27. [26. BSI Grundschutz Bezug](#26-bsi-grundschutz-bezug)
-28. [27. Offene MVP-Klärung: Solarthermie, PV und Geothermie](#27-offene-mvp-klaerung-solarthermie-pv-und-geothermie)
-29. [28. CIVITAS/CORE-Integration (Präzisierungen)](#28-civitas-core-integration-praezisierungen)
-30. [29. API-Client-Generierung](#29-api-client-generierung)
-31. [30. Aktualisierung der Basisdaten](#30-aktualisierung-der-basisdaten)
-32. [31. Nachnutzung und White-Labeling](#31-nachnutzung-und-white-labeling)
-33. [32. Festlegung: Nutzungsdaten und Tracking](#32-festlegung-nutzungsdaten-und-tracking)
-34. [33. Single Point of Truth für Basisdaten](#33-single-point-of-truth-fuer-basisdaten)
-35. [Abgrenzung](#abgrenzung)
+21. [20. Rechenmethoden & Nachweise](#20-rechenmethoden-nachweise)
+22. [21. Datenlöschung & Sitzungen](#21-datenloeschung-sitzungen)
+23. [22. Admin-Triage & Audit](#22-admin-triage-audit)
+24. [23. Eingabetiefe & Live-Berechnung](#23-eingabetiefe-live-berechnung)
+25. [24. Open Source & Förderkulisse](#24-open-source-foerderkulisse)
+26. [25. BSI Grundschutz Bezug](#25-bsi-grundschutz-bezug)
+27. [26. Offene MVP-Klärung: Solarthermie, PV und Geothermie](#26-offene-mvp-klaerung-solarthermie-pv-und-geothermie)
+28. [27. CIVITAS/CORE-Integration (Präzisierungen)](#27-civitas-core-integration-praezisierungen)
+29. [28. API-Client-Generierung](#28-api-client-generierung)
+30. [29. Aktualisierung der Basisdaten](#29-aktualisierung-der-basisdaten)
+31. [30. Nachnutzung und White-Labeling](#30-nachnutzung-und-white-labeling)
+32. [31. Festlegung: Nutzungsdaten und Tracking](#31-festlegung-nutzungsdaten-und-tracking)
+33. [32. Single Point of Truth für Basisdaten](#32-single-point-of-truth-fuer-basisdaten)
+34. [33. Datenquellen-Metadaten](#33-datenquellen-metadaten)
+35. [34. Abnahmeprozess und Ansprechpartner](#34-abnahmeprozess-und-ansprechpartner)
+36. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-der-technischen-anforderungen"></a>
 
@@ -299,7 +300,7 @@ Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Se
 Die Offline-Datenpipeline muss in CIVITAS/CORE über Airflow orchestriert werden; DAG-Läufe werden ausschließlich manuell über die Airflow-Oberfläche gestartet.
 
 **TA-53**  
-Die Konvertierung (CityGML → CityJSON → 3D Tiles) und die Metadaten-Anreicherung (Solar/Geothermie) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
+Die Konvertierung (CityGML → CityJSON → 3D Tiles) und die Attributanreicherung (Solar/Geothermie) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
 
 **TA-54**  
 Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden und alle Artefakte unter einem dedizierten Job-Ordner im S3-kompatiblen Datendienst ablegen.
@@ -386,7 +387,7 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 ## 18. Integration (CIVITAS/CORE)
 
 **TA-72**  
-Die Integration in CIVITAS/CORE muss OGC-Standards, NGSI-LD und SensorThingsAPI unterstützen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Die Kommunikation zwischen Komponenten muss über standardisierte Schnittstellen (z.B. REST, MQTT, OGC-Dienste) erfolgen; offene, dokumentierte APIs wie OpenAPI 3.x oder OGC API Features sind verbindlich zu verwenden. Zusätzliche Datensenken sind zu vermeiden.
+Die Integration in CIVITAS/CORE muss über standardisierte, dokumentierte Schnittstellen erfolgen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Verbindlich sind offene APIs (z.B. OpenAPI 3.x, OGC API Features, REST/MQTT/OGC-Dienste). Eine Umsetzung von Smart Data Models und NGSI-LD ist für den DEZ nicht geplant (aufgrund des bereits entwickelten Umfangs des Rechenkerns und Unsicherheiten bei FIWARE); City Energy ADE ist derzeit nicht vorgesehen (Kompatibilität zu CityGML 3.x aktuell nicht gegeben), und SensorThingsAPI wird in diesem Kontext nicht verwendet. Eine optionale Implementierung kann im Projektverlauf neu bewertet werden. Zusätzliche Datensenken sind zu vermeiden.
 
 ---
 
@@ -399,74 +400,65 @@ Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstütz
 
 ---
 
-<a id="20-betrieb-support"></a>
+<a id="20-rechenmethoden-nachweise"></a>
 
-## 20. Betrieb & Support
+## 20. Rechenmethoden & Nachweise
 
 **TA-74**  
-Für den Betrieb sind Bugfixing, OS- und Framework-Updates, Security-Patches und 2nd-Level-Support bereitzustellen; kritische Sicherheitsupdates müssen innerhalb von 72h erfolgen; Supportzeiten sind Mo–Fr 09:00–16:00 Uhr.
-
----
-
-<a id="21-rechenmethoden-nachweise"></a>
-
-## 21. Rechenmethoden & Nachweise
-
-**TA-75**  
 Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien, BKI-Kostenplaner).
 
-**TA-76**  
+**TA-75**  
 In der Projektdokumentation sind konkrete Nachweise der verwendeten Rechenmethoden zu liefern (inkl. Seitenzahl, Tabellen-/Zeilennummern und spezifische Formelverweise).
 
 ---
 
-<a id="22-datenloeschung-sitzungen"></a>
+<a id="21-datenloeschung-sitzungen"></a>
 
-## 22. Datenlöschung & Sitzungen
+## 21. Datenlöschung & Sitzungen
 
-**TA-77**  
+**TA-76**  
 Wenn Nutzereingaben oder Ergebnisse gespeichert wurden, muss ein Löschprozess bereitgestellt werden (z.B. über Link/QR im PDF), der eine eindeutige Identifikation des Datensatzes ermöglicht.
 
-**TA-78**  
+**TA-77**  
 Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.B. Adressabgleich + zusätzlicher Bestätigungsschritt), um ungewollte Löschungen zu vermeiden.
 
-**TA-79**  
+**TA-78**  
 Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über den notwendigen Cookie unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
 
-**TA-80**  
+**TA-79**  
 Der notwendige Cookie zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
 
 ---
 
-<a id="23-admin-triage-audit"></a>
+<a id="22-admin-triage-audit"></a>
 
-## 23. Admin-Triage & Audit
+## 22. Admin-Triage & Audit
 
-**TA-81**  
+**TA-80**  
 Jeder Nutzerdatensatz muss einen Status tragen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden.
 
-**TA-82**  
+**TA-81**  
 Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
 
-**TA-83**  
+**TA-82**  
 Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereitgestellt werden und Filterkriterien berücksichtigen.
 
-**TA-84**  
+**TA-83**  
 Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu → in Prüfung → freigegeben oder unplausibel.
 
 ---
 
-<a id="24-eingabetiefe-live-berechnung"></a>
+<a id="23-eingabetiefe-live-berechnung"></a>
 
-## 24. Eingabetiefe & Live-Berechnung
+## 23. Eingabetiefe & Live-Berechnung
 
-**TA-85**  
+**TA-84**  
 Der Berechnungskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstützen; am unteren Ende basiert die Berechnung ausschließlich auf LOD2, Baualtersklassen und Standardannahmen.
 
-**TA-86**  
+**TA-85**  
 Am oberen Ende des Spektrums müssen Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
 
-**TA-87**  
+**TA-86**  
 Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Button aktualisiert werden; die Reaktionszeit muss für interaktive Nutzung geeignet sein.
 
 ### Eingabefelder entlang des Spektrums
@@ -512,44 +504,44 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 
 ---
 
-<a id="25-open-source-foerderkulisse"></a>
+<a id="24-open-source-foerderkulisse"></a>
 
-## 25. Open Source & Förderkulisse
+## 24. Open Source & Förderkulisse
 
-**TA-88**  
+**TA-87**  
 Die Lösung muss Open Source sein und als finales Release über OpenCoDE veröffentlicht werden; Zwischenstände oder Beta-Versionen dürfen dort nicht bereitgestellt werden.
 
-**TA-89**  
+**TA-88**  
 Die für OpenCoDE geforderten Qualitätskriterien müssen erfüllt werden, einschließlich: werthaltige Projektbeschreibung, benannte verantwortliche Person, CVE-Management für Abhängigkeiten, automatisierte Tests, Bug- und Security-Kontaktstellen, SBOM sowie Release Notes.
 
-**TA-90**  
+**TA-89**  
 Das Repository muss die für OpenCoDE erforderlichen Dateien enthalten (u.a. `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`, `SECURITY.md`, `publiccode.yml`). Jede Datei muss einen Urheberrechtsvermerk, eine Lizenzbezeichnung und einen SPDX-Identifier enthalten.
 
-**TA-91**  
+**TA-90**  
 Die Open-Source-Lizenz ist in Abstimmung mit dem Auftraggeber auszuwählen (permissiv vs. Copyleft). Lizenz-Compliance ist sicherzustellen; die Nutzung von CLA und/oder DCO ist vorzusehen.
 
-**TA-92**  
+**TA-91**  
 Die Dokumentation muss Wiederverwendbarkeit sicherstellen und mindestens Installationsanleitung, Schnittstellenbeschreibung sowie Benutzer- und Administrationshandbuch umfassen; die Open-Source-Guidelines der Förderkulisse sind einzuhalten.
 
-**TA-93**  
+**TA-92**  
 Vendor-Lock-in ist zu vermeiden: Die Codebase muss portabel, frei von proprietären Geheimnissen und ohne nicht-offene Abhängigkeiten bereitgestellt werden.
 
-**TA-94**  
+**TA-93**  
 Code mit Datentausch-Funktionalität muss öffentliche Standards für den Austausch verwenden; eine Liste aller verwendeten Standards ist innerhalb der Codebase zu pflegen.
 
-**TA-95**  
+**TA-94**  
 Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen (z.B. Secret-Scanning, gesicherte Release-Pfade, Vieraugenprinzip).
 
-**TA-96**  
+**TA-95**  
 Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind, müssen diese aus den verfügbaren Daten nach dem LfU/TUM-Vorgehen selbst berechnet werden; der Fallback ist in der Pipeline zu berücksichtigen.
 
 ---
 
-<a id="26-bsi-grundschutz-bezug"></a>
+<a id="25-bsi-grundschutz-bezug"></a>
 
-## 26. BSI Grundschutz Bezug
+## 25. BSI Grundschutz Bezug
 
-**TA-97**  
+**TA-96**  
 Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz-Kompendiums orientieren. Für den Digitaler Energie Zwilling (DEZ) sind insbesondere folgende Bausteine einschlägig:
 
 - APP.3.1 Webanwendungen und Webservices
@@ -563,182 +555,208 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 
 ---
 
-<a id="27-offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
+<a id="26-offene-mvp-klaerung-solarthermie-pv-und-geothermie"></a>
 
-## 27. Offene MVP-Klärung: Solarthermie, PV und Geothermie
+## 26. Offene MVP-Klärung: Solarthermie, PV und Geothermie
 
-**TA-98**  
+**TA-97**  
 Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
 
-**TA-99**  
+**TA-98**  
 Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
 
-**TA-100**  
+**TA-99**  
 Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
 
-**TA-101**  
+**TA-100**  
 Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
 
-**TA-102**  
+**TA-101**  
 Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
 
-<a id="28-civitas-core-integration-praezisierungen"></a>
+<a id="27-civitas-core-integration-praezisierungen"></a>
 
-## 28. CIVITAS/CORE-Integration (Präzisierungen)
+## 27. CIVITAS/CORE-Integration (Präzisierungen)
 
-**TA-103**  
+**TA-102**  
 Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D Tiles) müssen ausschließlich über APISIX erfolgen; direkte öffentliche Zugriffe auf interne Dienste sind unzulässig.
 
-**TA-104**  
+**TA-103**  
 Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
 
-**TA-105**  
+**TA-104**  
 Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzelner Dienste oder Teilkomponenten unterstützen, sofern diese fachlich sinnvoll entkoppelbar sind.
 
-**TA-106**  
+**TA-105**  
 Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werden:
 
 - direkter Zugriff auf den externen S3-kompatiblen Datendienst hinter APISIX
 - Zugriff über ein optionales Tiles Gateway hinter APISIX
 
-**TA-107**  
+**TA-106**  
 Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich.
 
-**TA-108**  
+> **Begründung (technisch):** Der Link-Out ermöglicht eine performante, statische DEZ-Auslieferung, höhere Entkopplung im Betrieb (Verfügbarkeit/Release-Zyklus), DEZ-spezifische Consent-/Tracking-Logik sowie bessere Skalierbarkeit für die Nachnutzung in weiteren Kommunen.
+
+**TA-107**  
 Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen und muss über Cesium Tileset Styles (z.B. `Cesium3DTileStyle`) auf Basis der Effizienzklassen bzw. Ergebnisattribute steuerbar sein.
 
 ---
 
-<a id="29-api-client-generierung"></a>
+<a id="28-api-client-generierung"></a>
 
-## 29. API-Client-Generierung
+## 28. API-Client-Generierung
 
-**TA-109**  
+**TA-108**  
 Das Backend muss eine OpenAPI-3.0-Spezifikation als Source of Truth bereitstellen; die Spezifikation wird über die bestehenden Fastify-toab/OpenAPI-Mechanismen erzeugt.
 
-**TA-110**  
+**TA-109**  
 Der Frontend-API-Client muss aus der OpenAPI-3.0-Spezifikation mit `@hey-api/openapi-ts` generiert werden.
 
-**TA-111**  
+**TA-110**  
 Für den generierten Frontend-API-Client muss die React-Query-Erweiterung von `@hey-api/openapi-ts` genutzt werden, um typsichere Query- und Mutation-Hooks bereitzustellen.
 
-**TA-112**  
+**TA-111**  
 Im Frontend-Repository muss die Generator-Konfiguration zentral in `openapi-ts.config.ts` gepflegt werden.
 
-**TA-113**  
+**TA-112**  
 Als Eingabe für die Client-Generierung muss eine versionierte OpenAPI-Spezifikation im Pfad `openapi/openapi.json` verwendet werden.
 
-**TA-114**  
+**TA-113**  
 Der generierte API-Client-Code muss im Pfad `src/shared/api/generated/` abgelegt werden; manuelle Änderungen in generierten Dateien sind unzulässig.
 
-**TA-115**  
+**TA-114**  
 Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bereitgestellt werden:
 
 - `openapi:generate` zur Neugenerierung
 - `openapi:check` zur Prüfung, dass kein ungeprüfter Generierungs-Diff vorliegt
 
-**TA-116**  
+**TA-115**  
 Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-Layer erfolgen; direkte, untypisierte HTTP-Aufrufe für API-Endpunkte sind zu vermeiden.
 
 ---
 
-<a id="30-aktualisierung-der-basisdaten"></a>
+<a id="29-aktualisierung-der-basisdaten"></a>
 
-## 30. Aktualisierung der Basisdaten
+## 29. Aktualisierung der Basisdaten
 
-**TA-117**  
+**TA-116**  
 Der LOD2-Basisdatensatz muss mit einem Zielzyklus von zwei Jahren aktualisiert werden können.
 
-**TA-118**  
+**TA-117**  
 Solarpotenzial- und Geothermie-Basisdaten müssen unabhängig vom LOD2-Zyklus mit jeweils eigenen Aktualisierungszeiträumen aktualisierbar sein.
 
-**TA-119**  
+**TA-118**  
 Die Offline-Pipeline muss vollständig optionale, getrennte Aktualisierungsruns je Datendomäne unterstützen (mindestens: `lod2`, `solar`, `geothermie`, `full`).
 
-**TA-120**  
+**TA-119**  
 Ein Aktualisierungsrun einer Datendomäne darf keine obligatorische Neuberechnung oder Neuveröffentlichung nicht betroffener Datendomänen erzwingen.
 
-**TA-121**  
+**TA-120**  
 Für die Nachnutzung durch andere Kommunen muss die Pipeline so ausgelegt sein, dass Aktualisierungen je Datenquelle unabhängig voneinander konfiguriert, gestartet und validiert werden können.
 
 ---
 
-<a id="31-nachnutzung-und-white-labeling"></a>
+<a id="30-nachnutzung-und-white-labeling"></a>
 
-## 31. Nachnutzung und White-Labeling
+## 30. Nachnutzung und White-Labeling
 
-**TA-122**  
+**TA-121**  
 Das System muss ein konfigurierbares Kommunenprofil unterstützen, in dem mindestens Branding, Basemap-Quellen, Datenquellen-Endpunkte, Default-Parameter und Textbausteine kommunenspezifisch gepflegt werden können.
 
-**TA-123**  
+**TA-122**  
 Regensburg-spezifische Inhalte dürfen nicht hartcodiert in Kernkomponenten liegen, sondern müssen über das Kommunenprofil oder über austauschbare Konfigurationspakete gekapselt sein.
 
-**TA-124**  
+**TA-123**  
 Für die Offline-Datenpipeline muss ein kanonisches Zielschema für Gebäude-, Potenzial- und Adressattribute definiert werden, auf das kommunenspezifische Quellschemata gemappt werden.
 
-**TA-125**  
+**TA-124**  
 Für jede angebundene Kommune muss ein versioniertes Mapping-Profil (Quelle -> kanonisches Schema) vorliegen, inklusive Feldzuordnung, Einheiten, Transformationsregeln und Fallback-Strategien.
 
-**TA-126**  
+**TA-125**  
 CityGML Energy ADE muss als optionaler Eingabestandard unterstützt werden. Wenn Energy-ADE-Daten vorliegen, müssen diese vorrangig über das Mapping-Profil in das kanonische Schema überführt werden können.
 
-**TA-127**  
+**TA-126**  
 Wenn keine Energy-ADE-Daten vorliegen, muss das System über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) weiterhin lauffähig sein.
 
-**TA-128**  
+**TA-127**  
 Mapping-Ergebnisse müssen pro Attribut eine Herkunftskennzeichnung (Quelle, Transformationsregel, Mapping-Version) bereitstellen, damit Nachvollziehbarkeit und kommunenübergreifende Vergleichbarkeit sichergestellt sind.
 
-**TA-129**  
+**TA-128**  
 Mapping-Profile und Kommunenprofile müssen unabhängig voneinander versioniert, getestet und ausgerollt werden können, ohne die Kernlogik des Berechnungskerns zu ändern.
 
 ---
 
-<a id="32-festlegung-nutzungsdaten-und-tracking"></a>
+<a id="31-festlegung-nutzungsdaten-und-tracking"></a>
 
-## 32. Festlegung: Nutzungsdaten und Tracking
+## 31. Festlegung: Nutzungsdaten und Tracking
 
-**TA-130**  
+**TA-129**  
 Für Nutzungsanalysen ist Matomo verbindlich als Analytics-Lösung einzusetzen.
 
-**TA-131**  
+**TA-130**  
 Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in aktiviert werden.
 
-**TA-132**  
+**TA-131**  
 Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein.
 
-**TA-133**  
+**TA-132**  
 Tracking-Funktionen müssen ohne gültiges Opt-in standardmäßig deaktiviert bleiben.
 
 ---
 
-<a id="33-single-point-of-truth-fuer-basisdaten"></a>
+<a id="32-single-point-of-truth-fuer-basisdaten"></a>
 
-## 33. Single Point of Truth für Basisdaten
+## 32. Single Point of Truth für Basisdaten
 
 **Hinweis (SoT):** Für Basisdaten bedeutet Single Point of Truth die eindeutige Kombination aus **Quell-Datensatzversion**, **Mapping-Profil-Version** und **veröffentlichtem Release-Manifest**.
 
-**TA-134**  
+**TA-133**  
 Basisdaten müssen je Kommune über einen versionierten Quellnachweis (Datensatz-ID, Quelle, Zeitpunkt, Prüfsumme, EPSG) geführt werden.
 
-**TA-135**  
+**TA-134**  
 Die Transformation von LOD2- und Ergänzungsdaten in 3D Tiles muss ausschließlich über ein versioniertes Mapping-Profil erfolgen.
 
-**TA-136**  
+**TA-135**  
 Für die Laufzeit muss je Kommune ein veröffentlichtes Release-Manifest den aktiven Stand der Basisdaten eindeutig festlegen.
 
-**TA-137**  
+**TA-136**  
 Jeder abgeleitete Basisdatenwert in 3D Tiles muss provenance-fähig auf Quellversion, Mapping-Version und Transformationszeitpunkt rückführbar sein.
 
-**TA-138**  
+**TA-137**  
 Teil-Updates dürfen nur den betroffenen Daten-Scope neu veröffentlichen; der aktive Stand nicht betroffener Scopes muss unverändert gültig bleiben.
 
-**TA-139**  
+**TA-138**  
 Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Kommunen erfolgt über getrennte Deployments und nicht über gleichzeitige Mehrkommunen-Nutzung innerhalb derselben Instanz.
+
+---
+
+<a id="33-datenquellen-metadaten"></a>
+
+## 33. Datenquellen-Metadaten
+
+**TA-139**  
+Für jede in der DEZ verwendete Datenquelle müssen verbindlich die Metadaten `data_owner`, `license` und `distribution` ausgewiesen werden.
+
+**TA-140**  
+Die Felder `data_owner`, `license` und `distribution` müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
+
+**TA-141**  
+Die Verantwortung für Datenverantwortung sowie Bereitstellung und Pflege der Metadaten (`data_owner`, `license`, `distribution`) liegt beim jeweiligen Betreiber der DEZ-Plattform.
+
+---
+
+<a id="34-abnahmeprozess-und-ansprechpartner"></a>
+
+## 34. Abnahmeprozess und Ansprechpartner
+
+**TA-142**  
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt.
 
 ---
 

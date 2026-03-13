@@ -40,6 +40,16 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
 
+Verpflichtende Metadaten je Datenquelle:
+
+- `data_owner`: verantwortliche Stelle/Organisation der Quelle
+- `license`: Lizenz- bzw. Nutzungsrechtshinweis der Quelle
+- `distribution`: Verteilungs-/Nutzungsfreigabe (z.B. `public`, `internal`, `restricted`)
+
+Diese Metadaten sind für alle in DEZ verwendeten Quellen verbindlich zu führen (siehe TA-139 bis TA-141).
+Die Veröffentlichung gegenüber Nutzern erfolgt über die Datenschutzhinweise der DEZ-Webseite.
+Die Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
+
 Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme (Warmwasser-Unterstützung) fachlich gewünscht, aber aktuell nachrangig priorisiert; der MVP-Umfang bleibt in Klärung.
 
 Beispiele für Datenherkünfte und Referenzen:
@@ -96,7 +106,7 @@ Beispiele für Datenherkünfte und Referenzen:
 ### Externer Zugriff (außerhalb UDP/CIVITAS/CORE)
 
 - Direkter externer Zugriff auf den Datendienst ist nicht vorgesehen.
-- Externe Zugriffe auf 3D Tiles erfolgen ausschließlich über APISIX (TA-103):
+- Externe Zugriffe auf 3D Tiles erfolgen ausschließlich über APISIX (TA-102):
   - entweder APISIX -> Datendienst (direct mode)
   - oder APISIX -> Tiles Gateway -> Datendienst (optional mode)
 - Externe Zugriffe sind auf veröffentlichte Read-Pfade zu begrenzen; Schreibzugriffe auf den Datendienst bleiben interne Betriebsfunktionen.
@@ -156,7 +166,7 @@ Beispiele für Datenherkünfte und Referenzen:
 6. **Paralleler Export** in zwei Branches:
    - CityJSON → 3D Tiles
    - CityJSON → CityGML
-7. **Upload** der erzeugten Artefakte und Metadaten in den externen Datendienst.
+7. **Upload** der erzeugten Artefakte in den externen Datendienst.
 
 ---
 
@@ -221,6 +231,8 @@ Task-Reihenfolge je `job_id`:
   Veröffentlichtes Release-Manifest mit Referenzen auf die aktive Quell-Datensatzversion, `mapping_profile_version` und die auszuliefernden Artefaktpfade.
 
 > ⚠️ **Hinweis:** Es gibt **keine Versionierung** im Datendienst; alte Daten müssen manuell entfernt werden.
+> Persistenz wird in der Datenbank umgesetzt; der Datendienst dient als Artefaktablage.
+> Backup/Restore von Datenbank und Datendienst erfolgt durch den Betreiber der DEZ-Plattform.
 > Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Secrets-Management; keine Tokens im Code oder in Logs.
 
 ### Eingaben

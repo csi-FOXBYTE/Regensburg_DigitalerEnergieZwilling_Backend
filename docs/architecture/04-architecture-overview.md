@@ -87,7 +87,7 @@ Kernprinzipien:
 - Pro Deployment bedient eine DEZ-Instanz genau eine Kommune; weitere Kommunen werden über getrennte Deployments angebunden.
 
 Damit kann dieselbe Plattform für weitere Kommunen und angrenzende Use Cases betrieben werden,
-ohne die Systemarchitektur pro Kommune neu aufzubauen (vgl. TA-122 bis TA-129).
+ohne die Systemarchitektur pro Kommune neu aufzubauen (vgl. TA-121 bis TA-128).
 
 ---
 
@@ -96,7 +96,7 @@ ohne die Systemarchitektur pro Kommune neu aufzubauen (vgl. TA-122 bis TA-129).
 
 Security by Design wird nicht als separates Add-on verstanden, sondern als feste Architekturinvariante:
 
-- **Single Entry Point**: Externe Zugriffe erfolgen ausschließlich über APISIX; interne Dienste sind nicht direkt öffentlich erreichbar (TA-103, TA-59).
+- **Single Entry Point**: Externe Zugriffe erfolgen ausschließlich über APISIX; interne Dienste sind nicht direkt öffentlich erreichbar (TA-102, TA-59).
 - **Trust-Boundary Public/Admin**: Öffentliche und administrative Pfade sind technisch getrennt; Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert (TA-02, TA-04, TA-09).
 - **Missbrauchsschutz bei Public Write**: Altcha, Rate Limiting, serverseitige Validierung und Server-Recompute wirken als kombinierte Schutzkette (TA-47 bis TA-51, TA-62).
 - **Datenminimierung und Angriffsflächenreduktion**: Statische Potenziale liegen in Tiles statt in der Datenbank; das Backend liefert keine großen Tile-Daten aus (TA-14, TA-38).

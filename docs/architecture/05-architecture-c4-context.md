@@ -71,7 +71,7 @@ Sicherheitsrelevante Konsequenzen:
 - Keine direkte öffentliche Exponierung interner Services.
 - Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt (Challenge, Rate Limiting, Validierung, Verifikation).
 
-Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-103.
+Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-102.
 
 ---
 

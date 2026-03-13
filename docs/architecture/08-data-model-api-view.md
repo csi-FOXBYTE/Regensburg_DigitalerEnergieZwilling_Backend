@@ -87,6 +87,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
   - Einheiten- und Wertebereichstransformationen
   - Fallback-Regeln bei fehlenden Quellfeldern
   - Herkunftsinformationen (Quelle, Mapping-Version, Transformationsregel)
+- Quellen-Metadaten (`data_owner`, `license`, `distribution`) werden durch den Betreiber der DEZ-Plattform gepflegt und in den Datenschutzhinweisen der DEZ-Webseite veröffentlicht.
 - Regensburg-spezifische Felder, Texte oder Klassifikationen sind als Profilinhalt zu behandeln und nicht als implizite Kernannahme.
 
 ### Optionale CityGML Energy ADE Einbindung
@@ -197,7 +198,7 @@ Security by Design wird in Datenmodell und API-Vertrag explizit verankert:
 - **Konfigurationsintegrität**: Versionierte Snapshots und Checksummen sichern Reproduzierbarkeit und Änderungsnachvollziehbarkeit.
 - **Zugriffsmodell**: OIDC-geschützte Admin-Endpunkte, getrennt von öffentlichen Endpunkten.
 
-Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-81 bis TA-84, TA-43 bis TA-46 sowie TA-58 bis TA-64.
+Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, TA-43 bis TA-46 sowie TA-58 bis TA-64.
 
 ---
 
