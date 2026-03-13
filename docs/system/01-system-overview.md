@@ -116,6 +116,15 @@ Die Integration in das MasterPortal erfolgt im MVP ausschließlich als **Link-Ou
 - Es besteht **keine** gemeinsame Session oder SSO-Kopplung zwischen MasterPortal und DEZ.
 - Datenhaltung, Berechnung und Persistenz verbleiben vollständig innerhalb der DEZ-Architektur.
 
+Warum der DEZ als separate Applikation verlinkt wird:
+
+- **Niedrigschwelliger Zugang**: Direkte DEZ-URL ohne Vorwissen über Struktur und Navigation des Geo-/Masterportals.
+- **Auffindbarkeit und Kampagnenfähigkeit**: Eigenständige Landingpages sind besser indexierbar und einfacher für Kommunikation/Öffentlichkeitsarbeit nutzbar.
+- **Bessere UX-Steuerung**: Einstieg, Funnel, Hinweise, Fehlermeldungen und Hilfetexte können DEZ-spezifisch geführt werden.
+- **Direktes Teilen**: Links und QR-Codes aus PDF, Mailings, Presse oder Social Media funktionieren ohne Portal-Umweg.
+- **Datenschutz/Analytics getrennt steuerbar**: Consent- und Tracking-Regeln können unabhängig vom Geo-/Masterportal DEZ-spezifisch umgesetzt werden.
+- **Barrierefreiheit**: BITV-orientierte Optimierungen können direkt in der DEZ-Oberfläche umgesetzt und getestet werden.
+
 ---
 
 <a id="datenhaltung-und-datenfluss"></a>

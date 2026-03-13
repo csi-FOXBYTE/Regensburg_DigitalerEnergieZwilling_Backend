@@ -164,4 +164,11 @@ Die Architektur ist bewusst so gestaltet, dass:
 - Datenschutz- und Sicherheitsanforderungen frühzeitig berücksichtigt werden
 - die Integration in das MasterPortal im MVP als reiner Link-Out auf den öffentlichen DEZ-Client umgesetzt werden kann (ohne API- oder SSO-Kopplung)
 
+Architekturgründe für den separaten DEZ-Betrieb mit Link-Out:
+- **Performanz**: Schlanke, statische DEZ-Auslieferung ohne Laufzeit-Overhead einer tiefen Portalintegration.
+- **Verfügbarkeit**: DEZ kann unabhängig vom Geo-/Masterportal betrieben und bereitgestellt werden.
+- **Unabhängiger Release-Zyklus**: DEZ-Änderungen und Fixes sind ohne gekoppelte Portal-Deployments ausrollbar.
+- **Betriebliche Entkopplung von Consent/Tracking**: DEZ-spezifische Datenschutz- und Analytics-Logik bleibt isoliert steuerbar.
+- **Skalierbarkeit/Nachnutzung**: Das eigenständige Deployment-Modell lässt sich für weitere Kommunen einfacher wiederverwenden.
+
 Die folgenden Kapitel vertiefen die Architektur auf Container- und Komponentenebene sowie die Datenpipeline im Detail.
