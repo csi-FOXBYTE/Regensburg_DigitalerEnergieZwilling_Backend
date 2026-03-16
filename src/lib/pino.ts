@@ -1,7 +1,7 @@
-import { pino } from "pino";
 import { formatWithOptions } from "node:util";
+import { LoggerOptions, pino } from "pino";
 
-export const loggerOptions = {
+export const loggerOptions: LoggerOptions = {
   transport: {
     target: "pino-pretty",
     options: {
@@ -11,7 +11,7 @@ export const loggerOptions = {
   },
 };
 
-export const logger = pino(loggerOptions);
+export const logger = pino(process.env.NODE_ENV === "development" ? loggerOptions : undefined); // only log to pino-pretty when in dev mode.
 
 export function injectPinoLogger(pinoLogger = logger) {
   const write = (
