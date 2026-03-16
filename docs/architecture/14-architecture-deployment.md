@@ -23,6 +23,7 @@ angebunden werden.
 - CIVITAS/CORE orchestriert die Container (Backend Add-on, Airflow, Pipeline-Container).
 - Der Web-Zugang erfolgt über APISIX als Web/API-Gateway.
 - Statische Frontend-Assets und veröffentlichte Konfigurations-Snapshots werden getrennt ausgeliefert.
+- Container sind für den Kubernetes-Regelbetrieb ausgelegt: Health-Checks steuern den automatischen Wiederanlauf, Logs gehen auf `stdout`/`stderr`.
 - 3D Tiles liegen im externen Datendienst (S3-kompatibel) und werden über APISIX bereitgestellt:
   - entweder direkt aus dem Datendienst
   - oder über ein optionales Tiles Gateway

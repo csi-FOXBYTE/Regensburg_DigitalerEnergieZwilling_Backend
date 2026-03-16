@@ -97,12 +97,14 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Observability**: strukturierte Logs, Metriken und verteilte Traces.  
   Pflichtmetriken: Request-Rate, Fehlerquote, Latenzen (p50/p95/p99), Queue-Längen, Pipeline-Stage-Dauer, Erfolgsrate je `job_id`.
+- **Log-Erfassung**: Container schreiben standardmäßig auf `stdout`/`stderr`; Promtail oder Grafana Alloy können diese Streams direkt von der Kubernetes-Plattform einsammeln.
 - **Backup/Recovery**:  
   Datenbank-Backup täglich, Aufbewahrung 30 Tage.  
   Konfigurations-Snapshots im Objekt-Storage versioniert durch Pfad/Job-Ordner.  
   3D Tiles werden im Datendienst gesichert, Lifecycle-Regeln nach Speicherbedarf.
 - **Runbooks**:  
   API-Ausfall, Auth/OIDC-Probleme, Pipeline-Fehler, Datenkorruption, Rollback einer Konfigurationsversion, Wiederanlauf nach Teilfehlern.
+- **Wiederanlauf**: Fällt ein Container bei Liveness- oder Readiness-Problemen aus dem Regelbetrieb, übernimmt Kubernetes den automatischen Neustart; Runbooks behandeln die Fehleranalyse und die Wiederaufnahme fachlicher Prozesse.
 
 ---
 

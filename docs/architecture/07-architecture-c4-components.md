@@ -210,6 +210,7 @@ Aufgaben:
 - Logging
 - Metriken
 - Tracing
+- Einsammeln von Container-Logs aus `stdout`/`stderr` über die Kubernetes-Logging-Pipeline
 
 ---
 

@@ -96,6 +96,8 @@ Quelle: `raw/frontend-architecture.puml`
 - API-Client und Hooks werden aus der OpenAPI-3.0-Spezifikation generiert (`@hey-api/openapi-ts` + React-Query-Erweiterung).
 - Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert.
 - Statische Assets sind cachefähig, dynamische Daten kommen über APIs.
+- Die Laufzeit-Auslieferung erfolgt über nginx; Logging wird über den nginx-Standard-Logger auf `stdout`/`stderr` ausgegeben.
+- Requests auf statische Assets, die keine HTML-Dateien sind, werden in diesem Setup nicht geloggt.
 
 Begriff: **Island-Architektur** bezeichnet in Astro die Kombination aus statischem HTML und gezielt eingebundenen interaktiven Islands.
 
@@ -110,4 +112,3 @@ Begriff: **Island-Architektur** bezeichnet in Astro die Kombination aus statisch
 - Generierungsskript: `pnpm openapi:generate`.
 - Konsistenzprüfung in CI: `pnpm openapi:check` (Build schlägt fehl bei ungeprüftem Diff).
 - Nutzung in der UI: API-Zugriffe über generierte React-Query-Hooks statt ad-hoc-HTTP-Calls.
-

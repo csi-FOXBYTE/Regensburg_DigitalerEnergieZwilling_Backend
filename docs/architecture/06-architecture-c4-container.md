@@ -83,6 +83,7 @@ Aufgaben:
 - Darstellung von Ergebnissen und Potenzialen
 
 Die Generierung erfolgt zur Build-Zeit mit **Astro SSG**, zur Laufzeit existiert keine serverseitige Renderlogik.
+Das Laufzeit-Logging erfolgt über den nginx-Standard-Logger auf `stdout`/`stderr`; Requests auf nicht-HTML-Assets werden dabei nicht protokolliert.
 
 ---
 
@@ -96,6 +97,7 @@ Aufgaben:
 - Triage und Qualitätssicherung von Nutzereingaben
 
 Die Generierung erfolgt zur Build-Zeit mit **Astro SSG**, zur Laufzeit existiert keine serverseitige Renderlogik.
+Das Laufzeit-Logging erfolgt über den nginx-Standard-Logger auf `stdout`/`stderr`; Requests auf nicht-HTML-Assets werden dabei nicht protokolliert.
 
 ---
 
@@ -108,6 +110,7 @@ Aufgaben:
 - Authentifizierung und Autorisierung auf Basis von Token-Claims und Rollen (z.B. `admin`)
 - Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
+- Strukturiertes Logging über Pino/Fastify auf `stdout`/`stderr`
 - Administrative Triage-Funktionen
 - Optionale serverseitige Berechnung
 

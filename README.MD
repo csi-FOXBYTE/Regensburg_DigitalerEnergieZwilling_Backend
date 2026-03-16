@@ -139,6 +139,8 @@ curl -i http://localhost:5000/api/admin/test/ \
 - `console.log/info/warn/error/debug` werden auf Pino gemappt.
 - Mehrere `console`-Argumente werden zusammengefuehrt; `Error` wird als `err` strukturiert geloggt.
 - Fastify nutzt dieselbe Logger-Instanz ueber `loggerInstance`.
+- Das Backend schreibt seine Logs ausschliesslich auf `stdout`/`stderr`; das passt zum Container-Betrieb unter Kubernetes.
+- Container-Logs können dadurch direkt von Promtail oder Grafana Alloy eingesammelt werden.
 
 ## Fehlerformat
 
@@ -160,7 +162,7 @@ Im Development kann zusaetzlich `stack` enthalten sein.
 
 ## Dokumentation (fachlich/architektonisch)
 
-Ausfuehrliche System- und Architekturdocs liegen unter:
+Ausführliche System- und Architekturdocs liegen unter:
 
 - `docs/README.md`
 - `docs/system/*`

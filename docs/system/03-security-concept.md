@@ -142,6 +142,9 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 - Protokollierung von Nutzeraktionen, Systemprozessen und Fehlerereignissen.
 - Maschinenlesbare Logs mit Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL).
+- Container schreiben Logs standardmäßig auf `stdout`/`stderr`; die zentrale Aggregation erfolgt über die Kubernetes-Plattform.
+- Das Backend nutzt Pino als strukturierten Standard-Logger von Fastify.
+- Die statischen Frontends nutzen den Standard-Logger von nginx; Requests auf nicht-HTML-Assets werden dabei nicht protokolliert.
 - Audit-Logs für Admin-Aktionen inkl. Zeitstempel und Benutzerkennung.
 
 ---
@@ -172,3 +175,4 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 - Zuständigkeiten für Betrieb und Support sind dokumentiert.
 - Sicherheitsvorfälle werden klassifiziert, priorisiert und nachvollziehbar dokumentiert.
+- Fällt ein Container wegen eines Health-Fehlers aus, erfolgt der Wiederanlauf im Regelbetrieb automatisiert über Kubernetes.

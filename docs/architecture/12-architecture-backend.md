@@ -110,6 +110,7 @@ Quelle: `raw/backend-architecture.puml`
 
 - Konfiguration über Umgebungsvariablen und Configs, keine Hardcodierung.
 - Logs ausschließlich über `stdout`/`stderr`, keine Pflicht-Logfiles.
+- Backend-Logging erfolgt über Pino als Standard-Logger von Fastify.
 - Nicht-root Benutzer und minimale Rechte (keine unnötigen Capabilities).
 - Read-only Root-Filesystem, wenn möglich; schreibbare Pfade explizit definieren.
 - Sauberes Signal-Handling (z.B. `SIGTERM`) für Graceful Shutdown.
@@ -118,6 +119,7 @@ Quelle: `raw/backend-architecture.puml`
   - `GET /healthz/ready` (Readiness)
 - Ressourcenangaben für CPU/Memory (Requests/Limits) sind vorgesehen.
 - Keine lokale Persistenz: Zustand liegt in externen Diensten.
+- Fällt der Container im Regelbetrieb aufgrund fehlgeschlagener Health-Checks aus, erfolgt der Neustart standardmäßig über Kubernetes.
 
 ---
 
