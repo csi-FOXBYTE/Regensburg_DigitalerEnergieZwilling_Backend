@@ -103,6 +103,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
 - Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
 - Notwendiger Cookie für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und Matomo-Tracking.
+- Hinweise zu `data_owner`, `license` und `distribution` der verwendeten Datenquellen werden in den Datenschutzhinweisen der DEZ-Webseite ausgewiesen; Verantwortung für Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
 
 ### Tracking-Strategie (verbindliche Festlegung)
@@ -111,7 +112,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Tracking und Analytics dürfen ausschließlich nach explizitem Opt-in aktiviert werden.
 - Ohne gültiges Opt-in bleiben Tracking-Funktionen standardmäßig deaktiviert.
 - Vor produktiver Aktivierung sind Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich zu dokumentieren und freizugeben.
-- Diese Leitplanken konkretisieren insbesondere FA-115 bis FA-117 sowie TA-130 bis TA-133.
+- Diese Leitplanken konkretisieren insbesondere FA-115 bis FA-117 sowie TA-129 bis TA-132.
 
 ---
 
@@ -173,6 +174,6 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 ## Betrieb und Incident-Handling
 
-- Zuständigkeiten für Betrieb und Support sind dokumentiert.
+- Zuständigkeiten für Betrieb und Support sind separat dokumentiert.
 - Sicherheitsvorfälle werden klassifiziert, priorisiert und nachvollziehbar dokumentiert.
 - Fällt ein Container wegen eines Health-Fehlers aus, erfolgt der Wiederanlauf im Regelbetrieb automatisiert über Kubernetes.

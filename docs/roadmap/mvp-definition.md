@@ -1,6 +1,6 @@
 # MVP-Definition und Release-Aufteilung
 
-Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei separate Releases.
+Dieses Dokument definiert den geplanten MVP-Umfang, dessen Aufteilung in vier Releases sowie die anschließende Inbetriebnahmephase.
 
 ---
 
@@ -8,20 +8,24 @@ Dieses Dokument definiert den geplanten MVP-Umfang und dessen Aufteilung in drei
 
 1. [Zielbild MVP](#zielbild-mvp)
 2. [Roadmap-Diagramm (PlantUML)](#roadmap-diagramm-plantuml)
-3. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
-4. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
-5. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen](#release-3)
-6. [Phase 4 (außerhalb/nach MVP)](#phase-4-ausserhalb-nach-mvp)
+3. [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf)
+4. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
+5. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
+6. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase](#release-3)
+7. [Release 4 - Erweiterungen und Stabilisierung](#release-4)
+8. [Inbetriebnahme](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
 
 ## Zielbild MVP
 
-Der MVP wird in drei aufeinander aufbauenden Releases umgesetzt:
+Der MVP wird in vier aufeinander aufbauenden Releases umgesetzt und durch eine anschließende Inbetriebnahmephase abgeschlossen:
 
-1. **Release 1:** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
-2. **Release 2 (primär Hauptzielgruppe (Bürger/Eigentümer/Vermieter)):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
-3. **Release 3 (primär Nebenzielgruppe (Stadtverwaltung/Fachpersonal)):** Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
+1. **Release 1 (02.03.2026 bis 15.03.2026):** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
+2. **Release 2 (16.03.2026 bis 12.04.2026):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
+3. **Release 3 (13.04.2026 bis 10.05.2026):** Verwaltungsbereich + Datenfreigabe/Wärmeplanung + Beginn der Testphase mit externen Testern
+4. **Release 4 (11.05.2026 bis 18.06.2026):** Erweiterungen und Stabilisierung
+5. **Inbetriebnahme (19.06.2026 bis 24.07.2026):** Rollout- und Übergangsphase in den Regelbetrieb
 
 ---
 
@@ -35,9 +39,21 @@ Quelle: `raw/mvp-roadmap.puml`
 
 ---
 
+<a id="roadmap-pflege-und-aenderungsverlauf"></a>
+
+## Roadmap-Pflege und Änderungsverlauf
+
+- Bei jedem Sprintwechsel wird die Roadmap geprüft.
+- Eine Anpassung der Roadmap erfolgt bei Bedarf (optional), wenn sich Prioritäten, Abhängigkeiten oder Umsetzungsrisiken geändert haben.
+- Jede Änderung wird als Verlaufseintrag dokumentiert, damit Entscheidungen und Planänderungen nachvollziehbar bleiben.
+
+---
+
 <a id="release-1-plattformaufbau"></a>
 
 ## Release 1 - Plattformaufbau
+
+**Entwicklungszeitraum:** 02.03.2026 bis 15.03.2026
 
 Ziel: Technische Basis in CIVITAS/CORE bereitstellen und Datenverfügbarkeit für den weiteren Ausbau schaffen.
 
@@ -59,6 +75,8 @@ Ergebnis:
 <a id="release-2"></a>
 
 ## Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD
+
+**Entwicklungszeitraum:** 16.03.2026 bis 12.04.2026
 
 Ziel: Primärfunktionen für die Hauptzielgruppe bereitstellen und den ersten nutzbaren End-to-End-Flow ermöglichen.
 
@@ -84,7 +102,9 @@ Ergebnis:
 
 <a id="release-3"></a>
 
-## Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Abschlussfunktionen
+## Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase
+
+**Entwicklungszeitraum:** 13.04.2026 bis 10.05.2026
 
 Ziel: Primärfunktionen für die Nebenzielgruppe bereitstellen; zusätzlich die für Datenfreigabe und Wärmeplanung sowie Abschluss des MVP erforderlichen Querschnittsfunktionen umsetzen.
 
@@ -98,6 +118,7 @@ Umfang:
 - Konfiguration der Sanierungsmaßnahmen.
 - Dedizierte Abfrage- und Darstellungslogik für Wärmeplanungsdaten.
 - Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal.
+- Beginn der Testphase mit externen Testern.
 
 Ergebnis:
 
@@ -105,13 +126,25 @@ Ergebnis:
 
 ---
 
-<a id="phase-4-ausserhalb-nach-mvp"></a>
+<a id="release-4"></a>
 
-## Phase 4 (außerhalb/nach MVP)
+## Release 4 - Erweiterungen und Stabilisierung
 
-Folgende Themen werden für die verbleibende Entwicklungsdauer außerhalb bzw. nach der MVP-Phase eingeplant:
+**Entwicklungszeitraum:** 11.05.2026 bis 18.06.2026
+
+Folgende Themen werden in der verbleibenden Entwicklungsdauer umgesetzt:
 
 - Darstellung der Amortisation.
 - Implementierung der Feedback-Funktion.
 - Einfärben von Gebäuden in der 3D-Ansicht.
 - Quartiersanalyse (Vergleich mit Gebiet/Stadt).
+
+---
+
+<a id="inbetriebnahme"></a>
+
+## Inbetriebnahme
+
+**Zeitraum:** 19.06.2026 bis 24.07.2026
+
+In dieser Phase erfolgt die Inbetriebnahme einschließlich Rollout und Übergang in den Regelbetrieb.

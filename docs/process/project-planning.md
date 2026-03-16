@@ -8,7 +8,8 @@ Dieses Dokument fasst Planungs- und Backlog-Notizen aus dem UX/UI-Board zusammen
 
 1. [Sprint 1 – Vorschlag](#sprint-1-vorschlag)
 2. [Backlog-Struktur (Entwurf)](#backlog-struktur-entwurf)
-3. [Offene Punkte / Klärungsbedarf](#offene-punkte-klaerungsbedarf)
+3. [Testing (vereinbart)](#testing-vereinbart)
+4. [Offene Punkte / Klärungsbedarf](#offene-punkte-klaerungsbedarf)
 
 <a id="sprint-1-vorschlag"></a>
 ## Sprint 1 – Vorschlag
@@ -38,10 +39,18 @@ Dieses Dokument fasst Planungs- und Backlog-Notizen aus dem UX/UI-Board zusammen
 
 ---
 
+<a id="testing-vereinbart"></a>
+## Testing (vereinbart)
+
+- Unit-Tests werden dort umgesetzt, wo sie sinnvoll sind: im Backend, im Berechnungskern und in den Konvertern.
+- Für das Frontend sind keine Unit-Tests vorgesehen.
+- Integrationstests finden nachgelagert statt.
+
+---
+
 <a id="offene-punkte-klaerungsbedarf"></a>
 ## Offene Punkte / Klärungsbedarf
 
 - Welche Daten liegen aktuell vor, welche fehlen oder kommen später?
 - Wie soll die Integration mit dem Geoportal erfolgen (Modul vs. separater Client)?
 - MVP-Umfang und Priorisierung (jetzt vs. später).
-- Testing-Strategie und Verantwortlichkeiten.

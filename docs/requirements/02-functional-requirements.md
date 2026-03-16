@@ -11,8 +11,9 @@
 7. [Offene MVP-Klärung: Solarthermie, PV und Geothermie](#offene-mvp-klaerung-solarthermie-pv-und-geothermie)
 8. [Nachnutzung und White-Labeling](#nachnutzung-und-white-labeling)
 9. [Festlegung: Nutzungsdaten und Tracking](#festlegung-nutzungsdaten-und-tracking)
-10. [Priorisierung (implizit)](#priorisierung-implizit)
-11. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
+10. [Abnahmeprozess und Ansprechpartner](#abnahmeprozess-und-ansprechpartner)
+11. [Priorisierung (implizit)](#priorisierung-implizit)
+12. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
 
 <a id="ziel-der-fachlichen-anforderungen"></a>
 
@@ -509,6 +510,8 @@ Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in fol
 **FA-105**  
 Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstiegspunkt erreichbar sein; hierfür muss im MasterPortal mindestens ein Link auf die DEZ-Plattform bereitgestellt werden.
 
+> **Begründung (fachlich):** Der Link-Out unterstützt einen niedrigschwelligen Zugang per direkter URL, bessere Auffindbarkeit (inkl. Landingpages), direktes Teilen per Link/QR sowie eine DEZ-spezifische Nutzerführung.
+
 ---
 
 <a id="nachnutzung-und-white-labeling"></a>
@@ -556,6 +559,15 @@ Nutzungsdatenanalysen dürfen fachlich nur nach expliziter Einwilligung (Opt-in)
 
 **FA-117**  
 Der konkrete fachliche Umfang für Tracking (Metriken, Auswertungsziele, Berichtskreise) ist vor produktiver Aktivierung verbindlich festzulegen.
+
+---
+
+<a id="abnahmeprozess-und-ansprechpartner"></a>
+
+## Abnahmeprozess und Ansprechpartner
+
+**FA-118**  
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Projektleiter als Ansprechpartner benannt.
 
 ---
 

@@ -191,7 +191,7 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 | 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
 
-Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-103 sowie den BSI-Bezug aus TA-97 ab.
+Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-102 sowie den BSI-Bezug aus TA-96 ab.
 
 ---
 
