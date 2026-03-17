@@ -7,10 +7,10 @@ import {
   ServiceRegistry,
   WorkerRegistry,
 } from "@csi-foxbyte/fastify-toab";
-import auth_auth$service from "./auth/auth.service.js";
-import database_database$service from "./database/database.service.js";
-import auth_auth$controller from "./auth/auth.controller.js";
-import test_test$controller from "./test/test.controller.js";
+import auth_auth$service from "../auth/auth.service.js";
+import database_database$service from "../database/database.service.js";
+import auth_auth$controller from "../auth/auth.controller.js";
+import test_test$controller from "../test/test.controller.js";
 
 let serviceRegistry: ServiceRegistry | null = null;
 let workerRegistry: WorkerRegistry | null = null;

@@ -1,19 +1,16 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "rg-dez-backend",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "oxlint && eslint",
-    "dev": "tsx dev.ts",
-    "build": "tsx build.ts",
+    "dev": "fastify-toab dev",
+    "build": "fastify-toab build",
     "jwt:dev": "node scripts/create-dev-jwt.mjs",
     "zenstack:generate": "zenstack generate --schema src/zenstack/schema.zmodel"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
@@ -24,7 +21,7 @@
   "dependencies": {
     "@bull-board/api": "^6.15.0",
     "@bull-board/fastify": "^6.15.0",
-    "@csi-foxbyte/fastify-toab": "^0.1.8",
+    "@csi-foxbyte/fastify-toab": "0.2.0-rc.0",
     "@fastify/http-proxy": "^11.4.1",
     "@fastify/multipart": "^9.3.0",
     "@fastify/otel": "^0.16.0",
