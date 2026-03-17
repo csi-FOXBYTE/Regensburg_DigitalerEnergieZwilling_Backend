@@ -132,10 +132,21 @@ Bei hoher manueller Eingabetiefe müssen detaillierte Eingaben möglich sein; F�
 
 Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
+Die aktualisierte Arbeitsmappe bestätigt das fachliche Ziel eines **stufenlosen Eingabetiefe-Spektrums**.
+Die Begriffe **Datenstufe 1** und **Datenstufe 2** bezeichnen dabei ausschließlich die beiden fachlichen Referenz-Enden dieses Spektrums und **keine festen UI-Stufen**.
+
 Interpretation für dieses Dokument:
 
-- Datenstufe 1 = unteres Ende des Spektrums (keine Nutzereingabe, nur LOD2/Katalog/Standardannahmen).
-- Datenstufe 2 = oberes Ende des Spektrums (maximale Nutzereingabe, inkl. Überschreibungen und Detailparameter).
+- **Datenstufe 1** = keine Nutzereingabe; alle für die Berechnung verwendeten Kennwerte werden aus Basisdaten, Katalogwerten und Standardannahmen abgeleitet.
+- **Datenstufe 2** = volle Nutzereingabe; alle dafür freigegebenen Werte wurden durch den Nutzer angepasst oder überschrieben.
+- Alle Zwischenstände sind als kontinuierliche Kombination aus automatisch abgeleiteten und manuell überschriebenen Werten zu verstehen.
+
+Für die fachliche Modellierung bedeutet das:
+
+- Das System startet immer mit automatisch vorbelegten Werten.
+- Nutzer wählen keine feste Datenstufe aus.
+- Mit jeder zusätzlichen Eingabe verschiebt sich die Berechnung entlang des Spektrums in Richtung höherer Individualisierung.
+- Nicht alle internen Rechengrößen sind Nutzereingaben; editierbar sind nur die fachlich freigegebenen Werte.
 
 | Domäne                      | Unteres Ende (keine Nutzereingabe)                                                   | Oberes Ende (maximale Nutzereingabe)                                                            | Geplante Sanierungsmaßnahmen                                                           |
 | --------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
@@ -155,6 +166,7 @@ Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unkla
 - Im Blatt `Heizung` steht für mehrere Kombinationen nur "Sanierungsempfehlung", ohne nachvollziehbare Entscheidungsregel.
 - Im Blatt `Heizung` ist der Fall `Fernwärme` nicht durchgängig mit konkreter Maßnahmenlogik ausgearbeitet.
 - Im Blatt `Kat. 2 Heizung` sind einzelne Bezeichnungen/Zeichen fehlerhaft oder uneinheitlich und müssen bereinigt werden, bevor sie als Normkatalog in die produktive Konfiguration übernommen werden.
+- Die neue Arbeitsmappe enthält zusätzlich zentrale Struktur- und Rechenblätter (`Grobkonzept`, `Berechnungen`), die vor finaler Fachfreigabe noch systematisch gegen das Zielbild der Dokumentation abzugleichen sind.
 
 ---
 

@@ -481,9 +481,17 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 
 Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
-- Datenstufe 1 ist technisch als Vollautomatikmodus ohne Nutzereingabe umzusetzen.
-- Datenstufe 2 ist technisch als maximale manuelle Überschreibbarkeit und Detailparametrisierung umzusetzen.
-- Zwischenwerte sind als kontinuierliche Kombination beider Extreme abzubilden (kein festes Stufenschema im UI oder in der API).
+Die aktualisierte Arbeitsmappe beschreibt weiterhin keine festen technischen Betriebsmodi, sondern die beiden Referenz-Enden eines kontinuierlichen Eingabetiefe-Spektrums:
+
+- **Datenstufe 1** ist technisch als Vollautomatikfall ohne Nutzereingabe umzusetzen.
+- **Datenstufe 2** ist technisch als Fall vollständiger Überschreibbarkeit aller dafür freigegebenen Eingabewerte umzusetzen.
+- Zwischenstände sind als kontinuierliche Kombination beider Enden abzubilden; ein starres Stufenschema im UI, in der API oder im Persistenzmodell ist nicht vorzusehen.
+
+Technische Konsequenzen:
+
+- Das System muss pro fachlich relevantem Eingabewert zwischen automatisch abgeleitetem Basiswert, optionalem Nutzerwert und tatsächlich verwendetem Berechnungswert unterscheiden können.
+- Für jeden überschreibbaren Wert muss Herkunft und Bearbeitungsstatus nachvollziehbar sein.
+- Die Menge der freigegebenen, überschreibbaren Werte ist fachlich definiert und darf nicht mit allen internen Rechengrößen gleichgesetzt werden.
 
 | Domäne           | Muss in Datenstufe 1 automatisiert belegt werden                       | Muss in Datenstufe 2 manuell überschreibbar sein                       |
 | ---------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -500,6 +508,7 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
 - Mehrere Heizungsfälle sind nur mit generischem Ergebnistext ("Sanierungsempfehlung") hinterlegt; es fehlt eine maschinenlesbare Entscheidungslogik.
+- Die neue Arbeitsmappe führt mit `Grobkonzept` und `Berechnungen` zusätzliche Strukturblätter ein; deren Verhältnis zu Persistenzmodell, API-Vertrag und Konfigurationsmodell ist vor produktiver Umsetzung verbindlich zu präzisieren.
 - Kataloginhalte im Blatt `Kat. 2 Heizung` enthalten uneinheitliche Bezeichner/Sonderzeichen und benötigen eine formale Bereinigung vor Import in Konfigurationsdaten.
 
 ---
