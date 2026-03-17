@@ -56,7 +56,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
-Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
 - Datenstufe 1 entspricht im Datenmodell dem Fall ohne Nutzereingabe (automatisch befüllte Felder aus LOD2/Katalogen).
 - Datenstufe 2 entspricht dem Fall maximaler Nutzereingabe (manuelle Überschreibung und Detaillierung pro Domäne).

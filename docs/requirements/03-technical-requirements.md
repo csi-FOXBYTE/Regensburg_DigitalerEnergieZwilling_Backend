@@ -479,7 +479,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 
 ### Technische Zuordnung der Datenstufen aus der Grobkonzept-Arbeitsmappe
 
-Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
 - Datenstufe 1 ist technisch als Vollautomatikmodus ohne Nutzereingabe umzusetzen.
 - Datenstufe 2 ist technisch als maximale manuelle Überschreibbarkeit und Detailparametrisierung umzusetzen.
@@ -500,7 +500,7 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
 - Mehrere Heizungsfälle sind nur mit generischem Ergebnistext ("Sanierungsempfehlung") hinterlegt; es fehlt eine maschinenlesbare Entscheidungslogik.
-- Kataloginhalte im Blatt `Kat. Heizung` enthalten uneinheitliche Bezeichner/Sonderzeichen und benötigen eine formale Bereinigung vor Import in Konfigurationsdaten.
+- Kataloginhalte im Blatt `Kat. 2 Heizung` enthalten uneinheitliche Bezeichner/Sonderzeichen und benötigen eine formale Bereinigung vor Import in Konfigurationsdaten.
 
 ---
 

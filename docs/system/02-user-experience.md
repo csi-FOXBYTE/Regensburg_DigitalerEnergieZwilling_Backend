@@ -128,7 +128,7 @@ Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzere
 Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
-Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
+Bezug zur Arbeitsmappe `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`:
 
 - Datenstufe 1 steht für das untere Ende des Spektrums (keine Nutzereingabe).
 - Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).
