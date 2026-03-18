@@ -597,7 +597,7 @@ Personenbezogene Angaben sollen, wenn fachlich nicht zwingend erforderlich, nur 
 
 **FA-70**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der Bürgerbereich muss ohne Registrierung nutzbar sein; der aktuelle Bearbeitungszustand muss für Wiederbesuche standardmäßig über einen notwendigen Cookie persistiert werden.
+Der Bürgerbereich muss ohne Registrierung nutzbar sein; der aktuelle Bearbeitungszustand muss für Wiederbesuche standardmäßig über Local Storage persistiert werden.
 
 <a id="fa-71"></a>
 
@@ -690,7 +690,7 @@ Für alle automatisch abgeleiteten Werte muss die Datenherkunft in UI und Export
 
 **FA-82**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Nutzer sollen ihre Eingaben jederzeit abbrechen und bei Wiederbesuch automatisch aus dem Cookie wieder aufnehmen können; wenn eine Speicherung im Backend explizit ausgelöst wurde, muss zusätzlich eine Wiederherstellung vom Server möglich sein.
+Nutzer sollen ihre Eingaben jederzeit abbrechen und bei Wiederbesuch automatisch aus dem Local Storage wieder aufnehmen können; wenn eine Speicherung im Backend explizit ausgelöst wurde, muss zusätzlich eine Wiederherstellung vom Server möglich sein.
 
 <a id="fa-83"></a>
 

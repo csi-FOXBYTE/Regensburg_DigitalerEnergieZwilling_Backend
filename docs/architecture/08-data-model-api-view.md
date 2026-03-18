@@ -86,7 +86,7 @@ Nicht jede interne Rechengröße ist Teil des Eingabemodells, und nicht jeder Be
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
-- **Client-Zustand**: Bearbeitungszustand wird über einen notwendigen Cookie persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
+- **Client-Zustand**: Bearbeitungszustand wird über Local Storage persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
 ### Kommunenprofile und kanonisches Mapping
@@ -181,7 +181,7 @@ Quelle: `raw/public-write-flow.puml`
 
 - **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
 - **Ressourcen**: Gebäude, Eingaben, Berechnungen, Konfigurationen, Kataloge, Triage, Reports
-- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit notwendigem Cookie für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
+- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit Local Storage für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig

@@ -73,7 +73,7 @@ Quelle: `raw/frontend-architecture.puml`
 <a id="datenhaltung-und-privacy"></a>
 ## Datenhaltung und Privacy
 
-- Der Bearbeitungszustand wird im Public Client über einen notwendigen Cookie für Wiederbesuche persistiert.
+- Der Bearbeitungszustand wird im Public Client über Local Storage für Wiederbesuche persistiert.
 - Nutzereingaben bleiben lokal, sofern keine explizite Übermittlung erfolgt; bei expliziter Speicherung kann der Zustand vom Server wiederhergestellt werden.
 - Exporte erzeugen Dateien nur auf ausdrücklichen Nutzerwunsch.
 

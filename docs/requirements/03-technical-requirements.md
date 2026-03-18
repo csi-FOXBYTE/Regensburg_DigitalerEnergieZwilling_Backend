@@ -543,19 +543,19 @@ Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities)
 
 **TA-65**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Der Bürgerbereich darf keine Registrierung erfordern; der Bearbeitungszustand muss über einen notwendigen Cookie persistiert werden, damit Wiederbesuche ohne erneute Eingabe möglich sind.
+Der Bürgerbereich darf keine Registrierung erfordern; der Bearbeitungszustand muss über Local Storage persistiert werden, damit Wiederbesuche ohne erneute Eingabe möglich sind.
 
 <a id="ta-66"></a>
 
 **TA-66**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Zusätzliche lokale Speicherung im Browser (z.B. Local Storage) ist zulässig, darf aber keine personenbezogene Vorbefüllung für neue Nutzer erzeugen; Nutzerdaten dürfen nicht zwischen Bürgern geteilt werden.
+Lokale Speicherung im Browser (Local Storage) ist zulässig, darf aber keine personenbezogene Vorbefüllung für neue Nutzer erzeugen; Nutzerdaten dürfen nicht zwischen Bürgern geteilt werden.
 
 <a id="ta-67"></a>
 
 **TA-67**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Das System muss ein Consent-Management für Cookies bereitstellen (notwendig/Analytics/Drittanbieter) und nachträgliche Änderungen erlauben.
+Das System muss ein Consent-Management für optionale Tracking- und Drittanbieter-Funktionen bereitstellen und nachträgliche Änderungen erlauben; notwendige lokale Browser-Speicherung ist davon getrennt zu behandeln.
 
 <a id="ta-68"></a>
 
@@ -657,13 +657,13 @@ Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.
 
 **TA-78**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über den notwendigen Cookie unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
+Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über Local Storage unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
 
 <a id="ta-79"></a>
 
 **TA-79**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Der notwendige Cookie zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Cookies) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
+Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Tracking) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
 
 ---
 

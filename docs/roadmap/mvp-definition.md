@@ -93,7 +93,7 @@ Umfang öffentlicher Client:
 - Basisimplementierung der Sanierungsempfehlung, inklusive Auswahl von Maßnahmen.
 - Ergebnisanzeige inklusive Vergleich innerhalb der Stadt Regensburg.
 - Erste Implementierung von Fördermöglichkeiten.
-- Footer-Bereich: Impressum, Datenschutz, Cookie-Consent.
+- Footer-Bereich: Impressum, Datenschutz, Einwilligungsverwaltung.
 
 Umfang Backend:
 
