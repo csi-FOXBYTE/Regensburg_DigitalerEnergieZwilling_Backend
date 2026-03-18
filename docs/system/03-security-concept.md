@@ -103,7 +103,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Keine personenbezogene Pflichtdatenerfassung im Bürgerbereich.
 - Optionale Übermittlung von Eingaben, stets explizit ausgelöst.
 - Notwendige lokale Browser-Speicherung (Local Storage) für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und Matomo-Tracking.
-- Hinweise zu `data_owner`, `license` und `distribution` der verwendeten Datenquellen werden in den Datenschutzhinweisen der DEZ-Webseite ausgewiesen; Verantwortung für Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
+- Hinweise zu `data_owner`, `license`, `distribution` und `accrualPeriodicity` der verwendeten Datenquellen werden in den Datenschutzhinweisen der DEZ-Webseite ausgewiesen; Verantwortung für Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
 
 ### Tracking-Strategie (verbindliche Festlegung)

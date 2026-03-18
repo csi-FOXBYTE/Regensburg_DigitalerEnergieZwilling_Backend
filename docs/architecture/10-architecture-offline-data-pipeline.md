@@ -45,6 +45,7 @@ Verpflichtende Metadaten je Datenquelle:
 - `data_owner`: verantwortliche Stelle/Organisation der Quelle
 - `license`: Lizenz- bzw. Nutzungsrechtshinweis der Quelle
 - `distribution`: Verteilungs-/Nutzungsfreigabe (z.B. `public`, `internal`, `restricted`)
+- `accrualPeriodicity`: Aktualisierungsintervall bzw. Turnus der Quelle
 
 Diese Metadaten sind für alle in DEZ verwendeten Quellen verbindlich zu führen (siehe TA-139 bis TA-141).
 Die Veröffentlichung gegenüber Nutzern erfolgt über die Datenschutzhinweise der DEZ-Webseite.
