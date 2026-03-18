@@ -116,19 +116,20 @@ Die Journey dient als Grundlage für:
 ### Eingabetiefe (fachliche UX-Sicht)
 
 Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzereingabe" bis
-"vollständig durch Nutzer definiert". Es gibt keine festen Stufen:
+"vollständig durch Nutzer definiert". Es gibt keine festen Stufen und keine explizite Auswahl einer Datenstufe durch den Nutzer.
 
-- Ohne Nutzereingabe werden Werte auf Basis von LOD2, Baualtersklasse und Standardannahmen vorbelegt.
-- Mit jeder zusätzlichen manuellen Eingabe werden die Ergebnisse präziser und nachvollziehbarer.
-- Bauteil-, Anlagen- und Nutzungsangaben können schrittweise ergänzt oder überschrieben werden.
-- Bei umfassender manueller Eingabe sind detaillierte Varianten und Kombinationen von Maßnahmen vergleichbar.
+- Die Anwendung startet immer mit automatisch vorbelegten Werten auf Basis von LOD2, Baualtersklassen, Katalogen und Standardannahmen.
+- Mit jeder zusätzlichen manuellen Eingabe verschiebt sich die Berechnung entlang des Spektrums in Richtung höherer Individualisierung.
+- Die in der Arbeitsmappe genannten **Datenstufe 1** und **Datenstufe 2** sind fachliche Referenz-Enden dieses Spektrums, keine UI-Modi.
+- Editierbar sind nur die fachlich freigegebenen Werte; interne Rechengrößen bleiben für Nutzer verborgen.
+- Alle Eingaben und abgeleiteten Werte sind transparent als automatisch, manuell oder geschätzt zu kennzeichnen.
 
 ### Eingabeumfang im Spektrum
 
 Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
-Bezug zur Arbeitsmappe `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`:
+Bezug zur Arbeitsmappe `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`:
 
 - Datenstufe 1 steht für das untere Ende des Spektrums (keine Nutzereingabe).
 - Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).

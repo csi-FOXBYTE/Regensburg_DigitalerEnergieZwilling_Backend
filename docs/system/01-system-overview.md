@@ -51,7 +51,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
-- Keine Registrierung; Bearbeitungszustand wird über einen notwendigen Cookie persistiert, optionale Wiederherstellung vom Server bei expliziter Speicherung
+- Keine Registrierung; Bearbeitungszustand wird über lokale Browser-Speicherung (Local Storage) persistiert, optionale Wiederherstellung vom Server bei expliziter Speicherung
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch
 
 ### Stadtverwaltung / Fachpersonal

@@ -67,11 +67,25 @@ Der Berechnungskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ### Zuordnung der Grobkonzept-Datenstufen
 
-Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
-- Datenstufe 1 bildet das untere Spektrum-Ende ab: keine Nutzereingabe, nur LOD2 + Katalog + Annahmen.
-- Datenstufe 2 bildet das obere Spektrum-Ende ab: maximale Nutzereingabe und Überschreibbarkeit.
-- Die Kernlogik muss beide Enden mit demselben Rechenkern abbilden; Unterschiede liegen nur in den bereitgestellten Eingaben.
+Die aktualisierte Arbeitsmappe präzisiert die Logik des Berechnungskerns, ohne das Grundprinzip zu ändern:
+Der Rechenkern bildet weiterhin ein **kontinuierliches Eingabetiefe-Spektrum** ab.
+
+- **Datenstufe 1** beschreibt den Fall ohne Nutzereingabe. Alle für die Berechnung benötigten Kennwerte werden aus Basisdaten, Katalogwerten und Standardannahmen abgeleitet.
+- **Datenstufe 2** beschreibt den Fall vollständiger Nutzereingabe innerhalb der fachlich freigegebenen Felder.
+- Beide Enden werden durch denselben Rechenkern verarbeitet; der Unterschied liegt ausschließlich in den bereitgestellten bzw. überschriebenen Eingabewerten.
+
+### Rolle der Arbeitsmappe 26-03-06
+
+Die Arbeitsmappe dient fachlich als Referenz für vier Ebenen:
+
+- `Grobkonzept`: fachliche Freigabe und Struktur der Eingaben entlang des Spektrums.
+- `Berechnungen`: zentrale abgeleitete Zwischen- und Rechengrößen.
+- Domänenblätter (`Dach-Fenster`, `OGD`, `AW-Fenster`, `UGD`, `Heizung`): bauteil- und anlagenspezifische Regeln.
+- Katalogblätter (`Kat. 1 U-Wert`, `Kat. 2 Heizung`): normativ bzw. typologisch referenzierte Werte.
+
+Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch eine Vorgabe für eine 1:1-Abbildung in Datenbank-, API- oder UI-Strukturen.
 
 ### Berechnungsdomänen aus der Arbeitsmappe
 
@@ -79,7 +93,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 - Wärmebrücken: pauschaler Zuschlag über `dUWB * Ages`.
 - Lüftung: Luftdichtheit und Luftwechsel als referenzierte Katalogwerte, nicht als direkte Nutzereingabe.
 - Heizung: Systemart, Erzeugerart, Zusatzheizung, Heizflächenart und optionale Zusatzparameter.
-- Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. Heizung` (Aufwandszahlen/Heizflächenzuschläge).
+- Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. 2 Heizung` (Aufwandszahlen/Heizflächenzuschläge).
 - Ergebnisgleichungen (Blatt `Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Jahres-Heizwärmebedarf.
 
 ---

@@ -56,11 +56,24 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
-Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
 
-- Datenstufe 1 entspricht im Datenmodell dem Fall ohne Nutzereingabe (automatisch befüllte Felder aus LOD2/Katalogen).
-- Datenstufe 2 entspricht dem Fall maximaler Nutzereingabe (manuelle Überschreibung und Detaillierung pro Domäne).
-- Beide Extreme verwenden dieselben Entitäten; entscheidend ist die Herkunftskennzeichnung je Feld (`automatisch`, `manuell`, `geschätzt`).
+Die aktualisierte Arbeitsmappe bestätigt die Modellierung als kontinuierliches Eingabespektrum.
+
+- **Datenstufe 1** entspricht im Datenmodell dem Fall ohne Nutzereingabe.
+- **Datenstufe 2** entspricht dem Fall vollständiger Überschreibung aller fachlich freigegebenen Eingabewerte.
+- Beide Referenz-Enden verwenden dieselben fachlichen Entitäten; sie unterscheiden sich nicht durch getrennte Datenmodelle, sondern durch Herkunft, Überschreibung und Verwendungsstatus einzelner Werte.
+
+Für überschreibbare Eingabewerte sind fachlich mindestens folgende Sichten relevant:
+
+- **Basiswert**: automatisch abgeleiteter oder katalogbasierter Ausgangswert
+- **Nutzerwert**: optionaler, manuell gesetzter Wert
+- **Berechnungswert**: der tatsächlich in der Berechnung verwendete Wert
+- **Herkunft**: z. B. `basisdaten`, `katalog/default`, `manuell`
+- **Überschreibbarkeit**: Kennzeichnung, ob ein Wert fachlich zur Bearbeitung freigegeben ist
+
+Daraus folgt:
+Nicht jede interne Rechengröße ist Teil des Eingabemodells, und nicht jeder Berechnungswert ist direkt vom Nutzer editierbar.
 
 | Domäne | Typische Felder im unteren Spektrum-Ende | Typische Felder im oberen Spektrum-Ende |
 | ----- | ----- | ----- |
@@ -73,7 +86,7 @@ Quelle: `30-01-26_-Übersicht Berechnung Grobkonzept.xlsx`
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
-- **Client-Zustand**: Bearbeitungszustand wird über einen notwendigen Cookie persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
+- **Client-Zustand**: Bearbeitungszustand wird über Local Storage persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
 ### Kommunenprofile und kanonisches Mapping
@@ -168,7 +181,7 @@ Quelle: `raw/public-write-flow.puml`
 
 - **API-Grenzen**: Bürgerbereich vs. Admin-Bereich (Stadtverwaltung / Fachpersonal)
 - **Ressourcen**: Gebäude, Eingaben, Berechnungen, Konfigurationen, Kataloge, Triage, Reports
-- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit notwendigem Cookie für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
+- **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit Local Storage für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
