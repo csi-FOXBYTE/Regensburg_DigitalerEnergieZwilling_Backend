@@ -7,4 +7,3 @@ scripts/
 .github/
 README.md
 eslint.config.js
-.fastify-toab.rc.json

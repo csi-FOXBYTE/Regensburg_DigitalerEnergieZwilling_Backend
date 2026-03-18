@@ -18,7 +18,7 @@ export class AppError extends Error {
   readonly code: number;
 
   constructor(input: AppErrorInput) {
-    super(input.message, { cause: input.cause });
+    super(input.message);
     this.name = "AppError";
     this.status = input.status;
     this.code = input.code;

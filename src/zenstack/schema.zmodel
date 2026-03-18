@@ -2,3 +2,8 @@ datasource db {
   provider = 'postgresql'
   url      = env('DATABASE_URL')
 }
+
+plugin typescript {
+  provider = "@core/typescript"
+  importWithFileExtension = ".js"
+}

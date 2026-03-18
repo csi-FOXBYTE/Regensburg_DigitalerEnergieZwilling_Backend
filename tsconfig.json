@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "outDir": "./build",
-    "target": "es2022",
+    "target": "es2020",
     "module": "nodenext",
     "strict": true,
     "moduleResolution": "nodenext",
@@ -11,10 +11,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noEmit": true,
-    "lib": ["es2022"],
+    "lib": [
+      "es2020"
+    ],
     "incremental": false,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
   },
-  "exclude": ["node_modules", ".dist"]
+  "exclude": [
+    "node_modules",
+    ".dist"
+  ]
 }
