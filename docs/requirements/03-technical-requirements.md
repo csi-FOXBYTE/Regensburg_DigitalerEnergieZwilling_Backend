@@ -737,7 +737,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 
 ### Technische Zuordnung der Datenstufen aus der Grobkonzept-Arbeitsmappe
 
-Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `20260320_RDEZ_Uebersicht_Berechnung_Grobkonzept.xlsx`
 
 Die aktualisierte Arbeitsmappe beschreibt weiterhin keine festen technischen Betriebsmodi, sondern die beiden Referenz-Enden eines kontinuierlichen Eingabetiefe-Spektrums:
 
@@ -756,7 +756,9 @@ Technische Konsequenzen:
 | Dach/Dachfenster | Flächen aus LOD, U-Werte aus Baujahr/Baualtersklasse, Standardfaktoren | Flächen, U-Werte, Konstruktion/Schichtannahmen                         |
 | OGD/AW/UGD       | Flächen und U-Werte aus LOD + Katalogwerten                            | Flächen, U-Werte, Konstruktionsdetails und Materialannahmen            |
 | Fenster/Türen    | Standardflächenanteile und U-Werte aus Baualter/Katalog                | Flächen, Rahmen-/Verglasungsparameter, U-Werte                         |
-| Heizung/Anlage   | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog            | Systemart, Erzeugerart, Heizflächenart, Zusatzheizung, Detailparameter |
+| Heizung/Anlage   | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog            | Systemart, Erzeugerart, Heizflächenart, Heizkreistemperatur, Regelung, Zusatzheizung, Brennstofflager-/Umbaukontext, Preis- und Faktorparameter |
+
+Die aktualisierte Arbeitsmappe präzisiert zusätzlich die technische Breite der Anlageneingaben sowie die zu persistierenden Ergebnisdimensionen. Neben Heizwärmebedarf sind Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten als getrennte Ergebnisfelder vorzusehen.
 
 ### Offene technische Klärungspunkte aus dem Grobkonzept
 
@@ -765,8 +767,9 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 - Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
-- Mehrere Heizungsfälle sind nur mit generischem Ergebnistext ("Sanierungsempfehlung") hinterlegt; es fehlt eine maschinenlesbare Entscheidungslogik.
+- Es liegt nun eine erste beispielhafte Maßnahmenmatrix für Heizungsfälle vor; für die produktive Übernahme fehlt jedoch weiterhin eine vollständige, maschinenlesbare Entscheidungslogik.
 - Die neue Arbeitsmappe führt mit `Grobkonzept` und `Berechnungen` zusätzliche Strukturblätter ein; deren Verhältnis zu Persistenzmodell, API-Vertrag und Konfigurationsmodell ist vor produktiver Umsetzung verbindlich zu präzisieren.
+- Beispiel- und Templatewerte aus der Arbeitsmappe dürfen nicht ungeprüft als technische Defaults in Persistenz, API oder Konfiguration übernommen werden.
 - Kataloginhalte im Blatt `Kat. 2 Heizung` enthalten uneinheitliche Bezeichner/Sonderzeichen und benötigen eine formale Bereinigung vor Import in Konfigurationsdaten.
 
 ---

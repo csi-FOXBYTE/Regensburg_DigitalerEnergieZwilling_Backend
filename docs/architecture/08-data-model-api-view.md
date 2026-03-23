@@ -31,7 +31,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Bauteil- und Systemeingaben** (Hülle, Lüftung, Warmwasser, Anlagentechnik)
 - **Maßnahmenkatalog** und **Maßnahmenselektion** (inkl. Förderprogramme)
 - **Berechnungskonfiguration (versioniert)** und **Konfigurationsoptionen**
-- **Berechnungen & Ergebnisse** (Energiebedarf, CO₂, Primärenergie, Kosten, Effizienzklassen)
+- **Berechnungen & Ergebnisse** (Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch/-kosten, Effizienzklassen)
 - **Triage/Status** für administrative Prüfung und Veröffentlichung
 - **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung)
 - **Reports** (Anzeige in der Anwendung) und **optionale Exporte** (z.B. PDF für Bürger, Quartiersberichte für Verwaltung)
@@ -49,14 +49,14 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Grunddaten**: Baujahr/Baualtersklasse, Gebäudetyp, Wohnfläche, Wohneinheiten, Personenanzahl.
 - **Gebäudehülle**: Dach, Außenwand, Fenster, Kellerdecke inkl. Zustand/Sanierungsjahr und Dämmung.
 - **Lüftung**: Luftdichtheit als referenzierter Parameter aus Katalogwerten und Baualter (keine direkte Nutzereingabe).
-- **Warmwasser & Nutzung**: pauschal vs. personenbasiert.
-- **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Zusatzheizung.
-- **Kosten/Preise**: Energiepreis, Stromart, Jahresverbrauch (optional).
+- **Warmwasser & Nutzung**: pauschal, personenbasiert oder verbrauchsbezogen.
+- **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Heizkreistemperatur, Regelung, Zusatzheizung und Sanierungsrandbedingungen.
+- **Kosten/Preise & Faktoren**: Jahresverbrauch, Arbeitspreis, Grundpreis, Heizwert, Primärenergiefaktor und CO₂-Faktor.
 - **Erneuerbare**: PV (zwei Darstellungen), Solarthermie (Warmwasser-Unterstützung), Geothermie, Energiespeicher (optional).
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
-Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `20260320_RDEZ_Uebersicht_Berechnung_Grobkonzept.xlsx`
 
 Die aktualisierte Arbeitsmappe bestätigt die Modellierung als kontinuierliches Eingabespektrum.
 
@@ -80,7 +80,9 @@ Nicht jede interne Rechengröße ist Teil des Eingabemodells, und nicht jeder Be
 | Dach/Dachfenster | Dachfläche, Dachfensterfläche, U-Werte aus Baualter/Kat. 1 | Manuelle Flächen, U-Werte, Konstruktion/Schichtbezug |
 | OGD/AW/UGD | Flächen und U-Werte aus LOD2 + Baualtersklasse | Überschriebene Flächen/U-Werte, Konstruktionsdetails |
 | Fenster/Türen | Standardanteile und Katalog-U-Werte | Rahmen-/Verglasungsdetails und manuelle U-Werte |
-| Heizung | Katalogbasierte Vorbelegung aus Baujahr/Erzeugertyp | System-, Regelungs- und Zusatzparameter inkl. Zusatzheizung |
+| Heizung | Katalogbasierte Vorbelegung aus Baujahr/Erzeugertyp | System-, Regelungs- und Zusatzparameter inkl. Heizkreistemperatur, Zusatzheizung, Brennstofflager- und Flächenheizungs-Kontext |
+
+Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht nur aggregierte Kennzahlen, sondern getrennte Felder für Heizwärmebedarf, Warmwasser, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten tragen müssen.
 
 ### Datenhaltung
 

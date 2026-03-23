@@ -129,7 +129,7 @@ Die Eingaben bewegen sich auf einem kontinuierlichen Spektrum von "keine Nutzere
 Die detaillierten Eingabefelder inkl. Pflicht-/Optionaleingaben entlang des Spektrums sind in den Anforderungen beschrieben:
 `docs/requirements/02-functional-requirements.md` und `docs/requirements/03-technical-requirements.md`.
 
-Bezug zur Arbeitsmappe `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`:
+Bezug zur Arbeitsmappe `20260320_RDEZ_Uebersicht_Berechnung_Grobkonzept.xlsx`:
 
 - Datenstufe 1 steht für das untere Ende des Spektrums (keine Nutzereingabe).
 - Datenstufe 2 steht für das obere Ende des Spektrums (maximale Nutzereingabe).
@@ -180,8 +180,9 @@ Alle Eingabedomänen laufen in einem zentralen Datenobjekt zusammen und speisen 
 ### Domäne Wärmeversorgung
 
 - Heizsystem und Warmwasserbereitstellung als zentrale Strukturfelder.
-- Energieträger und Erzeugerkontext (z. B. Öl, Erdgas, Fernwärme, Strom, Wärmepumpe/Geothermie).
-- Verbrauchs- und Kostendaten als Grundlage für Kosten- und Einsparberechnung.
+- Energieträger und Erzeugerkontext (z. B. Öl, Erdgas, Fernwärme, Strom, Wärmepumpe/Geothermie) inkl. Heizflächenart, Heizkreistemperatur und Regelung.
+- Verbrauchs-, Preis- und Faktorwerte als Grundlage für Endenergie-, Kosten- und Emissionsberechnung.
+- Zusätzliche Entscheidungskontexte wie Brennstofflagerfähigkeit oder Umbauwunsch zur Flächenheizung können bei höherer Eingabetiefe relevant werden.
 
 ### Domäne Strom und Erneuerbare Energien
 
@@ -203,7 +204,7 @@ Alle Eingabedomänen laufen in einem zentralen Datenobjekt zusammen und speisen 
 
 ### Ergebnis- und Entscheidungsebene
 
-- Live-Ergebnisse: Energiebedarf, Energieeffizienz und CO₂-Emissionen.
+- Live-Ergebnisse: Heizwärmebedarf, Endenergie, Primärenergie, Energieeffizienz, CO₂-Emissionen sowie verbrauchs- und kostenbezogene Kennzahlen.
 - Sanierungsvorschlag als zusammenfassende Empfehlung auf Basis der Eingaben.
 - Fördermittel-Block zur Einordnung verfügbarer Förderoptionen.
 
@@ -212,6 +213,7 @@ Alle Eingabedomänen laufen in einem zentralen Datenobjekt zusammen und speisen 
 - Automatisch abgeleitet: LOD2-Geometrie, Baualtersklassen, Standardannahmen.
 - Manuell: Nutzereingaben zu Bauteilen, Anlagen und Kostenparametern.
 - Geschätzt: Werte aus Katalogen/Normtabellen/Typologien, die anhand der aktuellen Eingaben referenziert werden; dies kann sowohl automatisch abgeleitete als auch manuell angepasste Eingaben betreffen.
+- Beispiel- und Templatewerte aus der Referenzarbeitsmappe dürfen in der UI nicht als verbindliche Standardwerte erscheinen.
 
 ### Baualtersklassen
 
@@ -385,9 +387,12 @@ Die Werte basieren auf LoD2-Daten, Typologien und Modellannahmen.\
 
 **Angezeigt werden:**
 
-- Energiebedarf (kWh/m²a)
+- Heizwärmebedarf / Energiebedarf (kWh/m²a)
+- Endenergiebedarf
+- Primärenergiebedarf
 - Energieeffizienzklasse
 - CO₂-Emissionen
+- Brennstoffverbrauch und Energiekosten
 - Vergleich mit städtischem Durchschnitt
 - Einsparpotenzial (Benchmark-basierte Abschätzung)
 

@@ -34,7 +34,7 @@ Der Berechnungskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 <a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
-- Berechnung von Energiebedarf, CO₂, Primärenergie, Kosten und Effizienzklassen.
+- Berechnung von Heizwärmebedarf, Endenergie, CO₂, Primärenergie, Brennstoffverbrauch, Brennstoffkosten und Effizienzklassen.
 - Umsetzung der Eingabelogik entlang eines kontinuierlichen Spektrums gemäß fachlichen Anforderungen.
 - Deterministisches Verhalten bei identischer Konfiguration und Eingaben.
 
@@ -67,7 +67,7 @@ Der Berechnungskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 ### Zuordnung der Grobkonzept-Datenstufen
 
-Quelle: `26-03-06_-Übersicht Berechnung Grobkonzept.xlsx`
+Quelle: `20260320_RDEZ_Uebersicht_Berechnung_Grobkonzept.xlsx`
 
 Die aktualisierte Arbeitsmappe präzisiert die Logik des Berechnungskerns, ohne das Grundprinzip zu ändern:
 Der Rechenkern bildet weiterhin ein **kontinuierliches Eingabetiefe-Spektrum** ab.
@@ -76,7 +76,7 @@ Der Rechenkern bildet weiterhin ein **kontinuierliches Eingabetiefe-Spektrum** a
 - **Datenstufe 2** beschreibt den Fall vollständiger Nutzereingabe innerhalb der fachlich freigegebenen Felder.
 - Beide Enden werden durch denselben Rechenkern verarbeitet; der Unterschied liegt ausschließlich in den bereitgestellten bzw. überschriebenen Eingabewerten.
 
-### Rolle der Arbeitsmappe 26-03-06
+### Rolle der Arbeitsmappe 2026-03-20
 
 Die Arbeitsmappe dient fachlich als Referenz für vier Ebenen:
 
@@ -92,9 +92,9 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 - Hülle: `Dach-Fenster`, `OGD`, `AW-Fenster`, `UGD` mit HT-Teilbilanzen (`HT = F * U * A`).
 - Wärmebrücken: pauschaler Zuschlag über `dUWB * Ages`.
 - Lüftung: Luftdichtheit und Luftwechsel als referenzierte Katalogwerte, nicht als direkte Nutzereingabe.
-- Heizung: Systemart, Erzeugerart, Zusatzheizung, Heizflächenart und optionale Zusatzparameter.
-- Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. 2 Heizung` (Aufwandszahlen/Heizflächenzuschläge).
-- Ergebnisgleichungen (Blatt `Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Jahres-Heizwärmebedarf.
+- Heizung: Systemart, Energieträger, Erzeugerart, Zusatzheizung, Heizflächenart, Heizkreistemperatur, Raumtemperaturregelung und optionale Sanierungsrandbedingungen.
+- Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. 2 Heizung` (Aufwandszahlen, Heizflächenzuschläge, Primärenergiefaktoren, CO₂-Faktoren, Heizwerte und Preismodelle).
+- Rechenkette (`Berechnungen`/`Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Warmwasser, Jahres-Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten.
 
 ---
 
@@ -104,6 +104,7 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 - Fensteranteil am Fassadenbereich: Standardannahme (z.B. 40%), wenn nicht bekannt.
 - Lüftungswärmeverlust (Bestand ohne Detailkenntnis): pauschaler Ansatz (z.B. 0,05 W/m²K).
 - Wärmebrücken: pauschaler Zuschlag auf U-Werte, eingabeabhängig.
+- Beispiel- und Templatewerte aus der Referenzarbeitsmappe sind keine normativen Produktdefaults; produktive Defaults müssen konfigurierbar und kommunenprofilfähig bleiben.
 
 ---
 
@@ -120,8 +121,8 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 
 - Ohne manuelle Eingaben arbeitet das System mit konfigurierten Standardannahmen.
 - Mit manuellen Grundangaben (z.B. Baujahr, Energieträger) wird die Anlage grob vorbelegt.
-- Mit weiterem Detaillierungsgrad können Erzeugerart, Heizflächenart und Zusatzheizung erfasst werden.
-- Optional sind weitere berechnungsrelevante Anlagenparameter erfassbar.
+- Mit weiterem Detaillierungsgrad können Erzeugerart, Heizflächenart, Heizkreistemperatur, Regelung und Zusatzheizung erfasst werden.
+- Optional sind weitere berechnungsrelevante Anlagenparameter wie Brennstofflager-Kontext, Umbauwunsch zur Flächenheizung sowie Preis- und Verbrauchswerte erfassbar.
 
 ---
 
@@ -137,7 +138,8 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 
 - Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt.
 - Korrekturfaktor `F` ist nicht für alle Bauteile in gleicher Tiefe fachlich definiert.
-- Das Heizungsblatt enthält teilweise generische Empfehlungstexte statt deterministischer Entscheidungsregeln.
+- Das Heizungsblatt enthält nun erste beispielhafte Maßnahmenzuordnungen; diese sind jedoch noch nicht als vollständige, deterministische Entscheidungslogik formalisiert.
+- Beispiel- und Templatewerte in `Grobkonzept` und `Berechnungen` sind nicht konsistent genug für eine direkte Normierung von Produktdefaults und müssen fachlich geklärt werden.
 - Einzelne Katalogbezeichner sind uneinheitlich/formal fehlerhaft und müssen vor produktiver Nutzung bereinigt werden.
 
 ---
