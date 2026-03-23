@@ -7,8 +7,8 @@ import {
   ServiceRegistry,
   WorkerRegistry,
 } from "@csi-foxbyte/fastify-toab";
-import auth_auth$service from "../auth/auth.service.js";
 import database_database$service from "../database/database.service.js";
+import auth_auth$service from "../auth/auth.service.js";
 import auth_auth$controller from "../auth/auth.controller.js";
 import test_test$controller from "../test/test.controller.js";
 
@@ -24,10 +24,13 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   };
 
   serviceRegistry = new ServiceRegistry(workerRegistryRef);
-  serviceRegistry.register(auth_auth$service);
   serviceRegistry.register(database_database$service);
+  serviceRegistry.register(auth_auth$service);
 
   workerRegistry = new WorkerRegistry(serviceRegistry);
+  if (!dontInitializeWorkers) {
+
+  };
 
   workerRegistryRef.current = workerRegistry;
 
