@@ -1167,19 +1167,19 @@ Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Komm
 
 **TA-139**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für jede in der DEZ verwendete Datenquelle müssen verbindlich die Metadaten `data_owner`, `license` und `distribution` ausgewiesen werden.
+Für jede in der DEZ verwendete Datenquelle müssen verbindlich die Metadaten `data_owner`, `license`, `distribution` und `accrualPeriodicity` ausgewiesen werden.
 
 <a id="ta-140"></a>
 
 **TA-140**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Felder `data_owner`, `license` und `distribution` müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
+Die Felder `data_owner`, `license`, `distribution` und `accrualPeriodicity` müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
 
 <a id="ta-141"></a>
 
 **TA-141**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Verantwortung für Datenverantwortung sowie Bereitstellung und Pflege der Metadaten (`data_owner`, `license`, `distribution`) liegt beim jeweiligen Betreiber der DEZ-Plattform.
+Die Verantwortung für Datenverantwortung sowie Bereitstellung und Pflege der Metadaten (`data_owner`, `license`, `distribution`, `accrualPeriodicity`) liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
 ---
 

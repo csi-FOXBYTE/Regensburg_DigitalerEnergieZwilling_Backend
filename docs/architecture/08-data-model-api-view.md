@@ -100,7 +100,7 @@ Nicht jede interne Rechengröße ist Teil des Eingabemodells, und nicht jeder Be
   - Einheiten- und Wertebereichstransformationen
   - Fallback-Regeln bei fehlenden Quellfeldern
   - Herkunftsinformationen (Quelle, Mapping-Version, Transformationsregel)
-- Quellen-Metadaten (`data_owner`, `license`, `distribution`) werden durch den Betreiber der DEZ-Plattform gepflegt und in den Datenschutzhinweisen der DEZ-Webseite veröffentlicht.
+- Quellen-Metadaten (`data_owner`, `license`, `distribution`, `accrualPeriodicity`) werden durch den Betreiber der DEZ-Plattform gepflegt und in den Datenschutzhinweisen der DEZ-Webseite veröffentlicht.
 - Regensburg-spezifische Felder, Texte oder Klassifikationen sind als Profilinhalt zu behandeln und nicht als implizite Kernannahme.
 
 ### Optionale CityGML Energy ADE Einbindung
