@@ -21,7 +21,7 @@
   "dependencies": {
     "@bull-board/api": "^6.15.0",
     "@bull-board/fastify": "^6.15.0",
-    "@csi-foxbyte/fastify-toab": "0.2.0-rc.1",
+    "@csi-foxbyte/fastify-toab": "0.2.0-rc.4",
     "@fastify/http-proxy": "^11.4.1",
     "@fastify/multipart": "^9.3.0",
     "@fastify/otel": "^0.16.0",
