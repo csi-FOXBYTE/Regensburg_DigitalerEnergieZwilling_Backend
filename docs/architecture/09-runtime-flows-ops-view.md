@@ -41,7 +41,7 @@ Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validie
 Quelle: `raw/runtime-flow-admin.puml`
 
 **Admin Triage-Flow (Detail)**  
-Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und exportieren Daten für die Wärmeplanung.  
+Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und markieren unplausible oder automatisch abgelehnte Datensätze als `gelöscht`. Nur freigegebene Datensätze werden exportiert.  
 Beteiligte Komponenten: Admin-Bereich, Backend API, Triage Service, Database.  
 Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates.
 
@@ -84,7 +84,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Public Flow**: Challenge-Token, Rate Limiting, serverseitige Eingabevalidierung und Recompute-Verifikation vor Persistenz.
 - **Admin Flow**: OIDC-Anmeldung, Rollenprüfung und geschützte Auslieferung des Admin-HTMLs vor administrativen Aktionen.
-- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung.
+- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `gelöscht`.
 - **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
 

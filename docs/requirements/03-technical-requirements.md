@@ -675,7 +675,7 @@ Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss tra
 
 **TA-80**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status tragen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden.
+Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Unplausible oder automatisch abgelehnte Datensätze sind als `gelöscht` zu markieren.
 
 <a id="ta-81"></a>
 
@@ -693,7 +693,7 @@ Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereit
 
 **TA-83**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu → in Prüfung → freigegeben oder unplausibel.
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `gelöscht`. Der Status `gelöscht` ist der fachliche Endzustand für unplausible oder automatisch abgelehnte Datensätze.
 
 ---
 

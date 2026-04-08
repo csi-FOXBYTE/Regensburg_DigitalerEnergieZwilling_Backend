@@ -726,7 +726,7 @@ Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und mehrere Daten
 
 **FA-87**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status besitzen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss nachvollziehbar sein.
+Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss nachvollziehbar sein. Unplausible oder automatisch abgelehnte Datensätze sind dabei als `gelöscht` zu markieren.
 
 <a id="fa-88"></a>
 

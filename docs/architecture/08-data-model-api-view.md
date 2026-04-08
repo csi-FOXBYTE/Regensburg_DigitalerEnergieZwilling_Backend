@@ -116,8 +116,9 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Status-Lifecycle (Triage)
 
 - `neu` → `in_pruefung`
-- `in_pruefung` → `freigegeben` oder `unplausibel`
+- `in_pruefung` → `freigegeben` oder `geloescht`
 - Statuswechsel werden im Audit-Log mit Zeitstempel und Benutzerkennung protokolliert.
+- `geloescht` ist ein fachlicher Tombstone-Status für unplausible oder automatisch abgelehnte Datensätze; solche Datensätze dürfen nicht indexiert oder exportiert werden.
 
 ### Statische Tile-Attribute (Auszug)
 
@@ -154,7 +155,7 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext 
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
-- **Triage**: Stadtverwaltung / Fachpersonal prüft, markiert und gibt Ergebnisse intern frei.
+- **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei oder markiert sie fachlich als gelöscht.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
 
