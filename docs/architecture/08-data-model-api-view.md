@@ -102,7 +102,8 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
   - Einheiten- und Wertebereichstransformationen
   - Fallback-Regeln bei fehlenden Quellfeldern
   - Herkunftsinformationen (Quelle, Mapping-Version, Transformationsregel)
-- Quellen-Metadaten (`data_owner`, `license`, `distribution`, `accrualPeriodicity`) werden durch den Betreiber der DEZ-Plattform gepflegt und in den Datenschutzhinweisen der DEZ-Webseite veröffentlicht.
+- Quellen-Metadaten (`dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity`, `dcat:distribution`) werden durch den Betreiber der DEZ-Plattform gepflegt und in den Datenschutzhinweisen der DEZ-Webseite veröffentlicht.
+- Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard für DEZ jedoch nur in einem bewusst begrenzten Mindestumfang ab.
 - Regensburg-spezifische Felder, Texte oder Klassifikationen sind als Profilinhalt zu behandeln und nicht als implizite Kernannahme.
 
 ### Optionale CityGML Energy ADE Einbindung

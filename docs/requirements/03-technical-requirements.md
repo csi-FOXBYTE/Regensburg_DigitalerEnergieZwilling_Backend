@@ -1166,23 +1166,27 @@ Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Komm
 
 ## 33. Datenquellen-Metadaten
 
+Generelle Bemerkung:
+Die hier geführten Metadaten sind auf **DCAT-AP.de** gemappt, bilden den Standard jedoch bewusst **nicht vollständig** ab.
+Sie definieren für DEZ nur den verbindlichen Mindestumfang je Datenquelle bzw. je bereitgestellter Distribution.
+
 <a id="ta-139"></a>
 
 **TA-139**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für jede in der DEZ verwendete Datenquelle müssen verbindlich die Metadaten `data_owner`, `license`, `distribution` und `accrualPeriodicity` ausgewiesen werden.
+Für jede in der DEZ verwendete Datenquelle müssen verbindlich mindestens die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie `dcat:distribution` ausgewiesen werden. `dct:license` kann dabei auf Dataset- und/oder Distribution-Ebene geführt werden. `dcat:distribution` ist als Klasse zu verstehen, deren konkrete Attribute von der Bereitstellungsform abhängen (z.B. API oder Datei).
 
 <a id="ta-140"></a>
 
 **TA-140**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Felder `data_owner`, `license`, `distribution` und `accrualPeriodicity` müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
+Die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie die je `dcat:distribution` relevanten Bereitstellungsattribute müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
 
 <a id="ta-141"></a>
 
 **TA-141**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Verantwortung für Datenverantwortung sowie Bereitstellung und Pflege der Metadaten (`data_owner`, `license`, `distribution`, `accrualPeriodicity`) liegt beim jeweiligen Betreiber der DEZ-Plattform.
+Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der distributionsspezifischen Angaben liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
 ---
 

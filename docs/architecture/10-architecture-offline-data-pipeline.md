@@ -42,12 +42,15 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 Verpflichtende Metadaten je Datenquelle:
 
-- `data_owner`: verantwortliche Stelle/Organisation der Quelle
-- `license`: Lizenz- bzw. Nutzungsrechtshinweis der Quelle
-- `distribution`: Verteilungs-/Nutzungsfreigabe (z.B. `public`, `internal`, `restricted`)
-- `accrualPeriodicity`: Aktualisierungsintervall bzw. Turnus der Quelle
+- `dct:title`: fachlicher Titel des Datensatzes
+- `dct:description`: fachliche Beschreibung des Datensatzes
+- `dct:publisher`: veröffentlichende bzw. verantwortliche Stelle
+- `dct:license`: Lizenz- bzw. Nutzungsrechtshinweis; kann auf Dataset- und/oder Distribution-Ebene geführt werden
+- `dct:accrualPeriodicity`: Aktualisierungsintervall bzw. Turnus der Quelle
+- `dcat:distribution`: Klasse zur Beschreibung der Bereitstellung; die konkreten Attribute hängen von der Bereitstellungsform ab (z.B. API oder Datei)
 
 Diese Metadaten sind für alle in DEZ verwendeten Quellen verbindlich zu führen (siehe TA-139 bis TA-141).
+Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard jedoch bewusst nicht vollständig ab.
 Die Veröffentlichung gegenüber Nutzern erfolgt über die Datenschutzhinweise der DEZ-Webseite.
 Die Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
