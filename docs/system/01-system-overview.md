@@ -112,6 +112,8 @@ Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute
 Die Integration in das MasterPortal erfolgt im MVP ausschließlich als **Link-Out** auf die DEZ-Plattform.
 
 - Im MasterPortal wird ein Einstiegspunkt (Link) auf die öffentliche DEZ-URL bereitgestellt.
+- Der Link-Out kann als spezieller Deep-Link mit Query-Parameter umgesetzt werden, z. B. `det-rg.de?select-building=1234`; damit kann ein im MasterPortal ausgewähltes Gebäude beim Einstieg in den DEZ direkt übernommen werden.
+- Die Implementierung und Einbindung dieses Links im MasterPortal ist durch den Betreiber der Plattform vorgesehen.
 - Es besteht **keine** fachliche oder technische Kopplung über APIs zwischen MasterPortal und DEZ.
 - Es besteht **keine** gemeinsame Session oder SSO-Kopplung zwischen MasterPortal und DEZ.
 - Datenhaltung, Berechnung und Persistenz verbleiben vollständig innerhalb der DEZ-Architektur.

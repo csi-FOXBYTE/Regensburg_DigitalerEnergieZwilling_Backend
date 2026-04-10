@@ -162,7 +162,7 @@ Die Architektur ist bewusst so gestaltet, dass:
 - ein funktionsfähiger MVP mit überschaubarem Aufwand realisiert werden kann
 - spätere Erweiterungen (z.B. komplexere Berechnungen, zusätzliche Datenquellen) möglich bleiben
 - Datenschutz- und Sicherheitsanforderungen frühzeitig berücksichtigt werden
-- die Integration in das MasterPortal im MVP als reiner Link-Out auf den öffentlichen DEZ-Client umgesetzt werden kann (ohne API- oder SSO-Kopplung)
+- die Integration in das MasterPortal im MVP als reiner Link-Out auf den öffentlichen DEZ-Client umgesetzt werden kann (ohne API- oder SSO-Kopplung; eine Gebäudevorauswahl kann über URL-Query-Parameter wie `select-building` übergeben werden)
 
 Architekturgründe für den separaten DEZ-Betrieb mit Link-Out:
 - **Performanz**: Schlanke, statische DEZ-Auslieferung ohne Laufzeit-Overhead einer tiefen Portalintegration.

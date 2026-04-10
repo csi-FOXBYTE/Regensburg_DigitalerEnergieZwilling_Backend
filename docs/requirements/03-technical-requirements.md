@@ -929,7 +929,7 @@ Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werd
 
 **TA-106**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich.
+Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich. Der Link-Out muss optional als Deep-Link mit Query-Parameter zur Übergabe einer Gebäudeauswahl nutzbar sein (z. B. `det-rg.de?select-building=1234`). Die Erzeugung und Einbindung dieses Links im MasterPortal ist durch den Betreiber der Plattform vorgesehen.
 
 > **Begründung (technisch):** Der Link-Out ermöglicht eine performante, statische DEZ-Auslieferung, höhere Entkopplung im Betrieb (Verfügbarkeit/Release-Zyklus), DEZ-spezifische Consent-/Tracking-Logik sowie bessere Skalierbarkeit für die Nachnutzung in weiteren Kommunen.
 
