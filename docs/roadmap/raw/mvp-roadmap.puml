@@ -15,13 +15,13 @@ skinparam ArrowColor #1F2937
 
 rectangle "Release 1\n02.03.2026 - 15.03.2026\n---\nPlattformaufbau\nCIVITAS/CORE Basis\nServices\nDatenpipeline + Preprocessing\nMasterPortal Link-Out" as R1 #DCEBFF
 
-rectangle "Release 2\n16.03.2026 - 12.04.2026\n---\nHauptzielgruppe\nÃ–ffentlicher 3D-Client\nGebÃ¤udeauswahl + Berechnung\nMaÃŸnahmen + Ergebnisse\nBackend CRUD" as R2 #DFF7E2
+rectangle "Release 2\n16.03.2026 - 12.04.2026\n---\nHauptzielgruppe\nÖffentlicher 3D-Client\nGebäudeauswahl + Berechnung\nIst-Zustand + Vergleich\nBackend CRUD" as R2 #DFF7E2
 
-rectangle "Release 3\n13.04.2026 - 10.05.2026\n---\nNebenzielgruppe + Abschluss\nVerwaltungsbereich\nKonfiguration\nDatenfreigabe WÃ¤rmeplanung\nExport + LÃ¶schprozess\nBeginn externe Testphase" as R3 #FFEFD6
+rectangle "Release 3\n13.04.2026 - 10.05.2026\n---\nNebenzielgruppe + Abschluss\nSanierungsmaßnahmen\nZusammenfassung + Bürger-Export\nDatenpersistenz in Navigation\nAnzeigetexte\nVerwaltungsbereich + Wärmeplanung" as R3 #FFEFD6
 
-rectangle "Release 4\n11.05.2026 - 18.06.2026\n---\nErweiterungen + Stabilisierung\nAmortisation\nFeedback-Funktion\nGebÃ¤udeeinfÃ¤rbung\nQuartiersanalyse" as R4 #F3F4F6
+rectangle "Release 4\n11.05.2026 - 18.06.2026\n---\nErweiterungen + Stabilisierung\nAmortisation\nFeedback-Funktion\nPotenzial-Farbvisualisierung\nFehlermeldungen\nWhitelabel-Doku\nQuartiersanalyse" as R4 #F3F4F6
 
-rectangle "Inbetriebnahme\n19.06.2026 - 24.07.2026\n---\nRollout\nÃœbergang in den Regelbetrieb" as GO #FFF4BF
+rectangle "Inbetriebnahme\n19.06.2026 - 24.07.2026\n---\nRollout\nÜbergang in den Regelbetrieb" as GO #FFF4BF
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
@@ -30,7 +30,7 @@ R4 --> GO : uebergang
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-03-13
+  Stand: 2026-04-14
 endlegend
 
 @enduml

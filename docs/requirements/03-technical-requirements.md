@@ -656,13 +656,13 @@ Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.
 <a id="ta-78"></a>
 
 **TA-78**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über Local Storage unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
 
 <a id="ta-79"></a>
 
 **TA-79**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Tracking) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
 
 ---
@@ -710,7 +710,7 @@ Der Berechnungskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstütze
 <a id="ta-85"></a>
 
 **TA-85**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Am oberen Ende des Spektrums müssen Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
 
 <a id="ta-86"></a>

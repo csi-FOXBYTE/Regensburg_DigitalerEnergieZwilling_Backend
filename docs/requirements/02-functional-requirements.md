@@ -324,25 +324,25 @@ Das System muss Diagramme, Vergleiche und Visualisierungen bereitstellen, um kom
 <a id="fa-31"></a>
 
 **FA-31**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Nutzer müssen einzelne oder kombinierte Sanierungsmaßnahmen auswählen und vergleichen können.
 
 <a id="fa-32"></a>
 
 **FA-32**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss zeigen, wie sich der Energiebedarf je Maßnahme verändert.
 
 <a id="fa-33"></a>
 
 **FA-33**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss zeigen, wie sich die CO₂-Emissionen je Maßnahme verändern.
 
 <a id="fa-34"></a>
 
 **FA-34**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Die Energieeffizienzklasse vor und nach einer Maßnahme muss vergleichbar dargestellt werden.
 
 <a id="fa-35"></a>
@@ -360,7 +360,7 @@ Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 <a id="fa-37"></a>
 
 **FA-37**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 <a id="fa-38"></a>
@@ -614,7 +614,7 @@ Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten
 <a id="fa-72"></a>
 
 **FA-72**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Fehler müssen über klare, „sprechende“ Fehlermeldungen kommuniziert werden (z.B. „Eingabedaten ungültig“, „Bitte Seite neu laden“, „Kontaktieren Sie Support“).
 
 <a id="fa-73"></a>
@@ -695,7 +695,7 @@ Für alle automatisch abgeleiteten Werte muss die Datenherkunft in UI und Export
 <a id="fa-82"></a>
 
 **FA-82**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Nutzer sollen ihre Eingaben jederzeit abbrechen und bei Wiederbesuch automatisch aus dem Local Storage wieder aufnehmen können; wenn eine Speicherung im Backend explizit ausgelöst wurde, muss zusätzlich eine Wiederherstellung vom Server möglich sein.
 
 <a id="fa-83"></a>
