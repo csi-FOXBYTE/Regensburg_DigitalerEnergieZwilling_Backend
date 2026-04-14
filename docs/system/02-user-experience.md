@@ -142,11 +142,11 @@ Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu
 1. Landingpage mit Kurzbeschreibung und Datenschutz-Hinweis.
 2. Gebäude finden über Karte oder Adresse.
 3. Basisdaten anzeigen, prüfen und korrigieren.
-4. Maßnahmen/PV/Solarthermie/Geothermie auswählen, Varianten vergleichen.
+4. Maßnahmen/PV/Geothermie auswählen, Varianten vergleichen.
 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
-> ⚠️ **Hinweis MVP:** Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
+> ⚠️ **Hinweis MVP:** Solarthermie ist derzeit nicht Teil des vorgesehenen Rechenwegs im Berechnungskern. Offen sind damit aktuell vor allem die zwei PV-Darstellungen und die Geothermie-Bewertung.
 > Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
 
 ### User Stories (Private Gebäudenutzer)
@@ -462,7 +462,7 @@ Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
 
 - Dämmung (Dach, Fassade, Kellerdecke, Fenster)
 - Heizsysteme (Wärmepumpe etc.)
-- Zusatztechnik (PV, Solarthermie)
+- Zusatztechnik (PV; Solarthermie derzeit nicht im vorgesehenen Rechenweg)
 - Anzeige von:
   - Sparpotenzial
   - Investitionskosten

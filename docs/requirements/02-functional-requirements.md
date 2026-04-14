@@ -75,13 +75,13 @@ Zu jedem Gebäude müssen energetische Potenziale visuell darstellbar sein.
 
 **FA-04**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
+Wenn belastbare Solarpotenzialdaten rechtzeitig bereitgestellt werden, muss das System Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
 
 <a id="fa-05"></a>
 
 **FA-05**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
+Wenn belastbare Geothermiedaten rechtzeitig bereitgestellt werden, muss das System Geothermiepotenziale gebäudebezogen anzeigen können.
 
 <a id="fa-06"></a>
 
@@ -89,7 +89,7 @@ Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
 
-> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme zur Warmwasserbereitung fachlich vorgesehen. Der konkrete MVP-Umfang bleibt in diesem Punkt in Klärung.
+> ⚠️ **Hinweis:** Für Solarthermie zur Warmwasserbereitung ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine spätere Einbindung kann im Projektverlauf neu bewertet werden.
 
 ---
 
@@ -639,7 +639,7 @@ Der Report muss mindestens enthalten:
 - Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, Energie- und Kosteneinsparung)
 - Wirtschaftlichkeit (Investitionskosten Hülle/Energiesystem, Einsparungen, Amortisation, Förderungen)
 - Sanierungsvorschlag basierend auf Budget (Maßnahmen, Kosten, erwartete Einsparungen)
-- Erneuerbare Energien & Eigenversorgung (PV-, Geothermie- und Solarthermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe)
+- Erneuerbare Energien & Eigenversorgung (PV- und Geothermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe; Solarthermie nur bei späterer fachlicher und technischer Erweiterung)
 - Vergleich des Gebäudes im Regensburger Bestand (vor/nach Sanierung)
 - Farbkodierte Visualisierung der Gebäude im 3D-Client
 - Grafische Elemente (Diagramme, farbliche Gebäude-Darstellung)
@@ -665,7 +665,7 @@ Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgun
 
 **FA-77**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
+Sofern belastbare PV- und Geothermie-Daten rechtzeitig bereitgestellt werden, muss das System Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
 Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen.
 
 <a id="fa-78"></a>
@@ -810,32 +810,32 @@ Bei hoher manueller Eingabetiefe müssen weitere berechnungsrelevante Anlagenpar
 
 **FA-100**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarthermie muss als zusätzliche Sanierungsmaßnahme zur bestehenden Heizung für die Warmwasserbereitung auswählbar sein.
+Für Solarthermie zur Warmwasserbereitung besteht im aktuellen Berechnungskern noch kein vorgesehener Rechenweg. Eine spätere Einbindung als zusätzliche Maßnahme kann fachlich neu bewertet werden.
 
 <a id="fa-101"></a>
 
 **FA-101**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Die Umsetzung von Solarthermie ist fachlich gewünscht, hat jedoch gegenüber anderen Maßnahmen einen geringeren Detailgrad; der verbindliche Umfang für die MVP-Phase muss noch abgestimmt werden.
+Vor einer möglichen Umsetzung von Solarthermie müssen fachlicher Rechenweg, Eingabeparameter, Ergebnislogik und Abgrenzung zum bestehenden Warmwasser- und Heizungspfad verbindlich definiert werden.
 
 <a id="fa-102"></a>
 
 **FA-102**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-PV muss in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
+Sofern belastbare PV-Potenzialdaten bereitgestellt werden, muss PV in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
 Darstellung 1 dimensioniert PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 
 <a id="fa-103"></a>
 
 **FA-103**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren.
+Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren. Ohne belastbare PV-Datenbereitstellung bleibt diese Einbindung für den MVP optional.
 
 <a id="fa-104"></a>
 
 **FA-104**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung.
+Wenn ein belastbarer Geothermiedatensatz rechtzeitig bereitgestellt wird, muss das Geothermiepotenzial über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung und die Einbindung bleibt bis zur Datenbereitstellung optional.
 
 <a id="fa-105"></a>
 
@@ -885,7 +885,7 @@ Für den Datenimport neuer Kommunen muss eine fachlich nachvollziehbare Zuordnun
 
 **FA-111**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Wenn erweiterte Fachdaten (z.B. CityGML Energy ADE) vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben.
+Wenn erweiterte Fachdaten in einem für DEZ geeigneten und kompatiblen Format vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben. CityGML Energy ADE ist im aktuellen Stand dafür nicht geeignet, da Version 1.0 nicht mit CityGML 3.0-Dateien kompatibel ist.
 
 <a id="fa-112"></a>
 

@@ -145,15 +145,15 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 
 **TA-12**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarpotenziale (PV) und Geothermiepotenziale müssen als statische Attribute direkt in den 3D Tiles abgelegt sein.
+Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
 
 <a id="ta-13"></a>
 
 **TA-13**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Zur Laufzeit dürfen keine Solar- oder Geothermiepotenziale berechnet werden.
+Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht zur Laufzeit berechnet werden.
 
-> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der finale technische Umfang für die MVP-Phase ist jedoch noch in Klärung.
+> ⚠️ **Hinweis:** Für Solarthermie ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine technische Einbindung ist daher derzeit nicht belastbar spezifiziert.
 
 <a id="ta-14"></a>
 
@@ -863,19 +863,19 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 
 **TA-97**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
+Für Solarthermie besteht im aktuellen Berechnungskern noch kein technischer Rechenweg. Eine Modellierung als Maßnahme zur Unterstützung der Warmwasserbereitung ist daher erst nach fachlicher Spezifikation und Core-Erweiterung möglich.
 
 <a id="ta-98"></a>
 
 **TA-98**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
+Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, Eingabeparameter, Ergebniskennzahlen und Validierungsregeln verbindlich festgelegt werden.
 
 <a id="ta-99"></a>
 
 **TA-99**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
+Sofern belastbare PV-Potenzialdaten bereitgestellt werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
@@ -884,13 +884,13 @@ Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
 
 **TA-100**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
+Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
 
 <a id="ta-101"></a>
 
 **TA-101**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
+Bis zur Bereitstellung belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
 
@@ -1066,13 +1066,13 @@ Für jede angebundene Kommune muss ein versioniertes Mapping-Profil (Quelle -> k
 
 **TA-125**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-CityGML Energy ADE muss als optionaler Eingabestandard unterstützt werden. Wenn Energy-ADE-Daten vorliegen, müssen diese vorrangig über das Mapping-Profil in das kanonische Schema überführt werden können.
+CityGML Energy ADE wird im aktuellen Stand nicht als Eingabestandard unterstützt. Version 1.0 ist nicht mit CityGML 3.0-Dateien kompatibel und daher für die Umsetzung im DEZ derzeit nicht geeignet.
 
 <a id="ta-126"></a>
 
 **TA-126**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Wenn keine Energy-ADE-Daten vorliegen, muss das System über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) weiterhin lauffähig sein.
+Das System muss ohne CityGML Energy ADE über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) vollständig lauffähig sein.
 
 <a id="ta-127"></a>
 

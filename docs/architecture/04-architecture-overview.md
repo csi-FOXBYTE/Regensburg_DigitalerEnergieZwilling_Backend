@@ -27,7 +27,7 @@ Zentrale Leitprinzipien der Architektur sind:
 
 ### Statische Daten statt Laufzeitberechnung
 
-Alle rechenintensiven und allgemein gültigen Daten (z.B. Solarpotenziale (PV) und Geothermiepotenziale) werden **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.  
+Soweit belastbare Solarpotenzial- oder Geothermiedaten bereitgestellt werden, werden diese **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.  
 Zur Laufzeit findet keine Neuberechnung dieser Potenziale statt.
 
 Dies reduziert:
@@ -83,7 +83,7 @@ während Branding, Texte, Datenquellen und Mapping-Regeln über versionierte Pro
 Kernprinzipien:
 - Regensburg-spezifische Inhalte sind zu kapseln und nicht in Kernkomponenten zu hartcodieren.
 - Für jede Kommune wird ein eigenes Daten-Mapping auf ein kanonisches Zielschema geführt.
-- Optionale Erweiterungsstandards wie **CityGML Energy ADE** werden über dieselbe Mapping-Schicht integriert.
+- Erweiterte Fachdaten können nur dann über dieselbe Mapping-Schicht integriert werden, wenn sie mit dem im DEZ genutzten CityGML-3.0-basierten Datenstand kompatibel sind. **CityGML Energy ADE 1.0** ist dafür aktuell nicht geeignet.
 - Pro Deployment bedient eine DEZ-Instanz genau eine Kommune; weitere Kommunen werden über getrennte Deployments angebunden.
 
 Damit kann dieselbe Plattform für weitere Kommunen und angrenzende Use Cases betrieben werden,

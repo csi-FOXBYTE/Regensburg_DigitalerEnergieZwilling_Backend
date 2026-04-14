@@ -9,11 +9,12 @@ Dieses Dokument definiert den geplanten MVP-Umfang, dessen Aufteilung in vier Re
 1. [Zielbild MVP](#zielbild-mvp)
 2. [Roadmap-Diagramm (PlantUML)](#roadmap-diagramm-plantuml)
 3. [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf)
-4. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
-5. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
-6. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase](#release-3)
-7. [Release 4 - Erweiterungen und Stabilisierung](#release-4)
-8. [Inbetriebnahme](#inbetriebnahme)
+4. [Zentrales Register optionaler Komponenten](#zentrales-register-optionaler-komponenten)
+5. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
+6. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
+7. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase](#release-3)
+8. [Release 4 - Erweiterungen und Stabilisierung](#release-4)
+9. [Inbetriebnahme](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
 
@@ -46,6 +47,20 @@ Quelle: `raw/mvp-roadmap.puml`
 - Bei jedem Sprintwechsel wird die Roadmap geprüft.
 - Eine Anpassung der Roadmap erfolgt bei Bedarf (optional), wenn sich Prioritäten, Abhängigkeiten oder Umsetzungsrisiken geändert haben.
 - Jede Änderung wird als Verlaufseintrag dokumentiert, damit Entscheidungen und Planänderungen nachvollziehbar bleiben.
+
+<a id="zentrales-register-optionaler-komponenten"></a>
+
+## Zentrales Register optionaler Komponenten
+
+Optionale oder bewusst offen gehaltene Komponenten werden zentral in der [Übersicht optionaler Komponenten](./optional-components-overview.md) gepflegt.
+
+Die Übersicht ergänzt die Release-Planung um:
+
+- Sichtbarkeit optionaler Bausteine über den gesamten Projektverlauf
+- eine initiale Einschätzung der Umsetzbarkeit
+- einen klaren Status je Komponente (`Offen`, `Beobachten`, `Geplant`, `Zurückgestellt`, `Entscheiden vor Umsetzung`)
+
+Wenn sich Scope, Datenlage oder Betriebsannahmen ändern, müssen Roadmap und Komponentenübersicht gemeinsam aktualisiert werden.
 
 ---
 
@@ -153,6 +168,10 @@ Folgende Themen werden in der verbleibenden Entwicklungsdauer umgesetzt:
 - Implementierung der Feedback-Funktion.
 - Einfärben von Gebäuden in der 3D-Ansicht.
 - Quartiersanalyse (Vergleich mit Gebiet/Stadt).
+
+Hinweis:
+
+- Die Einbindung von Solarpotenzial- und Geothermiedaten in Release 4 ist von der rechtzeitigen Bereitstellung belastbarer Datensätze abhängig und bleibt bis dahin optional.
 
 Zugeordnete Anforderungen:
 

@@ -52,7 +52,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Warmwasser & Nutzung**: pauschal, personenbasiert oder verbrauchsbezogen.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Heizkreistemperatur, Regelung, Zusatzheizung und Sanierungsrandbedingungen.
 - **Kosten/Preise & Faktoren**: Jahresverbrauch, Arbeitspreis, Grundpreis, Heizwert, Primärenergiefaktor und CO₂-Faktor.
-- **Erneuerbare**: PV (zwei Darstellungen), Solarthermie (Warmwasser-Unterstützung), Geothermie, Energiespeicher (optional).
+- **Erneuerbare**: PV (zwei Darstellungen), Geothermie, Energiespeicher (optional). Solarthermie ist als spätere Erweiterung denkbar, derzeit aber nicht im Berechnungskern vorgesehen.
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
@@ -106,12 +106,14 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 - Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard für DEZ jedoch nur in einem bewusst begrenzten Mindestumfang ab.
 - Regensburg-spezifische Felder, Texte oder Klassifikationen sind als Profilinhalt zu behandeln und nicht als implizite Kernannahme.
 
-### Optionale CityGML Energy ADE Einbindung
+<a id="aktueller-stand-citygml-energy-ade"></a>
+
+### Aktueller Stand CityGML Energy ADE
 
 - CityGML LOD2 bleibt die Basiseingabe für Geometrie und Adressbezug.
-- Liegen **CityGML Energy ADE**-Inhalte vor, werden sie vorrangig über das jeweilige Mapping-Profil in das kanonische Modell übernommen.
-- Ohne Energy ADE greifen definierte Fallback-Pfade (LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte).
-- Dadurch bleibt das System sowohl mit minimalen als auch mit erweiterten kommunalen Datensätzen lauffähig.
+- **CityGML Energy ADE 1.0** ist aktuell nicht mit **CityGML 3.0**-Dateien kompatibel und daher für die Umsetzung im DEZ derzeit nicht geeignet.
+- Für DEZ bleiben deshalb LOD2-Basisattribute, externe Potenzialdaten und Konfigurationswerte der maßgebliche Eingangspfad.
+- Eine spätere Neubewertung ist nur sinnvoll, wenn ein kompatibler Standard- oder Werkzeugstand vorliegt.
 
 ### Status-Lifecycle (Triage)
 
@@ -123,13 +125,13 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Statische Tile-Attribute (Auszug)
 
 - **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
-- **Solarpotenziale** liegen als Attribute in 3D Tiles vor. Relevante Felder u.a.:
+- **Solarpotenziale** liegen bei verfügbarer belastbarer Datenbereitstellung als Attribute in 3D Tiles vor. Relevante Felder u.a.:
   `solarArea`, `Fläche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
-- **Geothermiepotenziale** werden über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
-- **Datenstand Geothermie**: Ein belastbarer Datensatz liegt aktuell noch nicht vor; die konkrete Ausprägung für den MVP bleibt in Klärung.
+- **Geothermiepotenziale** werden bei verfügbarer belastbarer Datenbereitstellung über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
+- **Datenstand Solar/Geothermie**: Die Einbindung in den MVP hängt von der rechtzeitigen Bereitstellung belastbarer Datensätze ab; für Geothermie liegt aktuell noch kein belastbarer Datensatz vor.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 
 ### Abgeleitete Gebäudeparameter (LOD2)
