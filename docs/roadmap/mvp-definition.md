@@ -2,7 +2,7 @@
 
 Dieses Dokument definiert den geplanten MVP-Umfang, dessen Aufteilung in vier Releases sowie die anschließende Inbetriebnahmephase.
 
-Letzte Änderung: **2026-04-14** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-04-15** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -61,8 +61,11 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-04-15 | Vergleichswert in der Ergebnisanzeige für Bürger | Vergleich mit dem Regensburger Gebäudebestand | Bundesweiter statistischer Vergleichswert |
+| 2026-04-15 | Kostenschätzung und davon abhängige Fördermöglichkeiten für Bürger | Release 2 | Release 3 (Klärung und Neubewertung als Voraussetzung für die weitere Umsetzung im Projektverlauf) |
+| 2026-04-15 | Umsetzung von Kostenschätzung und davon abhängiger Förderung | Nicht explizit in der Release-Beschreibung ausgewiesen | Release 4 (abhängig von der Klärung in Release 3) |
 | 2026-04-14 | Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger | Release 2 | Release 3 |
-| 2026-04-14 | Zusammenfassung und Export der Berechnungsergebnisse für Bürger | Release 2 | Release 3 |
+| 2026-04-14 | Darstellung und Export der Berechnungsergebnisse für Bürger | Release 2 | Release 3 |
 | 2026-04-14 | Farbliche Visualisierung von Energiepotenzialen | Release 2 | Release 4 |
 | 2026-04-14 | Sprechende Fehlermeldungen und Meldungsmanagement | Release 2 | Release 4 |
 | 2026-04-14 | Integration von Datenpersistenz in die Navigation (Dialog Wiederaufnahme aus Local Storage; Dialog Fortfahren oder Neustarten bei Klick auf Logo/Landingpage) | Release 2 | Release 3 |
@@ -123,7 +126,7 @@ Ziel: Primärfunktionen für die Hauptzielgruppe bereitstellen und einen ersten 
 
 Änderung gegenüber Stand 2026-03-13:
 
-- Bisheriger Stand: Release 2 enthielt zusätzlich die Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger, die Zusammenfassung und den Export der Berechnungsergebnisse, die farbliche Visualisierung von Energiepotenzialen, sprechende Fehlermeldungen, die Integration der Datenpersistenz in die Navigation, die Dokumentation Whitelabeling sowie die Definition der Anzeigetexte.
+- Bisheriger Stand: Release 2 enthielt zusätzlich die Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger, die Darstellung der Berechnungsergebnisse inklusive Vergleichswert, den Export der Berechnungsergebnisse, die Klärung der Umsetzung von Kostenschätzung und davon abhängigen Fördermöglichkeiten, die farbliche Visualisierung von Energiepotenzialen, sprechende Fehlermeldungen, die Integration der Datenpersistenz in die Navigation, die Dokumentation Whitelabeling sowie die Definition der Anzeigetexte.
 - Neuer Stand: Diese Inhalte wurden aus Release 2 herausgelöst und in Release 3 bzw. Release 4 verschoben.
 
 Umfang öffentlicher Client:
@@ -131,8 +134,6 @@ Umfang öffentlicher Client:
 - 3D-Kartenansicht.
 - Auswahl eines Gebäudes über 3D-Ansicht und/oder Adresseingabe.
 - Darstellung des Ist-Zustands inklusive Berechnung und Plausibilitätscheck.
-- Ergebnisanzeige für den Ist-Zustand inklusive Vergleich innerhalb der Stadt Regensburg.
-- Erste Implementierung von Fördermöglichkeiten.
 - Footer-Bereich: Impressum, Datenschutz, Einwilligungsverwaltung.
 
 Umfang Backend:
@@ -141,7 +142,7 @@ Umfang Backend:
 
 Ergebnis:
 
-- Erstes nutzbares Bürgerangebot für Gebäudeauswahl, Ist-Zustand und Grundbewertung.
+- Erstes nutzbares Bürgerangebot für Gebäudeauswahl, Ist-Zustand, Berechnung und Grundbewertung.
 
 
 Zugeordnete Anforderungen:
@@ -161,13 +162,14 @@ Ziel: Primärfunktionen für die Nebenzielgruppe bereitstellen; zusätzlich die 
 Änderung gegenüber Stand 2026-03-13:
 
 - Bisheriger Stand: Release 3 fokussierte Verwaltungsbereich, Datenfreigabe/Wärmeplanung, Export- und Löschprozess sowie den Beginn der externen Testphase.
-- Neuer Stand: Release 3 umfasst zusätzlich die Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger, die Zusammenfassung und den Export der Berechnungsergebnisse, die Integration der Datenpersistenz in die Navigation sowie die Definition der Anzeigetexte.
+- Neuer Stand: Release 3 umfasst zusätzlich die Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger, die Darstellung der Berechnungsergebnisse inklusive bundesweitem statistischem Vergleichswert, den Export der Berechnungsergebnisse, die Integration der Datenpersistenz in die Navigation sowie die Definition der Anzeigetexte; zusätzlich werden Kostenschätzung und davon abhängige Fördermöglichkeiten in Release 3 geklärt und neu bewertet, um eine weitere Umsetzung im Projektverlauf abzusichern.
 
 Umfang:
 
 - Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger.
-- Zusammenfassung der Berechnungsergebnisse für Bürger.
+- Darstellung der Berechnungsergebnisse für Bürger inklusive bundesweitem statistischem Vergleichswert.
 - Technische Bereitstellung des Exports als PDF/JSON für den öffentlichen Client (Bürgerbereich).
+- Klärung und Neubewertung der Umsetzung von Kostenschätzung und davon abhängigen Fördermöglichkeiten für Bürger als Voraussetzung für die weitere Umsetzung im Projektverlauf.
 - Integration der Datenpersistenz in die Navigation (Dialog Wiederaufnahme aus Local Storage; Dialog Fortfahren oder Neustarten bei Klick auf Logo/Landingpage).
 - Definition der Anzeigetexte.
 - Datenfreigabe durch Nutzer und Bereitstellung der freigegebenen Eingabedaten für die Wärmeplanung über die CIVITAS/CORE-Plattform.
@@ -179,14 +181,19 @@ Umfang:
 - Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal.
 - Beginn der Testphase mit externen Testern.
 
+Hinweis:
+
+- Die Klärung von Kostenschätzung und davon abhängiger Förderung muss in Release 3 abgeschlossen werden, damit eine weitere Umsetzung im Projektverlauf noch realistisch bleibt.
+- Für den Vergleichswert wird ein bundesweiter statistischer Referenzwert herangezogen, da der Regensburger Datensatz keinen fachlich belastbaren Vergleich ermöglicht.
+
 Ergebnis:
 
-- Administrierbarer MVP mit steuerbarer Berechnungslogik, nachgezogenen Bürger-Abschlussfunktionen, bereitgestelltem Export- und Löschprozess sowie umgesetzter Datenfreigabe und Wärmeplanung.
+- Administrierbarer MVP mit steuerbarer Berechnungslogik, nachgezogener Darstellung und Exportfunktion der Berechnungsergebnisse für Bürger, geklärter Entscheidungsgrundlage für Kostenschätzung und Förderung sowie umgesetzter Datenfreigabe und Wärmeplanung.
 
 
 Zugeordnete Anforderungen:
 
-- Fachliche Anforderungen: [FA-31](../requirements/02-functional-requirements.md#fa-31), [FA-32](../requirements/02-functional-requirements.md#fa-32), [FA-33](../requirements/02-functional-requirements.md#fa-33), [FA-34](../requirements/02-functional-requirements.md#fa-34), [FA-37](../requirements/02-functional-requirements.md#fa-37), [FA-38](../requirements/02-functional-requirements.md#fa-38), [FA-42](../requirements/02-functional-requirements.md#fa-42), [FA-43](../requirements/02-functional-requirements.md#fa-43), [FA-44](../requirements/02-functional-requirements.md#fa-44), [FA-45](../requirements/02-functional-requirements.md#fa-45), [FA-46](../requirements/02-functional-requirements.md#fa-46), [FA-47](../requirements/02-functional-requirements.md#fa-47), [FA-48](../requirements/02-functional-requirements.md#fa-48), [FA-49](../requirements/02-functional-requirements.md#fa-49), [FA-50](../requirements/02-functional-requirements.md#fa-50), [FA-51](../requirements/02-functional-requirements.md#fa-51), [FA-52](../requirements/02-functional-requirements.md#fa-52), [FA-53](../requirements/02-functional-requirements.md#fa-53), [FA-54](../requirements/02-functional-requirements.md#fa-54), [FA-55](../requirements/02-functional-requirements.md#fa-55), [FA-56](../requirements/02-functional-requirements.md#fa-56), [FA-57](../requirements/02-functional-requirements.md#fa-57), [FA-58](../requirements/02-functional-requirements.md#fa-58), [FA-68](../requirements/02-functional-requirements.md#fa-68), [FA-69](../requirements/02-functional-requirements.md#fa-69), [FA-74](../requirements/02-functional-requirements.md#fa-74), [FA-75](../requirements/02-functional-requirements.md#fa-75), [FA-76](../requirements/02-functional-requirements.md#fa-76), [FA-82](../requirements/02-functional-requirements.md#fa-82), [FA-86](../requirements/02-functional-requirements.md#fa-86), [FA-87](../requirements/02-functional-requirements.md#fa-87), [FA-88](../requirements/02-functional-requirements.md#fa-88), [FA-89](../requirements/02-functional-requirements.md#fa-89), [FA-90](../requirements/02-functional-requirements.md#fa-90)
+- Fachliche Anforderungen: [FA-31](../requirements/02-functional-requirements.md#fa-31), [FA-32](../requirements/02-functional-requirements.md#fa-32), [FA-33](../requirements/02-functional-requirements.md#fa-33), [FA-34](../requirements/02-functional-requirements.md#fa-34), [FA-37](../requirements/02-functional-requirements.md#fa-37), [FA-38](../requirements/02-functional-requirements.md#fa-38), [FA-42](../requirements/02-functional-requirements.md#fa-42), [FA-43](../requirements/02-functional-requirements.md#fa-43), [FA-44](../requirements/02-functional-requirements.md#fa-44), [FA-45](../requirements/02-functional-requirements.md#fa-45), [FA-46](../requirements/02-functional-requirements.md#fa-46), [FA-47](../requirements/02-functional-requirements.md#fa-47), [FA-48](../requirements/02-functional-requirements.md#fa-48), [FA-49](../requirements/02-functional-requirements.md#fa-49), [FA-50](../requirements/02-functional-requirements.md#fa-50), [FA-51](../requirements/02-functional-requirements.md#fa-51), [FA-52](../requirements/02-functional-requirements.md#fa-52), [FA-53](../requirements/02-functional-requirements.md#fa-53), [FA-54](../requirements/02-functional-requirements.md#fa-54), [FA-55](../requirements/02-functional-requirements.md#fa-55), [FA-57](../requirements/02-functional-requirements.md#fa-57), [FA-58](../requirements/02-functional-requirements.md#fa-58), [FA-68](../requirements/02-functional-requirements.md#fa-68), [FA-69](../requirements/02-functional-requirements.md#fa-69), [FA-74](../requirements/02-functional-requirements.md#fa-74), [FA-82](../requirements/02-functional-requirements.md#fa-82), [FA-86](../requirements/02-functional-requirements.md#fa-86), [FA-87](../requirements/02-functional-requirements.md#fa-87), [FA-88](../requirements/02-functional-requirements.md#fa-88), [FA-89](../requirements/02-functional-requirements.md#fa-89), [FA-90](../requirements/02-functional-requirements.md#fa-90)
 - Technische Anforderungen: [TA-32](../requirements/03-technical-requirements.md#ta-32), [TA-33](../requirements/03-technical-requirements.md#ta-33), [TA-34](../requirements/03-technical-requirements.md#ta-34), [TA-36](../requirements/03-technical-requirements.md#ta-36), [TA-39](../requirements/03-technical-requirements.md#ta-39), [TA-43](../requirements/03-technical-requirements.md#ta-43), [TA-44](../requirements/03-technical-requirements.md#ta-44), [TA-46](../requirements/03-technical-requirements.md#ta-46), [TA-47](../requirements/03-technical-requirements.md#ta-47), [TA-48](../requirements/03-technical-requirements.md#ta-48), [TA-49](../requirements/03-technical-requirements.md#ta-49), [TA-50](../requirements/03-technical-requirements.md#ta-50), [TA-51](../requirements/03-technical-requirements.md#ta-51), [TA-62](../requirements/03-technical-requirements.md#ta-62), [TA-76](../requirements/03-technical-requirements.md#ta-76), [TA-77](../requirements/03-technical-requirements.md#ta-77), [TA-78](../requirements/03-technical-requirements.md#ta-78), [TA-79](../requirements/03-technical-requirements.md#ta-79), [TA-80](../requirements/03-technical-requirements.md#ta-80), [TA-81](../requirements/03-technical-requirements.md#ta-81), [TA-82](../requirements/03-technical-requirements.md#ta-82), [TA-83](../requirements/03-technical-requirements.md#ta-83), [TA-85](../requirements/03-technical-requirements.md#ta-85)
 ---
 
@@ -199,11 +206,12 @@ Zugeordnete Anforderungen:
 Änderung gegenüber Stand 2026-03-13:
 
 - Bisheriger Stand: Release 4 enthielt Amortisation, Feedback-Funktion, Gebäudeeinfärbung und Quartiersanalyse.
-- Neuer Stand: Release 4 enthält zusätzlich die farbliche Visualisierung von Energiepotenzialen, sprechende Fehlermeldungen und Meldungsmanagement sowie die Dokumentation Whitelabeling.
+- Neuer Stand: Release 4 enthält zusätzlich die technische Kostenschätzung und davon abhängige Fördermöglichkeiten, die farbliche Visualisierung von Energiepotenzialen, sprechende Fehlermeldungen und Meldungsmanagement sowie die Dokumentation Whitelabeling.
 
 Folgende Themen werden in der verbleibenden Entwicklungsdauer umgesetzt:
 
 - Darstellung der Amortisation.
+- Umsetzung der technischen Kostenschätzung und davon abhängiger Fördermöglichkeiten, sofern die Klärung in Release 3 abgeschlossen wurde.
 - Implementierung der Feedback-Funktion.
 - Farbliche Visualisierung von Energiepotenzialen und Einfärben von Gebäuden in der 3D-Ansicht.
 - Sprechende Fehlermeldungen und Meldungsmanagement.
@@ -212,11 +220,12 @@ Folgende Themen werden in der verbleibenden Entwicklungsdauer umgesetzt:
 
 Hinweis:
 
+- Die Umsetzung von Kostenschätzung und davon abhängiger Förderung in Release 4 setzt voraus, dass die fachliche und technische Klärung in Release 3 abgeschlossen wird.
 - Die Einbindung von Solarpotenzial- und Geothermiedaten in Release 4 ist von der rechtzeitigen Bereitstellung belastbarer Datensätze abhängig und bleibt bis dahin optional.
 
 Zugeordnete Anforderungen:
 
-- Fachliche Anforderungen: [FA-04](../requirements/02-functional-requirements.md#fa-04), [FA-05](../requirements/02-functional-requirements.md#fa-05), [FA-06](../requirements/02-functional-requirements.md#fa-06), [FA-35](../requirements/02-functional-requirements.md#fa-35), [FA-36](../requirements/02-functional-requirements.md#fa-36), [FA-59](../requirements/02-functional-requirements.md#fa-59), [FA-60](../requirements/02-functional-requirements.md#fa-60), [FA-61](../requirements/02-functional-requirements.md#fa-61), [FA-62](../requirements/02-functional-requirements.md#fa-62), [FA-63](../requirements/02-functional-requirements.md#fa-63), [FA-64](../requirements/02-functional-requirements.md#fa-64), [FA-71](../requirements/02-functional-requirements.md#fa-71), [FA-72](../requirements/02-functional-requirements.md#fa-72), [FA-77](../requirements/02-functional-requirements.md#fa-77), [FA-85](../requirements/02-functional-requirements.md#fa-85), [FA-100](../requirements/02-functional-requirements.md#fa-100), [FA-101](../requirements/02-functional-requirements.md#fa-101), [FA-102](../requirements/02-functional-requirements.md#fa-102), [FA-103](../requirements/02-functional-requirements.md#fa-103), [FA-104](../requirements/02-functional-requirements.md#fa-104)
+- Fachliche Anforderungen: [FA-04](../requirements/02-functional-requirements.md#fa-04), [FA-05](../requirements/02-functional-requirements.md#fa-05), [FA-06](../requirements/02-functional-requirements.md#fa-06), [FA-35](../requirements/02-functional-requirements.md#fa-35), [FA-36](../requirements/02-functional-requirements.md#fa-36), [FA-56](../requirements/02-functional-requirements.md#fa-56), [FA-59](../requirements/02-functional-requirements.md#fa-59), [FA-60](../requirements/02-functional-requirements.md#fa-60), [FA-61](../requirements/02-functional-requirements.md#fa-61), [FA-62](../requirements/02-functional-requirements.md#fa-62), [FA-63](../requirements/02-functional-requirements.md#fa-63), [FA-64](../requirements/02-functional-requirements.md#fa-64), [FA-71](../requirements/02-functional-requirements.md#fa-71), [FA-72](../requirements/02-functional-requirements.md#fa-72), [FA-75](../requirements/02-functional-requirements.md#fa-75), [FA-76](../requirements/02-functional-requirements.md#fa-76), [FA-77](../requirements/02-functional-requirements.md#fa-77), [FA-85](../requirements/02-functional-requirements.md#fa-85), [FA-100](../requirements/02-functional-requirements.md#fa-100), [FA-101](../requirements/02-functional-requirements.md#fa-101), [FA-102](../requirements/02-functional-requirements.md#fa-102), [FA-103](../requirements/02-functional-requirements.md#fa-103), [FA-104](../requirements/02-functional-requirements.md#fa-104)
 - Technische Anforderungen: [TA-12](../requirements/03-technical-requirements.md#ta-12), [TA-13](../requirements/03-technical-requirements.md#ta-13), [TA-71](../requirements/03-technical-requirements.md#ta-71), [TA-97](../requirements/03-technical-requirements.md#ta-97), [TA-98](../requirements/03-technical-requirements.md#ta-98), [TA-99](../requirements/03-technical-requirements.md#ta-99), [TA-100](../requirements/03-technical-requirements.md#ta-100), [TA-101](../requirements/03-technical-requirements.md#ta-101)
 
 ---

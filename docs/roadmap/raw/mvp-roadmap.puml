@@ -9,19 +9,18 @@ skinparam defaultFontName Arial
 skinparam rectangle {
   RoundCorner 12
   BorderColor #1F2937
-  FontColor #111827
 }
 skinparam ArrowColor #1F2937
 
-rectangle "Release 1\n02.03.2026 - 15.03.2026\n---\nPlattformaufbau\nCIVITAS/CORE Basis\nServices\nDatenpipeline + Preprocessing\nMasterPortal Link-Out" as R1 #DCEBFF
+rectangle "Release 1%n()02.03.2026 - 15.03.2026%n()---%n()Plattformaufbau%n()CIVITAS/CORE Basis%n()Services%n()Datenpipeline + Preprocessing%n()MasterPortal Link-Out" as R1 #DCEBFF
 
-rectangle "Release 2\n16.03.2026 - 12.04.2026\n---\nHauptzielgruppe\nÖffentlicher 3D-Client\nGebäudeauswahl + Berechnung\nIst-Zustand + Vergleich\nBackend CRUD" as R2 #DFF7E2
+rectangle "Release 2%n()16.03.2026 - 12.04.2026%n()---%n()Hauptzielgruppe%n()Öffentlicher 3D-Client%n()Gebäudeauswahl + Berechnung%n()Ist-Zustand + Plausibilitätscheck%n()Backend CRUD" as R2 #DFF7E2
 
-rectangle "Release 3\n13.04.2026 - 10.05.2026\n---\nNebenzielgruppe + Abschluss\nSanierungsmaßnahmen\nZusammenfassung + Bürger-Export\nDatenpersistenz in Navigation\nAnzeigetexte\nVerwaltungsbereich + Wärmeplanung" as R3 #FFEFD6
+rectangle "Release 3%n()13.04.2026 - 10.05.2026%n()---%n()Nebenzielgruppe + Abschluss%n()Sanierungsmaßnahmen%n()Berechnungsergebnisse + Statistik%n()Bürger-Export%n()Kosten/Förderung: Klärung%n()Datenpersistenz + Anzeigetexte%n()Verwaltungsbereich + Wärmeplanung" as R3 #FFEFD6
 
-rectangle "Release 4\n11.05.2026 - 18.06.2026\n---\nErweiterungen + Stabilisierung\nAmortisation\nFeedback-Funktion\nPotenzial-Farbvisualisierung\nFehlermeldungen\nWhitelabel-Doku\nQuartiersanalyse" as R4 #F3F4F6
+rectangle "Release 4%n()11.05.2026 - 18.06.2026%n()---%n()Erweiterungen + Stabilisierung%n()Amortisation%n()Kostenschätzung + Förderung%n()Feedback-Funktion%n()Potenzial-Farbvisualisierung%n()Fehlermeldungen%n()Whitelabel-Doku%n()Quartiersanalyse" as R4 #F3F4F6
 
-rectangle "Inbetriebnahme\n19.06.2026 - 24.07.2026\n---\nRollout\nÜbergang in den Regelbetrieb" as GO #FFF4BF
+rectangle "Inbetriebnahme%n()19.06.2026 - 24.07.2026%n()---%n()Rollout%n()Übergang in den Regelbetrieb" as GO #FFF4BF
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
@@ -30,7 +29,13 @@ R4 --> GO : uebergang
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-04-14
+  Stand: 2026-04-15
 endlegend
 
 @enduml
+
+
+
+
+
+

@@ -498,7 +498,7 @@ Fachpersonal muss auswählbare Eingabeoptionen (z.B. Gebäudetypen, Heizungsarte
 <a id="fa-56"></a>
 
 **FA-56**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Fachpersonal muss Förderprogramme (Links/Kategorien) pflegen können.
 
 ---
@@ -633,32 +633,28 @@ Der Report muss mindestens enthalten:
 - Projektinfo (Gebäudename/Projektname/Adresse)
 - Übersicht der Gebäudedaten (inkl. Herkunftskennzeichnung)
 - Zusammenfassung der Energieeffizienz-Analyse (aktuelle Klasse, Klasse nach Sanierung, Reduktion Energiebedarf, Reduktion CO₂)
-- Strombedarf & Eigenverbrauch (ohne/mit Wärmepumpe, zusätzlicher Strombedarf Luft/Geothermie, Deckungsanteile, Eigennutzungsquote, Einsparungen durch Eigenverbrauch)
-- Energiebedarf & Heizkosten (aktuell/neu, jährlich/monatlich, Einsparungen)
+- Energiebedarf (aktuell/neu, Einsparung)
 - CO₂-Emissionen (aktuell/neu, Einsparung in t CO₂-Äquivalent)
-- Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, Energie- und Kosteneinsparung)
-- Wirtschaftlichkeit (Investitionskosten Hülle/Energiesystem, Einsparungen, Amortisation, Förderungen)
-- Sanierungsvorschlag basierend auf Budget (Maßnahmen, Kosten, erwartete Einsparungen)
-- Erneuerbare Energien & Eigenversorgung (PV- und Geothermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe; Solarthermie nur bei späterer fachlicher und technischer Erweiterung)
-- Vergleich des Gebäudes im Regensburger Bestand (vor/nach Sanierung)
-- Farbkodierte Visualisierung der Gebäude im 3D-Client
-- Grafische Elemente (Diagramme, farbliche Gebäude-Darstellung)
+- Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, energetische Wirkung)
+- Vergleich des Gebäudes mit einem bundesweiten statistischen Referenzwert (vor/nach Sanierung)
+- Grafische Elemente (z.B. Diagramme zur Ergebnisdarstellung)
 - CI/CD-konformes Layout; ein IDML-Template kann vom Auftraggeber bereitgestellt werden
 - Zusätzlich fünf Kennwerte, die im Projektverlauf definiert werden
-- Liste relevanter Förderprogramme mit offiziellen Links
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
+
+Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend.
 
 <a id="fa-75"></a>
 
 **FA-75**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Das System soll eine Sanierungsvariante auf Basis eines Nutzerbudgets vorschlagen können (Ziel: maximale Energiebedarfsreduktion).
 
 <a id="fa-76"></a>
 
 **FA-76**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgung ausweisen sowie Gesamtenergiekosten und Einsparungen (absolut und relativ).
 
 <a id="fa-77"></a>
