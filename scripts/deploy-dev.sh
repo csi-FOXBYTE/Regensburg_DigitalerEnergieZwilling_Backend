@@ -10,7 +10,7 @@ fi
 : "${SSH_HOST:?SSH_HOST is required}"
 : "${SSH_USER:?SSH_USER is required}"
 
-NAMESPACE="cc-loc-access-stack"
+NAMESPACE="cc-loc-digitalenergytwin"
 
 echo "Deploying :dev to ${NAMESPACE}..."
 

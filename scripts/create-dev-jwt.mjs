@@ -7,12 +7,12 @@ const defaults = {
   secret: "dev_admin-secret-change-me",
   issuer: "http://localhost:8080/realms/dev",
   audience: "account",
-  clientId: "dez-backend",
+  clientId: "digital-energy-twin",
   username: "dev.user",
   email: "dev.user@example.local",
   scope: "openid profile email",
   roles: ["admin", "user"],
-  ttl: 3600,
+  ttl: 15552000,
   output: "full",
 };
 
