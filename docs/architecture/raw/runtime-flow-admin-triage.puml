@@ -30,7 +30,7 @@ triage --> api : detail response
 api --> gateway : compare view
 gateway --> ui : compare view
 
-Admin -> ui : Mark plausible\nadd note
+Admin -> ui : Mark plausible or deleted\nadd note
 ui -> gateway : POST /admin/entries/{id}/status
 gateway -> api : Forward request
 api -> api : Verify RBAC
@@ -58,5 +58,11 @@ db --> triage : export dataset
 triage --> api : export file
 api --> gateway : download
 gateway --> ui : download
+
+note right of triage
+Unplausible or automatically rejected
+entries are marked as deleted.
+Only released entries are exported.
+end note
 
 @enduml

@@ -42,16 +42,19 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 Verpflichtende Metadaten je Datenquelle:
 
-- `data_owner`: verantwortliche Stelle/Organisation der Quelle
-- `license`: Lizenz- bzw. Nutzungsrechtshinweis der Quelle
-- `distribution`: Verteilungs-/Nutzungsfreigabe (z.B. `public`, `internal`, `restricted`)
-- `accrualPeriodicity`: Aktualisierungsintervall bzw. Turnus der Quelle
+- `dct:title`: fachlicher Titel des Datensatzes
+- `dct:description`: fachliche Beschreibung des Datensatzes
+- `dct:publisher`: veröffentlichende bzw. verantwortliche Stelle
+- `dct:license`: Lizenz- bzw. Nutzungsrechtshinweis; kann auf Dataset- und/oder Distribution-Ebene geführt werden
+- `dct:accrualPeriodicity`: Aktualisierungsintervall bzw. Turnus der Quelle
+- `dcat:distribution`: Klasse zur Beschreibung der Bereitstellung; die konkreten Attribute hängen von der Bereitstellungsform ab (z.B. API oder Datei)
 
 Diese Metadaten sind für alle in DEZ verwendeten Quellen verbindlich zu führen (siehe TA-139 bis TA-141).
+Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard jedoch bewusst nicht vollständig ab.
 Die Veröffentlichung gegenüber Nutzern erfolgt über die Datenschutzhinweise der DEZ-Webseite.
 Die Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
-Hinweis: Solarthermie ist als zusätzliche Sanierungsmaßnahme (Warmwasser-Unterstützung) fachlich gewünscht, aber aktuell nachrangig priorisiert; der MVP-Umfang bleibt in Klärung.
+Hinweis: Solarthermie ist aktuell nicht Teil des vorgesehenen Rechenwegs im Berechnungskern und daher kein belastbar spezifizierter MVP-Baustein.
 
 Beispiele für Datenherkünfte und Referenzen:
 
@@ -239,7 +242,6 @@ Task-Reihenfolge je `job_id`:
 ### Eingaben
 
 - Ein Ordner mit **CityGML-Dateien** (LOD2, inkl. Adressen; Dateistruktur innerhalb des Ordners ist beliebig).
-- Optionaler Ordner/Layer mit **CityGML Energy ADE**-Inhalten.
 - Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe.
 - Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
 - Optional ZIP-Container als Eingabeformat (muss in `extract_inputs` entpackbar sein).
@@ -253,7 +255,7 @@ Hinweis zu Teil-Updates:
 - Für `update_scope = full` gelten alle oben aufgeführten Eingaben.
 - Für Teil-Updates (`lod2`, `solar`, `geothermie`) sind nur die jeweils scope-relevanten Eingaben verpflichtend.
 - Ein Teil-Update darf nicht an fehlenden Eingaben nicht betroffener Datendomänen scheitern.
-- Fehlen Energy-ADE-Inhalte, muss der Lauf über definierte Fallback-Pfade (LOD2 + externe Potenzialdaten + Konfigurationswerte) weiterhin ausführbar bleiben.
+- Der Lauf muss ohne CityGML Energy ADE über definierte Fallback-Pfade (LOD2 + externe Potenzialdaten + Konfigurationswerte) vollständig ausführbar bleiben.
 
 ### Ausgaben
 
@@ -415,7 +417,6 @@ DockerOperator(
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
-- **Energy-ADE-Priorität**: Wenn Energy-ADE-Attribute vorhanden sind, werden diese gemäß `mapping_profile_version` vorrangig übernommen; andernfalls greifen die definierten Fallback-Regeln.
 - **Solarpotenziale** werden aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional.
 - **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).

@@ -145,15 +145,15 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 
 **TA-12**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarpotenziale (PV) und Geothermiepotenziale müssen als statische Attribute direkt in den 3D Tiles abgelegt sein.
+Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
 
 <a id="ta-13"></a>
 
 **TA-13**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Zur Laufzeit dürfen keine Solar- oder Geothermiepotenziale berechnet werden.
+Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht zur Laufzeit berechnet werden.
 
-> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme vorgesehen, der finale technische Umfang für die MVP-Phase ist jedoch noch in Klärung.
+> ⚠️ **Hinweis:** Für Solarthermie ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine technische Einbindung ist daher derzeit nicht belastbar spezifiziert.
 
 <a id="ta-14"></a>
 
@@ -656,13 +656,13 @@ Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.
 <a id="ta-78"></a>
 
 **TA-78**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Sitzungsdaten müssen ohne Registrierung nutzbar sein; Abbruch und Wiederaufnahme über Wiederbesuche hinweg müssen über Local Storage unterstützt werden. Eine serverseitige Wiederherstellung darf nur bereitgestellt werden, wenn der Nutzer die Speicherung explizit ausgelöst hat.
 
 <a id="ta-79"></a>
 
 **TA-79**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss transparent ausgewiesen werden; der Consent-Status (Datenschutz/Tracking) muss als technische Voraussetzung für optionale serverseitige Speicherung und Tracking geprüft und revisionssicher protokolliert werden.
 
 ---
@@ -675,7 +675,7 @@ Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss tra
 
 **TA-80**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status tragen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden.
+Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Unplausible oder automatisch abgelehnte Datensätze sind als `gelöscht` zu markieren.
 
 <a id="ta-81"></a>
 
@@ -693,7 +693,7 @@ Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereit
 
 **TA-83**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: neu → in Prüfung → freigegeben oder unplausibel.
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `gelöscht`. Der Status `gelöscht` ist der fachliche Endzustand für unplausible oder automatisch abgelehnte Datensätze.
 
 ---
 
@@ -710,7 +710,7 @@ Der Berechnungskern muss ein kontinuierliches Eingabetiefe-Spektrum unterstütze
 <a id="ta-85"></a>
 
 **TA-85**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Am oberen Ende des Spektrums müssen Szenario-Berechnungen für Einzelmaßnahmen und Kombinationen unterstützt und die Ergebnisse vergleichbar bereitgestellt werden (vorher/nachher).
 
 <a id="ta-86"></a>
@@ -863,19 +863,19 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 
 **TA-97**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarthermie muss technisch als optionale Sanierungsmaßnahme zur Unterstützung der Warmwasserbereitung in Kombination mit der bestehenden Heizung modellierbar sein.
+Für Solarthermie besteht im aktuellen Berechnungskern noch kein technischer Rechenweg. Eine Modellierung als Maßnahme zur Unterstützung der Warmwasserbereitung ist daher erst nach fachlicher Spezifikation und Core-Erweiterung möglich.
 
 <a id="ta-98"></a>
 
 **TA-98**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Der konkrete Umsetzungsumfang bezüglich Solarthermie muss für die MVP-Phase vor Implementierungsstart verbindlich festgelegt werden.
+Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, Eingabeparameter, Ergebniskennzahlen und Validierungsregeln verbindlich festgelegt werden.
 
 <a id="ta-99"></a>
 
 **TA-99**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
+Sofern belastbare PV-Potenzialdaten bereitgestellt werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
@@ -884,13 +884,13 @@ Für PV müssen zwei getrennte Berechnungspfade unterstützt werden:
 
 **TA-100**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Die Geothermie-Einschätzung muss technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
+Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
 
 <a id="ta-101"></a>
 
 **TA-101**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Bis zur Bereitstellung eines belastbaren Geothermie-Datensatzes ist die Geothermie-Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
+Bis zur Bereitstellung belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
 
@@ -929,7 +929,7 @@ Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werd
 
 **TA-106**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich.
+Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich über einen konfigurierbaren Link-Out unterstützt werden; eine tiefe UI-Einbettung in das MasterPortal ist dafür nicht zwingend erforderlich. Der Link-Out muss optional als Deep-Link mit Query-Parameter zur Übergabe einer Gebäudeauswahl nutzbar sein (z. B. `det-rg.de?select-building=1234`). Die Erzeugung und Einbindung dieses Links im MasterPortal ist durch den Betreiber der Plattform vorgesehen.
 
 > **Begründung (technisch):** Der Link-Out ermöglicht eine performante, statische DEZ-Auslieferung, höhere Entkopplung im Betrieb (Verfügbarkeit/Release-Zyklus), DEZ-spezifische Consent-/Tracking-Logik sowie bessere Skalierbarkeit für die Nachnutzung in weiteren Kommunen.
 
@@ -1066,13 +1066,13 @@ Für jede angebundene Kommune muss ein versioniertes Mapping-Profil (Quelle -> k
 
 **TA-125**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-CityGML Energy ADE muss als optionaler Eingabestandard unterstützt werden. Wenn Energy-ADE-Daten vorliegen, müssen diese vorrangig über das Mapping-Profil in das kanonische Schema überführt werden können.
+CityGML Energy ADE wird im aktuellen Stand nicht als Eingabestandard unterstützt. Version 1.0 ist nicht mit CityGML 3.0-Dateien kompatibel und daher für die Umsetzung im DEZ derzeit nicht geeignet.
 
 <a id="ta-126"></a>
 
 **TA-126**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Wenn keine Energy-ADE-Daten vorliegen, muss das System über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) weiterhin lauffähig sein.
+Das System muss ohne CityGML Energy ADE über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) vollständig lauffähig sein.
 
 <a id="ta-127"></a>
 
@@ -1166,23 +1166,27 @@ Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Komm
 
 ## 33. Datenquellen-Metadaten
 
+Generelle Bemerkung:
+Die hier geführten Metadaten sind auf **DCAT-AP.de** gemappt, bilden den Standard jedoch bewusst **nicht vollständig** ab.
+Sie definieren für DEZ nur den verbindlichen Mindestumfang je Datenquelle bzw. je bereitgestellter Distribution.
+
 <a id="ta-139"></a>
 
 **TA-139**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für jede in der DEZ verwendete Datenquelle müssen verbindlich die Metadaten `data_owner`, `license`, `distribution` und `accrualPeriodicity` ausgewiesen werden.
+Für jede in der DEZ verwendete Datenquelle müssen verbindlich mindestens die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie `dcat:distribution` ausgewiesen werden. `dct:license` kann dabei auf Dataset- und/oder Distribution-Ebene geführt werden. `dcat:distribution` ist als Klasse zu verstehen, deren konkrete Attribute von der Bereitstellungsform abhängen (z.B. API oder Datei).
 
 <a id="ta-140"></a>
 
 **TA-140**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Felder `data_owner`, `license`, `distribution` und `accrualPeriodicity` müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
+Die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie die je `dcat:distribution` relevanten Bereitstellungsattribute müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
 
 <a id="ta-141"></a>
 
 **TA-141**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Verantwortung für Datenverantwortung sowie Bereitstellung und Pflege der Metadaten (`data_owner`, `license`, `distribution`, `accrualPeriodicity`) liegt beim jeweiligen Betreiber der DEZ-Plattform.
+Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der distributionsspezifischen Angaben liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
 ---
 

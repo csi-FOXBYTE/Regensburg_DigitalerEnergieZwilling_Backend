@@ -73,6 +73,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 ## Roadmap
 
 - [MVP-Definition und Release-Aufteilung](roadmap/mvp-definition.md)
+- [Zentrale Übersicht optionaler Komponenten](roadmap/optional-components-overview.md)
 
 ## Implementierungsartefakte
 

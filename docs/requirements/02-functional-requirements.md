@@ -75,13 +75,13 @@ Zu jedem Gebäude müssen energetische Potenziale visuell darstellbar sein.
 
 **FA-04**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
+Wenn belastbare Solarpotenzialdaten rechtzeitig bereitgestellt werden, muss das System Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
 
 <a id="fa-05"></a>
 
 **FA-05**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
+Wenn belastbare Geothermiedaten rechtzeitig bereitgestellt werden, muss das System Geothermiepotenziale gebäudebezogen anzeigen können.
 
 <a id="fa-06"></a>
 
@@ -89,7 +89,7 @@ Das System muss Geothermiepotenziale gebäudebezogen anzeigen können.
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
 
-> ⚠️ **Hinweis:** Solarthermie ist als zusätzliche Sanierungsmaßnahme zur Warmwasserbereitung fachlich vorgesehen. Der konkrete MVP-Umfang bleibt in diesem Punkt in Klärung.
+> ⚠️ **Hinweis:** Für Solarthermie zur Warmwasserbereitung ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine spätere Einbindung kann im Projektverlauf neu bewertet werden.
 
 ---
 
@@ -324,25 +324,25 @@ Das System muss Diagramme, Vergleiche und Visualisierungen bereitstellen, um kom
 <a id="fa-31"></a>
 
 **FA-31**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Nutzer müssen einzelne oder kombinierte Sanierungsmaßnahmen auswählen und vergleichen können.
 
 <a id="fa-32"></a>
 
 **FA-32**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss zeigen, wie sich der Energiebedarf je Maßnahme verändert.
 
 <a id="fa-33"></a>
 
 **FA-33**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss zeigen, wie sich die CO₂-Emissionen je Maßnahme verändern.
 
 <a id="fa-34"></a>
 
 **FA-34**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Die Energieeffizienzklasse vor und nach einer Maßnahme muss vergleichbar dargestellt werden.
 
 <a id="fa-35"></a>
@@ -360,7 +360,7 @@ Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 <a id="fa-37"></a>
 
 **FA-37**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 <a id="fa-38"></a>
@@ -498,7 +498,7 @@ Fachpersonal muss auswählbare Eingabeoptionen (z.B. Gebäudetypen, Heizungsarte
 <a id="fa-56"></a>
 
 **FA-56**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Fachpersonal muss Förderprogramme (Links/Kategorien) pflegen können.
 
 ---
@@ -614,7 +614,7 @@ Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten
 <a id="fa-72"></a>
 
 **FA-72**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Fehler müssen über klare, „sprechende“ Fehlermeldungen kommuniziert werden (z.B. „Eingabedaten ungültig“, „Bitte Seite neu laden“, „Kontaktieren Sie Support“).
 
 <a id="fa-73"></a>
@@ -633,39 +633,35 @@ Der Report muss mindestens enthalten:
 - Projektinfo (Gebäudename/Projektname/Adresse)
 - Übersicht der Gebäudedaten (inkl. Herkunftskennzeichnung)
 - Zusammenfassung der Energieeffizienz-Analyse (aktuelle Klasse, Klasse nach Sanierung, Reduktion Energiebedarf, Reduktion CO₂)
-- Strombedarf & Eigenverbrauch (ohne/mit Wärmepumpe, zusätzlicher Strombedarf Luft/Geothermie, Deckungsanteile, Eigennutzungsquote, Einsparungen durch Eigenverbrauch)
-- Energiebedarf & Heizkosten (aktuell/neu, jährlich/monatlich, Einsparungen)
+- Energiebedarf (aktuell/neu, Einsparung)
 - CO₂-Emissionen (aktuell/neu, Einsparung in t CO₂-Äquivalent)
-- Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, Energie- und Kosteneinsparung)
-- Wirtschaftlichkeit (Investitionskosten Hülle/Energiesystem, Einsparungen, Amortisation, Förderungen)
-- Sanierungsvorschlag basierend auf Budget (Maßnahmen, Kosten, erwartete Einsparungen)
-- Erneuerbare Energien & Eigenversorgung (PV-, Geothermie- und Solarthermiebezug inkl. Erträge/Deckung, Kombination mit Wärmepumpe)
-- Vergleich des Gebäudes im Regensburger Bestand (vor/nach Sanierung)
-- Farbkodierte Visualisierung der Gebäude im 3D-Client
-- Grafische Elemente (Diagramme, farbliche Gebäude-Darstellung)
+- Sanierungsszenarien je ausgewählter Maßnahme (Komponente, Zustand, Vorschlag, energetische Wirkung)
+- Vergleich des Gebäudes mit einem bundesweiten statistischen Referenzwert (vor/nach Sanierung)
+- Grafische Elemente (z.B. Diagramme zur Ergebnisdarstellung)
 - CI/CD-konformes Layout; ein IDML-Template kann vom Auftraggeber bereitgestellt werden
 - Zusätzlich fünf Kennwerte, die im Projektverlauf definiert werden
-- Liste relevanter Förderprogramme mit offiziellen Links
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
+
+Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend.
 
 <a id="fa-75"></a>
 
 **FA-75**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Das System soll eine Sanierungsvariante auf Basis eines Nutzerbudgets vorschlagen können (Ziel: maximale Energiebedarfsreduktion).
 
 <a id="fa-76"></a>
 
 **FA-76**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgung ausweisen sowie Gesamtenergiekosten und Einsparungen (absolut und relativ).
 
 <a id="fa-77"></a>
 
 **FA-77**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das System muss Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
+Sofern belastbare PV- und Geothermie-Daten rechtzeitig bereitgestellt werden, muss das System Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
 Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen.
 
 <a id="fa-78"></a>
@@ -695,7 +691,7 @@ Für alle automatisch abgeleiteten Werte muss die Datenherkunft in UI und Export
 <a id="fa-82"></a>
 
 **FA-82**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Nutzer sollen ihre Eingaben jederzeit abbrechen und bei Wiederbesuch automatisch aus dem Local Storage wieder aufnehmen können; wenn eine Speicherung im Backend explizit ausgelöst wurde, muss zusätzlich eine Wiederherstellung vom Server möglich sein.
 
 <a id="fa-83"></a>
@@ -726,7 +722,7 @@ Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und mehrere Daten
 
 **FA-87**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status besitzen (neu, in Prüfung, freigegeben, unplausibel) und die Statusänderung muss nachvollziehbar sein.
+Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss nachvollziehbar sein. Unplausible oder automatisch abgelehnte Datensätze sind dabei als `gelöscht` zu markieren.
 
 <a id="fa-88"></a>
 
@@ -810,32 +806,32 @@ Bei hoher manueller Eingabetiefe müssen weitere berechnungsrelevante Anlagenpar
 
 **FA-100**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Solarthermie muss als zusätzliche Sanierungsmaßnahme zur bestehenden Heizung für die Warmwasserbereitung auswählbar sein.
+Für Solarthermie zur Warmwasserbereitung besteht im aktuellen Berechnungskern noch kein vorgesehener Rechenweg. Eine spätere Einbindung als zusätzliche Maßnahme kann fachlich neu bewertet werden.
 
 <a id="fa-101"></a>
 
 **FA-101**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Die Umsetzung von Solarthermie ist fachlich gewünscht, hat jedoch gegenüber anderen Maßnahmen einen geringeren Detailgrad; der verbindliche Umfang für die MVP-Phase muss noch abgestimmt werden.
+Vor einer möglichen Umsetzung von Solarthermie müssen fachlicher Rechenweg, Eingabeparameter, Ergebnislogik und Abgrenzung zum bestehenden Warmwasser- und Heizungspfad verbindlich definiert werden.
 
 <a id="fa-102"></a>
 
 **FA-102**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-PV muss in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
+Sofern belastbare PV-Potenzialdaten bereitgestellt werden, muss PV in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
 Darstellung 1 dimensioniert PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 
 <a id="fa-103"></a>
 
 **FA-103**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren.
+Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren. Ohne belastbare PV-Datenbereitstellung bleibt diese Einbindung für den MVP optional.
 
 <a id="fa-104"></a>
 
 **FA-104**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Das Geothermiepotenzial muss über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung.
+Wenn ein belastbarer Geothermiedatensatz rechtzeitig bereitgestellt wird, muss das Geothermiepotenzial über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung und die Einbindung bleibt bis zur Datenbereitstellung optional.
 
 <a id="fa-105"></a>
 
@@ -885,7 +881,7 @@ Für den Datenimport neuer Kommunen muss eine fachlich nachvollziehbare Zuordnun
 
 **FA-111**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Wenn erweiterte Fachdaten (z.B. CityGML Energy ADE) vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben.
+Wenn erweiterte Fachdaten in einem für DEZ geeigneten und kompatiblen Format vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben. CityGML Energy ADE ist im aktuellen Stand dafür nicht geeignet, da Version 1.0 nicht mit CityGML 3.0-Dateien kompatibel ist.
 
 <a id="fa-112"></a>
 

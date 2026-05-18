@@ -36,7 +36,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Abbildung von zwei PV-Darstellungen in der UI:
   - PV + Speicher für Wärmepumpenbetrieb (energetische und finanzielle Effekte)
   - maximale Ausnutzung geeigneter PV-Flächen (Potenzialkommunikation für Haushaltsstrom/KFZ-Ladung)
-- Auswahl von Solarthermie als zusätzliche Sanierungsmaßnahme zur Warmwasser-Unterstützung.
+- Solarthermie ist aktuell nicht als auswählbare Maßnahme vorzusehen, da im Berechnungskern noch kein Rechenweg dafür besteht.
 - Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise.
 - Darstellung von Vegetationsobjekten (Bäume) zur besseren räumlichen Orientierung.
 - Durchführung der Berechnung im Browser über den Berechnungskern.
@@ -82,7 +82,7 @@ Quelle: `raw/frontend-architecture.puml`
 <a id="mvp-klaerungsbedarf-erneuerbare-massnahmen"></a>
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
-- Solarthermie ist vorgesehen, hat aber derzeit geringere Umsetzungspriorität; finaler MVP-Umfang offen.
+- Solarthermie ist derzeit nicht Bestandteil des vorgesehenen Berechnungskern-Umfangs; eine spätere Erweiterung erfordert zuerst einen fachlich definierten Rechenweg.
 - Die genaue Darstellungstiefe der beiden PV-Modi (insbesondere Ergebniskennzahlen) wird in der MVP-Phase finalisiert.
 - Die Geothermie-Bewertung hängt von der Verfügbarkeit des Datensatzes ab und bleibt im MVP bis zur Datenlieferung in Klärung.
 

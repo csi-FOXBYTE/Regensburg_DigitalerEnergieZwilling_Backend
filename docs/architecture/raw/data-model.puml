@@ -156,6 +156,7 @@ class TriageRecord {
   +triage_id
   +input_id
   +status
+  +status_reason
   +reviewer
   +note
   +published_at
@@ -205,6 +206,13 @@ end note
 note right of VentilationReference
 Tightness is referenced from catalog values
 and building age (no direct user input).
+end note
+
+note right of TriageRecord
+Status lifecycle:
+neu -> in_pruefung -> freigegeben | geloescht
+Unplausible or automatically rejected records
+use the logical tombstone status geloescht.
 end note
 
 @enduml

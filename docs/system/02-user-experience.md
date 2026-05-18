@@ -142,11 +142,11 @@ Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu
 1. Landingpage mit Kurzbeschreibung und Datenschutz-Hinweis.
 2. Gebäude finden über Karte oder Adresse.
 3. Basisdaten anzeigen, prüfen und korrigieren.
-4. Maßnahmen/PV/Solarthermie/Geothermie auswählen, Varianten vergleichen.
+4. Maßnahmen/PV/Geothermie auswählen, Varianten vergleichen.
 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
-> ⚠️ **Hinweis MVP:** Der finale Umfang für Solarthermie, die zwei PV-Darstellungen und die Geothermie-Bewertung ist in der MVP-Phase noch zu klären.
+> ⚠️ **Hinweis MVP:** Solarthermie ist derzeit nicht Teil des vorgesehenen Rechenwegs im Berechnungskern. Offen sind damit aktuell vor allem die zwei PV-Darstellungen und die Geothermie-Bewertung.
 > Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
 
 ### User Stories (Private Gebäudenutzer)
@@ -288,6 +288,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Detail            | Gebäudedatensätze öffnen     | Vergleich mehrerer Eingaben      |
 | Plausibilisierung | Datensatz prüfen             | Status „in Prüfung“, Notizen     |
 | Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log |
+| Ablehnung/Löschung | Unplausiblen Datensatz verwerfen | Status „gelöscht“ + Audit-Log |
 | Systempflege      | Kataloge bearbeiten          | Versionierung, Validierung       |
 | Reporting         | Export (JSON/CSV/PDF)        | Download mit Metadaten           |
 
@@ -309,7 +310,8 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 - Klar definierte Rollen und Berechtigungen.
 - Gruppierung „alle Eingaben zu einem Gebäude“.
-- Statuskennzeichnung: neu / in Prüfung / freigegeben / unplausibel.
+- Statuskennzeichnung: neu / in Prüfung / freigegeben / gelöscht.
+- Unplausible oder automatisch abgelehnte Datensätze werden fachlich als gelöscht markiert, nicht stillschweigend entfernt.
 - Audit-Log: Wer hat wann freigegeben?
 - Strukturierte, filterbare Exporte (z. B. Stadtteil, Effizienzklasse).
 
@@ -319,7 +321,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Als Stadtverwalter/in möchte ich eine Übersicht aller Nutzereingaben sehen, damit ich erkenne, was geprüft werden muss.
 - Als Stadtverwalter/in möchte ich mehrere Eingaben zu einem Gebäude vergleichen, um Unterschiede zu erkennen.
 - Als Stadtverwalter/in möchte ich Datensätze als plausibel markieren und freigeben können, damit sie als übermittelte Daten intern weiterverarbeitet werden.
-- Als Stadtverwalter/in möchte ich unplausible Datensätze löschen können, damit die Datenbasis sauber bleibt.
+- Als Stadtverwalter/in möchte ich unplausible oder automatisch abgelehnte Datensätze als gelöscht markieren können, damit sie nicht weiterverwendet werden und dennoch nachvollziehbar bleiben.
 - Als Stadtverwalter/in möchte ich Energieeffizienzklassen, Gebäudetypen und Heizarten pflegen, damit Eingaben konsistent bleiben.
 - Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
 - Als Stadtverwalter/in möchte ich geprüfte Daten exportieren, um sie in der Wärmeplanung weiterzuverwenden.
@@ -460,7 +462,7 @@ Nutzer können Maßnahmen an Gebäudehülle und Heizsystem auswählen.
 
 - Dämmung (Dach, Fassade, Kellerdecke, Fenster)
 - Heizsysteme (Wärmepumpe etc.)
-- Zusatztechnik (PV, Solarthermie)
+- Zusatztechnik (PV; Solarthermie derzeit nicht im vorgesehenen Rechenweg)
 - Anzeige von:
   - Sparpotenzial
   - Investitionskosten
