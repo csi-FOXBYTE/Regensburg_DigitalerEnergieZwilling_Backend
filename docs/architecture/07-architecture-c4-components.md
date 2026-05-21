@@ -235,7 +235,7 @@ Auf Komponentenebene werden Sicherheitsanforderungen als konkrete Kontrollpunkte
 
 - **APISIX + Protected Admin HTML Gateway + Auth Middleware**: APISIX prüft JWT/OIDC und schützt administrative Routen; das Backend wertet Claims/Rollen für fachliche Autorisierung aus.
 - **OpenAPI Controllers**: Trennen öffentliche und administrative Endpunkte, validieren Anfragen und leiten nur validierte Daten an Fachservices weiter.
-- **User Data Service**: Verarbeitet öffentliche Schreibzugriffe nur nach Schutzkette aus Challenge/Rate-Limit/Validierung/Verifikation.
+- **User Data Service**: Verarbeitet öffentliche Schreibzugriffe erst nach APISIX-Policies für Altcha/Rate-Limit und führt anschließend fachliche Validierung und Verifikation aus.
 - **Configuration Service + Snapshot Exporter**: Erzwingen versionierte, unveränderliche Veröffentlichungen statt in-place-Änderungen.
 - **Triage/Reporting-Pfad**: Statuswechsel werden nachvollziehbar geführt und für Audit-Zwecke protokolliert.
 - **Observability**: Erfasst sicherheitsrelevante Ereignisse (Auth, Zugriffsentscheidungen, Fehlerpfade) als Grundlage für Incident-Analyse.

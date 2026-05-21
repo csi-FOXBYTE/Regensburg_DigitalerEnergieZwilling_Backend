@@ -441,7 +441,7 @@ Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung
 **TA-51**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Öffentliche Schreibzugriffe müssen durch Altcha-Challenges und Rate Limiting geschützt werden.
-Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Backend-Service prüft das übermittelte Token.
+Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; Prüfung des übermittelten Tokens und Rate Limiting erfolgen über APISIX als vorgelagerte Gateway-Policy.
 
 ---
 

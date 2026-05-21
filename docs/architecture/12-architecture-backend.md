@@ -89,7 +89,8 @@ Quelle: `raw/backend-architecture.puml`
   - Eine eigene JWT-Signaturprüfung im Backend ist nicht vorgesehen.
 - Für `"/api/public/*"` gilt:
   - Keine Auth-Middleware als Default.
-  - Schutz erfolgt über APISIX-Policies (z.B. Rate Limiting) und fachliche Validierung im Backend.
+  - Schutz gegen Missbrauch erfolgt über APISIX-Policies für Altcha und Rate Limiting.
+  - Das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
 - Diese Konvention stellt sicher, dass die Trennung aus APISIX-Routing und fastify-toab-Namespace konsistent und prüfbar bleibt.
 
 ---
@@ -99,7 +100,7 @@ Quelle: `raw/backend-architecture.puml`
 
 - Strikte Trennung von Public- und Admin-Endpunkten.
 - APISIX ist der verbindliche Enforcement-Point für JWT/OIDC und Routenschutz.
-- Rate Limiting und Altcha-Challenges für öffentliche Schreibzugriffe.
+- APISIX-Policies für Rate Limiting und Altcha-Challenges bei öffentlichen Schreibzugriffen.
 - Statelesses Backend, containerisierbar, mit Observability (Logs, Metriken, Tracing).
 - Als **CIVITAS/CORE-fähiges Add-on** ausgelegt: läuft als eigener Container und ist von außen orchestrierbar.
 - Security by Design: Least Privilege, Secure Defaults, Defense in Depth.

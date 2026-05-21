@@ -61,9 +61,8 @@ alt Optional: Ergebnisse uebermitteln
   client -> altcha: Solve Challenge
   altcha --> client: Token
   client -> gateway: POST /api/public/inputs + Token
-  gateway -> gateway: Rate limit and API policy check
-  gateway -> api: Forward request
-  api -> api: Validate Altcha token
+  gateway -> gateway: Validate Altcha token, rate limit and API policy
+  gateway -> api: Forward validated request
   api -> api: Validate input ranges (config)
   api -> calc: Server-Recompute
   calc --> api: Ergebnis
@@ -73,7 +72,11 @@ alt Optional: Ergebnisse uebermitteln
   api --> gateway: Accepted/Rejected
   gateway --> client: Accepted/Rejected
 
-  alt Altcha, Validation oder Rate Limit fehlgeschlagen
+  alt Altcha oder Rate Limit fehlgeschlagen
+    gateway --> client: Rejected (Gateway Policy)
+  end
+
+  alt Validation fehlgeschlagen
     api --> gateway: Rejected (Validation)
     gateway --> client: Rejected (Validation)
   end

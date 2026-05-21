@@ -71,7 +71,8 @@ end note
 
 note right of apiControllers
 Public write path:
-Altcha token check, input validation,
+APISIX checks Altcha/rate limit;
+backend validates input,
 server recompute and reject paths.
 end note
 

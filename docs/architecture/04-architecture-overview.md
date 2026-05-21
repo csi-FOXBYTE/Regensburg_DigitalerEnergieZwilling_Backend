@@ -98,7 +98,7 @@ Security by Design wird nicht als separates Add-on verstanden, sondern als feste
 
 - **Single Entry Point**: Externe Zugriffe erfolgen ausschließlich über APISIX; interne Dienste sind nicht direkt öffentlich erreichbar (TA-102, TA-59).
 - **Trust-Boundary Public/Admin**: Öffentliche und administrative Pfade sind technisch getrennt; APISIX prüft JWT/OIDC und schützt administrative Routen, Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert (TA-02, TA-04, TA-09).
-- **Missbrauchsschutz bei Public Write**: Altcha, Rate Limiting, serverseitige Validierung und Server-Recompute wirken als kombinierte Schutzkette (TA-47 bis TA-51, TA-62).
+- **Missbrauchsschutz bei Public Write**: APISIX übernimmt Altcha und Rate Limiting; Backend-Validierung und Server-Recompute wirken als nachgelagerte fachliche Schutzkette (TA-47 bis TA-51, TA-62).
 - **Datenminimierung und Angriffsflächenreduktion**: Statische Potenziale liegen in Tiles statt in der Datenbank; das Backend liefert keine großen Tile-Daten aus (TA-14, TA-38).
 - **Konfigurationsintegrität**: Veröffentlicht werden unveränderliche, versionierte Snapshots; Berechnungsergebnisse bleiben reproduzierbar (TA-43 bis TA-46, TA-31).
 - **Plattformhärtung**: Secrets-Management, TLS, Non-Root-Container und auditierbare Security-Events sind verbindlich (TA-60, TA-61, TA-63, TA-64).

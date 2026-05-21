@@ -9,11 +9,11 @@ title Backend-Architektur
 
 rectangle "CIVITAS/CORE Platform" as civitas {
   rectangle "Orchestrierung" as orchestrator
+  rectangle "APISIX Policies\n(Altcha + Rate Limiting)" as protect
 
   rectangle "Backend Add-on\n(Container)" as backend {
     rectangle "Public API" as public_api
     rectangle "Admin API" as admin_api
-    rectangle "Altcha +\nRate Limiting" as protect
     rectangle "Auth Middleware\n(Claims/Roles)" as auth
     rectangle "Configuration Service" as config
     rectangle "User Data Service" as user_data
@@ -28,8 +28,8 @@ rectangle "CIVITAS/CORE Platform" as civitas {
 
 orchestrator ..> backend : orchestriert
 
-public_api --> protect
-protect --> user_data
+protect --> public_api
+public_api --> user_data
 public_api --> calc
 admin_api --> auth
 auth --> config
@@ -44,7 +44,7 @@ keycloak --> orchestrator : via APISIX OIDC/JWT
 
 note right of protect
 Public write protection:
-Altcha + rate limiting + validation
+Altcha + rate limiting in APISIX
 end note
 
 note right of auth

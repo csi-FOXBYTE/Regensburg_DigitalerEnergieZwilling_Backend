@@ -69,7 +69,7 @@ Sicherheitsrelevante Konsequenzen:
 
 - Kein direkter Client-Zugriff auf interne Persistenz.
 - Keine direkte öffentliche Exponierung interner Services.
-- Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt (Challenge, Rate Limiting, Validierung, Verifikation).
+- Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt: APISIX übernimmt Challenge und Rate Limiting, das Backend übernimmt fachliche Validierung und Verifikation.
 
 Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-102.
 
