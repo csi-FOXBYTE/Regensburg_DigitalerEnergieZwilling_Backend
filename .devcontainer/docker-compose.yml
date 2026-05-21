@@ -53,6 +53,14 @@ services:
       APISIX_STAND_ALONE: "true"
     ports:
       - "5000:9080"
+    networks:
+      - default
+      - rg-det-shared
 
 volumes:
   postgres_data:
+
+networks:
+  rg-det-shared:
+    name: rg-det-shared
+    driver: bridge

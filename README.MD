@@ -110,7 +110,7 @@ pnpm jwt:dev \
   --secret dev_admin-secret-change-me \
   --issuer http://localhost:8080/realms/dev \
   --audience account \
-  --client-id dez-backend \
+  --client-id digital-energy-twin \
   --roles admin,user \
   --ttl 3600
 ```
