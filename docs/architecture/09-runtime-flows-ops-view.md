@@ -32,7 +32,7 @@ Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, Altcha-Validierung fehl
 Quelle: `raw/runtime-flow-public.puml`
 
 **Stadtverwaltung / Fachpersonal-Flow**  
-Admins authentifizieren sich via OIDC, bearbeiten Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.  
+Admins authentifizieren sich via OIDC über Keycloak. Nach erfolgreichem Login liegt ein verschlüsseltes JWT-Token als Browser-Cookie vor; APISIX prüft dieses Cookie, schützt die Admin-Routen und leitet geprüfte Claims/Rollen an das Backend weiter. Danach bearbeiten Admins Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
 Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
 
@@ -83,7 +83,7 @@ Quelle: `raw/runtime-flow-delete.puml`
 Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Public Flow**: Challenge-Token, Rate Limiting, serverseitige Eingabevalidierung und Recompute-Verifikation vor Persistenz.
-- **Admin Flow**: OIDC-Anmeldung, Rollenprüfung und geschützte Auslieferung des Admin-HTMLs vor administrativen Aktionen.
+- **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `gelöscht`.
 - **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.

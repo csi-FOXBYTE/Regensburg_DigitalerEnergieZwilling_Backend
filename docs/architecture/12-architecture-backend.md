@@ -23,7 +23,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 <a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
-- Authentifizierung und Autorisierung (OIDC für Stadtverwaltung / Fachpersonal).
+- Fachliche Autorisierung auf Basis der von APISIX geprüften Claims/Rollen.
 - Verwaltung, Versionierung und Veröffentlichung von Berechnungskonfigurationen.
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
@@ -38,7 +38,8 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 - Administrative API (Konfiguration, Triage, Reporting) über APISIX.
 - OpenAPI-3.0-Spezifikation als Vertragsquelle für Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.
-- Keycloak (OIDC) wird für Benutzer-/Client-Authentifizierung gegenüber APISIX und Backend genutzt; direkte S3-Protokollzugriffe nutzen technische Datendienst-Credentials.
+- Keycloak (OIDC) wird für Benutzer-/Client-Authentifizierung gegenüber APISIX genutzt; nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie.
+- APISIX prüft dieses JWT-Cookie und schützt die Routen.
 - Relationale Datenbank mit räumlicher Erweiterung.
 - Berechnungskern als eingebettetes Modul für Re-Berechnungen.
 - Externer Datendienst (z.B. S3) und optionales Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt); externer Zugriff erfolgt über APISIX.
@@ -82,8 +83,10 @@ Quelle: `raw/backend-architecture.puml`
   - `"/api/admin/*"`: per Default **protected**.
   - `"/api/public/*"`: per Default **public**.
 - Für `"/api/admin/*"` gilt:
-  - APISIX muss Authentifizierung/Autorisierung erzwingen (z.B. OIDC-Plugin).
-  - Backend-Endpunkte müssen die Auth-Middleware verwenden (z.B. `authMiddleware`), damit Token/Claims serverseitig validiert und Rollen geprüft werden.
+  - APISIX muss JWT/OIDC-Validierung, Signaturprüfung und AuthN/AuthZ erzwingen (z.B. OIDC-Plugin).
+  - Grundlage ist das von Keycloak nach Login gesetzte verschlüsselte JWT-Cookie im Browser.
+  - Backend-Endpunkte verwenden `authMiddleware` nur zur Auswertung der vom Gateway durchgereichten Claims/Rollen.
+  - Eine eigene JWT-Signaturprüfung im Backend ist nicht vorgesehen.
 - Für `"/api/public/*"` gilt:
   - Keine Auth-Middleware als Default.
   - Schutz erfolgt über APISIX-Policies (z.B. Rate Limiting) und fachliche Validierung im Backend.
@@ -95,6 +98,7 @@ Quelle: `raw/backend-architecture.puml`
 ## Sicherheits- und Betriebsprinzipien
 
 - Strikte Trennung von Public- und Admin-Endpunkten.
+- APISIX ist der verbindliche Enforcement-Point für JWT/OIDC und Routenschutz.
 - Rate Limiting und Altcha-Challenges für öffentliche Schreibzugriffe.
 - Statelesses Backend, containerisierbar, mit Observability (Logs, Metriken, Tracing).
 - Als **CIVITAS/CORE-fähiges Add-on** ausgelegt: läuft als eigener Container und ist von außen orchestrierbar.

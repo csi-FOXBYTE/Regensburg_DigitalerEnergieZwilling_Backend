@@ -1,6 +1,6 @@
 # Backend API
 
-Node.js/TypeScript-Backend auf Fastify v5 mit `@csi-foxbyte/fastify-toab`, JWT-Validierung und BullMQ-UI.
+Node.js/TypeScript-Backend auf Fastify v5 mit `@csi-foxbyte/fastify-toab`, APISIX-geschuetzter Auth-/Rollenpruefung und BullMQ-UI.
 
 ## Basis-URL
 
@@ -10,12 +10,13 @@ Wichtig: Alle Requests in der lokalen Umgebung ueber
 
 Die API wird intern auf Port `5000` gestartet, aber der externe Einstieg ist APISIX.
 Von außen ist nur APISIX auf `localhost:5000` sichtbar.
+Ist der User nicht authentifiziert, erfolgt der Login ueber Keycloak. Nach erfolgreichem Login setzt Keycloak ein verschluesseltes JWT-Token als Browser-Cookie; APISIX prueft dieses Cookie und schuetzt die Routen. Das Backend prueft keine JWT-Signatur.
 
 ## Zweck
 
 Dieses Repo startet einen HTTP-Server mit:
 
-- Auth-Pruefung fuer Access Tokens
+- Auswertung von APISIX-geprueften Access-Token-Claims und Rollen
 - TOAB-Controller/Service-Registrierung
 - Swagger UI unter `/docs`
 - BullMQ-Board unter `/bullMQ`
@@ -71,13 +72,14 @@ Interner App-Port ist `5000` (falls `PORT` nicht gesetzt ist). Externe Requests 
 
 - `GET /docs` -> Swagger UI
 - `GET /bullMQ` -> Bull Board UI
-- `GET /admin/api/auth/verify` -> prueft Token aus Header `x-access-token`
-- `GET /api/admin/test/` -> geschuetzte Test-Route (Auth Middleware aktiv)
+- `GET /admin/api/auth/verify` -> gibt den vom Gateway geprueften Token-Payload zurueck
+- `GET /api/admin/test/` -> geschuetzte Test-Route (Route durch APISIX geschuetzt, Backend-Rollenpruefung aktiv)
 
 ## Umgebungsvariablen (.env)
 
 Aktuell sind keine verpflichtenden Auth-Umgebungsvariablen konfiguriert.
-Das Backend erwartet ein Access-Token (Bearer oder `x-access-token`) und prueft den decodierten Payload inkl. `exp`/`nbf`.
+JWT/OIDC-Validierung, Signaturpruefung und Routenschutz erfolgen in APISIX. Grundlage ist das von Keycloak nach dem Login gesetzte verschluesselte JWT-Cookie im Browser.
+Das Backend dekodiert den uebergebenen Token nur zur Auswertung von Claims/Rollen und vertraut produktiv ausschliesslich auf Gateway-geroutete Requests.
 Optional fuer Rollenpruefung ueber `resource_access`:
 
 ```env
@@ -86,7 +88,7 @@ AUTH_RESOURCE_ACCESS_CLIENT_ID=digital-energy-twin
 
 Wenn nicht gesetzt, wird standardmaessig `digital-energy-twin` verwendet.
 
-## JWT fuer Entwicklung erzeugen
+## Dev-JWT fuer lokale Entwicklung erzeugen
 
 Schnellstart:
 
@@ -119,7 +121,9 @@ Hilfe:
 pnpm jwt:dev --help
 ```
 
-## API-Aufrufe mit Token
+## Lokale API-Aufrufe mit Dev-Token
+
+Produktiv werden Tokens durch APISIX/OIDC geprueft. Die folgenden Aufrufe dienen nur der lokalen Entwicklung der Backend-Middleware.
 
 ### 1) Mit Bearer bzw. x-access-token
 

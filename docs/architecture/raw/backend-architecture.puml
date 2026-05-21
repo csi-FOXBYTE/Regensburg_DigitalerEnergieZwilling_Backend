@@ -14,7 +14,7 @@ rectangle "CIVITAS/CORE Platform" as civitas {
     rectangle "Public API" as public_api
     rectangle "Admin API" as admin_api
     rectangle "Altcha +\nRate Limiting" as protect
-    rectangle "Auth Middleware\n(OIDC)" as auth
+    rectangle "Auth Middleware\n(Claims/Roles)" as auth
     rectangle "Configuration Service" as config
     rectangle "User Data Service" as user_data
     rectangle "Triage/Reporting" as triage
@@ -40,7 +40,7 @@ config --> db
 user_data --> db
 triage --> db
 calc --> config
-keycloak --> auth
+keycloak --> orchestrator : via APISIX OIDC/JWT
 
 note right of protect
 Public write protection:
@@ -48,8 +48,8 @@ Altcha + rate limiting + validation
 end note
 
 note right of auth
-OIDC authentication and
-role based authorization
+APISIX validates Keycloak JWT cookie.
+Backend enforces roles from claims.
 end note
 
 note right of db

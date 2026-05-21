@@ -21,6 +21,7 @@ Außerhalb von Development wird kein Stacktrace an Clients ausgeliefert.
 
 - `AppError`: `src/errors/app-error.ts`
 - globaler Handler über `fastify-toab` `onRouteError`: `src/errors/route-error-handler.ts`
+- Produktive JWT/OIDC-Validierung und Routenschutz erfolgen vorgelagert in APISIX; Backend-Auth-Fehler betreffen Header-/Claim-Auswertung innerhalb gateway-gerouteter Requests.
 
 ## Status-Typen (AppErrorStatus)
 
@@ -39,7 +40,7 @@ Außerhalb von Development wird kein Stacktrace an Clients ausgeliefert.
 - `UNAUTHORIZED` / `401` / `Authorization header must be a Bearer token`
 - `UNAUTHORIZED` / `401` / `Access token is missing`
 
-### JWT / Token-Inhalt
+### Token-Claims / lokale Dev-Middleware
 
 - `UNAUTHORIZED` / `401` / `Access token payload is invalid`
 - `UNAUTHORIZED` / `401` / `Access token has expired`

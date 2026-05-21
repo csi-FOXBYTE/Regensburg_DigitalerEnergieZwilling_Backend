@@ -88,10 +88,12 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 ## Identität, Zugriff und Rollen
 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
+- Ist ein Nutzer nicht authentifiziert, wird der Login über Keycloak durchgeführt. Nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie; APISIX prüft dieses Cookie für geschützte Routen.
 - Rollenbasierte Freigaben für Systempflege und Triage.
 - Öffentliche Schreibzugriffe nur mit Schutzmechanismen (Altcha, Rate Limiting).
 - Namespace-Policy für APIs:
-  - `"/api/admin/*"` ist per Default geschützt und erfordert sowohl APISIX-AuthN/AuthZ als auch Backend-`authMiddleware`.
+  - `"/api/admin/*"` ist per Default geschützt; APISIX prüft JWT/OIDC und erzwingt AuthN/AuthZ sowie Routenschutz.
+  - Das Backend wertet nur vom Gateway durchgereichte Claims/Rollen für fachliche Zugriffskontrolle aus; eine eigene JWT-Signaturprüfung ist nicht Teil der Backend-Implementierung.
   - `"/api/public/*"` ist per Default nicht über Backend-Auth-Middleware geschützt; Absicherung erfolgt über APISIX-Policies plus serverseitige Validierung.
 
 ---
@@ -123,6 +125,8 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Verschlüsselte Datenübertragung (TLS) für alle externen Zugriffe.
 - Backend nicht direkt aus dem Internet erreichbar; Zugriff über API-Management (APISIX).
 - Route-Schutz (public/protected) wird zentral im API-Gateway definiert und versioniert (lokal: `.devcontainer/apisix/apisix.yaml`).
+- APISIX ist der verbindliche Enforcement-Point für JWT/OIDC-Validierung, Signaturprüfung und geschützte Routen.
+- Die produktive Auth-Prüfung basiert auf dem von Keycloak gesetzten verschlüsselten JWT-Cookie im Browser.
 - Datenbankzugriff nur aus dem Backend, keine direkten Client-Verbindungen.
 
 ---

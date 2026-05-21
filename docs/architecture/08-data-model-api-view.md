@@ -239,7 +239,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 - **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views (TA-34, TA-50).
 - **Berechnungsservice**: Server-Recompute für Verifikation (TA-49).
 - **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
-- **Auth Middleware**: OIDC/JWT für Admin-Endpoints (TA-04).
+- **Auth Middleware**: Auswertung APISIX-geprüfter Claims/Rollen für Admin-Endpoints; JWT/OIDC-Prüfung und Routenschutz erfolgen in APISIX (TA-04).
 
 ### Entscheidung Reports
 
