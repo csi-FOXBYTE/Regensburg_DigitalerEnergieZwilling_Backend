@@ -16,7 +16,7 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
     platformPostgres = softwareSystem "PostgreSQL Server (CIVITAS/CORE Platform)" "Shared PostgreSQL server operated by the platform"
 
     dez = softwareSystem "Digitaler Energie Zwilling (DEZ)" "Webbasierte 3D-Anwendung fuer Energiepotenziale und Berechnungen" {
-      gateway = container "APISIX Web/API Gateway" "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access" "API Gateway and Reverse Proxy"
+      gateway = container "APISIX Web/API Gateway" "Single public entrypoint; validates Keycloak JWT cookie and protects routes" "API Gateway and Reverse Proxy"
 
       frontendPublic = container "Public Frontend Static Site" "Static public client for citizens, delivered via nginx" "Astro SSG + nginx" {
         astroSSG = component "Astro Static Build" "Generates static HTML and island bundles without SSR" "Astro"
@@ -28,11 +28,11 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
         adminIsland = component "Admin Island" "Admin area, available only after authentication" "React"
       }
 
-      backend = container "Backend API" "APIs for config publish and user data triage; validates APISIX-forwarded access tokens and roles" "Node.js + Fastify" {
+      backend = container "Backend API" "APIs for config publish and user data triage; evaluates APISIX-validated claims and roles" "Node.js + Fastify" {
         publicStatic = component "Public Static Delivery" "Serves public HTML assets and published config file" "Fastify Static"
         htmlGateway = component "Protected Admin HTML Gateway" "Serves admin HTML only for authenticated users" "Fastify"
         apiControllers = component "OpenAPI Controllers" "Public and admin REST endpoints" "fastify-toab"
-        auth = component "Auth Middleware" "Validates APISIX-forwarded standard token and enforces roles" "APISIX forwarded token"
+        auth = component "Auth Middleware" "Evaluates APISIX-validated claims and enforces roles" "APISIX-validated claims"
         configService = component "Configuration Service" "Manages configuration in DB and publishes versioned config files" "TypeScript"
         userData = component "User Data Service" "Persists user inputs and results and supports triage workflows" "TypeScript"
         calcService = component "Berechnungsservice" "Optionale serverseitige Berechnungsausfuehrung fuer Admin oder Fallback" "TypeScript"
@@ -114,7 +114,7 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
     dez.frontendAdmin.adminIsland -> dez.frontendPublic.sharedUI "uses"
 
     dez.backend.htmlGateway -> dez.backend.auth "enforces authentication"
-    dez.backend.auth -> dez.gateway "validates APISIX-forwarded standard token"
+    dez.backend.auth -> dez.gateway "trusts APISIX-validated claims"
 
     dez.frontendPublic.publicIsland -> vegetation "loads vegetation layer (visual only)"
     dez.frontendPublic.publicIsland -> dez.backend.publicStatic "loads published config file" "GET /config/versioned.json"

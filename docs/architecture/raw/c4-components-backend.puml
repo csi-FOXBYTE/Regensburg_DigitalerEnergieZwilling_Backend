@@ -13,7 +13,7 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
       Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
       Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
       Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
-      Component(auth, "Auth Middleware", "APISIX forwarded token", "Validates APISIX-forwarded standard token and enforces roles")
+      Component(auth, "Auth Middleware", "APISIX-validated claims", "Evaluates forwarded claims and enforces roles")
       Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
       Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
       Component(calcService, "Berechnungsservice", "TypeScript JavaScript", "Optionale serverseitige Berechnungsausfuehrung fuer Admin oder Fallback")
@@ -39,7 +39,7 @@ Rel(gateway, apiControllers, "routes API", "GET/POST /api")
 Rel(gateway, idp, "obtains and validates tokens", "OIDC/JWT")
 
 Rel(htmlGateway, auth, "enforces authentication")
-Rel(auth, gateway, "validates APISIX-forwarded standard token")
+Rel(auth, gateway, "trusts APISIX-validated claims")
 
 Rel(frontendPublic, apiControllers, "sends user inputs for persistence", "REST optional")
 Rel(frontendAdmin, apiControllers, "triages user inputs and manages config", "REST")
@@ -65,13 +65,14 @@ Rel(telemetry, geoService, "instruments")
 Rel(telemetry, calcService, "instruments")
 
 note right of auth
-Validates APISIX-forwarded standard token
+Evaluates APISIX-validated claims
 and enforces role-based access control.
 end note
 
 note right of apiControllers
 Public write path:
-Altcha token check, input validation,
+APISIX checks Altcha/rate limit;
+backend validates input,
 server recompute and reject paths.
 end note
 

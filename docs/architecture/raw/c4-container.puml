@@ -9,12 +9,12 @@ Person(admin, "City Administration / Staff")
 System_Boundary(civitas, "CIVITAS/CORE Platform") {
   System_Boundary(detAddon, "digital-energy-twin_addon (DEZ)") {
 
-    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint for frontend, backend APIs, config snapshots and tiles access")
+    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint; validates Keycloak JWT cookie and protects routes")
 
     Container(frontendPublic, "Public Frontend Static Site", "Astro SSG + nginx", "Static public client for citizens, delivered via nginx")
     Container(frontendAdmin, "Admin Frontend Static Site", "Astro SSG + nginx", "Static admin client for city administration/staff, delivered via nginx")
 
-    Container(backend, "Backend API", "Node.js and Fastify", "APIs for config publish and user data triage; validates APISIX-forwarded access tokens and roles")
+    Container(backend, "Backend API", "Node.js and Fastify", "APIs for config publish and user data triage; evaluates APISIX-validated claims and roles")
 
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 

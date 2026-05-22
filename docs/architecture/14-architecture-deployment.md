@@ -49,7 +49,7 @@ angebunden werden.
 
 ### Rolle von Keycloak
 
-- Keycloak wird für OIDC-basierte Authentifizierung von Benutzern/Clients gegenüber APISIX und Backend genutzt.
+- Keycloak wird für OIDC-basierte Authentifizierung von Benutzern/Clients gegenüber APISIX genutzt. Nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie; APISIX prüft dieses Cookie und schützt die Routen.
 - Für direkte S3-Protokollzugriffe wird standardmäßig nicht direkt mit Keycloak-Token authentifiziert, sondern mit technischen Datendienst-Credentials.
 - Optional kann Keycloak angebunden werden, wenn der Datendienst OIDC-Föderation/STS für kurzlebige Credentials unterstützt.
 

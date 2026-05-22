@@ -117,7 +117,7 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ### Keycloak-Bezug für Authentifizierung
 
-- Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene (z.B. APISIX, Backend).
+- Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene; APISIX prüft JWT/OIDC und schützt die Routen.
 - Für direkte S3-Protokollzugriffe der Pipeline-Container werden technische Datendienst-Credentials verwendet; OIDC-Tokens werden dort nicht direkt als S3-Schreibberechtigung genutzt.
 - Falls der Datendienst OIDC-Föderation/STS unterstützt, kann Keycloak optional zur Ausgabe kurzlebiger Datendienst-Credentials eingebunden werden.
 

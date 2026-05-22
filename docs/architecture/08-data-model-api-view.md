@@ -174,7 +174,7 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext 
 
 Quelle: `raw/data-model.puml`
 
-### Public Write Flow (Altcha + Verifikation)
+### Public Write Flow (APISIX-Altcha + Verifikation)
 
 ![public-write-flow.png](./attachments/public-write-flow.png)
 
@@ -189,10 +189,10 @@ Quelle: `raw/public-write-flow.puml`
 - **Ressourcen**: Gebäude, Eingaben, Berechnungen, Konfigurationen, Kataloge, Triage, Reports
 - **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit Local Storage für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
-- **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch Altcha-Challenges und Rate Limiting geschützt
+- **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch APISIX-Policies für Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
-- **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das serverseitig geprüft wird.
-- **Enforcement**: Altcha-Token wird im Backend validiert; Rate Limiting wird im APISIX Web Gateway durchgesetzt.
+- **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das von APISIX geprüft wird.
+- **Enforcement**: Altcha-Token und Rate Limiting werden im APISIX Web Gateway geprüft; das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
 - **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
 - **Versionierung**: Konfigurations- und API-Versionen klar trennen
 - **Fehlerformate**: Standardisierte Fehlercodes und Validierungsdetails
@@ -227,7 +227,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 ### Abgleich mit technischen Anforderungen
 
 - Die Trennung von öffentlichen und administrativen APIs entspricht TA-02, TA-03 und TA-35.
-- Public Write mit Altcha und Rate Limiting entspricht TA-47 bis TA-51.
+- Public Write mit APISIX-Altcha und Rate Limiting entspricht TA-47 bis TA-51.
 - Konfigurations-Publishing mit Snapshot entspricht TA-27 bis TA-46.
 - Offline-Pipeline und 3D Tiles Prinzipien entsprechen TA-10 bis TA-18.
 
@@ -239,7 +239,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 - **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views (TA-34, TA-50).
 - **Berechnungsservice**: Server-Recompute für Verifikation (TA-49).
 - **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
-- **Auth Middleware**: OIDC/JWT für Admin-Endpoints (TA-04).
+- **Auth Middleware**: Auswertung APISIX-geprüfter Claims/Rollen für Admin-Endpoints; JWT/OIDC-Prüfung und Routenschutz erfolgen in APISIX (TA-04).
 
 ### Entscheidung Reports
 

@@ -59,6 +59,7 @@ Das Web Gateway fungiert als zentraler Einstiegspunkt für alle Client-Anfragen.
 Aufgaben:
 - Routing von HTTP-Anfragen zu den jeweiligen Zielsystemen
 - Trennung von Public-, Admin-, API- und Tile-Zugriffen
+- JWT/OIDC-Validierung über das von Keycloak gesetzte verschlüsselte Browser-Cookie und Schutz administrativer Routen
 - Entkopplung des Backends von hohem statischem Traffic
 - Erzwingung des Zugriffs über APISIX für externe Datenzugriffe
 
@@ -106,8 +107,8 @@ Das Laufzeit-Logging erfolgt über den nginx-Standard-Logger auf `stdout`/`stder
 Das Backend stellt alle serverseitigen Funktionen bereit, die nicht sinnvoll clientseitig umgesetzt werden können.
 
 Aufgaben:
-- Entgegennahme des vom APISIX Gateway bereitgestellten Access-Tokens
-- Authentifizierung und Autorisierung auf Basis von Token-Claims und Rollen (z.B. `admin`)
+- Entgegennahme der vom APISIX Gateway geprüften Token-Claims
+- Fachliche Autorisierung auf Basis von Rollen (z.B. `admin`)
 - Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Strukturiertes Logging über Pino/Fastify auf `stdout`/`stderr`
@@ -183,10 +184,10 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 
 | Container | Security-Kernpunkte |
 | --- | --- |
-| APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, trennt Public/Admin-Pfade, setzt Transportschutz und Richtlinien für öffentliche Schreibzugriffe durch. |
+| APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, prüft das von Keycloak gesetzte JWT-Cookie, schützt Routen, trennt Public/Admin-Pfade, setzt Transportschutz und Richtlinien für öffentliche Schreibzugriffe durch. |
 | Public Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
 | Admin Frontend | Statischer Admin-Client ohne eigene Serverlogik; sensible Aktionen erfolgen ausschließlich über geschützte Backend-APIs. |
-| Backend API | Führt AuthN/AuthZ auf Basis des von APISIX bereitgestellten Access-Tokens und Rollen durch, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
+| Backend API | Wertet vom APISIX Gateway geprüfte Claims/Rollen aus, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
 | Datenbank | Logische DEZ-Datenhaltung auf dem Plattform-PostgreSQL; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
 | 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |

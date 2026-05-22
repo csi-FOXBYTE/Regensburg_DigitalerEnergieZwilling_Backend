@@ -247,7 +247,7 @@ Die Integration der Anwendung in die bestehende Infrastruktur von CIVITAS/CORE e
 ### Authentifizierung & Sicherheit (IAM)
 - **Identity Provider (IdP)**: Für den geschützten Admin-Bereich (Stadtverwaltung / Fachpersonal) erfolgt die Authentifizierung über OpenID Connect (OIDC) gegen den zentralen Keycloak in CIVITAS/CORE.
 - **Rollenkonzept**: Mapping von CIVITAS-Rollen auf Anwendungsrechte (z.B. `civitas_admin` -> `app_admin`).
-- **Public Access**: Der Bürger-Client (Eigentümer/Vermieter) (Sanierungsrechner) agiert ohne Authentifizierung, ist jedoch durch Rate-Limiting (via Ingress oder Fastify-Middleware) gegen DDoS-Attacken geschützt.
+- **Public Access**: Der Bürger-Client (Eigentümer/Vermieter) (Sanierungsrechner) agiert ohne Authentifizierung, ist jedoch durch Rate-Limiting (via APISIX) gegen DDoS-Attacken geschützt.
 
 ### Datenintegration
 - **Basiskarten**: Die 3D-Anwendung bindet städtische 2D-Grundkarten (WMS/WMTS) direkt über die Geo-Dienste der Stadt Regensburg ein, um Redundanzen zu vermeiden.

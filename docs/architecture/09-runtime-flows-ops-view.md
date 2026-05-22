@@ -23,16 +23,16 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
-Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional an das Backend (Altcha + Rate Limiting). Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.  
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional über APISIX an das Backend; Altcha und Rate Limiting werden dabei durch APISIX geprüft. Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, optional Tiles Gateway oder direkter Datendienstzugriff, Config Snapshot, Backend API (optional).  
-Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, Altcha-Validierung fehlgeschlagen, Server-Recompute abweichend.
+Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, APISIX-Altcha-/Rate-Limit-Prüfung fehlgeschlagen, Server-Recompute abweichend.
 
 ![runtime-flow-public.png](./attachments/runtime-flow-public.png)
 
 Quelle: `raw/runtime-flow-public.puml`
 
 **Stadtverwaltung / Fachpersonal-Flow**  
-Admins authentifizieren sich via OIDC, bearbeiten Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.  
+Admins authentifizieren sich via OIDC über Keycloak. Nach erfolgreichem Login liegt ein verschlüsseltes JWT-Token als Browser-Cookie vor; APISIX prüft dieses Cookie, schützt die Admin-Routen und leitet geprüfte Claims/Rollen an das Backend weiter. Danach bearbeiten Admins Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
 Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
 
@@ -82,8 +82,8 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
-- **Public Flow**: Challenge-Token, Rate Limiting, serverseitige Eingabevalidierung und Recompute-Verifikation vor Persistenz.
-- **Admin Flow**: OIDC-Anmeldung, Rollenprüfung und geschützte Auslieferung des Admin-HTMLs vor administrativen Aktionen.
+- **Public Flow**: APISIX prüft Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
+- **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `gelöscht`.
 - **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
