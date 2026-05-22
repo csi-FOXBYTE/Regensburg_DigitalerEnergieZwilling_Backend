@@ -5,12 +5,100 @@
 
 /* eslint-disable */
 
-import { type SchemaDef } from "@zenstackhq/orm/schema";
+import { type SchemaDef, ExpressionUtils } from "@zenstackhq/orm/schema";
 export class SchemaType implements SchemaDef {
     provider = {
         type: "postgresql"
     } as const;
-    models = {} as const;
+    models = {
+        User: {
+            name: "User",
+            fields: {
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }]
+                },
+                email: {
+                    name: "email",
+                    type: "String",
+                    unique: true,
+                    attributes: [{ name: "@unique" }]
+                },
+                given_name: {
+                    name: "given_name",
+                    type: "String",
+                    optional: true
+                },
+                family_name: {
+                    name: "family_name",
+                    type: "String",
+                    optional: true
+                }
+            },
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" },
+                email: { type: "String" }
+            }
+        }
+    } as const;
+    typeDefs = {
+        WithTimestamps: {
+            name: "WithTimestamps",
+            fields: {
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                }
+            }
+        },
+        Base: {
+            name: "Base",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    attributes: [{ name: "@id" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("cuid") }] }],
+                    default: ExpressionUtils.call("cuid")
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                }
+            }
+        }
+    } as const;
+    authType = "User" as const;
     plugins = {};
 }
 export const schema = new SchemaType();

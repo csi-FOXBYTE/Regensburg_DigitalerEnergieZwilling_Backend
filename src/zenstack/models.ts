@@ -6,4 +6,7 @@
 /* eslint-disable */
 
 import { type SchemaType as $Schema } from "./schema.js";
-import { type ModelResult as $ModelResult } from "@zenstackhq/orm";
+import { type ModelResult as $ModelResult, type TypeDefResult as $TypeDefResult } from "@zenstackhq/orm";
+export type User = $ModelResult<$Schema, "User">;
+export type WithTimestamps = $TypeDefResult<$Schema, "WithTimestamps">;
+export type Base = $TypeDefResult<$Schema, "Base">;

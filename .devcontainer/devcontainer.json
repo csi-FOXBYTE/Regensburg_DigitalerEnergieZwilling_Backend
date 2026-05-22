@@ -6,7 +6,8 @@
   "service": "dev",
   "workspaceFolder": "/workspace",
   "forwardPorts": [
-    5000
+    5000,
+    5432
   ],
   "overrideCommand": true,
   "postStartCommand": "bash -lc \"pnpm i && pnpm dev\"",

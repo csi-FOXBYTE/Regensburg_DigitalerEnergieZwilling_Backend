@@ -7,3 +7,22 @@ plugin typescript {
   provider = "@core/typescript"
   importWithFileExtension = ".js"
 }
+
+type WithTimestamps {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type Base {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// User id is the Keycloak sub — provided externally, no auto-default
+model User with WithTimestamps {
+  id          String  @id
+  email       String  @unique
+  given_name  String?
+  family_name String?
+}

@@ -37,7 +37,9 @@ RUN --mount=type=secret,id=env,target=.env \
     pnpm install --frozen-lockfile --loglevel verbose
 
 RUN --mount=type=secret,id=env,target=.env \
-    pnpm zenstack generate --schema src/zenstack/schema.zmodel && pnpm run build
+    pnpm run build
+
+RUN pnpm prune --prod
 
 #-------------------------------------------------------------------------------
 # Stage 2: Production Image
@@ -71,6 +73,10 @@ COPY --from=build --chown=node:node /app/node_modules ./node_modules
 # Copy the built application code
 COPY --from=build --chown=node:node /app/.build ./.build
 COPY --from=build --chown=node:node /app/package.json ./
+
+# Copy zenstack schema and migrations needed for zen migrate deploy
+COPY --from=build --chown=node:node /app/src/zenstack/schema.zmodel ./src/zenstack/schema.zmodel
+COPY --from=build --chown=node:node /app/src/zenstack/migrations ./src/zenstack/migrations
 
 EXPOSE 5000
 
