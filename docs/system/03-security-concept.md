@@ -89,7 +89,10 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
 - Ist ein Nutzer nicht authentifiziert, wird der Login über Keycloak durchgeführt. Nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie; APISIX prüft dieses Cookie für geschützte Routen.
-- Rollenbasierte Freigaben für Systempflege und Triage.
+- Rollenbasierte Freigaben für Systempflege und Triage. Das Rollenmodell ist in Definition:
+  - `Verwalter`: Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
+  - `Systempfleger`: Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
+  - `Administrator`: voller Zugriff auf den internen Client.
 - Öffentliche Schreibzugriffe nur mit APISIX-Policies für Altcha und Rate Limiting sowie serverseitiger fachlicher Validierung im Backend.
 - Namespace-Policy für APIs:
   - `"/api/admin/*"` ist per Default geschützt; APISIX prüft JWT/OIDC und erzwingt AuthN/AuthZ sowie Routenschutz.

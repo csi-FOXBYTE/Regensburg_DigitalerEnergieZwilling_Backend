@@ -147,7 +147,7 @@ Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
 > ⚠️ **Hinweis MVP:** Solarthermie ist derzeit nicht Teil des vorgesehenen Rechenwegs im Berechnungskern. Offen sind damit aktuell vor allem die zwei PV-Darstellungen und die Geothermie-Bewertung.
-> Hinweis Datenstand Geothermie: Aktuell liegt kein belastbarer Geothermie-Datensatz für die Bewertung vor.
+> Hinweis Datenstand Geothermie: Aktuell sind die Geothermie-Daten noch nicht durch den Auftraggeber freigegeben. Eine optionale Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie ist nur nach fachlicher Beauftragung und Datenklärung vorzusehen.
 
 ### User Stories (Private Gebäudenutzer)
 
@@ -235,6 +235,12 @@ In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in d
 Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung / Fachpersonal (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
 Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst und strategischer Anwender.
 
+Für den internen Client sind drei Rollen vorgesehen:
+
+- `Verwalter`: Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
+- `Systempfleger`: Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
+- `Administrator`: voller Zugriff auf den internen Client.
+
 ### Ausgangslage / Datenproblem
 
 - Aktuell stehen nur sehr grobe Datengrundlagen zur Verfügung (z. B. leitungsgebundener Gasverbrauch).
@@ -265,7 +271,6 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Filter- und Analysefunktionen auf Bestands- und Quartiersebene, z. B. Baujahresklassen, Effizienzklassen, Heizsysteme und räumliche Cluster.
 - Kennzahlen müssen aggregiert und vergleichbar bereitgestellt werden.
 - Szenarien auf Quartiers- oder Stadtebene sind optional möglich.
-- Exportfunktionen für Berichte und Weiterverarbeitung (Planung, Gremien, Förderlogik).
 - Transparente Kennzeichnung der Datenqualität (z. B. Anteil geschätzter vs. bestätigter Daten).
 
 ### Nutzerreise Verwaltung (Phasen)
@@ -277,7 +282,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Prüfung      | Qualität sichern   | Vergleich & Plausibilisierung |
 | Freigabe     | Daten bestätigen   | Status „freigegeben“          |
 | Systempflege | Grundlagen pflegen | Kataloge aktuell halten       |
-| Reporting    | Export             | Daten für Wärmeplanung        |
+| Auswertung   | Analyse            | Aggregierte Erkenntnisse      |
 
 ### Schritte & Aktionen (Verwaltung)
 
@@ -288,16 +293,16 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Detail            | Gebäudedatensätze öffnen     | Vergleich mehrerer Eingaben      |
 | Plausibilisierung | Datensatz prüfen             | Status „in Prüfung“, Notizen     |
 | Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log |
-| Ablehnung/Löschung | Unplausiblen Datensatz verwerfen | Status „gelöscht“ + Audit-Log |
+| Ablehnung      | Unplausiblen Datensatz verwerfen | Status „abgelehnt“ + Audit-Log |
+| Löschung       | Datensatz fachlich löschen       | Status „gelöscht“ + Audit-Log |
 | Systempflege      | Kataloge bearbeiten          | Versionierung, Validierung       |
-| Reporting         | Export (JSON/CSV/PDF)        | Download mit Metadaten           |
+| Auswertung        | Kennzahlen prüfen            | Aggregierte Ansicht              |
 
 ### Ziele & Erwartungen (Verwaltung)
 
 - Verlässliche Datenbasis für Wärmeplanung herstellen.
 - Plausible Datensätze schnell identifizieren.
 - Systemweit konsistente Eingabeoptionen sicherstellen.
-- Exporte strukturiert und nachvollziehbar bereitstellen.
 
 ### Schmerzpunkte (Verwaltung)
 
@@ -310,10 +315,10 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 - Klar definierte Rollen und Berechtigungen.
 - Gruppierung „alle Eingaben zu einem Gebäude“.
-- Statuskennzeichnung: neu / in Prüfung / freigegeben / gelöscht.
-- Unplausible oder automatisch abgelehnte Datensätze werden fachlich als gelöscht markiert, nicht stillschweigend entfernt.
+- Statuskennzeichnung: neu / in Prüfung / freigegeben / abgelehnt / gelöscht.
+- Unplausible oder automatisch abgelehnte Datensätze werden fachlich als abgelehnt markiert; fachlich gelöschte Datensätze erhalten den Status gelöscht.
 - Audit-Log: Wer hat wann freigegeben?
-- Strukturierte, filterbare Exporte (z. B. Stadtteil, Effizienzklasse).
+- Aggregierte, filterbare Auswertungen (z. B. Stadtteil, Effizienzklasse).
 
 ### User Stories (Stadtverwaltung)
 
@@ -321,10 +326,9 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Als Stadtverwalter/in möchte ich eine Übersicht aller Nutzereingaben sehen, damit ich erkenne, was geprüft werden muss.
 - Als Stadtverwalter/in möchte ich mehrere Eingaben zu einem Gebäude vergleichen, um Unterschiede zu erkennen.
 - Als Stadtverwalter/in möchte ich Datensätze als plausibel markieren und freigeben können, damit sie als übermittelte Daten intern weiterverarbeitet werden.
-- Als Stadtverwalter/in möchte ich unplausible oder automatisch abgelehnte Datensätze als gelöscht markieren können, damit sie nicht weiterverwendet werden und dennoch nachvollziehbar bleiben.
+- Als Stadtverwalter/in möchte ich unplausible oder automatisch abgelehnte Datensätze als abgelehnt markieren können, damit sie nicht weiterverwendet werden und dennoch nachvollziehbar bleiben.
 - Als Stadtverwalter/in möchte ich Energieeffizienzklassen, Gebäudetypen und Heizarten pflegen, damit Eingaben konsistent bleiben.
 - Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
-- Als Stadtverwalter/in möchte ich geprüfte Daten exportieren, um sie in der Wärmeplanung weiterzuverwenden.
 
 <a id="interaktions-und-screenkonzept"></a>
 

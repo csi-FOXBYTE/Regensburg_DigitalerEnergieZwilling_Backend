@@ -45,9 +45,9 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 ### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
-- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen bei verfügbarer belastbarer Datenbereitstellung
+- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen bei verfügbarer und durch den Auftraggeber freigegebener belastbarer Datenbereitstellung
 - Verbindliche farbliche Gebäudeeinfärbung im 3D-Client zur Einordnung der Effizienz
-- Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien; Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
+- Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien erst nach belastbarer Datenfreigabe; Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
 - Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
@@ -133,7 +133,7 @@ Warum der DEZ als separate Applikation verlinkt wird:
 ## Datenhaltung und Datenfluss
 
 - Statische, allgemein gültige Potenziale liegen ausschließlich in den 3D Tiles.
-- 3D Tiles enthalten Gebäudegeometrie, Adressen aus LOD2, Solarpotenzial-Attribute (inkl. Textur für die Potenzialdarstellung) sowie Vegetationsobjekte (Bäume).
+- 3D Tiles enthalten Gebäudegeometrie, Adressen aus LOD2 sowie Vegetationsobjekte (Bäume). Solarpotenzial-Attribute inkl. Textur werden erst nach Datenfreigabe durch den Auftraggeber übernommen.
 - Dynamische, nutzerspezifische Daten liegen in der Datenbank.
 - Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
 - Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.
@@ -145,10 +145,11 @@ Warum der DEZ als separate Applikation verlinkt wird:
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
 - **Solarthermie**: aktuell nicht Teil des vorgesehenen Rechenwegs im Berechnungskern; eine spätere Erweiterung erfordert zuerst fachliche und technische Klärung.
-- **PV**: zwei Darstellungen vorgesehen  
+- **PV/Speicher**: zwei Darstellungen fachlich vorgesehen, aber aktuell nicht vorbereitend implementiert, da noch keine Datenfreigabe durch den Auftraggeber vorliegt und die Datenlage unklar ist.
   1) Dimensionierung von PV + Speicher für den Wärmepumpenbetrieb inkl. energetischer/finanzieller Effekte.  
   2) Maximale Ausnutzung geeigneter PV-Flächen zur Kommunikation von Potenzialen für Haushaltsstrom, KFZ-Ladung und ähnliche Verbräuche.
-- **Geothermie**: Einschätzung über Datensatzabfrage in Reihenfolge Grundwasser → Erdreich → Luft; belastbarer Datensatz liegt aktuell noch nicht vor, MVP-Umfang bleibt in Klärung.
+- **Solar-Anreicherung**: Solarpotenzialdaten sind aktuell noch nicht durch den Auftraggeber freigegeben. Daher findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
+- **Geothermie**: Einschätzung über Datensatzabfrage in Reihenfolge Grundwasser → Erdreich → Luft; die Daten sind aktuell noch nicht durch den Auftraggeber freigegeben. Falls die flurstücksbezogenen Geothermiepotenziale nicht rechtzeitig nutzbar bereitgestellt werden, kann eine optionale Berechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
 
 ---
 

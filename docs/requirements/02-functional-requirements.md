@@ -205,7 +205,7 @@ Für die fachliche Modellierung bedeutet das:
 
 Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
 
-- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten.
+- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten. Für belastbare Investitionskosten und Wirtschaftlichkeit fehlen aktuell die vom Auftraggeber bereitzustellenden BKI-Kostendaten.
 - Mehrere Ergebniszellen enthalten im Template `0` oder `#`; diese sind keine validierten Referenzwerte.
 - Korrekturfaktor `F` ist für mehrere Bauteile nicht fachlich ausreichend hergeleitet bzw. dokumentiert.
 - Im Blatt `Heizung` liegt nun eine erste beispielhafte Maßnahmenmatrix vor; diese muss vor Produktivnutzung in deterministische und vollständige Entscheidungsregeln überführt werden.
@@ -503,19 +503,13 @@ Fachpersonal muss Förderprogramme (Links/Kategorien) pflegen können.
 
 ---
 
-### Reporting & Export
+### Reporting
 
 <a id="fa-57"></a>
 
 **FA-57**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Fachpersonal muss geprüfte Daten strukturiert bereitstellen können, damit sie verständlich und zuverlässig in der Wärmeplanung genutzt werden können.
-
-<a id="fa-58"></a>
-
-**FA-58**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Fachpersonal muss übermittelte Daten exportieren können, damit sie intern weiterverwendet werden können.
+Fachpersonal muss geprüfte Daten aggregiert auswerten können, damit sie verständlich und zuverlässig in der Wärmeplanung genutzt werden können.
 
 <a id="fa-59"></a>
 
@@ -643,7 +637,7 @@ Der Report muss mindestens enthalten:
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
 
-Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend.
+Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen setzen zusätzlich die Bereitstellung belastbarer BKI-Kostendaten durch den Auftraggeber voraus.
 
 <a id="fa-75"></a>
 
@@ -663,6 +657,7 @@ Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgun
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
 Sofern belastbare PV- und Geothermie-Daten rechtzeitig bereitgestellt werden, muss das System Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
 Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen.
+Für PV/Speicher liegt aktuell noch keine Datenfreigabe durch den Auftraggeber vor. Aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt.
 
 <a id="fa-78"></a>
 
@@ -722,19 +717,13 @@ Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und mehrere Daten
 
 **FA-87**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss nachvollziehbar sein. Unplausible oder automatisch abgelehnte Datensätze sind dabei als `gelöscht` zu markieren.
+Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`, `gelöscht`) und die Statusänderung muss nachvollziehbar sein. Unplausible oder automatisch abgelehnte Datensätze sind dabei als `abgelehnt` zu markieren; fachlich gelöschte Datensätze erhalten den Status `gelöscht`.
 
 <a id="fa-88"></a>
 
 **FA-88**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Die Verwaltung muss Datensätze filtern und sortieren können (z.B. Adresse, Datum, Vollständigkeit, Status).
-
-<a id="fa-89"></a>
-
-**FA-89**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Exporte für die Wärmeplanung müssen als strukturierte Formate (mindestens JSON und CSV) bereitgestellt werden.
 
 <a id="fa-90"></a>
 

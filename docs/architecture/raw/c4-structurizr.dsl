@@ -13,7 +13,7 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
     tilesStore = softwareSystem "Externer Datendienst (S3-kompatibel)" "Object storage for input artifacts and published outputs"
 
     idp = softwareSystem "Keycloak (CIVITAS/CORE)" "OIDC identity provider"
-    platformPostgres = softwareSystem "PostgreSQL Server (CIVITAS/CORE Platform)" "Shared PostgreSQL server operated by the platform"
+    sqliteStorage = softwareSystem "SQLite Storage" "DEZ-owned SQLite file/storage volume"
 
     dez = softwareSystem "Digitaler Energie Zwilling (DEZ)" "Webbasierte 3D-Anwendung fuer Energiepotenziale und Berechnungen" {
       gateway = container "APISIX Web/API Gateway" "Single public entrypoint; validates Keycloak JWT cookie and protects routes" "API Gateway and Reverse Proxy"
@@ -42,7 +42,7 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
 
       calcCore = container "Berechnungskern-Modul" "Shared module, runs in browser and in Node" "JavaScript Module"
       tilesGateway = container "Tiles Gateway (optional)" "Optional proxy for 3D tiles with caching and range requests" "HTTP Gateway"
-      db = container "DEZ Database (logical)" "Stores user inputs, triage state and Berechnungskonfigurationen" "PostgreSQL Schema + PostGIS" {
+      db = container "DEZ Database" "Stores user inputs, triage state and Berechnungskonfigurationen" "SQLite + SpatiaLite" {
         tags "Database"
       }
     }
@@ -91,7 +91,7 @@ workspace "Digitaler Energie Zwilling (DEZ)" "C4 model extracted from PlantUML d
     dez.tilesGateway -> tilesStore "fetches tiles" "HTTP"
 
     dez.backend -> dez.db "reads and writes" "SQL"
-    dez.db -> platformPostgres "hosted on" "schema/database on platform PostgreSQL"
+    dez.db -> sqliteStorage "stored on" "persistent volume"
     dez.frontendPublic -> dez.backend "calls API for user data" "REST via APISIX"
     dez.frontendAdmin -> dez.backend "calls API for admin actions" "REST via APISIX"
 

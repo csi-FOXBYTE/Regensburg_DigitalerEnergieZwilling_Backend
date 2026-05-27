@@ -39,7 +39,7 @@ angebunden werden.
 - Airflow-orchestrierte Pipeline-Container (Konvertierung/Anreicherung) greifen direkt auf den Datendienst zu.
 - Der Zugriff erfolgt technisch über Service-Credentials aus dem Secrets-Management und mit minimalen Rechten pro Prefix/Bucket.
 - Ein optionales Tiles Gateway greift ebenfalls intern auf den Datendienst zu, wenn dieser Betriebsmodus aktiviert ist.
-- Datenquellen-Updates müssen als unabhängige Runs ausführbar sein (z.B. nur LOD2 oder nur Solar), ohne Pflicht zur gleichzeitigen Aktualisierung aller Basisdaten.
+- Datenquellen-Updates werden per `update_scope` gesteuert. Die Anreicherung setzt immer mindestens LoD2-GML-Daten voraus; reine Nachläufe nur für Nicht-LoD2-Datenquellen sind nicht vorgesehen. Unveränderte optionale Zusatzdaten können aus dem bestehenden angereicherten Datensatz übernommen werden.
 
 ### Extern (außerhalb UDP/CIVITAS/CORE)
 

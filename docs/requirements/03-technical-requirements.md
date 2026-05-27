@@ -145,7 +145,7 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 
 **TA-12**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
+Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt und durch den Auftraggeber freigegeben werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
 
 <a id="ta-13"></a>
 
@@ -338,7 +338,7 @@ Nutzereingaben müssen persistent in einer relationalen Datenbank gespeichert we
 
 **TA-37**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Die Datenbank muss räumliche Erweiterungen für Geoabfragen unterstützen.
+Die Datenbank muss räumliche Erweiterungen für Geoabfragen unterstützen. Für den DEZ wird hierfür SQLite mit SpatiaLite eingesetzt.
 
 <a id="ta-38"></a>
 
@@ -675,7 +675,7 @@ Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss tra
 
 **TA-80**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `gelöscht`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Unplausible oder automatisch abgelehnte Datensätze sind als `gelöscht` zu markieren.
+Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`, `gelöscht`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Unplausible oder automatisch abgelehnte Datensätze sind als `abgelehnt` zu markieren; fachlich gelöschte Datensätze erhalten den Status `gelöscht`.
 
 <a id="ta-81"></a>
 
@@ -683,17 +683,11 @@ Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeb
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
 
-<a id="ta-82"></a>
-
-**TA-82**  
-*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Exporte für Verwaltung/Wärmeplanung müssen mindestens als JSON und CSV bereitgestellt werden und Filterkriterien berücksichtigen.
-
 <a id="ta-83"></a>
 
 **TA-83**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `gelöscht`. Der Status `gelöscht` ist der fachliche Endzustand für unplausible oder automatisch abgelehnte Datensätze.
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben`, `abgelehnt` oder `gelöscht`. Die Status `freigegeben`, `abgelehnt` und `gelöscht` sind fachliche Endzustände; `abgelehnt` kennzeichnet unplausible oder automatisch abgelehnte Datensätze.
 
 ---
 
@@ -764,7 +758,7 @@ Die aktualisierte Arbeitsmappe präzisiert zusätzlich die technische Breite der
 
 Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikation zu konkretisieren:
 
-- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition.
+- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition. Wirtschaftlichkeit/Amortisation kann erst umgesetzt werden, wenn die dafür benötigten BKI-Kostendaten durch den Auftraggeber bereitgestellt wurden.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
 - Es liegt nun eine erste beispielhafte Maßnahmenmatrix für Heizungsfälle vor; für die produktive Übernahme fehlt jedoch weiterhin eine vollständige, maschinenlesbare Entscheidungslogik.
@@ -830,7 +824,7 @@ Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen 
 
 **TA-95**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar sind, müssen diese aus den verfügbaren Daten nach dem LfU/TUM-Vorgehen selbst berechnet werden; der Fallback ist in der Pipeline zu berücksichtigen.
+Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar und durch den Auftraggeber freigegeben sind, kann eine optionale Berechnung aus den verfügbaren Daten nach dem LfU-/TUM-Vorgehen geprüft werden. Dieser Fallback ist fachlich zu beauftragen und in der Pipeline nur nach Datenklärung vorzusehen.
 
 ---
 
@@ -875,22 +869,24 @@ Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, 
 
 **TA-99**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Sofern belastbare PV-Potenzialdaten bereitgestellt werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
+Sofern belastbare PV-Potenzialdaten bereitgestellt und durch den Auftraggeber freigegeben werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 - Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
+
+Aktuell liegt für PV/Speicher keine Datenfreigabe durch den Auftraggeber vor. Aufgrund der unklaren Datenlage wird keine vorbereitende Implementierung vorgesehen.
 
 <a id="ta-100"></a>
 
 **TA-100**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft.
+Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft. Voraussetzung ist die Freigabe der Daten durch den Auftraggeber oder eine beauftragte optionale Ersatzberechnung nach LfU-/TUM-Vorbild.
 
 <a id="ta-101"></a>
 
 **TA-101**  
 *Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Bis zur Bereitstellung belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
+Bis zur Bereitstellung und Freigabe belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Für Solarpotenzial/PV/Speicher erfolgt ohne Datenfreigabe keine vorbereitende Implementierung. Für Geothermie liegt aktuell ebenfalls keine Datenfreigabe durch den Auftraggeber vor; eine optionale Berechnung nach LfU-/TUM-Vorbild ersetzt die Datenfreigabe nur bei gesonderter fachlicher Entscheidung. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---
 
@@ -955,25 +951,25 @@ Das Backend muss eine OpenAPI-3.0-Spezifikation als Source of Truth bereitstelle
 
 **TA-109**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der Frontend-API-Client muss aus der OpenAPI-3.0-Spezifikation mit `@hey-api/openapi-ts` generiert werden.
+Der Frontend-API-Client muss aus der vom Backend bereitgestellten OpenAPI-3.0-Spezifikation generiert werden; hierfür wird Orval eingesetzt.
 
 <a id="ta-110"></a>
 
 **TA-110**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Für den generierten Frontend-API-Client muss die React-Query-Erweiterung von `@hey-api/openapi-ts` genutzt werden, um typsichere Query- und Mutation-Hooks bereitzustellen.
+Für den generierten Frontend-API-Client müssen typsichere API-Funktionen bzw. Query-/Mutation-Anbindungen über die Orval-Konfiguration bereitgestellt werden.
 
 <a id="ta-111"></a>
 
 **TA-111**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Im Frontend-Repository muss die Generator-Konfiguration zentral in `openapi-ts.config.ts` gepflegt werden.
+Im Frontend-Repository muss die Generator-Konfiguration zentral in der Orval-Konfiguration gepflegt werden.
 
 <a id="ta-112"></a>
 
 **TA-112**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Als Eingabe für die Client-Generierung muss eine versionierte OpenAPI-Spezifikation im Pfad `openapi/openapi.json` verwendet werden.
+Als Eingabe für die Client-Generierung wird die vom Backend bereitgestellte OpenAPI-Spezifikation abgefragt. Eine zusätzliche Versionierung als `openapi/openapi.json` wird bewusst ausgeklammert, da nur wenige Clients angebunden sind und der API-Vertrag über die Backend-OpenAPI-Konfiguration nachvollziehbar bleibt.
 
 <a id="ta-113"></a>
 
@@ -1018,13 +1014,13 @@ Solarpotenzial- und Geothermie-Basisdaten müssen unabhängig vom LOD2-Zyklus mi
 
 **TA-118**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Offline-Pipeline muss vollständig optionale, getrennte Aktualisierungsruns je Datendomäne unterstützen (mindestens: `lod2`, `solar`, `geothermie`, `full`).
+Die Offline-Pipeline muss Aktualisierungsruns über einen `update_scope` unterstützen (mindestens: `lod2`, `solar`, `geothermie`, `full`). Jeder Anreicherungsrun muss mindestens auf LoD2-GML-Daten basieren; nachträgliche Anreicherungen ausschließlich über Nicht-LoD2-Datenquellen sind nicht vorgesehen.
 
 <a id="ta-119"></a>
 
 **TA-119**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Ein Aktualisierungsrun einer Datendomäne darf keine obligatorische Neuberechnung oder Neuveröffentlichung nicht betroffener Datendomänen erzwingen.
+Ein Aktualisierungsrun darf keine obligatorische Neuverarbeitung unveränderter Zusatzdaten erzwingen. Optionale Komponenten, die bereits im angereicherten Datensatz vorhanden sind (z.B. Solarpotenzial, Baualtersklasse), dürfen bei einem reinen LoD2-Update wiederverwendet werden, sofern sich die zugehörigen Zusatzdatensätze nicht geändert haben.
 
 <a id="ta-120"></a>
 
@@ -1152,7 +1148,7 @@ Jeder abgeleitete Basisdatenwert in 3D Tiles muss provenance-fähig auf Quellver
 
 **TA-137**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Teil-Updates dürfen nur den betroffenen Daten-Scope neu veröffentlichen; der aktive Stand nicht betroffener Scopes muss unverändert gültig bleiben.
+Teil-Updates dürfen nur den betroffenen Daten-Scope neu verarbeiten; der aktive Stand unveränderter Zusatzdaten muss weiterverwendbar bleiben. Die Veröffentlichung erfolgt weiterhin als konsistenter angereicherter Datensatz auf Basis des jeweils aktuellen LoD2-GML-Eingangs.
 
 <a id="ta-138"></a>
 

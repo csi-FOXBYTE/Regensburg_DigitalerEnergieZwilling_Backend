@@ -34,14 +34,14 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Berechnungen & Ergebnisse** (Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch/-kosten, Effizienzklassen)
 - **Triage/Status** für administrative Prüfung und Veröffentlichung
 - **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung)
-- **Reports** (Anzeige in der Anwendung) und **optionale Exporte** (z.B. PDF für Bürger, Quartiersberichte für Verwaltung)
+- **Reports** (Anzeige in der Anwendung) und **optionale bürgerseitige Exporte** (z.B. PDF/JSON für Bürger)
 
 ### Beziehungen (vereinfacht)
 
 - Ein **Gebäude** hat mehrere **Eingabesets** (Szenarien, Eingabetiefe/Detailgrad).
 - Ein **Eingabeset** hat **Bauteil- und Systemeingaben** sowie **Maßnahmen**.
 - Jede **Berechnung** referenziert eine **Konfigurationsversion** und erzeugt **Ergebnisse**.
-- **Triage** ist pro Eingabeset geführt; übermittelte Daten sind nach interner Freigabe exportierbar.
+- **Triage** ist pro Eingabeset geführt; übermittelte Daten sind nach interner Freigabe für interne Auswertungen nutzbar.
 - **Quartiere** erlauben Aggregationen und Reporting auf Planungsebene.
 
 ### Eingabekategorien (Auszug)
@@ -52,7 +52,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
 - **Warmwasser & Nutzung**: pauschal, personenbasiert oder verbrauchsbezogen.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Heizkreistemperatur, Regelung, Zusatzheizung und Sanierungsrandbedingungen.
 - **Kosten/Preise & Faktoren**: Jahresverbrauch, Arbeitspreis, Grundpreis, Heizwert, Primärenergiefaktor und CO₂-Faktor.
-- **Erneuerbare**: PV (zwei Darstellungen), Geothermie, Energiespeicher (optional). Solarthermie ist als spätere Erweiterung denkbar, derzeit aber nicht im Berechnungskern vorgesehen.
+- **Erneuerbare**: PV (zwei Darstellungen), Geothermie, Energiespeicher (optional). PV/Speicher wird erst nach Datenfreigabe des Auftraggebers umgesetzt; aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt. Solarthermie ist als spätere Erweiterung denkbar, derzeit aber nicht im Berechnungskern vorgesehen.
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
@@ -87,7 +87,7 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Datenhaltung
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
-- **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, Exporte (nur bei explizitem Export).
+- **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, bürgerseitige Report-Exporte (nur bei explizitem Export).
 - **Client-Zustand**: Bearbeitungszustand wird über Local Storage persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
 
@@ -118,20 +118,20 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Status-Lifecycle (Triage)
 
 - `neu` → `in_pruefung`
-- `in_pruefung` → `freigegeben` oder `geloescht`
+- `in_pruefung` → `freigegeben`, `abgelehnt` oder `geloescht`
 - Statuswechsel werden im Audit-Log mit Zeitstempel und Benutzerkennung protokolliert.
-- `geloescht` ist ein fachlicher Tombstone-Status für unplausible oder automatisch abgelehnte Datensätze; solche Datensätze dürfen nicht indexiert oder exportiert werden.
+- `abgelehnt` kennzeichnet unplausible oder automatisch abgelehnte Datensätze; `geloescht` ist ein fachlicher Tombstone-Status. Beide Status dürfen nicht indexiert oder exportiert werden.
 
 ### Statische Tile-Attribute (Auszug)
 
 - **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
-- **Solarpotenziale** liegen bei verfügbarer belastbarer Datenbereitstellung als Attribute in 3D Tiles vor. Relevante Felder u.a.:
+- **Solarpotenziale** liegen erst bei verfügbarer, durch den Auftraggeber freigegebener Datenbereitstellung als Attribute in 3D Tiles vor. Aktuell ist die Solar-Anreicherung fachlich blockiert. Relevante Felder u.a.:
   `solarArea`, `Fläche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
-- **Geothermiepotenziale** werden bei verfügbarer belastbarer Datenbereitstellung über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
-- **Datenstand Solar/Geothermie**: Die Einbindung in den MVP hängt von der rechtzeitigen Bereitstellung belastbarer Datensätze ab; für Geothermie liegt aktuell noch kein belastbarer Datensatz vor.
+- **Geothermiepotenziale** werden bei verfügbarer, durch den Auftraggeber freigegebener Datenbereitstellung über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
+- **Datenstand Solar/Geothermie**: Die Einbindung in den MVP hängt von der rechtzeitigen Bereitstellung und Freigabe belastbarer Datensätze ab. Für Solarpotenzial/PV/Speicher liegt aktuell keine Datenfreigabe durch den Auftraggeber vor; Geothermie-Daten sind ebenfalls noch nicht durch den Auftraggeber freigegeben. Optional kann eine Berechnung flurstücksbezogener Geothermie-Potenziale nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 
 ### Abgeleitete Gebäudeparameter (LOD2)
@@ -157,13 +157,13 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext 
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
-- **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei oder markiert sie fachlich als gelöscht.
+- **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei, lehnt sie ab oder markiert sie fachlich als gelöscht.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
 
 ### Offene Datenmodell-Punkte aus dem Grobkonzept
 
-- Kostenfelder für Hülle-Maßnahmen sind aktuell als Platzhalter markiert und noch nicht als belastbares Schema beschrieben.
+- Kostenfelder für Hülle-Maßnahmen sind aktuell als Platzhalter markiert und noch nicht als belastbares Schema beschrieben. Wirtschaftlichkeit/Amortisation ist fachlich blockiert, solange die benötigten BKI-Kostendaten nicht vom Auftraggeber bereitgestellt werden können.
 - Teilweise enthalten Tabellenwerte reine Template-Inhalte (`0`, `#`) und dürfen nicht als produktive Defaultwerte in API/DB übernommen werden.
 - Korrekturfaktoren je Bauteil sind nicht vollständig als konfigurierbare Regelstruktur ausdefiniert.
 - Für Teile der Heizungslogik liegt noch keine ausreichend formalisierte Regelbasis für maschinenlesbare Empfehlungen vor.
@@ -200,8 +200,9 @@ Quelle: `raw/public-write-flow.puml`
 ### Client-Generierung aus OpenAPI
 
 - **Source of Truth**: OpenAPI 3.0 aus dem Backend (Fastify-toab/Fastify-Swagger).
-- **Generator**: `@hey-api/openapi-ts`.
-- **Frontend-Integration**: Nutzung der React-Query-Erweiterung für typsichere Query-/Mutation-Hooks.
+- **Generator**: Orval im Frontend.
+- **Frontend-Integration**: Orval generiert den API-Client aus der vom Backend abgefragten OpenAPI-Spezifikation.
+- **Versionierung**: Ein separat versioniertes Artefakt `openapi/openapi.json` wird bewusst nicht gepflegt, da die Anzahl angebundener Clients gering bleibt.
 
 ---
 
@@ -245,5 +246,5 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 
 - Reports werden **nicht** als eigene dauerhafte Objekte gespeichert.
 - Reports werden in der Anwendung **dynamisch aus der Datenbank** aggregiert.
-- Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.
+- Bürgerseitige Report-Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.
 

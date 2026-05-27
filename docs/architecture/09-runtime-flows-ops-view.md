@@ -41,7 +41,7 @@ Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validie
 Quelle: `raw/runtime-flow-admin.puml`
 
 **Admin Triage-Flow (Detail)**  
-Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und markieren unplausible oder automatisch abgelehnte Datensätze als `gelöscht`. Nur freigegebene Datensätze werden exportiert.  
+Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und markieren unplausible oder automatisch abgelehnte Datensätze als `abgelehnt`. Fachlich zu entfernende Datensätze können als `gelöscht` markiert werden. Freigegebene Datensätze können für interne Auswertungen genutzt werden.
 Beteiligte Komponenten: Admin-Bereich, Backend API, Triage Service, Database.  
 Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates.
 
@@ -50,7 +50,7 @@ Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Upd
 Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
-Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update je Datendomäne); Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles und CityGML exportiert; Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.  
+Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update per `update_scope`); jeder Anreicherungsrun basiert mindestens auf LoD2-GML-Daten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit geänderten oder wiederverwendeten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles und CityGML exportiert; Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.
 Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML).  
 Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
 
@@ -83,8 +83,8 @@ Quelle: `raw/runtime-flow-delete.puml`
 Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Public Flow**: APISIX prüft Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
-- **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
-- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `gelöscht`.
+- **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung für `Verwalter`, `Systempfleger` und `Administrator` und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
+- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `abgelehnt`, fachlich gelöschte Datensätze im Status `gelöscht`.
 - **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
 

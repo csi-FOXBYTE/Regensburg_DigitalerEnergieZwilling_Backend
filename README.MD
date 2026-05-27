@@ -88,6 +88,11 @@ AUTH_RESOURCE_ACCESS_CLIENT_ID=digital-energy-twin
 
 Wenn nicht gesetzt, wird standardmaessig `digital-energy-twin` verwendet.
 
+Geplantes Rollenmodell:
+- `Verwalter`: eingereichte Gebaeudedaten lesen und bearbeiten, kein Zugriff auf Systempflege.
+- `Systempfleger`: Zugriff auf Systempflege, kein Zugriff auf eingereichte Gebaeudedaten.
+- `Administrator`: voller Zugriff auf den internen Client.
+
 ## Dev-JWT fuer lokale Entwicklung erzeugen
 
 Schnellstart:
@@ -111,7 +116,7 @@ pnpm jwt:dev \
   --issuer http://localhost:8080/realms/dev \
   --audience account \
   --client-id digital-energy-twin \
-  --roles admin,user \
+  --roles Administrator,Verwalter \
   --ttl 3600
 ```
 

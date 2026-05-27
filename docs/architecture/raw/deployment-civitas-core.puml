@@ -5,7 +5,7 @@ skinparam rectangle {
   BorderColor #444444
 }
 
-title Deployment – CIVITAS/CORE
+title Deployment - CIVITAS/CORE
 
 rectangle "CIVITAS/CORE Platform" as civitas {
   rectangle "APISIX\n(Web/API Gateway)" as gateway
@@ -15,7 +15,7 @@ rectangle "CIVITAS/CORE Platform" as civitas {
   rectangle "Anreicherungs-Container" as enrich
   rectangle "Public Static Delivery" as static
   rectangle "Tiles Gateway\n(optional)" as tiles
-  rectangle "PostgreSQL/PostGIS" as db
+  rectangle "SQLite + SpatiaLite" as db
   rectangle "Keycloak (OIDC)" as keycloak
 }
 

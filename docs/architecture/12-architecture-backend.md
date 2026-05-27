@@ -23,7 +23,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 <a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
-- Fachliche Autorisierung auf Basis der von APISIX geprüften Claims/Rollen.
+- Fachliche Autorisierung auf Basis der von APISIX geprüften Claims/Rollen (`Verwalter`, `Systempfleger`, `Administrator`).
 - Verwaltung, Versionierung und Veröffentlichung von Berechnungskonfigurationen.
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
@@ -69,8 +69,8 @@ Quelle: `raw/backend-architecture.puml`
 
 - OpenAPI 3.0 wird im Backend über Fastify-toab/Fastify-Swagger bereitgestellt.
 - Diese Spezifikation ist die Source of Truth für die Generierung des Frontend-API-Clients.
-- Für die Frontend-Generierung wird die Spezifikation als Artefakt im Pfad `openapi/openapi.json` bereitgestellt.
-- Änderungen am API-Vertrag werden über OpenAPI-Diff im Review-/Release-Prozess nachvollzogen.
+- Das Frontend fragt die OpenAPI-Spezifikation ab und generiert daraus den API-Client mit Orval.
+- Eine zusätzliche Versionierung als `openapi/openapi.json` wird bewusst ausgeklammert, da die Anzahl angebundener Clients gering bleibt.
 
 ---
 
@@ -86,6 +86,7 @@ Quelle: `raw/backend-architecture.puml`
   - APISIX muss JWT/OIDC-Validierung, Signaturprüfung und AuthN/AuthZ erzwingen (z.B. OIDC-Plugin).
   - Grundlage ist das von Keycloak nach Login gesetzte verschlüsselte JWT-Cookie im Browser.
   - Backend-Endpunkte verwenden `authMiddleware` nur zur Auswertung der vom Gateway durchgereichten Claims/Rollen.
+  - Gebäudedaten-/Triage-Endpunkte sind für `Verwalter` und `Administrator` vorgesehen; Systempflege-Endpunkte für `Systempfleger` und `Administrator`.
   - Eine eigene JWT-Signaturprüfung im Backend ist nicht vorgesehen.
 - Für `"/api/public/*"` gilt:
   - Keine Auth-Middleware als Default.

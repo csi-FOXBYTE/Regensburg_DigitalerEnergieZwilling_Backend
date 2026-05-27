@@ -34,8 +34,8 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 ## Datenquellen
 
-- **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; Quelle noch offen)
-- **Solarpotenziale** (3D Tiles mit Attributen + Textur)
+- **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; noch nicht durch den Auftraggeber freigegeben; optionaler Fallback nach LfU-/TUM-Vorbild zu prüfen)
+- **Solarpotenziale** (3D Tiles mit Attributen + Textur; noch nicht durch den Auftraggeber freigegeben)
 - **LOD2-Daten** (CityGML, inkl. Adressen)
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
@@ -58,7 +58,7 @@ Hinweis: Solarthermie ist aktuell nicht Teil des vorgesehenen Rechenwegs im Bere
 
 Beispiele für Datenherkünfte und Referenzen:
 
-- Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten)
+- Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten nach Datenfreigabe)
 - Open Data (LOD2)
 - Behördenspezifische Lizenzen (oberflächennahe Geothermie)
 - Externe Quellen für Referenzwerte/Typologien (IWU/TABULA, BKI, co2online, DIN/VDI)
@@ -70,10 +70,11 @@ Beispiele für Datenherkünfte und Referenzen:
 ## Aktualisierungsstrategie der Basisdaten
 
 - Der LOD2-Basisdatensatz wird im Regelfall in einem Zyklus von **2 Jahren** aktualisiert.
-- Solarpotenzial- und Geothermie-Basisdaten können abweichende Aktualisierungszeiträume haben; ein gemeinsamer, fester Gesamtzyklus ist nicht erforderlich.
-- Aktualisierungen müssen je Datendomäne vollständig optional und separat durchführbar sein (z.B. nur LOD2, nur Solar, nur Geothermie).
-- Eine Aktualisierung einer Datendomäne darf keine obligatorische Neuberechnung anderer Datendomänen erzwingen.
-- Für die Nachnutzung durch andere Kommunen muss die Pipeline entkoppelte Aktualisierungspfade je Datenquelle unterstützen.
+- Solarpotenzial- und Geothermie-Basisdaten können nach Datenfreigabe abweichende Aktualisierungszeiträume haben; ein gemeinsamer, fester Gesamtzyklus ist nicht erforderlich.
+- Aktualisierungen werden über einen `update_scope` gesteuert, basieren aber für die Anreicherung immer mindestens auf LoD2-GML-Daten.
+- Eine nachträgliche Anreicherung ausschließlich über Nicht-LoD2-Datenquellen ist nicht vorgesehen.
+- Optionale Komponenten wie Solarpotenzial, Geothermie oder Baualtersklassen werden nur erneut eingebunden, wenn sie für den gewählten Lauf bereitgestellt bzw. geändert wurden; bereits im angereicherten Datensatz vorhandene optionale Attribute können bei einem reinen LoD2-Update weiterverwendet werden.
+- Für die Nachnutzung durch andere Kommunen muss die Pipeline klar beschreiben, welche Eingaben je `update_scope` verpflichtend sind und welche Zusatzdaten wiederverwendet werden dürfen.
 
 ---
 
@@ -135,10 +136,11 @@ Beispiele für Datenherkünfte und Referenzen:
    <https://github.com/citygml4j/citygml-tools>
 
 3. **Anreicherung der Metadaten auf CityJSON (separater Schritt)**  
-   Solarpotenziale liegen als 3D Tiles mit Attributen und Textur vor und werden
+   Solarpotenziale werden nach Datenfreigabe als 3D Tiles mit Attributen und Textur
    in einem separaten Verarbeitungsschritt mit den CityJSON-Gebäuden zusammengeführt.
-   Geothermiepotenziale werden (sobald verfügbar) über eine priorisierte Datensatzabfrage ergänzt:
+   Geothermiepotenziale werden nach Freigabe durch den Auftraggeber über eine priorisierte Datensatzabfrage ergänzt:
    Grundwasser → Erdreich → Luft.
+   Falls flurstücksbezogene Potenziale nicht rechtzeitig nutzbar bereitgestellt werden, kann eine optionale Berechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
    Dadurch werden Laufzeit-DB-Zugriffe minimiert.
 
@@ -188,8 +190,9 @@ Beispiele für Datenherkünfte und Referenzen:
 ### Airflow DAG (konkret)
 
 - DAG-ID: `dez_offline_pipeline`.
-- Jeder Lauf definiert einen `update_scope` (z.B. `lod2`, `solar`, `geothermie`, `full`), damit Basisdaten unabhängig voneinander aktualisiert werden können.
-- Teil-Updates sind zulässig; nur die vom `update_scope` betroffenen Pipeline-Schritte werden ausgeführt.
+- Jeder Lauf definiert einen `update_scope` (z.B. `lod2`, `solar`, `geothermie`, `full`), damit der Aktualisierungsumfang nachvollziehbar ist.
+- Für jeden Anreicherungsrun sind LoD2-GML-Daten verpflichtend. Reine Nachläufe ausschließlich auf Basis von Solar-, Geothermie- oder anderen Nicht-LoD2-Datenquellen sind nicht vorgesehen.
+- Teil-Updates sind zulässig; der `update_scope` steuert, welche Zusatzdaten neu eingelesen werden. Bereits vorhandene optionale Attribute können übernommen werden, wenn sich die zugehörigen Zusatzdatensätze nicht geändert haben.
 - Auch bei Teil-Updates bleibt die Ausführung ein einzelner DAG-Run; nur nicht benötigte Schritte werden innerhalb des DAG übersprungen.
 
 ### Kommunenprofil und Mapping-Profil
@@ -218,7 +221,7 @@ Task-Reihenfolge je `job_id`:
 ### Storage-Layout (S3-kompatibel)
 
 - `jobs/{job_id}/input/`  
-  Eingabedaten (CityGML-Dateien, Solarpotenzial-3D Tiles, Vegetationsdaten; Struktur beliebig).
+  Eingabedaten (CityGML-Dateien, freigegebene Solarpotenzial-3D Tiles, Vegetationsdaten; Struktur beliebig).
 - `jobs/{job_id}/cityjson/`  
   Ausgabe der Konvertierung (CityJSON vor Anreicherung).
 - `jobs/{job_id}/cityjson_enriched/`  
@@ -242,7 +245,7 @@ Task-Reihenfolge je `job_id`:
 ### Eingaben
 
 - Ein Ordner mit **CityGML-Dateien** (LOD2, inkl. Adressen; Dateistruktur innerhalb des Ordners ist beliebig).
-- Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe.
+- Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe nach Datenfreigabe durch den Auftraggeber.
 - Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
 - Optional ZIP-Container als Eingabeformat (muss in `extract_inputs` entpackbar sein).
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
@@ -253,8 +256,9 @@ Task-Reihenfolge je `job_id`:
 Hinweis zu Teil-Updates:
 
 - Für `update_scope = full` gelten alle oben aufgeführten Eingaben.
-- Für Teil-Updates (`lod2`, `solar`, `geothermie`) sind nur die jeweils scope-relevanten Eingaben verpflichtend.
-- Ein Teil-Update darf nicht an fehlenden Eingaben nicht betroffener Datendomänen scheitern.
+- Für jeden `update_scope` ist mindestens ein LoD2-GML-Eingang verpflichtend, da die Anreicherung immer auf dem LoD2-Datensatz aufsetzt.
+- Für Teil-Updates sind nur die jeweils geänderten Zusatzdaten verpflichtend. Nicht geänderte optionale Komponenten, die bereits im angereicherten Datensatz vorhanden sind, können weggelassen und wiederverwendet werden.
+- Ein Teil-Update darf nicht an fehlenden, unveränderten Zusatzdaten scheitern.
 - Der Lauf muss ohne CityGML Energy ADE über definierte Fallback-Pfade (LOD2 + externe Potenzialdaten + Konfigurationswerte) vollständig ausführbar bleiben.
 
 ### Ausgaben
@@ -405,8 +409,8 @@ DockerOperator(
 ### Erwartete Eingaben
 
 - Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
-- Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet, Quelle noch offen).
-- Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping.
+- Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet; Datenfreigabe durch Auftraggeber noch offen).
+- Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping nach Datenfreigabe durch den Auftraggeber.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
 ### Erwartete Ausgaben
@@ -417,8 +421,8 @@ DockerOperator(
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
-- **Solarpotenziale** werden aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional.
-- **Geothermiepotenziale** werden über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt.
+- **Solarpotenziale** werden nach Datenfreigabe aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional. Ohne Freigabe findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
+- **Geothermiepotenziale** werden nach Datenfreigabe über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Eine optionale Ersatzberechnung nach LfU-/TUM-Vorbild ist nur nach gesonderter fachlicher Entscheidung vorzusehen.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
 
@@ -434,7 +438,7 @@ DockerOperator(
 - `solar_yield_kwh_m2a` (Number)
 - `geothermal_potential_w_m2` (Number)
 
-Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernommen):
+Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverändert übernommen):
 
 - `solarArea` (Number)
 - `Fläche` (String)
@@ -455,7 +459,7 @@ Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernom
 
 > ⚠️ **Hinweis:** Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
 
-> ⚠️ **Hinweis MVP:** Da derzeit noch kein belastbarer Geothermie-Datensatz vorliegt, bleiben Bewertungslogik und konkrete Ausgabefelder für die MVP-Phase in diesem Punkt offen.
+> ⚠️ **Hinweis MVP:** Die Geothermie-Daten sind aktuell noch nicht durch den Auftraggeber freigegeben. Bewertungslogik und konkrete Ausgabefelder bleiben bis zur Datenfreigabe offen; eine optionale Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie ist nur nach gesonderter Beauftragung vorzusehen.
 
 ### Validierungsregeln
 
@@ -473,7 +477,7 @@ Zusätzliche Rohattribute aus den Solarpotenzial-3D Tiles (unverändert übernom
 
 Das Diagramm zeigt die Verarbeitungsschritte; Orchestrierung und Datenaustausch über Airflow sind im Abschnitt oben beschrieben.
 
-> ⚠️ **Hinweis:** Die Solarpotenziale sind aktuell bereits als 3D Tiles verfügbar und werden in der Anreicherung übernommen.
+> ⚠️ **Hinweis:** Die Solar-Anreicherung ist aktuell fachlich blockiert, da die Solarpotenzialdaten noch nicht durch den Auftraggeber freigegeben sind.
 
 ![offline-data-pipeline.png](./attachments/offline-data-pipeline.png)
 

@@ -22,11 +22,11 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
     }
 
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
-    SystemDb(db, "DEZ Database (logical)", "PostgreSQL Schema + PostGIS extensions", "Stores user inputs, triage state and configuration source of truth")
+    SystemDb(db, "DEZ Database", "SQLite + SpatiaLite", "Stores user inputs, triage state and configuration source of truth")
   }
 
   Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
-  ContainerDb(platformPostgres, "PostgreSQL Server (CIVITAS/CORE Platform)", "PostgreSQL", "Shared database server operated by the platform")
+  ContainerDb(sqliteStorage, "SQLite Storage", "SQLite file/storage volume", "DEZ-owned database storage")
 }
 
 Container_Ext(frontendPublic, "Public Frontend", "Astro Static Site", "Public client")
@@ -56,7 +56,7 @@ Rel(userData, db, "reads and writes user inputs and triage state")
 Rel(configService, db, "reads and writes configuration")
 Rel(configService, publicStatic, "publishes versioned config file")
 Rel(geoService, db, "reads spatial data")
-Rel(db, platformPostgres, "hosted on", "schema/database on platform PostgreSQL")
+Rel(db, sqliteStorage, "stored on", "persistent volume")
 
 Rel(telemetry, apiControllers, "instruments")
 Rel(telemetry, userData, "instruments")

@@ -27,7 +27,7 @@ Zentrale Leitprinzipien der Architektur sind:
 
 ### Statische Daten statt Laufzeitberechnung
 
-Soweit belastbare Solarpotenzial- oder Geothermiedaten bereitgestellt werden, werden diese **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.  
+Soweit belastbare Solarpotenzial- oder Geothermiedaten bereitgestellt und durch den Auftraggeber freigegeben werden, werden diese **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.
 Zur Laufzeit findet keine Neuberechnung dieser Potenziale statt.
 
 Dies reduziert:
@@ -140,8 +140,7 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen z
 - mit allen relevanten Potenzialattributen angereichert
 - über APISIX bereitgestellt (direkter Zugriff auf den externen Datendienst oder optional über ein Tiles Gateway)
 
-Die Tiles enthalten zusätzlich Adressen aus LOD2, optionale Texturen zur Solarpotenzial-Visualisierung
-und Vegetationsobjekte (Bäume) für die 3D-Darstellung.
+Die Tiles enthalten zusätzlich Adressen aus LOD2 und Vegetationsobjekte (Bäume) für die 3D-Darstellung. Optionale Texturen zur Solarpotenzial-Visualisierung werden erst nach Datenfreigabe des Auftraggebers übernommen.
 
 Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend und kann bei Bedarf zusätzliche Proxy-Funktionen übernehmen.
 

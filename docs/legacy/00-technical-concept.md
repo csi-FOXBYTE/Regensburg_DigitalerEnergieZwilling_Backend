@@ -68,7 +68,7 @@ Ziel ist die Entwicklung einer webbasierten 3D-Anwendung, die das digitale Stadt
 - **User-Daten**: Werden in der PostgresQL Datenbank abgelegt und pro Gebäude verknüpft
 ### Backend (Server)
 - **Framework**: Node.js mit [@csi-foxbyte/fastify-toab](https://www.npmjs.com/package/@csi-foxbyte/fastify-toab)
-- **Datenbank**: PostgresQL mit PostGIS Erweiterung für schnelle räumliche Abfragen
+- **Datenbank**: SQLite mit SpatiaLite für schnelle räumliche Abfragen
 - **API**: OpenAPI via [@csi-foxbyte/fastify-toab](https://www.npmjs.com/package/@csi-foxbyte/fastify-toab)
 ### Frontend
 Für das Frontend bieten sich zwei Optionen an, welche nachfolgend grob umrissen werden.
@@ -173,7 +173,7 @@ end
 subgraph Backend [Backend & Hosting]
     direction TB
     StaticStore[("Static Storage (3D Tiles)")]:::storage
-    DB[("PostgreSQL + PostGIS (User-Daten & Raumbezug)")]:::storage
+    DB[("SQLite + SpatiaLite (User-Daten & Raumbezug)")]:::storage
     APIServer["Node.js Server (@csi-foxbyte/fastify-toab)"]:::server
     
     Tool2 --> StaticStore
@@ -213,7 +213,7 @@ end
 subgraph Backend [Backend & Hosting]
     direction TB
     StaticStore[("Static Storage (3D Tiles)")]:::storage
-    DB[("PostgreSQL + PostGIS (User-Daten & Raumbezug)")]:::storage
+    DB[("SQLite + SpatiaLite (User-Daten & Raumbezug)")]:::storage
     APIServer["Node.js Server (@csi-foxbyte/fastify-toab)"]:::server
     
     Tool2 --> StaticStore

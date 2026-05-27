@@ -19,7 +19,7 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
     Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
 
     Container(tilesGw, "Tiles Gateway (optional)", "HTTP Gateway", "Optional proxy for 3D tiles with caching and range requests")
-    ContainerDb(db, "DEZ Database (logical)", "PostgreSQL Schema + PostGIS extensions", "Stores user inputs, triage state and Berechnungskonfigurationen")
+    ContainerDb(db, "DEZ Database", "SQLite + SpatiaLite", "Stores user inputs, triage state and Berechnungskonfigurationen")
   }
 
   System_Boundary(pipelineAddon, "offline-data-pipeline_addon (separates CIVITAS/CORE Add-on)") {
@@ -28,7 +28,7 @@ System_Boundary(civitas, "CIVITAS/CORE Platform") {
   }
 
   Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
-  ContainerDb(platformPostgres, "PostgreSQL Server (CIVITAS/CORE Platform)", "PostgreSQL", "Shared database server operated by the platform")
+  ContainerDb(sqliteStorage, "SQLite Storage", "SQLite file/storage volume", "DEZ-owned database storage")
 }
 System_Ext(geo, "City Geo Services", "WMS and WMTS basemaps")
 System_Ext(tilesStore, "Externer Datendienst (S3-kompatibel)", "External object storage for input artifacts and published outputs")
@@ -57,7 +57,7 @@ Rel(frontendPublic, gateway, "loads 3D tiles with embedded potentials", "GET /ti
 Rel(tilesGw, tilesStore, "fetches tiles", "HTTP")
 
 Rel(backend, db, "reads and writes", "SQL")
-Rel(db, platformPostgres, "hosted on", "schema/database on platform PostgreSQL")
+Rel(db, sqliteStorage, "stored on", "persistent volume")
 Rel(frontendPublic, backend, "calls API for user data", "REST via APISIX")
 Rel(frontendAdmin, backend, "calls API for admin actions", "REST via APISIX")
 

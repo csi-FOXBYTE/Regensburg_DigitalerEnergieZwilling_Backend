@@ -108,7 +108,7 @@ Das Backend stellt alle serverseitigen Funktionen bereit, die nicht sinnvoll cli
 
 Aufgaben:
 - Entgegennahme der vom APISIX Gateway geprüften Token-Claims
-- Fachliche Autorisierung auf Basis von Rollen (z.B. `admin`)
+- Fachliche Autorisierung auf Basis der Rollen `Verwalter`, `Systempfleger` und `Administrator`
 - Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Strukturiertes Logging über Pino/Fastify auf `stdout`/`stderr`
@@ -139,8 +139,8 @@ Das 3D Tiles Storage ist ein externer S3-kompatibler Datendienst und **kein** Be
 
 Eigenschaften:
 - Statische Datenhaltung
-- Enthält Gebäudestrukturen, Adressen aus LOD2 sowie Solarpotenzial-Attribute (inkl. Textur)
-- Geothermiepotenziale werden ergänzt, sobald eine belastbare Quelle verfügbar ist; die Abfrage erfolgt priorisiert über Grundwasser, Erdreich, Luft (MVP-Klärung noch offen)
+- Enthält Gebäudestrukturen und Adressen aus LOD2; Solarpotenzial-Attribute inkl. Textur werden erst nach Datenfreigabe des Auftraggebers übernommen
+- Geothermiepotenziale werden erst nach Datenfreigabe des Auftraggebers ergänzt; die Abfrage erfolgt priorisiert über Grundwasser, Erdreich, Luft (MVP-Klärung noch offen)
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.
@@ -152,7 +152,7 @@ Vegetationsdaten (Bäume) werden nicht in der Offline-Datenpipeline verarbeitet,
 ### Datenbank
 
 Die DEZ-Datenbank dient als persistente Datenhaltung für dynamische und nutzerspezifische Informationen.
-Sie ist logisch Teil des `digital-energy-twin_addon` (eigene Schemata/Objekte), läuft physisch jedoch auf dem PostgreSQL-Server der CIVITAS/CORE-Plattform.
+Sie ist logisch Teil des `digital-energy-twin_addon` und wird als SQLite-Datenbank mit SpatiaLite betrieben.
 
 Enthält:
 - Nutzereingaben aus Berechnungen
@@ -169,7 +169,7 @@ Die Offline Datenpipeline läuft in CIVITAS/CORE, wird jedoch **nicht** durch da
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solarpotenzialen (PV) und Geothermiedaten
+- Integration von Solarpotenzialen (PV) und Geothermiedaten erst nach jeweiliger Datenfreigabe des Auftraggebers
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung der finalen 3D Tiles
 
@@ -188,7 +188,7 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 | Public Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
 | Admin Frontend | Statischer Admin-Client ohne eigene Serverlogik; sensible Aktionen erfolgen ausschließlich über geschützte Backend-APIs. |
 | Backend API | Wertet vom APISIX Gateway geprüfte Claims/Rollen aus, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
-| Datenbank | Logische DEZ-Datenhaltung auf dem Plattform-PostgreSQL; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
+| Datenbank | DEZ-Datenhaltung auf SQLite mit SpatiaLite; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
 | 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
 

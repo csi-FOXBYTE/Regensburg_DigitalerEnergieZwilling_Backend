@@ -74,10 +74,10 @@ Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer
 
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
-- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles
+- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles nach Datenfreigabe
 - Durchführung der energetischen Berechnung
 - Darstellung der Berechnungsergebnisse
-> ⚠️ **Hinweis:** Die Solarpotenzial-Textur und Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt.
+> ⚠️ **Hinweis:** Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt. Die Solarpotenzial-Textur wird erst nach Datenfreigabe durch den Auftraggeber übernommen.
 
 Die Berechnung wird standardmäßig vollständig im Browser ausgeführt.
 
@@ -145,11 +145,12 @@ Aufgaben:
 
 ### Auth Middleware
 
-Die Auth Middleware ist für die fachliche Rollenprüfung auf Basis der von APISIX geprüften Claims zuständig.
+Die Auth Middleware ist für die fachliche Rollenprüfung auf Basis der von APISIX geprüften Claims zuständig. Maßgeblich sind die Rollen `Verwalter`, `Systempfleger` und `Administrator`.
 
 Aufgaben:
 - Auswertung der von APISIX durchgereichten Token-Claims
 - Durchsetzung fachlicher Rollen- und Zugriffskonzepte
+- Trennung von Gebäudedaten-/Triage-Zugriff (`Verwalter`, `Administrator`) und Systempflege (`Systempfleger`, `Administrator`)
 - Keine eigene JWT-Signaturprüfung; JWT/OIDC und Routenschutz liegen in APISIX
 
 ---
@@ -196,7 +197,7 @@ Aufgaben:
 Diese Komponente stellt räumliche Abfragen für administrative Funktionen bereit.
 
 Aufgaben:
-- Zugriff auf PostGIS
+- Zugriff auf SpatiaLite-Funktionen
 - Unterstützung fachlicher Auswertungen
 - Bereitstellung von Gebäudekontexten
 
@@ -251,7 +252,7 @@ Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad in CIVITAS/C
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solarpotenzialen (PV) und Geothermiepotenzialen
+- Integration von Solarpotenzialen (PV) und Geothermiepotenzialen erst nach jeweiliger Datenfreigabe des Auftraggebers
 - Anreicherung der Gebäudedaten
 - Erzeugung der finalen 3D Tiles
 
@@ -280,7 +281,7 @@ Quelle: `raw/c4-components-pipeline.puml` (Offline Pipeline View)
   Admin (Stadtverwaltung / Fachpersonal) → Backend → Konfigurationsdatei → Public Client
 
 - Nutzerdaten:  
-  Public Client → Backend → DEZ-Datenbank (logisch im Add-on, physisch auf Plattform-PostgreSQL) → Admin-Triage (Stadtverwaltung / Fachpersonal)
+  Public Client → Backend → DEZ-Datenbank (SQLite-basiert mit Geo-Erweiterung) → Admin-Triage (Stadtverwaltung / Fachpersonal)
 
 ---
 

@@ -37,7 +37,7 @@ Zusätzlich konfiguriert das Add-on zur Laufzeit:
 
 - Ingress-Einträge für die drei Hosts (in Kubernetes)
 - APISIX-Upstreams und APISIX-Routen
-- OIDC-Client und Rollen (`admin`, `viewer`) in Keycloak
+- OIDC-Client und Rollen (`Verwalter`, `Systempfleger`, `Administrator`) in Keycloak
 - Backend-Datenbankzugang aus zentralem CIVITAS/CORE-DB-Secret
 
 ---

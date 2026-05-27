@@ -22,7 +22,7 @@ rectangle "CIVITAS/CORE Platform" as civitas {
     rectangle "Config Snapshot\nExporter" as export
   }
 
-  rectangle "PostgreSQL/PostGIS" as db
+  rectangle "SQLite + SpatiaLite" as db
   rectangle "Keycloak (OIDC)" as keycloak
 }
 

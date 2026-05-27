@@ -192,7 +192,6 @@ InputSet "1" -- "1" TriageRecord
 TriageRecord "1" -- "0..1" BuildingIndex
 Building "1" -- "0..1" BuildingIndex
 InputSet "0..*" -- "0..*" ReportExport
-District "0..*" -- "0..*" ReportExport
 
 note right of Building
 Static potentials and geometry are stored in 3D Tiles,
@@ -200,7 +199,8 @@ not in the database. Only references are persisted.
 end note
 
 note right of ReportExport
-Reports are shown in-app; exports are created only on demand.
+Citizen reports are shown in-app;
+exports are created only on demand.
 end note
 
 note right of VentilationReference
@@ -210,9 +210,10 @@ end note
 
 note right of TriageRecord
 Status lifecycle:
-neu -> in_pruefung -> freigegeben | geloescht
+neu -> in_pruefung -> freigegeben | abgelehnt | geloescht
 Unplausible or automatically rejected records
-use the logical tombstone status geloescht.
+use the status abgelehnt.
+geloescht is the logical tombstone status.
 end note
 
 @enduml
