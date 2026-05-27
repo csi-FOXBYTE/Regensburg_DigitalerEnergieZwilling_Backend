@@ -25,6 +25,12 @@ export const AccessTokenDto = Type.Object(
     resource_access: Type.Optional(
       Type.Record(Type.String(), AccessTokenResourceRolesDto),
     ),
+    name: Type.Optional(Type.String()),
+    given_name: Type.Optional(Type.String()),
+    family_name: Type.Optional(Type.String()),
+    email_verified: Type.Optional(Type.Boolean()),
+    preferred_username: Type.Optional(Type.String()),
+    email: Type.Optional(Type.String()),
   },
   { additionalProperties: true },
 );

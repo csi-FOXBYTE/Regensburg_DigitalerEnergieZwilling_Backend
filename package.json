@@ -1,21 +1,22 @@
 {
   "name": "rg-dez-backend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "oxlint && eslint",
     "dev": "fastify-toab dev",
     "build": "fastify-toab build",
-    "jwt:dev": "node scripts/create-dev-jwt.mjs",
-    "zenstack:generate": "zenstack generate --schema src/zenstack/schema.zmodel"
+    "jwt:dev": "node scripts/create-dev-jwt.mjs"
+  },
+  "zenstack": {
+    "schema": "src/zenstack/schema.zmodel"
   },
   "keywords": [],
   "license": "ISC",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
     "@types/node": "^25.0.2",
-    "@zenstackhq/cli": "^3.3.3",
     "typescript": "^5.9.3"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.16.0",
     "@types/pino": "^7.0.5",
+    "@zenstackhq/cli": "^3.3.3",
     "@zenstackhq/orm": "^3.3.3",
     "better-auth": "^1.4.7",
     "bullmq": "^5.66.0",

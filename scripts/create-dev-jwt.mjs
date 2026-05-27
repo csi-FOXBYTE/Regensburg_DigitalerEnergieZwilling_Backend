@@ -10,6 +10,8 @@ const defaults = {
   clientId: "digital-energy-twin",
   username: "dev.user",
   email: "dev.user@example.local",
+  givenName: "Dev",
+  familyName: "User",
   scope: "openid profile email",
   roles: ["admin", "user"],
   ttl: 15552000,
@@ -45,6 +47,8 @@ Options:
   --audience <aud>             JWT aud claim
   --client-id <azp/client>     JWT azp and resource_access client
   --username <name>            preferred_username
+  --given-name <name>          given_name claim (default: Dev)
+  --family-name <name>         family_name claim (default: User)
   --email <email>              email claim
   --roles <csv>                role list (default: admin,user)
   --scope <scope>              scope claim
@@ -82,6 +86,10 @@ const payload = {
   typ: "Bearer",
   preferred_username: args.username ?? defaults.username,
   email: args.email ?? defaults.email,
+  given_name: args["given-name"] ?? defaults.givenName,
+  family_name: args["family-name"] ?? defaults.familyName,
+  name: `${args["given-name"] ?? defaults.givenName} ${args["family-name"] ?? defaults.familyName}`,
+  email_verified: true,
   realm_access: { roles },
   resource_access: {
     [args["client-id"] ?? defaults.clientId]: { roles },
