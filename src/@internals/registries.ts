@@ -7,9 +7,11 @@ import {
   ServiceRegistry,
   WorkerRegistry,
 } from "@csi-foxbyte/fastify-toab";
-import database_database$service from "../database/database.service.js";
 import auth_auth$service from "../auth/auth.service.js";
+import database_database$service from "../database/database.service.js";
 import auth_auth$controller from "../auth/auth.controller.js";
+import config_dezconfig_admin$controller from "../config/dezconfig_admin.controller.js";
+import config_dezconfig_public$controller from "../config/dezconfig_public.controller.js";
 import test_test$controller from "../test/test.controller.js";
 
 let serviceRegistry: ServiceRegistry | null = null;
@@ -24,8 +26,8 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   };
 
   serviceRegistry = new ServiceRegistry(workerRegistryRef);
-  serviceRegistry.register(database_database$service);
   serviceRegistry.register(auth_auth$service);
+  serviceRegistry.register(database_database$service);
 
   workerRegistry = new WorkerRegistry(serviceRegistry);
   if (!dontInitializeWorkers) {
@@ -38,6 +40,8 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
 
   controllerRegistry = new ControllerRegistry(serviceRegistry);
   controllerRegistry.register(auth_auth$controller);
+  controllerRegistry.register(config_dezconfig_admin$controller);
+  controllerRegistry.register(config_dezconfig_public$controller);
   controllerRegistry.register(test_test$controller);
 
   return { controllerRegistry, serviceRegistry, workerRegistry };

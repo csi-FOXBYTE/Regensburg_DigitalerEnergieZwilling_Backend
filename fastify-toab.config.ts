@@ -1,5 +1,6 @@
 import { defineConfig } from "@csi-foxbyte/fastify-toab";
 import { Type } from "@sinclair/typebox";
+import { routeErrorHandler } from "./src/errors/route-error-handler.js";
 
 export default defineConfig({
   env: Type.Object({
@@ -7,5 +8,6 @@ export default defineConfig({
     DATABASE_URL: Type.String(),
     PORT: Type.Optional(Type.String()),
     NODE_ENV: Type.Optional(Type.String())
-  })
+  }),
+  onRouteError: routeErrorHandler,
 });
