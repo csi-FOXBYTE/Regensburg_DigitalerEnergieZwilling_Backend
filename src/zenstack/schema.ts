@@ -55,8 +55,8 @@ export class SchemaType implements SchemaDef {
                 email: { type: "String" }
             }
         },
-        DezConfig: {
-            name: "DezConfig",
+        Config: {
+            name: "Config",
             fields: {
                 id: {
                     name: "id",
@@ -96,11 +96,11 @@ export class SchemaType implements SchemaDef {
                 },
                 calculationConfig: {
                     name: "calculationConfig",
-                    type: "Json"
+                    type: "String"
                 },
-                foerderprogramme: {
-                    name: "foerderprogramme",
-                    type: "Json"
+                subsidies: {
+                    name: "subsidies",
+                    type: "String"
                 }
             },
             idFields: ["id"],

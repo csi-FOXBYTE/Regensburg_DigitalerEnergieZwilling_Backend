@@ -27,10 +27,10 @@ model User with WithTimestamps {
   family_name String?
 }
 
-model DezConfig with Base {
-  versionName          String    @unique
-  isActive             Boolean   @default(false)
-  publishedAt          DateTime?
-  calculationConfig    Json
-  foerderprogramme     Json
+model Config with Base {
+  versionName       String    @unique
+  isActive          Boolean   @default(false)
+  publishedAt       DateTime?
+  calculationConfig String
+  subsidies         String
 }

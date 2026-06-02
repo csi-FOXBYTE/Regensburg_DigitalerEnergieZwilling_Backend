@@ -13,7 +13,7 @@ const defaults = {
   givenName: "Dev",
   familyName: "User",
   scope: "openid profile email",
-  roles: ["admin", "user"],
+  roles: ["admin"],
   ttl: 15552000,
   output: "full",
 };
