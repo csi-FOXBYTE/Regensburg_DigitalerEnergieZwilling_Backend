@@ -7,7 +7,8 @@
     "lint": "oxlint && eslint",
     "dev": "fastify-toab dev",
     "build": "fastify-toab build",
-    "jwt:dev": "node scripts/create-dev-jwt.mjs"
+    "jwt:dev": "node scripts/create-dev-jwt.mjs",
+    "db:reset": "zenstack migrate reset --schema src/zenstack/schema.zmodel"
   },
   "zenstack": {
     "schema": "src/zenstack/schema.zmodel"

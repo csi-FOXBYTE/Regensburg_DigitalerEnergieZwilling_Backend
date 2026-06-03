@@ -54,6 +54,60 @@ export class SchemaType implements SchemaDef {
                 id: { type: "String" },
                 email: { type: "String" }
             }
+        },
+        Config: {
+            name: "Config",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("cuid") }] }],
+                    default: ExpressionUtils.call("cuid")
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                versionName: {
+                    name: "versionName",
+                    type: "String",
+                    unique: true,
+                    attributes: [{ name: "@unique" }]
+                },
+                isActive: {
+                    name: "isActive",
+                    type: "Boolean",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.literal(false) }] }],
+                    default: false
+                },
+                publishedAt: {
+                    name: "publishedAt",
+                    type: "DateTime",
+                    optional: true
+                },
+                calculationConfig: {
+                    name: "calculationConfig",
+                    type: "String"
+                },
+                subsidies: {
+                    name: "subsidies",
+                    type: "String"
+                }
+            },
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" },
+                versionName: { type: "String" }
+            }
         }
     } as const;
     typeDefs = {
