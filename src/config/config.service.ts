@@ -52,13 +52,17 @@ const configService = createService("config", async ({ services }) => {
 
   const deleteConfig = async (versionName: string) => {
     const config = await db.config.findUnique({ where: { versionName} });
-      if (config == null) {
-        throw new AppError({ status: "NOT_FOUND", code: 404, message: `Version "${versionName}" not found` });
-      }
-      if (config.isActive) {
-        throw new AppError({ status: "BAD_REQUEST", code: 409, message: `Cannot delete active config "${versionName}"` });
-      }
-      return db.config.delete({ where: { versionName } });
+    const count = await db.config.count({});
+    if (count <= 1) {
+      throw new AppError({ status: "BAD_REQUEST", code: 409, message: `At least one config should always exist`})
+    }
+    if (config == null) {
+      throw new AppError({ status: "NOT_FOUND", code: 404, message: `Version "${versionName}" not found` });
+    }
+    if (config.isActive) {
+      throw new AppError({ status: "BAD_REQUEST", code: 409, message: `Cannot delete active config "${versionName}"` });
+    }
+    return db.config.delete({ where: { versionName } });
   }
 
   return {

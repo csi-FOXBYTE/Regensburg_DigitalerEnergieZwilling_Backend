@@ -10,10 +10,11 @@ export type Role = "admin" | "manager" | "maintainer";
 
 const rolePermissions: Record<Role, Permission[]> = {
   admin: [
-    "submissions:read", "submissions:create", "submissions:update", "submissions:delete",
-    "config:read", "config:create", "config:update", "config:delete",
+    // darf alles
   ],
-  manager: [],
+  manager: [
+    "submissions:read", "submissions:create", "submissions:update", "submissions:delete",
+  ],
   maintainer: [
     "config:read", "config:create", "config:update", "config:delete",
   ],
