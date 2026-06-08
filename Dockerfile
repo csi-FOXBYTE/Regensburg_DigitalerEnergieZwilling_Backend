@@ -80,4 +80,4 @@ COPY --from=build --chown=node:node /app/src/zenstack/migrations ./src/zenstack/
 
 EXPOSE 5000
 
-CMD ["node", "--expose-gc", ".build/index.js"]
+CMD ["node", "--expose-gc", ".build/@internals/run.js"]
