@@ -14,6 +14,7 @@ services:
         condition: service_healthy
     environment:
       NODE_ENV: development
+      DATABASE_URL: postgresql://dev:dev@postgres:5432/app
 
   redis:
     image: redis
