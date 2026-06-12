@@ -5,9 +5,16 @@
 
 /* eslint-disable */
 
-import { type SchemaType as $Schema } from "./schema.js";
+import { schema as $schema, type SchemaType as $Schema } from "./schema.js";
 import { type ModelResult as $ModelResult, type TypeDefResult as $TypeDefResult } from "@zenstackhq/orm";
 export type User = $ModelResult<$Schema, "User">;
 export type Config = $ModelResult<$Schema, "Config">;
+export type Building = $ModelResult<$Schema, "Building">;
+export type Submission = $ModelResult<$Schema, "Submission">;
+export type SubmissionChangeHistoryEntry = $ModelResult<$Schema, "SubmissionChangeHistoryEntry">;
 export type WithTimestamps = $TypeDefResult<$Schema, "WithTimestamps">;
 export type Base = $TypeDefResult<$Schema, "Base">;
+export const BuildingDataSource = $schema.enums.BuildingDataSource.values;
+export type BuildingDataSource = (typeof BuildingDataSource)[keyof typeof BuildingDataSource];
+export const SubmissionStatus = $schema.enums.SubmissionStatus.values;
+export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus];

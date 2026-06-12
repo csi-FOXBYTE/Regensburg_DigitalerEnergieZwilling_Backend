@@ -47,6 +47,18 @@ export class SchemaType implements SchemaDef {
                     name: "family_name",
                     type: "String",
                     optional: true
+                },
+                assignments: {
+                    name: "assignments",
+                    type: "Submission",
+                    array: true,
+                    relation: { opposite: "assignedTo" }
+                },
+                changeHistoryEntreis: {
+                    name: "changeHistoryEntreis",
+                    type: "SubmissionChangeHistoryEntry",
+                    array: true,
+                    relation: { opposite: "by" }
                 }
             },
             idFields: ["id"],
@@ -101,12 +113,254 @@ export class SchemaType implements SchemaDef {
                 subsidies: {
                     name: "subsidies",
                     type: "String"
+                },
+                submissions: {
+                    name: "submissions",
+                    type: "Submission",
+                    array: true,
+                    relation: { opposite: "usedConfig" }
                 }
             },
             idFields: ["id"],
             uniqueFields: {
                 id: { type: "String" },
                 versionName: { type: "String" }
+            }
+        },
+        Building: {
+            name: "Building",
+            fields: {
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }]
+                },
+                address: {
+                    name: "address",
+                    type: "String",
+                    optional: true
+                },
+                longitude: {
+                    name: "longitude",
+                    type: "Float",
+                    optional: true
+                },
+                latitude: {
+                    name: "latitude",
+                    type: "Float",
+                    optional: true
+                },
+                dataSource: {
+                    name: "dataSource",
+                    type: "BuildingDataSource",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.literal("NONE") }] }],
+                    default: "NONE"
+                },
+                submissions: {
+                    name: "submissions",
+                    type: "Submission",
+                    array: true,
+                    relation: { opposite: "building" }
+                }
+            },
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" }
+            }
+        },
+        Submission: {
+            name: "Submission",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("cuid") }] }],
+                    default: ExpressionUtils.call("cuid")
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                deletionToken: {
+                    name: "deletionToken",
+                    type: "String",
+                    unique: true,
+                    attributes: [{ name: "@unique" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("nanoid") }] }],
+                    default: ExpressionUtils.call("nanoid")
+                },
+                status: {
+                    name: "status",
+                    type: "SubmissionStatus"
+                },
+                assignedToId: {
+                    name: "assignedToId",
+                    type: "String",
+                    optional: true,
+                    foreignKeyFor: [
+                        "assignedTo"
+                    ]
+                },
+                assignedTo: {
+                    name: "assignedTo",
+                    type: "User",
+                    optional: true,
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("assignedToId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
+                    relation: { opposite: "assignments", fields: ["assignedToId"], references: ["id"] }
+                },
+                assignedAt: {
+                    name: "assignedAt",
+                    type: "DateTime",
+                    optional: true
+                },
+                history: {
+                    name: "history",
+                    type: "SubmissionChangeHistoryEntry",
+                    array: true,
+                    relation: { opposite: "submission" }
+                },
+                buildingId: {
+                    name: "buildingId",
+                    type: "String",
+                    foreignKeyFor: [
+                        "building"
+                    ]
+                },
+                building: {
+                    name: "building",
+                    type: "Building",
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("buildingId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
+                    relation: { opposite: "submissions", fields: ["buildingId"], references: ["id"] }
+                },
+                address: {
+                    name: "address",
+                    type: "String"
+                },
+                longitude: {
+                    name: "longitude",
+                    type: "Float"
+                },
+                latitude: {
+                    name: "latitude",
+                    type: "Float"
+                },
+                ngsiData: {
+                    name: "ngsiData",
+                    type: "String"
+                },
+                rawInput: {
+                    name: "rawInput",
+                    type: "String"
+                },
+                usedConfigId: {
+                    name: "usedConfigId",
+                    type: "String",
+                    foreignKeyFor: [
+                        "usedConfig"
+                    ]
+                },
+                usedConfig: {
+                    name: "usedConfig",
+                    type: "Config",
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("usedConfigId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
+                    relation: { opposite: "submissions", fields: ["usedConfigId"], references: ["id"] }
+                }
+            },
+            attributes: [
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("SubmissionStatus", [ExpressionUtils.field("status")]) }] },
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("DateTime", [ExpressionUtils.field("createdAt")]) }] },
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("assignedToId"), ExpressionUtils.field("status")]) }] }
+            ],
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" },
+                deletionToken: { type: "String" }
+            }
+        },
+        SubmissionChangeHistoryEntry: {
+            name: "SubmissionChangeHistoryEntry",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("cuid") }] }],
+                    default: ExpressionUtils.call("cuid")
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                from: {
+                    name: "from",
+                    type: "SubmissionStatus"
+                },
+                to: {
+                    name: "to",
+                    type: "SubmissionStatus"
+                },
+                byId: {
+                    name: "byId",
+                    type: "String",
+                    foreignKeyFor: [
+                        "by"
+                    ]
+                },
+                by: {
+                    name: "by",
+                    type: "User",
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("byId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
+                    relation: { opposite: "changeHistoryEntreis", fields: ["byId"], references: ["id"] }
+                },
+                submissionId: {
+                    name: "submissionId",
+                    type: "String",
+                    foreignKeyFor: [
+                        "submission"
+                    ]
+                },
+                submission: {
+                    name: "submission",
+                    type: "Submission",
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("submissionId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
+                    relation: { opposite: "history", fields: ["submissionId"], references: ["id"] }
+                }
+            },
+            attributes: [
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("submissionId")]) }] }
+            ],
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" }
             }
         }
     } as const;
@@ -149,6 +403,25 @@ export class SchemaType implements SchemaDef {
                     updatedAt: true,
                     attributes: [{ name: "@updatedAt" }]
                 }
+            }
+        }
+    } as const;
+    enums = {
+        BuildingDataSource: {
+            name: "BuildingDataSource",
+            values: {
+                NONE: "NONE",
+                USER: "USER",
+                ACTUAL: "ACTUAL"
+            }
+        },
+        SubmissionStatus: {
+            name: "SubmissionStatus",
+            values: {
+                NEW: "NEW",
+                ASSIGNED: "ASSIGNED",
+                ACCEPTED: "ACCEPTED",
+                DECLINED: "DECLINED"
             }
         }
     } as const;

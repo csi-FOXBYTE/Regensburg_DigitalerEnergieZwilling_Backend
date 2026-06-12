@@ -10,9 +10,13 @@ import {
 import auth_auth$service from "../auth/auth.service.js";
 import config_config$service from "../config/config.service.js";
 import database_database$service from "../database/database.service.js";
+import submissions_submissions$service from "../submissions/submissions.service.js";
 import auth_auth$controller from "../auth/auth.controller.js";
 import config_config$controller from "../config/config.controller.js";
+import submissionsAdmin_submissionsAdmin$controller from "../submissionsAdmin/submissionsAdmin.controller.js";
+import submissionsPublic_submissionsPublic$controller from "../submissionsPublic/submissionsPublic.controller.js";
 import test_test$controller from "../test/test.controller.js";
+import tiles_tiles$controller from "../tiles/tiles.controller.js";
 
 let serviceRegistry: ServiceRegistry | null = null;
 let workerRegistry: WorkerRegistry | null = null;
@@ -29,6 +33,7 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   serviceRegistry.register(auth_auth$service);
   serviceRegistry.register(config_config$service);
   serviceRegistry.register(database_database$service);
+  serviceRegistry.register(submissions_submissions$service);
 
   workerRegistry = new WorkerRegistry(serviceRegistry);
   if (!dontInitializeWorkers) {
@@ -42,7 +47,10 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   controllerRegistry = new ControllerRegistry(serviceRegistry);
   controllerRegistry.register(auth_auth$controller);
   controllerRegistry.register(config_config$controller);
+  controllerRegistry.register(submissionsAdmin_submissionsAdmin$controller);
+  controllerRegistry.register(submissionsPublic_submissionsPublic$controller);
   controllerRegistry.register(test_test$controller);
+  controllerRegistry.register(tiles_tiles$controller);
 
   return { controllerRegistry, serviceRegistry, workerRegistry };
 }

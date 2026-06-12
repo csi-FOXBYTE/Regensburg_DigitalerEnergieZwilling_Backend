@@ -21,16 +21,77 @@ type Base {
 
 // User id is the Keycloak sub — provided externally, no auto-default
 model User with WithTimestamps {
-  id          String  @id
-  email       String  @unique
-  given_name  String?
-  family_name String?
+  id                   String                         @id
+  email                String                         @unique
+  given_name           String?
+  family_name          String?
+  assignments          Submission[]
+  changeHistoryEntreis SubmissionChangeHistoryEntry[]
 }
 
 model Config with Base {
-  versionName       String    @unique
-  isActive          Boolean   @default(false)
+  versionName       String       @unique
+  isActive          Boolean      @default(false)
   publishedAt       DateTime?
   calculationConfig String
   subsidies         String
+  submissions       Submission[]
+}
+
+enum BuildingDataSource {
+  NONE
+  USER
+  ACTUAL
+}
+
+enum SubmissionStatus {
+  NEW
+  ASSIGNED
+  ACCEPTED
+  DECLINED
+}
+
+model Building with WithTimestamps {
+  id          String             @id
+  address     String?
+  longitude   Float?
+  latitude    Float?
+  dataSource  BuildingDataSource @default(NONE)
+  submissions Submission[]
+}
+
+model Submission with Base {
+  deletionToken String                         @unique @default(nanoid())
+
+  status        SubmissionStatus
+  assignedToId  String?
+  assignedTo    User?                          @relation(fields: [assignedToId], references: [id])
+  assignedAt    DateTime?
+  history       SubmissionChangeHistoryEntry[]
+
+  buildingId    String
+  building      Building                       @relation(fields: [buildingId], references: [id])
+  address       String
+  longitude     Float
+  latitude      Float
+
+  ngsiData      String
+  rawInput      String
+  usedConfigId  String
+  usedConfig    Config                         @relation(fields: [usedConfigId], references: [id])
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([assignedToId, status])
+}
+
+model SubmissionChangeHistoryEntry with Base {
+  from         SubmissionStatus
+  to           SubmissionStatus
+  byId         String
+  by           User             @relation(fields: [byId], references: [id])
+  submissionId String
+  submission   Submission       @relation(fields: [submissionId], references: [id])
+
+  @@index([submissionId])
 }
