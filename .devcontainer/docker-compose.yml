@@ -12,9 +12,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://dev:dev@postgres:5432/app
+      APP_BASE_URL: localhost:9080
 
   redis:
     image: redis

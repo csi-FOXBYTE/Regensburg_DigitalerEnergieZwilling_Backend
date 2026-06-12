@@ -15,8 +15,11 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0
       '@csi-foxbyte/fastify-toab':
-        specifier: 0.2.0-rc.4
-        version: 0.2.0-rc.4(@bull-board/ui@6.20.6)
+        specifier: https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz
+        version: https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz(@bull-board/ui@6.20.6)
+      '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore':
+        specifier: 0.12.0
+        version: 0.12.0(zod@4.2.0)
       '@fastify/http-proxy':
         specifier: ^11.4.1
         version: 11.4.1
@@ -163,9 +166,15 @@ packages:
   '@chevrotain/utils@11.0.3':
     resolution: {integrity: sha512-YslZMgtJUyuMbZ+aKvfF3x1f5liK4mWNxghFRv7jqRR9C3R3fAOGTTKvxXDa2Y1s9zSbcpuO0cAxDYsc9SrXoQ==}
 
-  '@csi-foxbyte/fastify-toab@0.2.0-rc.4':
-    resolution: {integrity: sha512-P81MCn/Tg5ubCsimgqhex3WsxycixshqRp9E7v4pd7xZEviarWsez0X0iZaswgtCcu2Wa+Qo/p6Y3Ldvdl1XyA==}
+  '@csi-foxbyte/fastify-toab@https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz':
+    resolution: {tarball: https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz}
+    version: 0.2.0-rc.4
     hasBin: true
+
+  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.12.0':
+    resolution: {integrity: sha512-X5eV7FhS6LXxro3tnsSw88UBBCUqK4ixP0ck5BZWWGJl4XXEwQosHdgIO7dPQxRsViUqUtZQM3roP+aaf//WHQ==, tarball: https://npm.pkg.github.com/download/@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore/0.12.0/25e4744fc60c5e59fb7d1503d52c2d22ec11917c}
+    peerDependencies:
+      zod: ^3.24.0
 
   '@emnapi/core@1.9.0':
     resolution: {integrity: sha512-0DQ98G9ZQZOxfUcQn1waV2yS8aWdZ6kJMbYCJB3oUBecjWYO1fqJ+a1DRfPF3O5JEkwqwP1A9QEN/9mYm2Yd0w==}
@@ -2454,7 +2463,7 @@ snapshots:
 
   '@chevrotain/utils@11.0.3': {}
 
-  '@csi-foxbyte/fastify-toab@0.2.0-rc.4(@bull-board/ui@6.20.6)':
+  '@csi-foxbyte/fastify-toab@https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz(@bull-board/ui@6.20.6)':
     dependencies:
       '@bull-board/api': 6.20.6(@bull-board/ui@6.20.6)
       '@bull-board/fastify': 6.20.6
@@ -2476,6 +2485,10 @@ snapshots:
     transitivePeerDependencies:
       - '@bull-board/ui'
       - supports-color
+
+  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.12.0(zod@4.2.0)':
+    dependencies:
+      zod: 4.2.0
 
   '@emnapi/core@1.9.0':
     dependencies:

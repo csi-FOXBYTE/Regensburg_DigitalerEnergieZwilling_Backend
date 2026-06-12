@@ -10,7 +10,6 @@
     5432
   ],
   "overrideCommand": true,
-  "postStartCommand": "bash -lc \"pnpm i && pnpm dev\"",
   "customizations": {
     "vscode": {
       "extensions": [
