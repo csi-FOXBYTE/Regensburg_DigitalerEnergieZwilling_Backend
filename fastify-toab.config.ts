@@ -12,4 +12,11 @@ export default defineConfig({
     NODE_ENV: Type.Optional(Type.String()),
   }),
   onRouteError: routeErrorHandler,
+  fastify: () => ({
+    swagger: {
+      openapi: {
+        openapi: "3.1.0",
+      },
+    },
+  }),
 });
