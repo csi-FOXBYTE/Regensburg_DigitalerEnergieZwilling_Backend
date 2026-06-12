@@ -8,6 +8,6 @@ tilesController
     .handler(async ({ request, reply }) => {
         const remaining = (request.params as Record<string, string>)["*"];
         reply.redirect(`${process.env.TILES_URL}/${remaining}`);
-    });
+    }, { schema: { hide: true } });
 
 export default tilesController;
