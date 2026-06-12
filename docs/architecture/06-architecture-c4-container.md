@@ -41,6 +41,10 @@ Externer angebundener Dienst:
 
 - 3D Tiles Storage (S3)
 
+CIVITAS/CORE-Plattformdienst:
+
+- Stellio Context Broker (NGSI-LD)
+
 Jeder Container erfüllt eine klar abgegrenzte Aufgabe und ist lose mit den anderen Komponenten gekoppelt.
 
 ![image.png](./attachments/c4-container.png)
@@ -171,7 +175,8 @@ Aufgaben:
 - Verarbeitung von CityGML-Daten
 - Integration von Solarpotenzialen (PV) und Geothermiedaten erst nach jeweiliger Datenfreigabe des Auftraggebers
 - Anreicherung der Gebäudedaten mit Potenzialattributen
-- Erzeugung der finalen 3D Tiles
+- Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
+- Übergabe der NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE
 
 Die Pipeline wird als Airflow-DAG unabhängig vom Betrieb des Live-Systems ausgeführt.
 
@@ -190,7 +195,8 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 | Backend API | Wertet vom APISIX Gateway geprüfte Claims/Rollen aus, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
 | Datenbank | DEZ-Datenhaltung auf SQLite mit SpatiaLite; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
 | 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
-| Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst-Berechtigungen. |
+| Stellio Context Broker | Nimmt nur freigegebene statische NGSI-LD-Entities aus der Offline-Pipeline entgegen; keine Übergabe personenbezogener Nutzereingaben. |
+| Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst- und Stellio-Berechtigungen. |
 
 Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-102 sowie den BSI-Bezug aus TA-96 ab.
 
@@ -212,7 +218,7 @@ Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-102 sowie 
   - die veröffentlichte Konfiguration
   - optional den Berechnungskern
 
-- Die Offline-Datenpipeline schreibt ausschließlich in das 3D Tiles Storage und wird über Airflow im separaten Pipeline-Add-on orchestriert.
+- Die Offline-Datenpipeline schreibt statische Artefakte in das 3D Tiles Storage, erzeugt NGSI-LD-Entities und übergibt diese intern an Stellio; sie wird über Airflow im separaten Pipeline-Add-on orchestriert.
 
 ---
 

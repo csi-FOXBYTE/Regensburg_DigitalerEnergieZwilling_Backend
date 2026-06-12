@@ -27,7 +27,7 @@ Zentrale Leitprinzipien der Architektur sind:
 
 ### Statische Daten statt Laufzeitberechnung
 
-Soweit belastbare Solarpotenzial- oder Geothermiedaten bereitgestellt und durch den Auftraggeber freigegeben werden, werden diese **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**.
+Soweit belastbare Solarpotenzial- oder Geothermiedaten bereitgestellt und durch den Auftraggeber freigegeben werden, werden diese **offline vorverarbeitet** und als **statische Attribute direkt in die 3D Tiles eingebettet**. Zusätzlich werden freigegebene statische Gebäude- und Potenzialattribute als **NGSI-LD-Entities** für Stellio in CIVITAS/CORE bereitgestellt.
 Zur Laufzeit findet keine Neuberechnung dieser Potenziale statt.
 
 Dies reduziert:
@@ -144,13 +144,19 @@ Die Tiles enthalten zusätzlich Adressen aus LOD2 und Vegetationsobjekte (Bäume
 
 Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend und kann bei Bedarf zusätzliche Proxy-Funktionen übernehmen.
 
+### NGSI-LD & Stellio
+
+Die Offline-Datenpipeline erzeugt zusätzlich NGSI-LD-Entities aus dem kanonischen Mapping-Profil und übergibt sie innerhalb von CIVITAS/CORE an Stellio.
+Dieser Pfad dient der standardisierten Nachnutzung statischer Gebäude- und Potenzialdaten. Personenbezogene Nutzereingaben und bürgerseitige Berechnungsergebnisse werden nicht an Stellio übergeben.
+
 ---
 
 ### Datenhaltung
 
 - **3D Tiles**: enthalten ausschließlich statische, allgemein gültige Daten
+- **Stellio (NGSI-LD)**: enthält freigegebene statische Gebäude- und Potenzialattribute für CIVITAS/CORE-Nachnutzung
 - **Datenbank**: enthält Nutzereingaben, Triage-Informationen und Konfigurationsdaten
-- Es findet keine doppelte Datenhaltung statischer Potenziale statt
+- Dynamische oder personenbezogene Daten werden nicht doppelt gehalten; statische Attribute werden bewusst in zweckgebundenen Ausspielungen für 3D Tiles und NGSI-LD geführt.
 
 ---
 

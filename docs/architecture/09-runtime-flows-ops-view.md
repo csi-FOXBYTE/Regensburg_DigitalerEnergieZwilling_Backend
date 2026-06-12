@@ -50,9 +50,11 @@ Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Upd
 Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
-Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update per `update_scope`); jeder Anreicherungsrun basiert mindestens auf LoD2-GML-Daten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit geänderten oder wiederverwendeten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles und CityGML exportiert; Ergebnisse werden in den Datendienst hochgeladen und im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.
-Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML).  
-Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
+Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update per `update_scope`); jeder Anreicherungsrun basiert mindestens auf LoD2-GML-Daten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit geänderten oder wiederverwendeten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles, CityGML und NGSI-LD exportiert; 3D Tiles und CityGML werden in den Datendienst hochgeladen, NGSI-LD-Entities werden innerhalb von CIVITAS/CORE an Stellio übergeben und alles wird im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.
+Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Stellio Context Broker, Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML/NGSI-LD).
+Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Stellio-Publish-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
+
+Das Diagramm zeigt die dateibasierten Kernschritte der Pipeline; der zusätzliche NGSI-LD/Stellio-Publish-Pfad ist im Text und im Pipeline-Vertrag beschrieben.
 
 ![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
 
@@ -85,7 +87,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 - **Public Flow**: APISIX prüft Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
 - **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung für `Verwalter`, `Systempfleger` und `Administrator` und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `abgelehnt`, fachlich gelöschte Datensätze im Status `gelöscht`.
-- **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefaktpfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
+- **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefakt- und Publish-Pfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
 
 Übergreifende Invariante: Jeder Flow besitzt einen klaren Reject-Pfad mit nachvollziehbarer Protokollierung.
@@ -134,7 +136,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Smoke-Test Pipeline**: Ein kleiner CityGML-Datensatz wird manuell über Airflow verarbeitet.
 - **Regression**: Vergleich der erzeugten 3D Tiles gegen Referenz-Run (Dateistruktur, Count, Metadatenfelder).
-- **Contract-Checks**: Validierung von `manifest.json` und Progress-Logs nach Schema.
+- **Contract-Checks**: Validierung von `manifest.json`, Progress-Logs und NGSI-LD-Entity-Schema nach Schema.
 
 ---
 

@@ -21,7 +21,7 @@ strukturelle Daten- und Vertrags-Ebene.
 ## Datenmodell (abgeleitet)
 
 Das Datenmodell wurde aus den fachlichen Anforderungen und den Nutzerzielen
-abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles, offline) von
+abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles und NGSI-LD, offline) von
 **dynamischen Nutzereingaben** und **administrativen Daten** (Datenbank).
 
 ### Kernobjekte
@@ -87,6 +87,7 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Datenhaltung
 
 - **3D Tiles**: Geometrie und statische Potenziale (keine DB-Persistenz).
+- **Stellio (NGSI-LD)**: freigegebene statische Gebäude- und Potenzialattribute für die Nachnutzung innerhalb von CIVITAS/CORE.
 - **Datenbank**: Eingaben, Konfigurationen, Ergebnisse, Triage, Kataloge, bürgerseitige Report-Exporte (nur bei explizitem Export).
 - **Client-Zustand**: Bearbeitungszustand wird über Local Storage persistiert; serverseitige Wiederherstellung erfolgt nur bei expliziter Speicherung.
 - **Konfigurations-Snapshot**: JSON wird aus der DB-Version erzeugt und als Datei exportiert.
@@ -133,6 +134,13 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 - **Geothermiepotenziale** werden bei verfügbarer, durch den Auftraggeber freigegebener Datenbereitstellung über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
 - **Datenstand Solar/Geothermie**: Die Einbindung in den MVP hängt von der rechtzeitigen Bereitstellung und Freigabe belastbarer Datensätze ab. Für Solarpotenzial/PV/Speicher liegt aktuell keine Datenfreigabe durch den Auftraggeber vor; Geothermie-Daten sind ebenfalls noch nicht durch den Auftraggeber freigegeben. Optional kann eine Berechnung flurstücksbezogener Geothermie-Potenziale nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
+
+### NGSI-LD-Export nach Stellio
+
+- Der NGSI-LD-Export wird aus dem kanonischen Mapping-Profil abgeleitet und ist fachlich an dieselben freigegebenen statischen Attribute gebunden wie die 3D-Tiles-Ausgabe.
+- Smart Data Models werden verwendet, soweit passende Entity-Typen und Attribute vorhanden sind.
+- Projekt- oder kommunenspezifische Attribute müssen dokumentiert, versioniert und mit Einheit sowie Herkunft versehen sein.
+- Personenbezogene Nutzereingaben, Triage-Status und bürgerseitige Berechnungsergebnisse werden nicht nach Stellio exportiert.
 
 ### Abgeleitete Gebäudeparameter (LOD2)
 
@@ -230,7 +238,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 - Die Trennung von öffentlichen und administrativen APIs entspricht TA-02, TA-03 und TA-35.
 - Public Write mit APISIX-Altcha und Rate Limiting entspricht TA-47 bis TA-51.
 - Konfigurations-Publishing mit Snapshot entspricht TA-27 bis TA-46.
-- Offline-Pipeline und 3D Tiles Prinzipien entsprechen TA-10 bis TA-18.
+- Offline-Pipeline, 3D Tiles Prinzipien und NGSI-LD-Export nach Stellio entsprechen TA-10 bis TA-18 sowie TA-72.
 
 ### Mapping zu Backend-Services
 

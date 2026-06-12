@@ -27,6 +27,7 @@ angebunden werden.
 - 3D Tiles liegen im externen Datendienst (S3-kompatibel) und werden über APISIX bereitgestellt:
   - entweder direkt aus dem Datendienst
   - oder über ein optionales Tiles Gateway
+- Stellio läuft als CIVITAS/CORE-Kontextdienst und nimmt NGSI-LD-Entities aus der Offline-Pipeline entgegen.
 - Datenbank und Identity Provider laufen innerhalb von CIVITAS/CORE.
 
 ---
@@ -38,6 +39,7 @@ angebunden werden.
 
 - Airflow-orchestrierte Pipeline-Container (Konvertierung/Anreicherung) greifen direkt auf den Datendienst zu.
 - Der Zugriff erfolgt technisch über Service-Credentials aus dem Secrets-Management und mit minimalen Rechten pro Prefix/Bucket.
+- Der NGSI-LD-Exporter der Pipeline veröffentlicht intern gegen Stellio; Zugriff und Credentials werden ebenfalls über CIVITAS/CORE-Betriebsmechanismen verwaltet.
 - Ein optionales Tiles Gateway greift ebenfalls intern auf den Datendienst zu, wenn dieser Betriebsmodus aktiviert ist.
 - Datenquellen-Updates werden per `update_scope` gesteuert. Die Anreicherung setzt immer mindestens LoD2-GML-Daten voraus; reine Nachläufe nur für Nicht-LoD2-Datenquellen sind nicht vorgesehen. Unveränderte optionale Zusatzdaten können aus dem bestehenden angereicherten Datensatz übernommen werden.
 
@@ -58,6 +60,8 @@ angebunden werden.
 <a id="deployment-diagramm"></a>
 ## Deployment-Diagramm
 
+Das Diagramm zeigt die Kerncontainer und Zugriffspfade; Stellio ist im Text als CIVITAS/CORE-Kontextdienst für NGSI-LD berücksichtigt.
+
 ![deployment-civitas-core.png](./attachments/deployment-civitas-core.png)
 
 Quelle: `raw/deployment-civitas-core.puml`
@@ -70,6 +74,7 @@ Quelle: `raw/deployment-civitas-core.puml`
 - Der externe Datendienst entspricht dem 3D Tiles Storage.
 - Airflow ist Teil von CIVITAS/CORE und orchestriert die Offline-Pipeline.
 - Backend läuft als CIVITAS/CORE-fähiges Add-on in einem separaten Container.
+- Stellio ist der NGSI-LD-Zieldienst innerhalb von CIVITAS/CORE; die Pipeline übergibt nur freigegebene statische Gebäude- und Potenzialattribute.
 - Ein Tiles Gateway ist optional und wird nur betrieben, wenn direkter HTTPS-Zugriff auf den Datendienst nicht ausreicht oder zusätzliche Proxy-Funktionen benötigt werden.
 - Externe Zugriffe auf den Datendienst erfolgen ausschließlich über APISIX; interne Direktzugriffe sind auf autorisierte Workloads beschränkt.
 - Der LOD2-Datensatz wird im Regelfall alle 2 Jahre aktualisiert; andere Basisdaten können unabhängige Zyklen nutzen.

@@ -459,13 +459,13 @@ Die Offline-Datenpipeline muss in CIVITAS/CORE über Airflow orchestriert werden
 
 **TA-53**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Die Konvertierung (CityGML → CityJSON → 3D Tiles) und die Attributanreicherung (Solar/Geothermie) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
+Die Konvertierung (CityGML → CityJSON), die Attributanreicherung (Solar/Geothermie) und die nachgelagerten Exportpfade (3D Tiles, CityGML, NGSI-LD) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
 
 <a id="ta-54"></a>
 
 **TA-54**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden und alle Artefakte unter einem dedizierten Job-Ordner im S3-kompatiblen Datendienst ablegen.
+Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden und alle dateibasierten Artefakte sowie Nachweise der NGSI-LD-Übergabe unter einem dedizierten Job-Ordner im S3-kompatiblen Datendienst ablegen.
 
 <a id="ta-55"></a>
 
@@ -603,7 +603,7 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 
 **TA-72**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Die Integration in CIVITAS/CORE muss über standardisierte, dokumentierte Schnittstellen erfolgen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Verbindlich sind offene APIs (z.B. OpenAPI 3.x, OGC API Features, REST/MQTT/OGC-Dienste). Eine Umsetzung von Smart Data Models und NGSI-LD ist für den DEZ nicht geplant (aufgrund des bereits entwickelten Umfangs des Rechenkerns und Unsicherheiten bei FIWARE); City Energy ADE ist derzeit nicht vorgesehen (Kompatibilität zu CityGML 3.x aktuell nicht gegeben), und SensorThingsAPI wird in diesem Kontext nicht verwendet. Eine optionale Implementierung kann im Projektverlauf neu bewertet werden. Zusätzliche Datensenken sind zu vermeiden.
+Die Integration in CIVITAS/CORE muss über standardisierte, dokumentierte Schnittstellen erfolgen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Verbindlich sind offene APIs (z.B. OpenAPI 3.x, OGC API Features, REST/MQTT/OGC-Dienste). Zusätzlich muss NGSI-LD als Exportpfad unterstützt werden: Die Offline-Datenpipeline transformiert angereicherte Gebäudestammdaten und freigegebene statische Potenzialattribute aus dem kanonischen Mapping-Profil in NGSI-LD-Entities und übergibt diese innerhalb von CIVITAS/CORE an den Stellio Context Broker. Smart Data Models sind als Zielmodell zu verwenden, soweit passende Entitätstypen und Attribute vorliegen; projekt- oder kommunenspezifische Ergänzungen müssen versioniert, dokumentiert und provenance-fähig sein. City Energy ADE ist derzeit nicht vorgesehen (Kompatibilität zu CityGML 3.x aktuell nicht gegeben), und SensorThingsAPI wird in diesem Kontext nicht verwendet. Zusätzliche Datensenken außerhalb des Datendienstes und Stellio sind zu vermeiden.
 
 ---
 
@@ -904,7 +904,7 @@ Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D 
 
 **TA-103**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der Verarbeitungsschritt `CityGML → CityJSON → 3D Tiles` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
+Der Verarbeitungspfad `CityGML → CityJSON → 3D Tiles/CityGML/NGSI-LD` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
 
 <a id="ta-104"></a>
 

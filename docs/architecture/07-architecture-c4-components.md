@@ -36,7 +36,7 @@ Die C4 Component Sichten stellen die folgenden Aspekte dar:
 - die internen Komponenten des Backends
 - den Berechnungskern als geteiltes Modul
 - die Entkopplung von 3D Tiles, Backend und Datenhaltung (3D Tiles Storage als externer S3-Dienst)
-- die Airflow-basierte Offline-Datenpipeline als separates CIVITAS/CORE-Add-on zur Erzeugung der 3D Tiles
+- die Airflow-basierte Offline-Datenpipeline als separates CIVITAS/CORE-Add-on zur Erzeugung der 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities für Stellio
 
 ### Frontend View
 
@@ -254,12 +254,15 @@ Aufgaben:
 - Verarbeitung von CityGML-Daten
 - Integration von Solarpotenzialen (PV) und Geothermiepotenzialen erst nach jeweiliger Datenfreigabe des Auftraggebers
 - Anreicherung der Gebäudedaten
-- Erzeugung der finalen 3D Tiles
+- Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
+- Übergabe freigegebener NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE
 
-Die Pipeline erzeugt ausschließlich statische Artefakte und hat keinen Zugriff auf Laufzeitdaten.
+Die Pipeline erzeugt ausschließlich statische Artefakte bzw. statische NGSI-LD-Entities und hat keinen Zugriff auf Laufzeitdaten.
 Vegetationsdaten werden nicht durch die Pipeline verarbeitet, sondern im Public Client als reine Visualisierungsebene eingebunden.
 
 ### Offline Pipeline View
+
+Das Diagramm zeigt die dateibasierten Kernschritte der Offline-Pipeline; der zusätzliche NGSI-LD/Stellio-Publish-Pfad ist im Text und im Pipeline-Vertrag beschrieben.
 
 ![c4-components-pipeline.png](./attachments/c4-components-pipeline.png)
 
@@ -272,6 +275,9 @@ Quelle: `raw/c4-components-pipeline.puml` (Offline Pipeline View)
 
 - Statische Potenziale:  
   Offline-Datenpipeline → 3D Tiles → Public Client
+
+- Statische Nachnutzung in CIVITAS/CORE:
+  Offline-Datenpipeline → NGSI-LD → Stellio
 
 - Berechnung:  
   Public Client → Berechnungskern → Ergebnisanzeige  
