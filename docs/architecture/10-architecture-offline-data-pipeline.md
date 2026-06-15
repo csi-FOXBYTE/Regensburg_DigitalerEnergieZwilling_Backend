@@ -320,6 +320,7 @@ Hinweis zu Teil-Updates:
 - Keine Credentials in Code, Konfiguration oder Logs.
 - Logs enthalten nur technische Fehler- und Fortschrittsinformationen.
 - Job-Ordner ist der einzige Schreibbereich der Container.
+- Die Pipeline-Container laufen im CIVITAS/CORE-Betrieb non-root; der Airflow-DAG setzt dafuer den Runtime-User passend zur Host- und Volume-Konfiguration.
 - NGSI-LD-Exporte enthalten nur freigegebene statische Gebäude- und Potenzialattribute; personenbezogene Nutzereingaben werden nicht an Stellio übergeben.
 - Empfehlung: Verschlüsselung **at rest** im Datendienst (z.B. serverseitige Verschlüsselung des Buckets) zur Erhöhung der Sicherheit.
 
@@ -388,6 +389,7 @@ DockerOperator(
     image="dez/citygml-cityjson-converter:latest",
     api_version="auto",
     auto_remove=True,
+    user="{{ var.value.pipeline_container_uid }}:{{ var.value.pipeline_container_gid }}",
     environment={
         "JOB_ID": "{{ dag_run.conf['job_id'] }}",
         "JOB_DIR": "/job",
@@ -406,6 +408,7 @@ DockerOperator(
 ```
 
 > ⚠️ **Hinweis:** `job_id`, `epsg`, `appearance` und `hasAlphaChannel` werden als DAG-Run-Parameter übergeben.
+> Der `user`-Override ist Bestandteil des CIVITAS/CORE-Betriebs und stellt die Non-Root-Ausfuehrung sicher. Die konkrete UID/GID ist deployment-spezifisch und muss Schreibrechte auf den gemounteten Job-Ordner besitzen. Ein `USER`-Default im Dockerfile ist nur fuer getrennte manuelle Containerstarts relevant; fuer solche Starts muss der Betreiber ebenfalls `--user` oder passende Volume-Rechte setzen.
 
 ---
 

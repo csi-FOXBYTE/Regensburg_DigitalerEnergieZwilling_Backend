@@ -532,6 +532,7 @@ Security-relevante Events müssen auditierbar geloggt werden.
 **TA-64**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
 Container müssen mit minimalen Rechten laufen (Non-Root, minimale Capabilities).
+Bei Airflow-orchestrierten Pipeline-Containern darf die Non-Root-Ausfuehrung durch einen Runtime-User-Override im Airflow-DAG umgesetzt werden, sofern UID/GID zur Host- bzw. Volume-Konfiguration passen. Eine feste `USER`-UID im Dockerfile ist fuer diese Container nicht erforderlich.
 
 ---
 
