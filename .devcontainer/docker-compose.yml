@@ -17,7 +17,7 @@ services:
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://dev:dev@postgres:5432/app
-      APP_BASE_URL: localhost:9080
+      APP_BASE_URL: localhost:5000
 
   redis:
     image: redis
