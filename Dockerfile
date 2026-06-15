@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.3
+# syntax=docker/dockerfile:1
 
 #-------------------------------------------------------------------------------
 # Stage 1: Build Image
@@ -34,6 +34,8 @@ USER 1000:1000
 # Install all dependencies and run build scripts.
 # Postinstall hooks will run here correctly because all files are present.
 RUN --mount=type=secret,id=env,target=.env \
+    --mount=type=secret,id=github_token,env=PACKAGE_TOKEN \
+    pnpm config set "//npm.pkg.github.com/:_authToken" "$PACKAGE_TOKEN" && \
     pnpm install --frozen-lockfile --loglevel verbose
 
 RUN --mount=type=secret,id=env,target=.env \

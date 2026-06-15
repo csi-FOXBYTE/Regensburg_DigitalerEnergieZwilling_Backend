@@ -89,13 +89,18 @@ const submit = async (
   return db.submission.create({
     data: {
       status: "NEW",
-      buildingId: params.buildingId,
+      building: {
+        connectOrCreate: {
+          where: { id: params.buildingId },
+          create: { id: params.buildingId },
+        },
+      },
       address: params.address,
       longitude: params.longitude,
       latitude: params.latitude,
       ngsiData: JSON.stringify(ngsiEntity),
       rawInput: JSON.stringify(params.input),
-      usedConfigId: config.id,
+      usedConfig: { connect: { id: config.id } },
     },
   });
 };
