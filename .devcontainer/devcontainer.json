@@ -7,6 +7,7 @@
   "workspaceFolder": "/workspace",
   "forwardPorts": [
     5000,
+    5001,
     5432
   ],
   "overrideCommand": true,

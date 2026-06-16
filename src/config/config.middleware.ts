@@ -52,7 +52,7 @@ type PermissionMiddlewareOptions = {
 const createPermissionMiddleware = (permission: Permission, options: PermissionMiddlewareOptions = {}) =>
   createMiddleware(async ({ ctx, services, request }, next) => {
     const authService = await getAuthService(services);
-    const token = authService.verifyRequest(request);
+    const token = await authService.verifyRequest(request);
 
     ensurePermission(token, permission, options.resourceClientId);
 

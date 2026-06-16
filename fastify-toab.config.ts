@@ -10,9 +10,13 @@ export default defineConfig({
     APP_BASE_URL: Type.String(),
     PORT: Type.Optional(Type.String()),
     NODE_ENV: Type.Optional(Type.String()),
+    KEYCLOAK_JWKS_URI: Type.String(),
   }),
   onRouteError: routeErrorHandler,
   fastify: () => ({
+    underPressure: {
+      exposeStatusRoute: "/health",
+    },
     swagger: {
       openapi: {
         openapi: "3.1.0",

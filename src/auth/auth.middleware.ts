@@ -68,7 +68,7 @@ const upsertUser = async (
 const createAuthMiddleware = (options: AuthMiddlewareOptions = {}) =>
   createMiddleware(async ({ ctx, services, request }, next) => {
     const authService = await getAuthService(services);
-    const token = authService.verifyRequest(request);
+    const token = await authService.verifyRequest(request);
 
     ensureRequiredRoles(
       token,

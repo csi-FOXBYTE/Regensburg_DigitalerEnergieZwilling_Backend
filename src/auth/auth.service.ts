@@ -1,12 +1,27 @@
 import { createService } from "@csi-foxbyte/fastify-toab";
 import type { FastifyRequest } from "fastify";
+import { createRemoteJWKSet, errors as joseErrors, jwtVerify } from "jose";
 import jwt from "jsonwebtoken";
 import { AppError } from "../errors/app-error.js";
 import type { AccessToken } from "./auth.dto.js";
 
 type HeaderValue = string | string[] | undefined;
 
+const DEV_ENVS = new Set(["development", "test"]);
+
 const authService = createService("auth", async () => {
+  const isDevEnv = DEV_ENVS.has(process.env.NODE_ENV ?? "");
+  const jwks = isDevEnv
+    ? null
+    : createRemoteJWKSet(new URL(process.env.KEYCLOAK_JWKS_URI!));
+
+  if (!isDevEnv && jwks === null)
+    throw new AppError({
+      status: "INTERNAL_ERROR",
+      code: 500,
+      message: "JWKS is null in a non-development environment. KEYCLOAK_JWKS_URI may be misconfigured.",
+    });
+
   const asSingleHeader = (value: HeaderValue): string | null => {
     if (Array.isArray(value))
       throw new AppError({
@@ -35,7 +50,45 @@ const authService = createService("auth", async () => {
     return accessTokenHeader;
   };
 
-  const verifyAccessToken = (accessToken: string): AccessToken => {
+  const verifyAccessToken = async (
+    accessToken: string,
+  ): Promise<AccessToken> => {
+    if (!isDevEnv) {
+      if (jwks === null)
+        throw new AppError({
+          status: "INTERNAL_ERROR",
+          code: 500,
+          message: "JWKS is null in a non-development environment. JWT verification cannot proceed.",
+        });
+      try {
+        const { payload } = await jwtVerify(accessToken, jwks, {
+          algorithms: ["RS256"],
+        });
+        return payload as AccessToken;
+      } catch (err) {
+        if (err instanceof joseErrors.JWTExpired)
+          throw new AppError({
+            status: "UNAUTHORIZED",
+            code: 401,
+            message: "Access token has expired",
+          });
+        if (
+          err instanceof joseErrors.JWTClaimValidationFailed &&
+          err.claim === "nbf"
+        )
+          throw new AppError({
+            status: "UNAUTHORIZED",
+            code: 401,
+            message: "Access token is not active yet",
+          });
+        throw new AppError({
+          status: "UNAUTHORIZED",
+          code: 401,
+          message: "Access token is invalid",
+        });
+      }
+    }
+
     const decoded = jwt.decode(accessToken);
     if (!decoded || typeof decoded === "string")
       throw new AppError({
@@ -77,7 +130,9 @@ const authService = createService("auth", async () => {
     });
   };
 
-  const verifyRequest = (request: FastifyRequest): AccessToken => {
+  const verifyRequest = async (
+    request: FastifyRequest,
+  ): Promise<AccessToken> => {
     const accessToken = resolveAccessTokenFromRequest(request);
     return verifyAccessToken(accessToken);
   };
