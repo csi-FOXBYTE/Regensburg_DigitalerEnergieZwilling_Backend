@@ -18,6 +18,8 @@ services:
       NODE_ENV: development
       DATABASE_URL: postgresql://dev:dev@postgres:5432/app
       APP_BASE_URL: localhost:5000
+      PUBLIC_CLIENT_BASE_URL: http://localhost:4321
+      ADMIN_CLIENT_BASE_URL: http://localhost:5173
       KEYCLOAK_JWKS_URI: http://placeholder/not-used-in-development
 
   redis:
