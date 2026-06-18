@@ -144,13 +144,13 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 <a id="ta-12"></a>
 
 **TA-12**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt und durch den Auftraggeber freigegeben werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
 
 <a id="ta-13"></a>
 
 **TA-13**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht zur Laufzeit berechnet werden.
 
 > ⚠️ **Hinweis:** Für Solarthermie ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine technische Einbindung ist daher derzeit nicht belastbar spezifiziert.
@@ -591,7 +591,7 @@ Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempel
 <a id="ta-71"></a>
 
 **TA-71**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Release 6 / Inbetriebnahme vor der Sommerpause](../roadmap/mvp-definition.md#release-6-inbetriebnahme)
 Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanning und Patch-Management sind verpflichtend; vor Go-Live ist ein Penetrationstest durchzuführen. Ergänzend müssen Programmdokumentation, Inline-Dokumentation sowie Architektur-, ER- und Datenflussmodell fortlaufend gepflegt und bereitgestellt werden.
 
 ---
@@ -628,7 +628,7 @@ Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstütz
 
 **TA-74**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien, BKI-Kostenplaner).
+Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien). Für Kostenansätze war ursprünglich die Nutzung von BKI-Daten bzw. des BKI-Kostenplaners vorgesehen; da diese Daten im aktuellen Zeitplan nicht verfügbar sind, soll für Sanierungsmaßnahmen ein alternativer Kostenkatalog separat durch den unterbeauftragten Energieberater entwickelt werden.
 
 <a id="ta-75"></a>
 
@@ -759,7 +759,7 @@ Die aktualisierte Arbeitsmappe präzisiert zusätzlich die technische Breite der
 
 Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikation zu konkretisieren:
 
-- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition. Wirtschaftlichkeit/Amortisation kann erst umgesetzt werden, wenn die dafür benötigten BKI-Kostendaten durch den Auftraggeber bereitgestellt wurden.
+- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition. Wirtschaftlichkeit/Amortisation war ursprünglich auf vom Auftraggeber bereitzustellende BKI-Kostendaten ausgerichtet. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
 - Es liegt nun eine erste beispielhafte Maßnahmenmatrix für Heizungsfälle vor; für die produktive Übernahme fehlt jedoch weiterhin eine vollständige, maschinenlesbare Entscheidungslogik.
@@ -857,19 +857,19 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 <a id="ta-97"></a>
 
 **TA-97**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Für Solarthermie besteht im aktuellen Berechnungskern noch kein technischer Rechenweg. Eine Modellierung als Maßnahme zur Unterstützung der Warmwasserbereitung ist daher erst nach fachlicher Spezifikation und Core-Erweiterung möglich.
 
 <a id="ta-98"></a>
 
 **TA-98**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, Eingabeparameter, Ergebniskennzahlen und Validierungsregeln verbindlich festgelegt werden.
 
 <a id="ta-99"></a>
 
 **TA-99**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Sofern belastbare PV-Potenzialdaten bereitgestellt und durch den Auftraggeber freigegeben werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
@@ -880,13 +880,13 @@ Aktuell liegt für PV/Speicher keine Datenfreigabe durch den Auftraggeber vor. A
 <a id="ta-100"></a>
 
 **TA-100**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft. Voraussetzung ist die Freigabe der Daten durch den Auftraggeber oder eine beauftragte optionale Ersatzberechnung nach LfU-/TUM-Vorbild.
 
 <a id="ta-101"></a>
 
 **TA-101**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Bis zur Bereitstellung und Freigabe belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Für Solarpotenzial/PV/Speicher erfolgt ohne Datenfreigabe keine vorbereitende Implementierung. Für Geothermie liegt aktuell ebenfalls keine Datenfreigabe durch den Auftraggeber vor; eine optionale Berechnung nach LfU-/TUM-Vorbild ersetzt die Datenfreigabe nur bei gesonderter fachlicher Entscheidung. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
 
 ---

@@ -1,8 +1,8 @@
 # MVP-Definition und Release-Aufteilung
 
-Dieses Dokument definiert den geplanten MVP-Umfang, dessen Aufteilung in vier Releases sowie die anschließende Inbetriebnahmephase.
+Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient ab dem aktuellen Stand als Planungsdokument für die weitere Entwicklung bis zur Sommerpause sowie für den Nachlauf nach der Sommerpause.
 
-Letzte Änderung: **2026-04-15** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-06-18** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -14,21 +14,25 @@ Letzte Änderung: **2026-04-15** (siehe [Roadmap-Pflege und Änderungsverlauf](#
 4. [Zentrales Register optionaler Komponenten](#zentrales-register-optionaler-komponenten)
 5. [Release 1 - Plattformaufbau](#release-1-plattformaufbau)
 6. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
-7. [Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase](#release-3)
-8. [Release 4 - Erweiterungen und Stabilisierung](#release-4)
-9. [Inbetriebnahme](#inbetriebnahme)
+7. [Release 3 - Umsetzung Bürger-Abschlussfunktionen, Rechenkern und Verwaltungsbereich](#release-3)
+8. [Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung](#release-4)
+9. [Release 5 - Feature-Finalisierung und laufende Testphase](#release-5)
+10. [Release 6 / Inbetriebnahme vor der Sommerpause](#release-6-inbetriebnahme)
+11. [Nachlauf nach der Sommerpause](#nachlauf-nach-der-sommerpause)
 
 <a id="zielbild-mvp"></a>
 
 ## Zielbild MVP
 
-Der MVP wird in vier aufeinander aufbauenden Releases umgesetzt und durch eine anschließende Inbetriebnahmephase abgeschlossen:
+Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Die Roadmap bildet abgeschlossene Releases als Ist-Stand ab und beschreibt die weitere Planung bis zur Sommerpause sowie den vorgesehenen Nachlauf nach der Sommerpause:
 
 1. **Release 1 (02.03.2026 bis 15.03.2026):** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
 2. **Release 2 (16.03.2026 bis 12.04.2026):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
-3. **Release 3 (13.04.2026 bis 10.05.2026):** Verwaltungsbereich + Datenfreigabe/Wärmeplanung + Beginn der Testphase mit externen Testern
-4. **Release 4 (11.05.2026 bis 18.06.2026):** Erweiterungen und Stabilisierung
-5. **Inbetriebnahme (19.06.2026 bis 24.07.2026):** Rollout- und Übergangsphase in den Regelbetrieb
+3. **Release 3 (13.04.2026 bis 10.05.2026):** Bürger-Abschlussfunktionen, Rechenkern, Sanierungslogik, Export, Verwaltungsbereich und Testvorbereitung
+4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
+5. **Release 5 (ab 19.06.2026, Sprint 13 und Sprint 14 ab 23.06.2026):** Finalisierung der Features, die mit der aktuellen Datenlage bearbeitet werden können, inklusive laufender Testphase mit Expert:innen und Bürger:innen
+6. **Release 6 / Inbetriebnahme (voraussichtlich Sprint 15 und optional Sprint 16 bis Ende Juli 2026):** Inbetriebnahme des MVP vor der Sommerpause; die genaue Sprint-Zuordnung hängt vom Enddatum und der Verfügbarkeit der Ansprechpartner beim Auftraggeber ab
+7. **Nachlauf nach der Sommerpause:** 3 bis 4 Sprints für Anpassungen, Rückmeldungen, offene Punkte und bewusst verschobene fachliche Erweiterungen
 
 ---
 
@@ -61,6 +65,10 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-06-18 | Roadmap-Charakter | Planungsstand für vier Releases und anschließende Inbetriebnahmephase | Kombinierter Ist-Stand und Planungsstand: Release 3/4 werden als bearbeitet/umgesetzt gekennzeichnet; Release 5/6 und Nachlauf nach der Sommerpause werden ergänzt |
+| 2026-06-18 | Release 4 Erweiterungen | Amortisation, Kostenschätzung/Förderung, Feedback-Funktion, Potenzial-Farbvisualisierung, Fehlermeldungen, Whitelabel-Doku und Quartiersanalyse in Release 4 | Release 4 wird als bearbeitete Integrations-, Stabilisierungs-, Datenpipeline-, Förderprogramm- und Testvorbereitungsphase dokumentiert |
+| 2026-06-18 | Verschobene fachliche Erweiterungen | Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie waren im Release-4-Kontext bzw. als optionale Bausteine eingeordnet | Diese Themen werden auf den Nachlauf nach der Sommerpause verschoben |
+| 2026-06-18 | Testphase | Beginn externe Testphase in Release 3 bzw. Inbetriebnahmephase nach Release 4 | Testphase mit Expert:innen und Bürger:innen ist Teil der laufenden Entwicklung in den aktuellen Releases |
 | 2026-04-15 | Vergleichswert in der Ergebnisanzeige für Bürger | Vergleich mit dem Regensburger Gebäudebestand | Bundesweiter statistischer Vergleichswert |
 | 2026-04-15 | Kostenschätzung und davon abhängige Fördermöglichkeiten für Bürger | Release 2 | Release 3 (Klärung und Neubewertung als Voraussetzung für die weitere Umsetzung im Projektverlauf) |
 | 2026-04-15 | Umsetzung von Kostenschätzung und davon abhängiger Förderung | Nicht explizit in der Release-Beschreibung ausgewiesen | Release 4 (abhängig von der Klärung in Release 3) |
@@ -153,42 +161,34 @@ Zugeordnete Anforderungen:
 
 <a id="release-3"></a>
 
-## Release 3 - Nebenzielgruppe (Stadtverwaltung/Fachpersonal): Verwaltungsbereich + Datenfreigabe und Wärmeplanung + Beginn externe Testphase
+## Release 3 - Umsetzung Bürger-Abschlussfunktionen, Rechenkern und Verwaltungsbereich
 
 **Entwicklungszeitraum:** 13.04.2026 bis 10.05.2026
 
-Ziel: Primärfunktionen für die Nebenzielgruppe bereitstellen; zusätzlich die gegenüber dem Stand 2026-03-13 verschobenen Bürger-Abschlussfunktionen sowie die für Datenfreigabe und Wärmeplanung erforderlichen Querschnittsfunktionen umsetzen.
+Ziel: Die gegenüber dem Stand 2026-03-13 verschobenen Bürger-Abschlussfunktionen, Rechenkern-Erweiterungen, Sanierungslogik, Exportfunktionen und den Verwaltungsbereich in einen nutzbaren Entwicklungsstand bringen.
 
 Änderung gegenüber Stand 2026-03-13:
 
 - Bisheriger Stand: Release 3 fokussierte Verwaltungsbereich, Datenfreigabe/Wärmeplanung, Triage- und Löschprozess sowie den Beginn der externen Testphase.
 - Neuer Stand: Release 3 umfasst zusätzlich die Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger, die Darstellung der Berechnungsergebnisse inklusive bundesweitem statistischem Vergleichswert, den Export der Berechnungsergebnisse, die Integration der Datenpersistenz in die Navigation sowie die Definition der Anzeigetexte; zusätzlich werden Kostenschätzung und davon abhängige Fördermöglichkeiten in Release 3 geklärt und neu bewertet, um eine weitere Umsetzung im Projektverlauf abzusichern.
 
-Umfang:
+Bearbeitet / umgesetzt:
 
-- Darstellung und Auswahl von Sanierungsmaßnahmen für Bürger.
-- Darstellung der Berechnungsergebnisse für Bürger inklusive bundesweitem statistischem Vergleichswert.
-- Technische Bereitstellung des Exports als PDF/JSON für den öffentlichen Client (Bürgerbereich).
-- Klärung und Neubewertung der Umsetzung von Kostenschätzung und davon abhängigen Fördermöglichkeiten für Bürger als Voraussetzung für die weitere Umsetzung im Projektverlauf.
-- Integration der Datenpersistenz in die Navigation (Dialog Wiederaufnahme aus Local Storage; Dialog Fortfahren oder Neustarten bei Klick auf Logo/Landingpage).
-- Definition der Anzeigetexte.
-- Datenfreigabe durch Nutzer und Bereitstellung der freigegebenen Eingabedaten für die Wärmeplanung über die CIVITAS/CORE-Plattform.
-- Löschprozess über Export-Referenz (z. B. Link/QR) inklusive Zwei-Faktor-Verfahren.
-- Umsetzung des Verwaltungsbereichs.
-- Konfiguration der Berechnungsparameter.
-- Konfiguration der Sanierungsmaßnahmen.
-- Dedizierte Abfrage- und Darstellungslogik für Wärmeplanungsdaten.
-- Prüfung und Freigabe von Eingabedaten durch Stadtverwaltung / Fachpersonal.
-- Beginn der Testphase mit externen Testern.
+- Rechenkern, Energiekern und Kalkulationskern erweitert, validiert und fachlich abgestimmt.
+- Sanierungslogik vorbereitet und im Bürger-Frontend angebunden.
+- Ergebnisdarstellung, Session-Wiederaufnahme und PDF-/Export-Funktion vorbereitet bzw. umgesetzt.
+- Admin-/Systempflege, Konfigurationspflege, Gebäudeliste, Dashboard und Triage im Verwaltungsbereich ausgebaut.
+- Anzeigetexte, Hinweise, UX-Abstimmungen und Testunterlagen vorbereitet.
+- Infrastruktur- und Integrationsvorbereitung begonnen, insbesondere Frontend-Deployments sowie Keycloak-/APISIX-/CIVITAS/CORE-Themen.
 
 Hinweis:
 
-- Die Klärung von Kostenschätzung und davon abhängiger Förderung muss in Release 3 abgeschlossen werden, damit eine weitere Umsetzung im Projektverlauf noch realistisch bleibt.
+- Sanierungskosten und davon abhängige Amortisation wurden fachlich vorbereitet, aber nicht als MVP-Bestandteil vor der Sommerpause fest eingeplant; die Umsetzung wird in den Nachlauf nach der Sommerpause verschoben.
 - Für den Vergleichswert wird ein bundesweiter statistischer Referenzwert herangezogen, da der Regensburger Datensatz keinen fachlich belastbaren Vergleich ermöglicht.
 
 Ergebnis:
 
-- Administrierbarer MVP mit steuerbarer Berechnungslogik, nachgezogener Darstellung und Exportfunktion der Berechnungsergebnisse für Bürger, geklärter Entscheidungsgrundlage für Kostenschätzung und Förderung sowie umgesetzter Datenfreigabe und Wärmeplanung.
+- Rechenkern, Bürger-Abschlussfunktionen und Verwaltungsbereich wurden gegenüber Release 2 deutlich erweitert. Release 3 bildet damit den Übergang vom ersten nutzbaren Bürgerangebot zu einem administrierbaren MVP-Stand mit Ergebnisdarstellung, Sanierungslogik, Exportvorbereitung und Testvorbereitung.
 
 
 Zugeordnete Anforderungen:
@@ -199,29 +199,31 @@ Zugeordnete Anforderungen:
 
 <a id="release-4"></a>
 
-## Release 4 - Erweiterungen und Stabilisierung
+## Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung
 
 **Entwicklungszeitraum:** 11.05.2026 bis 18.06.2026
 
 Änderung gegenüber Stand 2026-03-13:
 
 - Bisheriger Stand: Release 4 enthielt Amortisation, Feedback-Funktion, Gebäudeeinfärbung und Quartiersanalyse.
-- Neuer Stand: Release 4 enthält zusätzlich die technische Kostenschätzung und davon abhängige Fördermöglichkeiten, die farbliche Visualisierung von Energiepotenzialen, sprechende Fehlermeldungen und Meldungsmanagement sowie die Dokumentation Whitelabeling.
+- Neuer Stand: Release 4 wurde tatsächlich vor allem für Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Testvorbereitung und Förderprogramm-Anbindung genutzt. Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie werden auf den Nachlauf nach der Sommerpause verschoben.
 
-Folgende Themen werden in der verbleibenden Entwicklungsdauer umgesetzt:
+Bearbeitet / umgesetzt:
 
-- Darstellung der Amortisation.
-- Umsetzung der technischen Kostenschätzung und davon abhängiger Fördermöglichkeiten, sofern die Klärung in Release 3 abgeschlossen wurde.
-- Implementierung der Feedback-Funktion.
-- Farbliche Visualisierung von Energiepotenzialen und Einfärben von Gebäuden in der 3D-Ansicht.
-- Sprechende Fehlermeldungen und Meldungsmanagement.
-- Dokumentation Whitelabeling.
-- Quartiersanalyse (Vergleich mit Gebiet/Stadt).
+- Admin-Backend, Admin-Authentifizierung, Backend-/Admin-Frontend-Anbindung und Build-/Deployment-Pipelines umgesetzt bzw. stabilisiert.
+- Bürger-Frontend weiterentwickelt, insbesondere UI-Korrekturen, Labels, Tooltips/Dialoge, i18n, mobile Prüfung und Adresssuche/Geocoder.
+- Offline-Enrichment und Datenpipeline erweitert, insbesondere angrenzende Gebäude, Gebäudealtersklassen, Adressdatenbank und Pipeline-Debugging.
+- Förderprogramm-Anbindung über Nanostores vorbereitet und mit Backend, Datenbank, Admin-Frontend und Bürger-Frontend angebunden.
+- CIVITAS/CORE-, Staging-, RustFS-/S3- und Deployment-Themen bearbeitet.
+- Fragebögen, Testing mit Expert:innen und Bürger:innen sowie Auswertung erster Rückmeldungen vorbereitet und begleitet.
+- Matomo recherchiert und als mögliches Analyse-/Tracking-Thema geprüft.
 
 Hinweis:
 
-- Die Umsetzung von Kostenschätzung und davon abhängiger Förderung in Release 4 setzt voraus, dass die fachliche und technische Klärung in Release 3 abgeschlossen wird.
-- Die Einbindung von Solarpotenzial- und Geothermiedaten in Release 4 ist von der rechtzeitigen Bereitstellung belastbarer Datensätze abhängig und bleibt bis dahin optional.
+- BKI-Daten sind im aktuellen Zeitplan nicht verfügbar. Der Auftraggeber hat entschieden, stattdessen einen alternativen Kostenkatalog für Sanierungsmaßnahmen durch den unterbeauftragten Energieberater anfertigen zu lassen; der dazugehörige Nachtrag ist derzeit in Klärung.
+- Sanierungskosten und die daraus folgende Amortisationsdarstellung werden nach der Sommerpause auf Basis der Nachtragsklärung und des alternativen Kostenkatalogs weitergeführt.
+- Quartiersanalyse sowie Solar/PV/Geothermie werden ebenfalls nach der Sommerpause eingeordnet, da sie nicht Teil der vor der Sommerpause abzusichernden MVP-Inbetriebnahme sind.
+- Die Testphase ist kein separater Release-Block, sondern Teil der laufenden Entwicklung und Stabilisierung.
 
 Zugeordnete Anforderungen:
 
@@ -230,10 +232,81 @@ Zugeordnete Anforderungen:
 
 ---
 
-<a id="inbetriebnahme"></a>
+<a id="release-5"></a>
 
-## Inbetriebnahme
+## Release 5 - Feature-Finalisierung und laufende Testphase
 
-**Zeitraum:** 19.06.2026 bis 24.07.2026
+**Planungszeitraum:** ab 19.06.2026, Sprint 13 und Sprint 14 ab 23.06.2026
 
-In dieser Phase erfolgt die Inbetriebnahme einschließlich Rollout und Übergang in den Regelbetrieb.
+Ziel: Die Features finalisieren, die mit der aktuellen Datenlage vor der Sommerpause belastbar bearbeitet werden können, und Rückmeldungen aus der laufenden Testphase direkt in Feinschliff und Stabilisierung überführen.
+
+Geplanter Umfang:
+
+- Abschluss der mit aktueller Datenlage umsetzbaren Bürger- und Verwaltungsfunktionen.
+- Feinschliff an Ergebnisdarstellung, Nutzerführung, Texten, Hinweisen und Fehlerbehandlung.
+- Stabilisierung von Frontend, Backend, Admin-Bereich, Datenpipeline und Deployment.
+- Fortführung der Testphase mit Expert:innen und Bürger:innen.
+- Einarbeitung priorisierter Rückmeldungen aus Tests und Auftraggeber-Abstimmungen.
+- Vorbereitung der Inbetriebnahme-Sprints.
+
+Hinweis:
+
+- Die Testphase ist Teil der laufenden Entwicklung und kein separater Release- oder Abnahmeblock.
+- Nicht mehr vor der Sommerpause eingeplant sind Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie.
+
+Ergebnis:
+
+- Stabiler MVP-Kandidat für die Inbetriebnahme, dessen Umfang auf die vorliegende Datenlage und die vor der Sommerpause realistisch absicherbaren Funktionen begrenzt ist.
+
+---
+
+<a id="release-6-inbetriebnahme"></a>
+
+## Release 6 / Inbetriebnahme vor der Sommerpause
+
+**Planungszeitraum:** voraussichtlich Sprint 15 und optional Sprint 16 bis Ende Juli 2026
+
+Ziel: Den MVP vor der Sommerpause in Betrieb nehmen und die Übergabe in einen nutzbaren Betriebszustand absichern.
+
+Geplanter Umfang:
+
+- Finales Deployment und produktionsnahe Konfiguration.
+- Stabilisierung der Betriebsumgebung und relevanter Schnittstellen.
+- Prüfung der Kernprozesse für Bürger-Frontend, Verwaltungsbereich, Datenpipeline und Export-/Datenübermittlungswege.
+- Behebung kritischer Fehler aus Testphase und Inbetriebnahmeprüfung.
+- Abstimmung mit den Ansprechpartnern beim Auftraggeber.
+- Dokumentation der MVP-Grenzen, bekannten Einschränkungen und offenen Punkte für den Nachlauf.
+
+Planungsannahme:
+
+- Sprints 13, 14 und 15 können vor der Sommerpause sicher abgeschlossen werden.
+- Sprint 16 ist abhängig vom konkreten Enddatum und von der Verfügbarkeit der Ansprechpartner beim Auftraggeber.
+- Die letzten beiden tatsächlich verfügbaren Sprints vor der Sommerpause werden für die Inbetriebnahme reserviert. Bei Durchführung von Sprint 16 sind dies Sprint 15 und Sprint 16; falls Sprint 16 nicht vollständig nutzbar ist, wird die Inbetriebnahme entsprechend früher verdichtet.
+
+Ergebnis:
+
+- In Betrieb genommener MVP mit dokumentiertem Umfang, dokumentierten offenen Punkten und vorbereiteter Weiterarbeit nach der Sommerpause.
+
+---
+
+<a id="nachlauf-nach-der-sommerpause"></a>
+
+## Nachlauf nach der Sommerpause
+
+**Planungszeitraum:** 3 bis 4 Sprints nach der Sommerpause
+
+Ziel: Rückmeldungen aus Testphase und Inbetriebnahme einarbeiten, offene Punkte schließen und fachliche Erweiterungen umsetzen, die bewusst aus dem MVP vor der Sommerpause herausgelöst wurden.
+
+Geplanter Umfang:
+
+- Anpassungen aus Expert:innen-, Bürger:innen- und Auftraggeber-Rückmeldungen.
+- Umsetzung oder Neubewertung offener Punkte aus der MVP-Inbetriebnahme.
+- Sanierungskosten und daraus abgeleitete Amortisationsdarstellung auf Basis des alternativen Kostenkatalogs, sofern der dazugehörige Nachtrag geklärt ist.
+- Quartiersanalyse.
+- Solar/PV/Geothermie, sofern Datenlage, fachliche Freigabe und Priorisierung dies zulassen.
+- Weitere Stabilisierung, Dokumentation und Betriebsverbesserungen.
+
+Hinweis:
+
+- Die genannten Nachlauf-Themen sind nicht Voraussetzung für die MVP-Inbetriebnahme vor der Sommerpause.
+- Solar/PV/Geothermie bleiben abhängig von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung.

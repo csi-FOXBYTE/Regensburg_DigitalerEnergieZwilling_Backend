@@ -136,7 +136,7 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 <a id="offene-modellierungsfragen-aus-dem-grobkonzept"></a>
 ## Offene Modellierungsfragen aus dem Grobkonzept
 
-- Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt. Wirtschaftlichkeit/Amortisation kann aktuell nicht umgesetzt werden, weil die benötigten BKI-Kostendaten noch nicht vom Auftraggeber bereitgestellt werden können.
+- Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt. Wirtschaftlichkeit/Amortisation war ursprünglich auf vom Auftraggeber bereitzustellende BKI-Kostendaten ausgerichtet. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
 - PV/Speicher kann aktuell nicht umgesetzt werden, weil die Datenfreigabe durch den Auftraggeber noch fehlt. Aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung im Berechnungskern statt.
 - Korrekturfaktor `F` ist nicht für alle Bauteile in gleicher Tiefe fachlich definiert.
 - Das Heizungsblatt enthält nun erste beispielhafte Maßnahmenzuordnungen; diese sind jedoch noch nicht als vollständige, deterministische Entscheidungslogik formalisiert.

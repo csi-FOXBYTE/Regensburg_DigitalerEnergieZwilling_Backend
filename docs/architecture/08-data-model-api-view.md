@@ -171,7 +171,7 @@ Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext 
 
 ### Offene Datenmodell-Punkte aus dem Grobkonzept
 
-- Kostenfelder für Hülle-Maßnahmen sind aktuell als Platzhalter markiert und noch nicht als belastbares Schema beschrieben. Wirtschaftlichkeit/Amortisation ist fachlich blockiert, solange die benötigten BKI-Kostendaten nicht vom Auftraggeber bereitgestellt werden können.
+- Kostenfelder für Hülle-Maßnahmen sind aktuell als Platzhalter markiert und noch nicht als belastbares Schema beschrieben. Wirtschaftlichkeit/Amortisation war ursprünglich auf vom Auftraggeber bereitzustellende BKI-Kostendaten ausgerichtet. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
 - Teilweise enthalten Tabellenwerte reine Template-Inhalte (`0`, `#`) und dürfen nicht als produktive Defaultwerte in API/DB übernommen werden.
 - Korrekturfaktoren je Bauteil sind nicht vollständig als konfigurierbare Regelstruktur ausdefiniert.
 - Für Teile der Heizungslogik liegt noch keine ausreichend formalisierte Regelbasis für maschinenlesbare Empfehlungen vor.

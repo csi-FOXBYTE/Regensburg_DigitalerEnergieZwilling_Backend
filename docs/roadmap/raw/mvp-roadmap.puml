@@ -1,7 +1,7 @@
 @startuml
 !theme plain
 
-title DEZ MVP Roadmap - Release-Aufteilung
+title DEZ MVP Roadmap - Ist-Stand und Planung
 top to bottom direction
 
 skinparam shadowing false
@@ -14,22 +14,28 @@ skinparam ArrowColor #1F2937
 
 rectangle "Release 1%n()02.03.2026 - 15.03.2026%n()---%n()Plattformaufbau%n()CIVITAS/CORE Basis%n()Services%n()Datenpipeline + Preprocessing%n()MasterPortal Link-Out" as R1 #DCEBFF
 
-rectangle "Release 2%n()16.03.2026 - 12.04.2026%n()---%n()Hauptzielgruppe%n()Öffentlicher 3D-Client%n()Gebäudeauswahl + Berechnung%n()Ist-Zustand + Plausibilitätscheck%n()Backend CRUD" as R2 #DFF7E2
+rectangle "Release 2%n()16.03.2026 - 12.04.2026%n()---%n()Hauptzielgruppe%n()Ã–ffentlicher 3D-Client%n()GebÃ¤udeauswahl + Berechnung%n()Ist-Zustand + PlausibilitÃ¤tscheck%n()Backend CRUD" as R2 #DFF7E2
 
-rectangle "Release 3%n()13.04.2026 - 10.05.2026%n()---%n()Nebenzielgruppe + Abschluss%n()Sanierungsmaßnahmen%n()Berechnungsergebnisse + Statistik%n()Bürger-Export%n()Kosten/Förderung: Klärung%n()Datenpersistenz + Anzeigetexte%n()Verwaltungsbereich + Wärmeplanung" as R3 #FFEFD6
+rectangle "Release 3%n()13.04.2026 - 10.05.2026%n()---%n()Ist-Stand%n()Rechen-/Energiekern%n()Sanierungslogik%n()Ergebnis + PDF/Export%n()Admin/Systempflege%n()UX-Texte + Testvorbereitung" as R3 #FFEFD6
 
-rectangle "Release 4%n()11.05.2026 - 18.06.2026%n()---%n()Erweiterungen + Stabilisierung%n()Amortisation%n()Kostenschätzung + Förderung%n()Feedback-Funktion%n()Potenzial-Farbvisualisierung%n()Fehlermeldungen%n()Whitelabel-Doku%n()Quartiersanalyse" as R4 #F3F4F6
+rectangle "Release 4%n()11.05.2026 - 18.06.2026%n()---%n()Ist-Stand%n()Integration + Stabilisierung%n()Admin-Backend/Auth%n()Datenpipeline + Enrichment%n()FÃ¶rderprogramm-Anbindung%n()Testing + FragebÃ¶gen" as R4 #F3F4F6
 
-rectangle "Inbetriebnahme%n()19.06.2026 - 24.07.2026%n()---%n()Rollout%n()Übergang in den Regelbetrieb" as GO #FFF4BF
+rectangle "Release 5%n()ab 19.06.2026%n()Sprint 13%n()Sprint 14 ab 23.06.2026%n()---%n()Plan%n()Feature-Finalisierung%n()Laufende Testphase%n()Feinschliff aus RÃ¼ckmeldungen%n()Stabilisierung" as R5 #EDE9FE
+
+rectangle "Release 6 / Inbetriebnahme%n()bis Ende Juli 2026%n()Sprint 15 + optional Sprint 16%n()---%n()Plan%n()MVP-Inbetriebnahme%n()Produktionsnahe Konfiguration%n()Kritische Fehler beheben%n()MVP-Grenzen dokumentieren" as R6 #FFF4BF
+
+rectangle "Nach Sommerpause%n()3 - 4 Sprints%n()---%n()Plan%n()RÃ¼ckmeldungen + offene Punkte%n()Alternativer Kostenkatalog%n()Sanierungskosten + Amortisation%n()Quartiersanalyse%n()Solar/PV/Geothermie" as POST #E5E7EB
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
 R3 --> R4 : erweitert
-R4 --> GO : uebergang
+R4 --> R5 : plant weiter
+R5 --> R6 : inbetriebnahme
+R6 --> POST : nachlauf
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-04-15
+  Stand: 2026-06-18
 endlegend
 
 @enduml

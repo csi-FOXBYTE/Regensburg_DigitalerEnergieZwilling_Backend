@@ -74,19 +74,19 @@ Zu jedem Gebäude müssen energetische Potenziale visuell darstellbar sein.
 <a id="fa-04"></a>
 
 **FA-04**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Wenn belastbare Solarpotenzialdaten rechtzeitig bereitgestellt werden, muss das System Solarpotenziale (PV) auf Gebäude- oder Dachflächenebene anzeigen können.
 
 <a id="fa-05"></a>
 
 **FA-05**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Wenn belastbare Geothermiedaten rechtzeitig bereitgestellt werden, muss das System Geothermiepotenziale gebäudebezogen anzeigen können.
 
 <a id="fa-06"></a>
 
 **FA-06**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Die Potenziale müssen für den Nutzer verständlich und vergleichbar dargestellt werden.
 
 > ⚠️ **Hinweis:** Für Solarthermie zur Warmwasserbereitung ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine spätere Einbindung kann im Projektverlauf neu bewertet werden.
@@ -205,7 +205,7 @@ Für die fachliche Modellierung bedeutet das:
 
 Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
 
-- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten. Für belastbare Investitionskosten und Wirtschaftlichkeit fehlen aktuell die vom Auftraggeber bereitzustellenden BKI-Kostendaten.
+- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten. Ursprünglich war vorgesehen, hierfür vom Auftraggeber bereitzustellende BKI-Kostendaten zu verwenden. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
 - Mehrere Ergebniszellen enthalten im Template `0` oder `#`; diese sind keine validierten Referenzwerte.
 - Korrekturfaktor `F` ist für mehrere Bauteile nicht fachlich ausreichend hergeleitet bzw. dokumentiert.
 - Im Blatt `Heizung` liegt nun eine erste beispielhafte Maßnahmenmatrix vor; diese muss vor Produktivnutzung in deterministische und vollständige Entscheidungsregeln überführt werden.
@@ -354,7 +354,7 @@ Zu ausgewählten Maßnahmen müssen passende Förderprogramme (z.B. Links/Katego
 <a id="fa-36"></a>
 
 **FA-36**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Das System muss eine technische Kostenschätzung ohne Förderung ausweisen.
 
 <a id="fa-37"></a>
@@ -514,7 +514,7 @@ Fachpersonal muss geprüfte Daten aggregiert auswerten können, damit sie verst�
 <a id="fa-59"></a>
 
 **FA-59**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss Berichte pro Quartier generieren können.
 
 ---
@@ -524,31 +524,31 @@ Fachpersonal muss Berichte pro Quartier generieren können.
 <a id="fa-60"></a>
 
 **FA-60**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss Quartiere nach energetischen Kennzahlen vergleichen können.
 
 <a id="fa-61"></a>
 
 **FA-61**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss Hotspots mit besonders hohem Energiebedarf identifizieren können.
 
 <a id="fa-62"></a>
 
 **FA-62**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss die Möglichkeiten für erneuerbare Energien visuell darstellen können, um geeignete Flächen zu identifizieren.
 
 <a id="fa-63"></a>
 
 **FA-63**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss erkennen können, welche Quartiere den größten Bedarf haben, um Prioritäten für die Wärmeplanung zu setzen.
 
 <a id="fa-64"></a>
 
 **FA-64**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Fachpersonal muss aus der Analyse Empfehlungen ableiten können, welche Maßnahmen sinnvoll sind.
 
 ---
@@ -637,24 +637,24 @@ Der Report muss mindestens enthalten:
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
 
-Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen setzen zusätzlich die Bereitstellung belastbarer BKI-Kostendaten durch den Auftraggeber voraus.
+Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen sollten ursprünglich auf vom Auftraggeber bereitzustellenden BKI-Kostendaten aufbauen. Da diese im aktuellen Zeitplan nicht verfügbar sind, ist nun ein alternativer Kostenkatalog für Sanierungsmaßnahmen vorgesehen, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
 
 <a id="fa-75"></a>
 
 **FA-75**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Das System soll eine Sanierungsvariante auf Basis eines Nutzerbudgets vorschlagen können (Ziel: maximale Energiebedarfsreduktion).
 
 <a id="fa-76"></a>
 
 **FA-76**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgung ausweisen sowie Gesamtenergiekosten und Einsparungen (absolut und relativ).
 
 <a id="fa-77"></a>
 
 **FA-77**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Sofern belastbare PV- und Geothermie-Daten rechtzeitig bereitgestellt werden, muss das System Varianten für PV und Geothermie (jeweils mehrere Ausprägungen) sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen.
 Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen.
 Für PV/Speicher liegt aktuell noch keine Datenfreigabe durch den Auftraggeber vor. Aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt.
@@ -704,7 +704,7 @@ Das System soll eine Übersicht der Maßnahmen mit relativem Einsparpotenzial un
 <a id="fa-85"></a>
 
 **FA-85**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Die Herleitung von Empfehlungen soll nachvollziehbar dargestellt werden (z.B. verwendete Eingaben, Annahmen und Datenquellen).
 
 <a id="fa-86"></a>
@@ -794,32 +794,32 @@ Bei hoher manueller Eingabetiefe müssen weitere berechnungsrelevante Anlagenpar
 <a id="fa-100"></a>
 
 **FA-100**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Für Solarthermie zur Warmwasserbereitung besteht im aktuellen Berechnungskern noch kein vorgesehener Rechenweg. Eine spätere Einbindung als zusätzliche Maßnahme kann fachlich neu bewertet werden.
 
 <a id="fa-101"></a>
 
 **FA-101**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Vor einer möglichen Umsetzung von Solarthermie müssen fachlicher Rechenweg, Eingabeparameter, Ergebnislogik und Abgrenzung zum bestehenden Warmwasser- und Heizungspfad verbindlich definiert werden.
 
 <a id="fa-102"></a>
 
 **FA-102**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Sofern belastbare PV-Potenzialdaten bereitgestellt werden, muss PV in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
 Darstellung 1 dimensioniert PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
 
 <a id="fa-103"></a>
 
 **FA-103**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren. Ohne belastbare PV-Datenbereitstellung bleibt diese Einbindung für den MVP optional.
 
 <a id="fa-104"></a>
 
 **FA-104**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
+*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
 Wenn ein belastbarer Geothermiedatensatz rechtzeitig bereitgestellt wird, muss das Geothermiepotenzial über eine Abfrage des Geothermiedatensatzes in folgender Reihenfolge eingeschätzt werden: Grundwasser, Erdreich, Luft. Da aktuell kein Datensatz vorliegt, ist der fachliche Umfang für die MVP-Phase weiterhin in Klärung und die Einbindung bleibt bis zur Datenbereitstellung optional.
 
 <a id="fa-105"></a>
