@@ -8,6 +8,8 @@ export default defineConfig({
     DATABASE_URL: Type.String(),
     TILES_URL: Type.String(),
     APP_BASE_URL: Type.String(),
+    PUBLIC_CLIENT_BASE_URL: Type.String(),
+    ADMIN_CLIENT_BASE_URL: Type.String(),
     PORT: Type.Optional(Type.String()),
     NODE_ENV: Type.Optional(Type.String()),
     KEYCLOAK_JWKS_URI: Type.String(),
