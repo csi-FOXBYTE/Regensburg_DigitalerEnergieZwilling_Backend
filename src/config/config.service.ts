@@ -1,4 +1,5 @@
 import { createService } from "@csi-foxbyte/fastify-toab";
+import { validateAndMigrate, validateConfig } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
 import { getDatabaseService } from "../@internals/index.js";
 import { AppError } from "../errors/app-error.js";
 
@@ -14,6 +15,16 @@ const configService = createService("config", async ({ services }) => {
     if (config == null) {
       throw new AppError({ status: "NOT_FOUND", code: 404, message: `Version "${versionName}" not found` });
     }
+    const result = validateAndMigrate(JSON.parse(config.calculationConfig));
+    if (!result.success) {
+      throw new AppError({ status: "INTERNAL_ERROR", code: 500, message: `Config "${versionName}" is invalid: ${result.issues.map(i => `${i.path}: ${i.message}`).join(", ")}` });
+    }
+    if (result.migrated) {
+      return db.config.update({
+        where: { versionName },
+        data: { calculationConfig: JSON.stringify(result.data) },
+      });
+    }
     return config;
   }
 
@@ -22,10 +33,12 @@ const configService = createService("config", async ({ services }) => {
     if (existing != null) {
       throw new AppError({ status: "BAD_REQUEST", code: 409, message: `Version "${versionName}" already exists` });
     }
+    const result = validateConfig(JSON.parse(calculationConfig));
+    if (!result.success) {
+      throw new AppError({ status: "BAD_REQUEST", code: 400, message: `Invalid calculationConfig: ${result.issues.map(i => `${i.path}: ${i.message}`).join(", ")}` });
+    }
     return db.config.create({
-      data: {
-        versionName, calculationConfig, subsidies
-      },
+      data: { versionName, calculationConfig, subsidies },
     });
   }
 
@@ -33,6 +46,10 @@ const configService = createService("config", async ({ services }) => {
     const target = await db.config.findUnique({ where: { versionName } });
     if (target == null) {
       throw new AppError({ status: "NOT_FOUND", code: 404, message: `Version "${versionName}" not found` });
+    }
+    const result = validateConfig(JSON.parse(target.calculationConfig));
+    if (!result.success) {
+      throw new AppError({ status: "BAD_REQUEST", code: 400, message: `Config "${versionName}" is invalid and cannot be activated: ${result.issues.map(i => `${i.path}: ${i.message}`).join(", ")}` });
     }
     return db.$transaction(async (tx) => {
       await tx.config.updateMany({ where: { isActive: true }, data: { isActive: false } });
@@ -47,6 +64,13 @@ const configService = createService("config", async ({ services }) => {
     const config = await db.config.findFirst({ where: { isActive: true } });
     if (config == null)
       throw new AppError({ status: "NOT_FOUND", code: 404, message: "No active config found" });
+    const result = validateAndMigrate(JSON.parse(config.calculationConfig));
+    if (!result.success) {
+      throw new AppError({ status: "INTERNAL_ERROR", code: 500, message: `Active config is invalid: ${result.issues.map(i => `${i.path}: ${i.message}`).join(", ")}` });
+    }
+    if (result.migrated) {
+      return { ...config, calculationConfig: JSON.stringify(result.data) };
+    }
     return config;
   }
 

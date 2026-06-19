@@ -3,9 +3,10 @@ import {
   calculate,
   makeNgsiLdEntity,
   validateInput,
-  DETConfigSchema,
+  type DETConfig,
 } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
-import { getDatabaseService } from "../@internals/index.js";
+import { type ConfigService, getDatabaseService, getConfigService } from "../@internals/index.js";
+import { AppError } from "../errors/app-error.js";
 import { SubmissionStatus } from "../zenstack/models.js";
 import {
   AccessDeniedError,
@@ -62,6 +63,7 @@ const recordHistory = async (
 
 const submit = async (
   db: DB,
+  configService: ConfigService,
   ngsiLdContext: string,
   params: {
     input: unknown;
@@ -72,13 +74,15 @@ const submit = async (
     latitude: number;
   },
 ) => {
-  const config = params.configName
-    ? await db.config.findUnique({ where: { versionName: params.configName } })
-    : await db.config.findFirst({ where: { isActive: true } });
+  const config = await (params.configName
+    ? configService.getConfig(params.configName)
+    : configService.getActiveConfig()
+  ).catch((e) => {
+    if (e instanceof AppError && e.code === 404) throw new ConfigNotFoundError(params.configName);
+    throw e;
+  });
 
-  if (!config) throw new ConfigNotFoundError(params.configName);
-
-  const detConfig = DETConfigSchema.parse(JSON.parse(config.calculationConfig));
+  const detConfig = JSON.parse(config.calculationConfig) as DETConfig;
 
   const validation = validateInput(params.input, detConfig);
   if (!validation.success) throw new InvalidInputError(validation.issues);
@@ -332,10 +336,11 @@ const deleteById = async (db: DB, submissionId: string, userId: string, roles: R
 
 const submissionsService = createService("submissions", async ({ services }) => {
   const db = await getDatabaseService(services);
+  const configService = await getConfigService(services);
   const ngsiLdContext = `${process.env.APP_BASE_URL}/public/det-building-energy-data-context.jsonld`;
 
   return {
-    submit: (params: Parameters<typeof submit>[2]) => submit(db, ngsiLdContext, params),
+    submit: (params: Parameters<typeof submit>[3]) => submit(db, configService, ngsiLdContext, params),
     deleteByToken: (deletionToken: string) => deleteByToken(db, deletionToken),
     deleteById: (submissionId: string, userId: string, roles: Roles) => deleteById(db, submissionId, userId, roles),
     assign: (submissionId: string, userId: string, roles: Roles, targetUserId?: string) =>
