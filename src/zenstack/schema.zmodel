@@ -34,7 +34,7 @@ model Config with Base {
   isActive          Boolean      @default(false)
   publishedAt       DateTime?
   calculationConfig String
-  subsidies         String
+  subsidies         String[]
   submissions       Submission[]
 }
 

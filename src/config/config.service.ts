@@ -28,7 +28,7 @@ const configService = createService("config", async ({ services }) => {
     return config;
   }
 
-  const createConfig = async (versionName: string, calculationConfig: string, subsidies: string) => {
+  const createConfig = async (versionName: string, calculationConfig: string, subsidies: string[]) => {
     const existing = await db.config.findUnique({ where: { versionName } });
     if (existing != null) {
       throw new AppError({ status: "BAD_REQUEST", code: 409, message: `Version "${versionName}" already exists` });

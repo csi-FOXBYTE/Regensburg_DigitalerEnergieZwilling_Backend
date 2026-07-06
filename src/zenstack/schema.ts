@@ -112,7 +112,8 @@ export class SchemaType implements SchemaDef {
                 },
                 subsidies: {
                     name: "subsidies",
-                    type: "String"
+                    type: "String",
+                    array: true
                 },
                 submissions: {
                     name: "submissions",
