@@ -106,10 +106,13 @@ export const GetByIdOutputDto = Type.Object({
   assignedAt: Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
   ngsiData: Type.Object({}, { additionalProperties: true }),
   raw: Type.Object({}, { additionalProperties: true }),
-  usedConfig: Type.Object({
-    id: Type.String(),
-    versionName: Type.String(),
-  }),
+  usedConfig: Type.Union([
+    Type.Object({
+      id: Type.String(),
+      versionName: Type.String(),
+    }),
+    Type.Null(),
+  ]),
   history: Type.Array(
     Type.Object({
       id: Type.String(),

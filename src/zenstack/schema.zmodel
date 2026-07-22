@@ -77,8 +77,10 @@ model Submission with Base {
 
   ngsiData      String
   rawInput      String
-  usedConfigId  String
-  usedConfig    Config                         @relation(fields: [usedConfigId], references: [id])
+  // Null means the submission was calculated with the virtual default config
+  // (no persisted Config row to reference).
+  usedConfigId  String?
+  usedConfig    Config?                        @relation(fields: [usedConfigId], references: [id])
 
   @@index([status])
   @@index([createdAt])
