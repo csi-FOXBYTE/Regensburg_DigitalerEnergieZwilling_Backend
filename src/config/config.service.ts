@@ -171,6 +171,9 @@ const configService = createService("config", async ({ services }) => {
   }
 
   const createConfig = async (versionName: string, calculationConfig: string, subsidies: string[]) => {
+    if (versionName === DEFAULT_VERSION) {
+      throw new AppError({ status: "BAD_REQUEST", code: 400, message: `Version "${DEFAULT_VERSION}" is reserved` });
+    }
     const existing = await db.config.findUnique({ where: { versionName } });
     if (existing != null) {
       throw new AppError({ status: "BAD_REQUEST", code: 409, message: `Version "${versionName}" already exists` });
