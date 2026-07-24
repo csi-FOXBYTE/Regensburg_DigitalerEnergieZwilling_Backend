@@ -146,6 +146,8 @@ Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu
 5. Zusammenfassung, Wirtschaftlichkeit, Förderinfos, nächste Schritte.
 6. PDF-Export, optionaler Löschhinweis (falls Daten gespeichert wurden).
 
+Die vereinfachten UX-Schritte sind keine technische Tracking-Nummerierung. Für Funnel-Auswertungen gelten die stabilen semantischen Schritt-IDs und Abschlusskriterien aus dem [Matomo-Trackingkonzept](06-matomo-trackingkonzept.md#funnel-schritte). Dadurch können mehrere fachliche Abschnitte in einem Screen zusammengefasst oder Screens umgestaltet werden, ohne historische Auswertungen durch geänderte Schrittzahlen zu verfälschen.
+
 > ⚠️ **Hinweis MVP:** Solarthermie ist derzeit nicht Teil des vorgesehenen Rechenwegs im Berechnungskern. Offen sind damit aktuell vor allem die zwei PV-Darstellungen und die Geothermie-Bewertung.
 > Hinweis Datenstand Geothermie: Aktuell sind die Geothermie-Daten noch nicht durch den Auftraggeber freigegeben. Eine optionale Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie ist nur nach fachlicher Beauftragung und Datenklärung vorzusehen.
 

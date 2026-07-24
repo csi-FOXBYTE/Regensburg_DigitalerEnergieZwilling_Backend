@@ -113,11 +113,14 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 
 ### Tracking-Strategie (verbindliche Festlegung)
 
-- Für Nutzungsanalysen wird Matomo verbindlich als Analytics-Lösung eingesetzt.
+- Für Nutzungsanalysen wird Matomo mit genau einer Site-ID für den gesamten öffentlichen Sanierungscheck verbindlich als Analytics-Lösung eingesetzt.
 - Tracking und Analytics dürfen ausschließlich nach explizitem Opt-in aktiviert werden.
 - Ohne gültiges Opt-in bleiben Tracking-Funktionen standardmäßig deaktiviert.
+- Webanalyse und freiwillige Gebäudedatenspende bleiben technisch getrennte Datenströme. Matomo erhält keine Gebäude-, Adress-, Personen-, Verbrauchs-, Kosten- oder Berechnungsrohdaten.
+- Gebäudetypen und Sanierungsmaßnahmen dürfen ausschließlich über fachlich freigegebene, niedrig-kardinale Schlüssel aus zentralen Allow-Lists erfasst werden.
 - Vor produktiver Aktivierung sind Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich zu dokumentieren und freizugeben.
-- Diese Leitplanken konkretisieren insbesondere FA-115 bis FA-117 sowie TA-129 bis TA-132.
+- Der verbindliche fachliche Zielstand, Eventkatalog, die KPI-Definitionen und Abnahmekriterien sind im [Matomo-Trackingkonzept](06-matomo-trackingkonzept.md) dokumentiert.
+- Diese Leitplanken konkretisieren insbesondere FA-115 bis FA-117 und FA-119 bis FA-124 sowie TA-129 bis TA-132 und TA-143 bis TA-150.
 
 ---
 

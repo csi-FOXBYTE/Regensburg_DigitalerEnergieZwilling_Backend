@@ -32,6 +32,8 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **02** [User Experience, Nutzerreise & Informationsarchitektur](system/02-user-experience.md)
 - **03** [Sicherheitskonzept](system/03-security-concept.md) (inkl. Abschnitt [„Tracking-Strategie (verbindliche Festlegung)”](system/03-security-concept.md#tracking-strategie-verbindliche-festlegung))
 - **04** [Fehler- und Ausnahmebehandlung (AppError)](system/04-error-handling.md)
+- **05** [Datenschutzhinweise für das öffentliche Sanierungstool (Entwurf)](system/05-datenschutzhinweise-public.md)
+- **06** [Matomo-Trackingkonzept und Eventkatalog](system/06-matomo-trackingkonzept.md)
 
 <a id="anforderungen"></a>
 

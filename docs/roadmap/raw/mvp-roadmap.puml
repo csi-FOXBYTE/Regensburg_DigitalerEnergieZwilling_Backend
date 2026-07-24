@@ -20,22 +20,25 @@ rectangle "Release 3%n()13.04.2026 - 10.05.2026%n()---%n()Ist-Stand%n()Rechen-/E
 
 rectangle "Release 4%n()11.05.2026 - 18.06.2026%n()---%n()Ist-Stand%n()Integration + Stabilisierung%n()Admin-Backend/Auth%n()Datenpipeline + Enrichment%n()Förderprogramm-Anbindung%n()Testing + Fragebögen" as R4 #F3F4F6
 
-rectangle "Release 5%n()ab 19.06.2026%n()Sprint 13%n()Sprint 14 ab 23.06.2026%n()---%n()Plan%n()Feature-Finalisierung%n()Laufende Testphase%n()Feinschliff aus Rückmeldungen%n()Stabilisierung" as R5 #EDE9FE
+rectangle "Release 5%n()Sprint 13 + Sprint 14%n()Abschluss 06.07.2026%n()---%n()Ist-Stand%n()Anreicherung aktualisieren + Bugfixing%n()Frontend aktualisieren + Bugfixing%n()Systempflege aktualisieren + Bugfixing%n()Sprint 14: Usertesting" as R5 #EDE9FE
 
-rectangle "Release 6 / Inbetriebnahme%n()bis Ende Juli 2026%n()Sprint 15 + optional Sprint 16%n()---%n()Plan%n()MVP-Inbetriebnahme%n()Produktionsnahe Konfiguration%n()Kritische Fehler beheben%n()MVP-Grenzen dokumentieren" as R6 #FFF4BF
+rectangle "Release 6%n()Sprint 15 + Sprint 16%n()07.07.2026 - 03.08.2026%n()---%n()Plan%n()Usertesting auswerten%n()Arbeitspakete bewerten%n()Priorisierte Punkte umsetzen%n()Matomo frühestens Sprint 15%n()BKI-Zugang weiter offen" as R6 #FFF4BF
 
-rectangle "Nach Sommerpause%n()3 - 4 Sprints%n()---%n()Plan%n()Rückmeldungen + offene Punkte%n()Alternativer Kostenkatalog%n()Sanierungskosten + Amortisation%n()Quartiersanalyse%n()Solar/PV/Geothermie" as POST #E5E7EB
+rectangle "Sprint 17%n()04.08.2026 - 17.08.2026%n()---%n()Plan%n()Entwicklung abschließen%n()Priorisierte Änderungen integrieren%n()Regressionstests%n()Inbetriebnahmekandidat stabilisieren" as S17 #E5E7EB
+
+rectangle "Inbetriebnahme%n()Sprint 18 + Sprint 19%n()18.08.2026 - 14.09.2026%n()---%n()Plan%n()Produktionsnahe Konfiguration%n()Inbetriebnahme + Abnahmeunterstützung%n()Kritische Fehler beheben%n()Übergabe + Betriebsdokumentation" as IB #DFF7E2
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
 R3 --> R4 : erweitert
 R4 --> R5 : plant weiter
-R5 --> R6 : inbetriebnahme
-R6 --> POST : nachlauf
+R5 --> R6 : auswertung
+R6 --> S17 : abschließen
+S17 --> IB : inbetriebnahme
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-06-18
+  Stand: 2026-07-24
 endlegend
 
 @enduml

@@ -37,7 +37,8 @@
 33. [32. Single Point of Truth für Basisdaten](#32-single-point-of-truth-fuer-basisdaten)
 34. [33. Datenquellen-Metadaten](#33-datenquellen-metadaten)
 35. [34. Abnahmeprozess und Ansprechpartner](#34-abnahmeprozess-und-ansprechpartner)
-36. [Abgrenzung](#abgrenzung)
+36. [35. Konkretisierung: Matomo-Tracking](#35-konkretisierung-matomo-tracking)
+37. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-der-technischen-anforderungen"></a>
 
@@ -628,7 +629,7 @@ Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstütz
 
 **TA-74**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien). Für Kostenansätze war ursprünglich die Nutzung von BKI-Daten bzw. des BKI-Kostenplaners vorgesehen; da diese Daten im aktuellen Zeitplan nicht verfügbar sind, soll für Sanierungsmaßnahmen ein alternativer Kostenkatalog separat durch den unterbeauftragten Energieberater entwickelt werden.
+Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien). Kostenansätze für Sanierungsmaßnahmen sollen wieder auf BKI-Daten beziehungsweise dem BKI-Kostenplaner basieren. Stand 24.07.2026 bestehen jedoch weder ein Zugang zu den BKI-Daten noch ein abgesicherter Zeitplan für deren Verfügbarkeit; Nutzungsbedingungen, Datenmodell und Aktualisierungsprozess sind vor Implementierungsbeginn zu klären.
 
 <a id="ta-75"></a>
 
@@ -759,7 +760,7 @@ Die aktualisierte Arbeitsmappe präzisiert zusätzlich die technische Breite der
 
 Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikation zu konkretisieren:
 
-- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition. Wirtschaftlichkeit/Amortisation war ursprünglich auf vom Auftraggeber bereitzustellende BKI-Kostendaten ausgerichtet. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
+- Kostenlogik ist in mehreren Blättern nur als Platzhalter gekennzeichnet und hat noch keine belastbare Felddefinition. Wirtschaftlichkeit und Amortisation sollen auf BKI-Kostendaten ausgerichtet werden. Stand 24.07.2026 fehlen Datenzugang und abgesicherter Verfügbarkeitszeitplan; vor einer technischen Spezifikation sind außerdem Lizenz, Granularität, Preisstand, Regionalisierung und Pflegeprozess zu klären.
 - Einzelne Beispiel-/Templatewerte (`0`, `#`) dürfen nicht als produktive Defaults interpretiert werden.
 - Die fachliche Herleitung und Geltung von Korrekturfaktoren `F` je Bauteil ist unvollständig dokumentiert.
 - Es liegt nun eine erste beispielhafte Maßnahmenmatrix für Heizungsfälle vor; für die produktive Übernahme fehlt jedoch weiterhin eine vollständige, maschinenlesbare Entscheidungslogik.
@@ -1105,7 +1106,7 @@ Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in akti
 
 **TA-131**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein.
+Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein. Eventkatalog, KPI-Definitionen und Abnahmekriterien werden im [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md) geführt.
 
 <a id="ta-132"></a>
 
@@ -1196,6 +1197,60 @@ Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der dist
 **TA-142**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt.
+
+---
+
+<a id="35-konkretisierung-matomo-tracking"></a>
+
+## 35. Konkretisierung: Matomo-Tracking
+
+<a id="ta-143"></a>
+
+**TA-143**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Der gesamte öffentliche Sanierungscheck muss je Laufzeitumgebung über genau eine zentral konfigurierte Matomo-Site-ID erfasst werden. Produktiv-, Test- und Entwicklungsdaten dürfen nicht in derselben Matomo-Site zusammengeführt werden.
+
+<a id="ta-144"></a>
+
+**TA-144**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Das Public-Frontend muss sämtliche Analyseereignisse über einen zentralen Tracking-Adapter senden. Direkte Matomo-Aufrufe aus einzelnen UI-Komponenten sind unzulässig; Eventcodes, Parameter und Werte müssen vor dem Versand gegen versionierte Allow-Lists validiert werden.
+
+<a id="ta-145"></a>
+
+**TA-145**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Vor gültigem Opt-in dürfen keine Matomo-Skripte oder sonstigen Matomo-Ressourcen geladen, keine Matomo-Endpunkte aufgerufen und keine Ereignisse für eine spätere Übermittlung gepuffert werden. Vor der Einwilligung entstandene Ereignisse dürfen nachträglich nicht versendet werden.
+
+<a id="ta-146"></a>
+
+**TA-146**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Tracking-Payloads müssen von Zustands- und Übertragungsobjekten der Gebäudedatenspende getrennt erzeugt werden. Gebäude-, Adress-, Personen-, Verbrauchs-, Kosten-, Berechnungs-, Einreichungs- und Löschdaten sowie daraus gebildete Hashes oder Pseudonyme dürfen nicht an Matomo übergeben werden.
+
+<a id="ta-147"></a>
+
+**TA-147**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+An Matomo übermittelte Seitenadressen, Seitentitel, Referrer und benutzerdefinierte Dimensionen müssen vor dem Versand von sensiblen Queryparametern, URL-Fragmenten, Tokens und Objektkennungen bereinigt werden.
+
+<a id="ta-148"></a>
+
+**TA-148**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Ein verwendeter Sitzungsbezug muss zufällig erzeugt, auf den freigegebenen Sitzungszeitraum begrenzt und unabhängig von Gebäude-, Einreichungs- oder Nutzerdaten sein. Ohne gesonderte Freigabe darf keine dauerhafte Besucher- oder kommunenübergreifende Nutzerkennung erzeugt werden.
+
+<a id="ta-149"></a>
+
+**TA-149**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Nach Widerruf der Tracking-Einwilligung muss der Tracking-Adapter weitere Matomo-Aufrufe sofort unterbinden und lokal gespeicherte Matomo-Kennungen entsprechend der freigegebenen Konfiguration entfernen. Die technisch notwendige lokale Speicherung des Bearbeitungsstands und die Einwilligung zur Gebäudedatenspende müssen davon unabhängig bleiben.
+
+<a id="ta-150"></a>
+
+**TA-150**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Consent-Gating, Allow-List-Validierung, Ausschluss sensibler Felder und URLs, Eventtrigger, Schutz vor unbeabsichtigter Mehrfacherfassung sowie KPI-Berechnungen müssen automatisiert getestet werden. Vor Produktivbetrieb müssen außerdem Site-ID, Speichertechniken, Sitzungs-Timeout, IP-Anonymisierung, Aufbewahrungsfristen, Rollen, Berichtsempfänger und Mindestfallzahl für Maßnahmenkombinationen dokumentiert und freigegeben sein.
 
 ---
 

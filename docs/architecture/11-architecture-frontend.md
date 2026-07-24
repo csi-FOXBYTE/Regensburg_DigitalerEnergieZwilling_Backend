@@ -8,9 +8,10 @@
 4. [Schnittstellen](#schnittstellen)
 5. [Diagramm](#diagramm)
 6. [Datenhaltung und Privacy](#datenhaltung-und-privacy)
-7. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
-8. [Build und Auslieferung](#build-und-auslieferung)
-9. [Konventionen API-Client (Frontend-Repo)](#konventionen-api-client-frontend-repo)
+7. [Consent und Matomo-Tracking](#consent-und-matomo-tracking)
+8. [MVP-Klärungsbedarf (erneuerbare Maßnahmen)](#mvp-klaerungsbedarf-erneuerbare-massnahmen)
+9. [Build und Auslieferung](#build-und-auslieferung)
+10. [Konventionen API-Client (Frontend-Repo)](#konventionen-api-client-frontend-repo)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -76,6 +77,21 @@ Quelle: `raw/frontend-architecture.puml`
 - Der Bearbeitungszustand wird im Public Client über Local Storage für Wiederbesuche persistiert.
 - Nutzereingaben bleiben lokal, sofern keine explizite Übermittlung erfolgt; bei expliziter Speicherung kann der Zustand vom Server wiederhergestellt werden.
 - Exporte erzeugen Dateien nur auf ausdrücklichen Nutzerwunsch.
+
+---
+
+<a id="consent-und-matomo-tracking"></a>
+## Consent und Matomo-Tracking
+
+- Das Public-Frontend verwaltet den Consent-Status für Webanalyse unabhängig von technisch notwendiger lokaler Speicherung und der gesonderten Einwilligung zur Gebäudedatenspende.
+- Matomo-Ressourcen und der zentrale Tracking-Adapter werden erst nach gültigem Opt-in aktiviert.
+- Sämtliche UI-Komponenten melden ausschließlich fachliche Ereignisse an den Tracking-Adapter. Nur der Adapter kennt die Matomo-Site-ID, bildet Ereignisse auf den freigegebenen Eventkatalog ab und validiert Parameter gegen versionierte Allow-Lists.
+- Der Tracking-Adapter erhält keine vollständigen Frontend-Zustände, Berechnungsobjekte oder Einreichungspayloads. Für Gebäudetypen, Sanierungsmaßnahmen und Funnel-Schritte werden ausschließlich freigegebene semantische Schlüssel übergeben.
+- Seitenadressen und Referrer werden vor der Übermittlung von Queryparametern, URL-Fragmenten, Tokens und Objektkennungen bereinigt.
+- Die freiwillige Gebäudedatenspende verwendet weiterhin den getrennten API-Datenstrom zum Backend. Matomo erfasst nur Beginn und erfolgreichen Abschluss dieses Prozesses ohne Einreichungsdaten oder Kennungen.
+- Bei Widerruf deaktiviert das Frontend weitere Matomo-Aufrufe und entfernt lokal gespeicherte Matomo-Kennungen nach Maßgabe der freigegebenen Konfiguration.
+
+Eventkatalog, Funnel-IDs, KPI-Definitionen und Abnahmekriterien sind im [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md) festgelegt.
 
 ---
 

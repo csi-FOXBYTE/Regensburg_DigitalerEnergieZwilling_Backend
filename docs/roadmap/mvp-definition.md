@@ -1,8 +1,8 @@
 # MVP-Definition und Release-Aufteilung
 
-Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient ab dem aktuellen Stand als Planungsdokument für die weitere Entwicklung bis zur Sommerpause sowie für den Nachlauf nach der Sommerpause.
+Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-06-18** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-07-24** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -16,23 +16,27 @@ Letzte Änderung: **2026-06-18** (siehe [Roadmap-Pflege und Änderungsverlauf](#
 6. [Release 2 - Hauptzielgruppe (Bürger/Eigentümer/Vermieter): Öffentlicher Client + Backend-CRUD](#release-2)
 7. [Release 3 - Umsetzung Bürger-Abschlussfunktionen, Rechenkern und Verwaltungsbereich](#release-3)
 8. [Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung](#release-4)
-9. [Release 5 - Feature-Finalisierung und laufende Testphase](#release-5)
-10. [Release 6 / Inbetriebnahme vor der Sommerpause](#release-6-inbetriebnahme)
-11. [Nachlauf nach der Sommerpause](#nachlauf-nach-der-sommerpause)
+9. [Release 5 - Aktualisierung, Bugfixing und Usertesting](#release-5)
+10. [Release 6 - Usertesting-Auswertung und priorisierte Weiterentwicklung](#release-6)
+11. [Sprint 17 - Abschluss der Entwicklung und Stabilisierung](#sprint-17)
+12. [Inbetriebnahme - Sprint 18 und Sprint 19](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
 
 ## Zielbild MVP
 
-Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Die Roadmap bildet abgeschlossene Releases als Ist-Stand ab und beschreibt die weitere Planung bis zur Sommerpause sowie den vorgesehenen Nachlauf nach der Sommerpause:
+Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Zwei aufeinanderfolgende Entwicklungssprints bilden semantisch einen Release. Insgesamt sind 17 Entwicklungssprints und anschließend zwei Inbetriebnahme-Sprints vorgesehen. Die Arbeit wird ohne Sommerpause in zweiwöchigen Sprints bis voraussichtlich 14. September 2026 fortgeführt.
 
 1. **Release 1 (02.03.2026 bis 15.03.2026):** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
 2. **Release 2 (16.03.2026 bis 12.04.2026):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
 3. **Release 3 (13.04.2026 bis 10.05.2026):** Bürger-Abschlussfunktionen, Rechenkern, Sanierungslogik, Export, Verwaltungsbereich und Testvorbereitung
 4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
-5. **Release 5 (ab 19.06.2026, Sprint 13 und Sprint 14 ab 23.06.2026):** Finalisierung der Features, die mit der aktuellen Datenlage bearbeitet werden können, inklusive laufender Testphase mit Expert:innen und Bürger:innen
-6. **Release 6 / Inbetriebnahme (voraussichtlich Sprint 15 und optional Sprint 16 bis Ende Juli 2026):** Inbetriebnahme des MVP vor der Sommerpause; die genaue Sprint-Zuordnung hängt vom Enddatum und der Verfügbarkeit der Ansprechpartner beim Auftraggeber ab
-7. **Nachlauf nach der Sommerpause:** 3 bis 4 Sprints für Anpassungen, Rückmeldungen, offene Punkte und bewusst verschobene fachliche Erweiterungen
+5. **Release 5 (Sprint 13 und Sprint 14, Abschluss am 06.07.2026):** Aktualisierung und Bugfixing der Anreicherung, des Bürger-Frontends und der Systempflege; Schwerpunkt von Sprint 14 war zusätzlich die Durchführung des Usertestings
+6. **Release 6 (Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung der daraus abgeleiteten Arbeitspakete sowie Umsetzung priorisierter Punkte; die Matomo-Umsetzung kann frühestens in Sprint 15 beginnen
+7. **Sprint 17 (voraussichtlich 04.08.2026 bis 17.08.2026):** Abschluss der Entwicklungsphase, Integration priorisierter Änderungen und Stabilisierung; Sprint 17 bildet keinen eigenständigen semantischen Release, sondern schließt die Entwicklung vor der Inbetriebnahme ab
+8. **Inbetriebnahme-Sprints 18 und 19 (voraussichtlich 18.08.2026 bis 14.09.2026):** Produktionsnahe Konfiguration, Inbetriebnahme, Abnahmeunterstützung, Behebung kritischer Fehler und Übergabe
+
+Die Kalenderdaten ab Sprint 15 sind Planungsdaten. Der Umfang der aus dem Usertesting abgeleiteten Arbeiten hängt von der noch ausstehenden Priorisierung durch den Auftraggeber sowie von erforderlichen Daten, Inhalten und fachlichen Freigaben ab.
 
 ---
 
@@ -65,6 +69,11 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-07-24 | Laufzeit und Sprintmodell | Inbetriebnahme vor einer Sommerpause, danach 3 bis 4 Nachlauf-Sprints | Durchgehende zweiwöchige Sprints bis voraussichtlich 14.09.2026; insgesamt 17 Entwicklungssprints und zwei Inbetriebnahme-Sprints |
+| 2026-07-24 | Release-Takt | Release-Zuordnung ab Sprint 15 war von Enddatum und Ansprechpartnerverfügbarkeit abhängig | Zwei Entwicklungssprints bilden semantisch einen Release; Sprint 17 schließt die Entwicklungsphase ab, Sprint 18 und Sprint 19 dienen der Inbetriebnahme |
+| 2026-07-24 | Usertesting | Laufende Testphase ohne konkrete Zuordnung des Schwerpunkts und der Auswertung | Schwerpunkt von Sprint 14 war das Usertesting; die Auswertung und Bündelung der Rückmeldungen startete in Sprint 15; die Priorisierung der daraus abgeleiteten Arbeitspakete durch den Auftraggeber steht aus |
+| 2026-07-24 | Matomo | Fachlich festgelegt, technische Integration zeitlich noch nicht zugeordnet | Technische Umsetzung frühestens ab Sprint 15, weiterhin abhängig von Consent-Management, Betriebsparametern und Priorisierung |
+| 2026-07-24 | Kostendaten | Alternativer Kostenkatalog anstelle der ursprünglich vorgesehenen BKI-Daten | Umsetzung wieder auf BKI-Basis vorgesehen; Stand 24.07.2026 fehlen weiterhin Zugang zu BKI-Daten und ein abgesicherter Zeitplan für deren Verfügbarkeit |
 | 2026-06-18 | Roadmap-Charakter | Planungsstand für vier Releases und anschließende Inbetriebnahmephase | Kombinierter Ist-Stand und Planungsstand: Release 3/4 werden als bearbeitet/umgesetzt gekennzeichnet; Release 5/6 und Nachlauf nach der Sommerpause werden ergänzt |
 | 2026-06-18 | Release 4 Erweiterungen | Amortisation, Kostenschätzung/Förderung, Feedback-Funktion, Potenzial-Farbvisualisierung, Fehlermeldungen, Whitelabel-Doku und Quartiersanalyse in Release 4 | Release 4 wird als bearbeitete Integrations-, Stabilisierungs-, Datenpipeline-, Förderprogramm- und Testvorbereitungsphase dokumentiert |
 | 2026-06-18 | Verschobene fachliche Erweiterungen | Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie waren im Release-4-Kontext bzw. als optionale Bausteine eingeordnet | Diese Themen werden auf den Nachlauf nach der Sommerpause verschoben |
@@ -183,7 +192,7 @@ Bearbeitet / umgesetzt:
 
 Hinweis:
 
-- Sanierungskosten und davon abhängige Amortisation wurden fachlich vorbereitet, aber nicht als MVP-Bestandteil vor der Sommerpause fest eingeplant; die Umsetzung wird in den Nachlauf nach der Sommerpause verschoben.
+- Sanierungskosten und davon abhängige Amortisation wurden fachlich vorbereitet, konnten wegen fehlender Kostendaten jedoch nicht umgesetzt werden. Für die weitere Umsetzung ist wieder eine BKI-basierte Datengrundlage vorgesehen; Stand 24.07.2026 fehlen sowohl der Zugang zu den BKI-Daten als auch ein abgesicherter Zeitplan für deren Verfügbarkeit.
 - Für den Vergleichswert wird ein bundesweiter statistischer Referenzwert herangezogen, da der Regensburger Datensatz keinen fachlich belastbaren Vergleich ermöglicht.
 
 Ergebnis:
@@ -206,7 +215,7 @@ Zugeordnete Anforderungen:
 Änderung gegenüber Stand 2026-03-13:
 
 - Bisheriger Stand: Release 4 enthielt Amortisation, Feedback-Funktion, Gebäudeeinfärbung und Quartiersanalyse.
-- Neuer Stand: Release 4 wurde tatsächlich vor allem für Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Testvorbereitung und Förderprogramm-Anbindung genutzt. Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie werden auf den Nachlauf nach der Sommerpause verschoben.
+- Neuer Stand: Release 4 wurde tatsächlich vor allem für Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Testvorbereitung und Förderprogramm-Anbindung genutzt. Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie konnten in diesem Release nicht umgesetzt werden und bleiben von Datenverfügbarkeit, fachlicher Klärung und Priorisierung abhängig.
 
 Bearbeitet / umgesetzt:
 
@@ -216,13 +225,12 @@ Bearbeitet / umgesetzt:
 - Förderprogramm-Anbindung über Nanostores vorbereitet und mit Backend, Datenbank, Admin-Frontend und Bürger-Frontend angebunden.
 - CIVITAS/CORE-, Staging-, RustFS-/S3- und Deployment-Themen bearbeitet.
 - Fragebögen, Testing mit Expert:innen und Bürger:innen sowie Auswertung erster Rückmeldungen vorbereitet und begleitet.
-- Matomo recherchiert und als mögliches Analyse-/Tracking-Thema geprüft.
+- Matomo als verbindliche Analytics-Lösung festgelegt; Event- und KPI-Umfang einschließlich aggregierter Gebäudetypen und Sanierungsmaßnahmen mit den zuständigen ISB-/DSB-Kollegen ohne geäußerte Bedenken besprochen. Consent-Management, technische Integration und produktive Betriebsparameter sind noch umzusetzen beziehungsweise freizugeben; die Umsetzung ist frühestens ab Sprint 15 vorgesehen.
 
 Hinweis:
 
-- BKI-Daten sind im aktuellen Zeitplan nicht verfügbar. Der Auftraggeber hat entschieden, stattdessen einen alternativen Kostenkatalog für Sanierungsmaßnahmen durch den unterbeauftragten Energieberater anfertigen zu lassen; der dazugehörige Nachtrag ist derzeit in Klärung.
-- Sanierungskosten und die daraus folgende Amortisationsdarstellung werden nach der Sommerpause auf Basis der Nachtragsklärung und des alternativen Kostenkatalogs weitergeführt.
-- Quartiersanalyse sowie Solar/PV/Geothermie werden ebenfalls nach der Sommerpause eingeordnet, da sie nicht Teil der vor der Sommerpause abzusichernden MVP-Inbetriebnahme sind.
+- Kostendaten sollen wieder auf BKI-Basis umgesetzt werden. Stand 24.07.2026 bestehen jedoch weder ein Zugang zu den BKI-Daten noch ein abgesicherter Zeitplan für deren Verfügbarkeit; eine belastbare Sprint-Zuordnung ist daher derzeit nicht möglich.
+- Quartiersanalyse sowie Solar/PV/Geothermie bleiben von Datenlage, fachlicher Freigabe und Priorisierung durch den Auftraggeber abhängig.
 - Die Testphase ist kein separater Release-Block, sondern Teil der laufenden Entwicklung und Stabilisierung.
 
 Zugeordnete Anforderungen:
@@ -234,79 +242,120 @@ Zugeordnete Anforderungen:
 
 <a id="release-5"></a>
 
-## Release 5 - Feature-Finalisierung und laufende Testphase
+## Release 5 - Aktualisierung, Bugfixing und Usertesting
 
-**Planungszeitraum:** ab 19.06.2026, Sprint 13 und Sprint 14 ab 23.06.2026
+**Planungszeitraum:** Sprint 13 und Sprint 14, Abschluss am 06.07.2026
 
-Ziel: Die Features finalisieren, die mit der aktuellen Datenlage vor der Sommerpause belastbar bearbeitet werden können, und Rückmeldungen aus der laufenden Testphase direkt in Feinschliff und Stabilisierung überführen.
+Ziel: Anreicherung, Bürger-Frontend und Systempflege aktualisieren und durch gezieltes Bugfixing stabilisieren. Zusätzlich wurde das Usertesting vorbereitet und mit Schwerpunkt in Sprint 14 durchgeführt.
 
-Geplanter Umfang:
+Bearbeitet / umgesetzt:
 
-- Abschluss der mit aktueller Datenlage umsetzbaren Bürger- und Verwaltungsfunktionen.
-- Feinschliff an Ergebnisdarstellung, Nutzerführung, Texten, Hinweisen und Fehlerbehandlung.
-- Stabilisierung von Frontend, Backend, Admin-Bereich, Datenpipeline und Deployment.
-- Fortführung der Testphase mit Expert:innen und Bürger:innen.
-- Einarbeitung priorisierter Rückmeldungen aus Tests und Auftraggeber-Abstimmungen.
-- Vorbereitung der Inbetriebnahme-Sprints.
+- Aktualisierung und Bugfixing der Anreicherung und der zugehörigen Datenverarbeitung.
+- Aktualisierung und Bugfixing des Bürger-Frontends, insbesondere an Nutzerführung, Ergebnisdarstellung, Texten, Hinweisen und Fehlerbehandlung.
+- Aktualisierung und Bugfixing der Systempflege einschließlich der angebundenen Konfigurations- und Verwaltungsfunktionen.
+- Systemübergreifende Stabilisierung der betroffenen Frontend-, Backend-, Administrations- und Datenpipeline-Schnittstellen.
+- Vorbereitung und Durchführung des Usertestings mit Bürger:innen, Expert:innen und weiteren Beteiligten, insbesondere in Sprint 14.
+- Erfassung und Konsolidierung der Rückmeldungen.
+- Vorbereitung einer fachlich und technisch zusammenhängenden Auswertung der Rückmeldungen für die Folgeplanung.
 
 Hinweis:
 
-- Die Testphase ist Teil der laufenden Entwicklung und kein separater Release- oder Abnahmeblock.
-- Nicht mehr vor der Sommerpause eingeplant sind Sanierungskosten, Amortisation, Quartiersanalyse sowie Solar/PV/Geothermie.
+- Die Auswertung der Rückmeldungen und ihre Überführung in belastbare Arbeitspakete starteten in Sprint 15.
+- Einzelne Rückmeldungen entsprechen nicht automatisch einzelnen Entwicklungstasks. Mehrere Rückmeldungen können durch eine gemeinsame Änderung erledigt werden; andere Punkte sind bereits umgesetzt, nur zu verifizieren, fachlich zu klären oder durch fehlende Daten und Entscheidungen blockiert.
 
 Ergebnis:
 
-- Stabiler MVP-Kandidat für die Inbetriebnahme, dessen Umfang auf die vorliegende Datenlage und die vor der Sommerpause realistisch absicherbaren Funktionen begrenzt ist.
+- Aktualisierter und stabilisierter Stand von Anreicherung, Bürger-Frontend und Systempflege sowie eine konsolidierte Testbasis mit dokumentierten Rückmeldungen für Machbarkeitsbewertung, Aufwandsschätzung und Priorisierung in den folgenden Sprints.
 
 ---
 
-<a id="release-6-inbetriebnahme"></a>
+<a id="release-6"></a>
 
-## Release 6 / Inbetriebnahme vor der Sommerpause
+## Release 6 - Usertesting-Auswertung und priorisierte Weiterentwicklung
 
-**Planungszeitraum:** voraussichtlich Sprint 15 und optional Sprint 16 bis Ende Juli 2026
+**Planungszeitraum:** Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026
 
-Ziel: Den MVP vor der Sommerpause in Betrieb nehmen und die Übergabe in einen nutzbaren Betriebszustand absichern.
+Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln und nach Freigabe durch den Auftraggeber priorisierte Punkte umsetzen.
+
+Geplanter Umfang:
+
+- Auswertung der konsolidierten Usertesting-Rückmeldungen und Bündelung in fachlich und technisch zusammenhängende Arbeitspakete.
+- Trennung direkt umsetzbarer Punkte von technisch zu klärenden, extern blockierten, bereits erledigten, nur zu verifizierenden und zurückgestellten Themen.
+- Machbarkeitsbewertung und Aufwandsschätzung der ausreichend geklärten Arbeitspakete.
+- Ableitung umsetzbarer Tasks erst nach fachlicher Bestätigung und Priorisierung.
+- Umsetzung der durch den Auftraggeber priorisierten Punkte, soweit Voraussetzungen und Sprintkapazität dies zulassen.
+- Fortführung von Stabilisierung, Regressionstests und Konsistenzprüfungen zwischen Webanwendung, Berechnungskern, Backend, Administration und PDF-Bericht.
+- Technische Matomo-Umsetzung frühestens ab Sprint 15 und nur auf Grundlage des freigegebenen Trackingkonzepts, Consent-Managements und der noch festzulegenden Betriebsparameter.
+- Vorbereitung der BKI-basierten Kostenumsetzung ausschließlich soweit ohne Datenzugang möglich; eine belastbare Implementierung oder Aufwandsschätzung setzt Einsicht in die BKI-Daten und geklärte Nutzungsbedingungen voraus.
+
+Die Usertesting-Auswertung umfasst insbesondere Transparenz und Einstieg, Nutzerführung und Responsivität, Gebäudeauswahl und Eingabevalidierung, Maßnahmen- und Empfehlungslogik, Kosten und Amortisation, Fernwärme und lokale Hinweise, PV/Geothermie, Förderung, Ergebnisabschluss, Datenspende und PDF-Konsistenz.
+
+Planungsstand 24.07.2026:
+
+- Die Priorisierung der aus dem Usertesting abgeleiteten Arbeitspakete durch den Auftraggeber steht noch aus.
+- Ein Teil der Punkte ist direkt schätzbar; weitere Punkte benötigen technische Klärung, fachliche Zuarbeit, Daten, Texte oder Freigaben.
+- Die Bündelung dient als Arbeits- und Entscheidungsgrundlage und ist noch keine verbindliche Backlog- oder Sprint-Zuordnung.
+- Für BKI-Daten bestehen weiterhin weder ein Zugang noch ein abgesicherter Zeitplan.
+
+Ergebnis:
+
+- Priorisierte und technisch bewertete Arbeitspakete, umgesetzte freigegebene Verbesserungen sowie ein aktualisierter Restumfang für Sprint 17 und die Inbetriebnahme.
+
+---
+
+<a id="sprint-17"></a>
+
+## Sprint 17 - Abschluss der Entwicklung und Stabilisierung
+
+**Planungszeitraum:** voraussichtlich 04.08.2026 bis 17.08.2026
+
+Ziel: Die Entwicklungsphase abschließen, priorisierte Änderungen integrieren und einen stabilen Kandidaten für die Inbetriebnahme bereitstellen.
+
+Geplanter Umfang:
+
+- Abschluss der für Sprint 17 priorisierten und ausreichend geklärten Usertesting-Arbeitspakete.
+- Integration und Regressionstest über Bürger-Frontend, Berechnungskern, Backend, Admin-Bereich und PDF.
+- Stabilisierung der Betriebs- und Deploymentkonfiguration.
+- Bereinigung kritischer Inkonsistenzen in Nutzerführung, Texten, Datenflüssen und Ergebnisdarstellung.
+- Dokumentation des umgesetzten Umfangs, verbleibender Einschränkungen und offener Abhängigkeiten.
+- BKI-basierte Kostenfunktionen nur, wenn Datenzugang, Nutzungsbedingungen, fachliches Modell und zeitliche Einplanung rechtzeitig abgesichert sind.
+
+Hinweis:
+
+- Sprint 17 ist der letzte Entwicklungssprint vor der Inbetriebnahme und bildet wegen der ungeraden Gesamtzahl von 17 Entwicklungssprints keinen eigenständigen semantischen Zwei-Sprint-Release.
+- Nicht priorisierte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend in Sprint 17 aufgenommen.
+- Quartiersanalyse sowie Solar/PV/Geothermie bleiben von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung abhängig.
+
+Ergebnis:
+
+- Stabilisierter Inbetriebnahmekandidat mit dokumentiertem Funktionsumfang und abgegrenzten offenen Punkten.
+
+---
+
+<a id="inbetriebnahme"></a>
+
+## Inbetriebnahme - Sprint 18 und Sprint 19
+
+**Planungszeitraum:** voraussichtlich 18.08.2026 bis 14.09.2026
+
+Ziel: Den abgestimmten Entwicklungsstand produktionsnah konfigurieren, in Betrieb nehmen und in einen nutzbaren Betriebszustand überführen.
 
 Geplanter Umfang:
 
 - Finales Deployment und produktionsnahe Konfiguration.
 - Stabilisierung der Betriebsumgebung und relevanter Schnittstellen.
 - Prüfung der Kernprozesse für Bürger-Frontend, Verwaltungsbereich, Datenpipeline und Export-/Datenübermittlungswege.
-- Behebung kritischer Fehler aus Testphase und Inbetriebnahmeprüfung.
+- Abnahmeunterstützung und Behebung kritischer Fehler aus Inbetriebnahmeprüfung und Regressionstests.
 - Abstimmung mit den Ansprechpartnern beim Auftraggeber.
-- Dokumentation der MVP-Grenzen, bekannten Einschränkungen und offenen Punkte für den Nachlauf.
+- Dokumentation des in Betrieb genommenen Umfangs, bekannter Einschränkungen, Betriebsparameter und offener Punkte.
+- Übergabe und Vorbereitung des weiteren Betriebs.
 
-Planungsannahme:
+Planungsannahmen:
 
-- Sprints 13, 14 und 15 können vor der Sommerpause sicher abgeschlossen werden.
-- Sprint 16 ist abhängig vom konkreten Enddatum und von der Verfügbarkeit der Ansprechpartner beim Auftraggeber.
-- Die letzten beiden tatsächlich verfügbaren Sprints vor der Sommerpause werden für die Inbetriebnahme reserviert. Bei Durchführung von Sprint 16 sind dies Sprint 15 und Sprint 16; falls Sprint 16 nicht vollständig nutzbar ist, wird die Inbetriebnahme entsprechend früher verdichtet.
+- Die Entwicklung läuft ohne Sommerpause bis einschließlich Sprint 17 weiter.
+- Sprint 18 und Sprint 19 sind vollständig für Inbetriebnahme, Abnahmeunterstützung und kritische Korrekturen vorgesehen.
+- Neue fachliche Erweiterungen werden während der Inbetriebnahme nur aufgenommen, wenn sie für einen sicheren oder funktionsfähigen Betrieb zwingend erforderlich sind.
 
 Ergebnis:
 
-- In Betrieb genommener MVP mit dokumentiertem Umfang, dokumentierten offenen Punkten und vorbereiteter Weiterarbeit nach der Sommerpause.
-
----
-
-<a id="nachlauf-nach-der-sommerpause"></a>
-
-## Nachlauf nach der Sommerpause
-
-**Planungszeitraum:** 3 bis 4 Sprints nach der Sommerpause
-
-Ziel: Rückmeldungen aus Testphase und Inbetriebnahme einarbeiten, offene Punkte schließen und fachliche Erweiterungen umsetzen, die bewusst aus dem MVP vor der Sommerpause herausgelöst wurden.
-
-Geplanter Umfang:
-
-- Anpassungen aus Expert:innen-, Bürger:innen- und Auftraggeber-Rückmeldungen.
-- Umsetzung oder Neubewertung offener Punkte aus der MVP-Inbetriebnahme.
-- Sanierungskosten und daraus abgeleitete Amortisationsdarstellung auf Basis des alternativen Kostenkatalogs, sofern der dazugehörige Nachtrag geklärt ist.
-- Quartiersanalyse.
-- Solar/PV/Geothermie, sofern Datenlage, fachliche Freigabe und Priorisierung dies zulassen.
-- Weitere Stabilisierung, Dokumentation und Betriebsverbesserungen.
-
-Hinweis:
-
-- Die genannten Nachlauf-Themen sind nicht Voraussetzung für die MVP-Inbetriebnahme vor der Sommerpause.
-- Solar/PV/Geothermie bleiben abhängig von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung.
+- In Betrieb genommener MVP mit dokumentiertem Umfang, dokumentierten offenen Punkten und vorbereitetem Betrieb bis voraussichtlich 14.09.2026.

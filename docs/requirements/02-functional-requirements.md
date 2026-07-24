@@ -12,8 +12,9 @@
 8. [Nachnutzung und White-Labeling](#nachnutzung-und-white-labeling)
 9. [Festlegung: Nutzungsdaten und Tracking](#festlegung-nutzungsdaten-und-tracking)
 10. [Abnahmeprozess und Ansprechpartner](#abnahmeprozess-und-ansprechpartner)
-11. [Priorisierung (implizit)](#priorisierung-implizit)
-12. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
+11. [Konkretisierung: Matomo-Auswertungsumfang](#konkretisierung-matomo-auswertungsumfang)
+12. [Priorisierung (implizit)](#priorisierung-implizit)
+13. [Übergang zu technischen Anforderungen](#uebergang-zu-technischen-anforderungen)
 
 <a id="ziel-der-fachlichen-anforderungen"></a>
 
@@ -205,7 +206,7 @@ Für die fachliche Modellierung bedeutet das:
 
 Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
 
-- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten. Ursprünglich war vorgesehen, hierfür vom Auftraggeber bereitzustellende BKI-Kostendaten zu verwenden. Da diese im aktuellen Zeitplan nicht verfügbar sind, wurde auf einen alternativen Kostenkatalog für Sanierungsmaßnahmen umgeschwenkt, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
+- In den Blättern `OGD`, `AW-Fenster` und `UGD` sind Kosten explizit nur als "Platzhalter für Kosten" enthalten. Für Sanierungsmaßnahmen ist wieder eine Umsetzung auf Basis von BKI-Kostendaten vorgesehen. Stand 24.07.2026 bestehen jedoch weder ein Zugang zu diesen Daten noch ein abgesicherter Zeitplan für deren Verfügbarkeit; bis dahin bleibt die Kostenlogik fachlich und zeitlich offen.
 - Mehrere Ergebniszellen enthalten im Template `0` oder `#`; diese sind keine validierten Referenzwerte.
 - Korrekturfaktor `F` ist für mehrere Bauteile nicht fachlich ausreichend hergeleitet bzw. dokumentiert.
 - Im Blatt `Heizung` liegt nun eine erste beispielhafte Maßnahmenmatrix vor; diese muss vor Produktivnutzung in deterministische und vollständige Entscheidungsregeln überführt werden.
@@ -637,7 +638,7 @@ Der Report muss mindestens enthalten:
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
 
-Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen sollten ursprünglich auf vom Auftraggeber bereitzustellenden BKI-Kostendaten aufbauen. Da diese im aktuellen Zeitplan nicht verfügbar sind, ist nun ein alternativer Kostenkatalog für Sanierungsmaßnahmen vorgesehen, der separat durch den unterbeauftragten Energieberater entwickelt werden soll.
+Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen sollen auf BKI-Kostendaten aufbauen. Stand 24.07.2026 fehlen weiterhin der Datenzugang und ein abgesicherter Zeitplan für die Verfügbarkeit; eine belastbare Umsetzung und Release-Zuordnung sind deshalb noch nicht möglich.
 
 <a id="fa-75"></a>
 
@@ -912,7 +913,7 @@ Nutzungsdatenanalysen dürfen fachlich nur nach expliziter Einwilligung (Opt-in)
 
 **FA-117**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Der konkrete fachliche Umfang für Tracking (Metriken, Auswertungsziele, Berichtskreise) ist vor produktiver Aktivierung verbindlich festzulegen.
+Der konkrete fachliche Umfang für Tracking, einschließlich Metriken, Auswertungszielen, Eventkatalog und Berichtskreisen, muss vor produktiver Aktivierung verbindlich festgelegt sein. Der aktuelle fachliche Zielstand ist im [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md) dokumentiert.
 
 ---
 
@@ -928,13 +929,55 @@ Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und
 
 ---
 
+<a id="konkretisierung-matomo-auswertungsumfang"></a>
+
+## Konkretisierung: Matomo-Auswertungsumfang
+
+<a id="fa-119"></a>
+
+**FA-119**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Der gesamte öffentliche Sanierungscheck einschließlich des gesonderten Prozesses zur freiwilligen Gebäudedatenspende muss fachlich über genau eine Matomo-Site ausgewertet werden. Die eigentlichen Daten der Gebäudedatenspende sind davon ausgenommen.
+
+<a id="fa-120"></a>
+
+**FA-120**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Die Webanalyse muss begonnene und abgeschlossene Sanierungschecks, PDF-Exporte, Beratungskontakte, begonnene und abgeschlossene Datenspenden sowie Abbruchabschnitte und Abbruchquote auswerten können. Definitionen und Nenner der Kennzahlen müssen dem [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md#kennzahlen) entsprechen.
+
+<a id="fa-121"></a>
+
+**FA-121**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Gebäudetypen und ausgewählte Sanierungsmaßnahmen dürfen für aggregierte Auswertungen als fachlich freigegebene Kategorieschlüssel erfasst werden. Wertebereiche und Bezeichnungen müssen versioniert und auf die im Sanierungstool tatsächlich auswählbaren Optionen beschränkt sein.
+
+<a id="fa-122"></a>
+
+**FA-122**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Matomo darf keine Gebäude-ID, Adresse, Koordinaten, Einreichungs- oder Löschkennung, Kontaktdaten, Freitexte, exakten Verbrauchs- oder Kostenwerte und keine vollständigen Eingabe-, Ergebnis- oder Einreichungsdaten erhalten. Die fachliche Gebäudedatenspende muss einen von Matomo getrennten Datenstrom verwenden.
+
+<a id="fa-123"></a>
+
+**FA-123**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Tracking darf nur für ausdrücklich eingewilligte Sitzungen erfolgen. Ohne freigegebene dauerhafte Besucherkennung müssen Berichte und Kennzahlen Sitzungen beziehungsweise Besuche ausweisen und dürfen diese nicht als eindeutig identifizierte Personen bezeichnen.
+
+<a id="fa-124"></a>
+
+**FA-124**  
+*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+Dashboards müssen die verbindlichen KPI-Definitionen verwenden und aggregierte Ergebnisse bereitstellen. Für die Auswertung von Maßnahmenkombinationen ist vor Produktivbetrieb eine fachlich und datenschutzrechtlich freigegebene Mindestfallzahl festzulegen.
+
+---
+
 <a id="priorisierung-implizit"></a>
 
 ## Priorisierung (implizit)
 
 - Kernfunktionen für Bürger (Eigentümer/Vermieter) (Visualisierung, Berechnung) haben höchste Priorität.
 - Administrative Funktionen dienen der Qualitätssicherung und Weiterentwicklung.
-- Erweiterte Analyse- oder Beratungsfunktionen sind nicht Bestandteil der initialen fachlichen Anforderungen.
+- Analyse- oder Beratungsfunktionen, die über den verbindlich freigegebenen Matomo-Umfang hinausgehen, sind nicht Bestandteil der initialen fachlichen Anforderungen.
 
 ---
 
