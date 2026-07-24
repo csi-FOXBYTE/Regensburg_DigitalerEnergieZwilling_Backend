@@ -6,6 +6,7 @@ import {
   type DETConfig,
 } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
 import { type ConfigService, getDatabaseService, getConfigService } from "../@internals/index.js";
+import { DEFAULT_VERSION } from "../config/config.service.js";
 import { AppError } from "../errors/app-error.js";
 import { SubmissionStatus } from "../zenstack/models.js";
 import {
@@ -104,7 +105,10 @@ const submit = async (
       latitude: params.latitude,
       ngsiData: JSON.stringify(ngsiEntity),
       rawInput: JSON.stringify(params.input),
-      usedConfig: { connect: { id: config.id } },
+      // The virtual default config has no persisted row to reference — leave
+      // usedConfigId null to record that it was calculated with the default.
+      usedConfig:
+        config.id === DEFAULT_VERSION ? undefined : { connect: { id: config.id } },
     },
   });
 };

@@ -277,6 +277,7 @@ export class SchemaType implements SchemaDef {
                 usedConfigId: {
                     name: "usedConfigId",
                     type: "String",
+                    optional: true,
                     foreignKeyFor: [
                         "usedConfig"
                     ]
@@ -284,6 +285,7 @@ export class SchemaType implements SchemaDef {
                 usedConfig: {
                     name: "usedConfig",
                     type: "Config",
+                    optional: true,
                     attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("usedConfigId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
                     relation: { opposite: "submissions", fields: ["usedConfigId"], references: ["id"] }
                 }
