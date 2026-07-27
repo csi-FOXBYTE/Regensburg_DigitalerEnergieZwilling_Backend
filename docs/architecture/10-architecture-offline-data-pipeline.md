@@ -34,9 +34,12 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 ## Datenquellen
 
-- **Geothermiepotenziale** (Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft; noch nicht durch den Auftraggeber freigegeben; optionaler Fallback nach LfU-/TUM-Vorbild zu prüfen)
-- **Solarpotenziale** (3D Tiles mit Attributen + Textur; noch nicht durch den Auftraggeber freigegeben)
-- **LOD2-Daten** (CityGML, inkl. Adressen)
+- **LoD2-Gebäudedaten** (amtliche CityGML-Quelldaten für Gemeinde `09362000`; intern nach CityJSON 2.0.1 konvertiert; Pflichtquelle)
+- **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
+- **Geothermiepotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft vorgesehen)
+- **Solarpotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; 3D Tiles mit Attributen und Textur vorgesehen)
+- **Kostendaten** (noch nicht vorliegend)
+- **Postleitzahl-Referenz** (noch nicht vorliegend; Adressobjekte aus LoD2/CityJSON sind davon zu unterscheiden)
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
 
@@ -53,6 +56,10 @@ Diese Metadaten sind für alle in DEZ verwendeten Quellen verbindlich zu führen
 Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard jedoch bewusst nicht vollständig ab.
 Die Veröffentlichung gegenüber Nutzern erfolgt über die Datenschutzhinweise der DEZ-Webseite.
 Die Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform.
+Die kanonische Übersicht, die offenen Metadatenfelder und die Verknüpfung mit dem
+Piveau-Katalog in CIVITAS/CORE sind im
+[Datenquellenkatalog und der Piveau-Anbindung](16-data-sources-dcat-piveau.md)
+festgelegt.
 
 Hinweis: Solarthermie ist aktuell nicht Teil des vorgesehenen Rechenwegs im Berechnungskern und daher kein belastbar spezifizierter MVP-Baustein.
 
@@ -69,7 +76,7 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ## Aktualisierungsstrategie der Basisdaten
 
-- Der LOD2-Basisdatensatz wird im Regelfall in einem Zyklus von **2 Jahren** aktualisiert.
+- Die amtliche LoD2-Quelldistribution wird **wöchentlich** aktualisiert. Der davon unabhängige Übernahmezyklus in den DEZ-Datendienst wird durch den Betreiber festgelegt und pro Release protokolliert.
 - Solarpotenzial- und Geothermie-Basisdaten können nach Datenfreigabe abweichende Aktualisierungszeiträume haben; ein gemeinsamer, fester Gesamtzyklus ist nicht erforderlich.
 - Aktualisierungen werden über einen `update_scope` gesteuert, basieren aber für die Anreicherung immer mindestens auf LoD2-GML-Daten.
 - Eine nachträgliche Anreicherung ausschließlich über Nicht-LoD2-Datenquellen ist nicht vorgesehen.
@@ -138,9 +145,13 @@ Beispiele für Datenherkünfte und Referenzen:
    <https://github.com/citygml4j/citygml-tools>
 
 3. **Anreicherung der Metadaten auf CityJSON (separater Schritt)**  
-   Solarpotenziale werden nach Datenfreigabe als 3D Tiles mit Attributen und Textur
-   in einem separaten Verarbeitungsschritt mit den CityJSON-Gebäuden zusammengeführt.
-   Geothermiepotenziale werden nach Freigabe durch den Auftraggeber über eine priorisierte Datensatzabfrage ergänzt:
+   Der aktuelle Anreicherungsstand berechnet Gebäudegeometrie und Nachbarschaften,
+   übernimmt Adressen aus CityJSON und kann Baualtersklassen aus einem GeoPackage
+   räumlich als `constructionYear` zuordnen.
+   Solarpotenziale werden erst nach Daten- und Metadatenfreigabe als 3D Tiles mit
+   Attributen und Textur in einem separaten Verarbeitungsschritt mit den
+   CityJSON-Gebäuden zusammengeführt. Geothermiepotenziale werden nach
+   Daten- und Metadatenfreigabe über eine priorisierte Datensatzabfrage ergänzt:
    Grundwasser → Erdreich → Luft.
    Falls flurstücksbezogene Potenziale nicht rechtzeitig nutzbar bereitgestellt werden, kann eine optionale Berechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
@@ -330,7 +341,9 @@ Hinweis zu Teil-Updates:
 
 ## Manifest-Schema (manifest.json)
 
-Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`, `hasAlphaChannel`, `created_at`, `output_prefix`.
+Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`,
+`hasAlphaChannel`, `municipality_profile`, `mapping_profile_version`,
+`source_datasets`, `created_at`, `output_prefix`.
 Statuswerte: `pending`, `running`, `failed`, `succeeded`.
 Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `export_ngsild`, `publish_stellio`, `upload`.
 
@@ -342,6 +355,16 @@ Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calc
   "epsg": "EPSG:25832",
   "appearance": "main-texture",
   "hasAlphaChannel": true,
+  "municipality_profile": "regensburg",
+  "mapping_profile_version": "regensburg-v1",
+  "source_datasets": [
+    {
+      "piveau_catalogue_id": "regensburg-dez-sanierungstool",
+      "piveau_original_id": "regensburg-dez-lod2-gebaeude",
+      "source_version": "2026-07-21T21:07:37Z",
+      "distribution_url": "https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4"
+    }
+  ],
   "input_file_count": 340,
   "created_at": "2026-02-04T12:00:00Z",
   "started_at": "2026-02-04T12:05:00Z",
@@ -418,14 +441,20 @@ DockerOperator(
 
 ### Zweck
 
-- Ergänzung von CityJSON um Solarpotenziale (PV) und Geothermiepotenziale.
-- Optionale Berechnung abgeleiteter Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen).
+- Aktuell: Berechnung abgeleiteter Gebäude- und Nachbarschaftskennwerte,
+  Adressextraktion sowie optionale Zuordnung von Baualtersklassen.
+- Vorgesehen: Ergänzung von CityJSON um Solarpotenziale (PV) und
+  Geothermiepotenziale nach Daten- und Metadatenfreigabe.
 
 ### Erwartete Eingaben
 
 - Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
-- Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet; Datenfreigabe durch Auftraggeber noch offen).
-- Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das Attribut-Mapping nach Datenfreigabe durch den Auftraggeber.
+- Optional Baualtersklassen als GeoPackage in EPSG:25832, Tabelle
+  `gebiete__baualtersklasse`, Feld `Dominant_Baualtersklasse`.
+- Zukünftig Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser,
+  Erdreich, Luft; EPSG wird für die Abfrage verwendet).
+- Zukünftig Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das
+  Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
 
 ### Erwartete Ausgaben
@@ -436,6 +465,10 @@ DockerOperator(
 ### Mapping-Regeln
 
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
+- **Baualtersklassen** werden räumlich über den Gebäudezentrumspunkt zugeordnet.
+  Aus `Dominant_Baualtersklasse` wird die am Anfang stehende vierstellige
+  Untergrenze als `constructionYear` übernommen; ohne parsebaren Wert oder
+  räumlichen Treffer bleibt das Attribut aus.
 - **Solarpotenziale** werden nach Datenfreigabe aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional. Ohne Freigabe findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
 - **Geothermiepotenziale** werden nach Datenfreigabe über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Eine optionale Ersatzberechnung nach LfU-/TUM-Vorbild ist nur nach gesonderter fachlicher Entscheidung vorzusehen.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
@@ -448,6 +481,7 @@ DockerOperator(
 - `house_number` (String, optional)
 - `postal_code` (String, optional)
 - `city` (String, optional)
+- `constructionYear` (Number, optional; aus Baualtersklasse abgeleitet)
 - `roof_area_m2` (Number)
 - `solar_potential_kwh_a` (Number)
 - `solar_yield_kwh_m2a` (Number)

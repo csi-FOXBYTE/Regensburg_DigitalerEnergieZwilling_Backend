@@ -92,30 +92,61 @@ Die Speicherung des Arbeitsstands erfolgt automatisch, nachdem ein Gebäude ausg
 
 Die für die ausdrücklich gewünschte Wiederaufnahme der Bearbeitung erforderliche Speicherung und der Zugriff auf diese Informationen erfolgen auf Grundlage von § 25 Abs. 2 Nr. 2 TDDDG. Für nicht unbedingt erforderliche Speicherungen holen wir vorab eine Einwilligung nach § 25 Abs. 1 TDDDG ein.
 
-## 6. Gebäudeauswahl, Adresssuche und 3D-Karte
+## 6. Gebäudeauswahl, Datenquellen, Adresssuche und 3D-Karte
 
 ### Adresssuche
 
-Für die Adresssuche wird eine für das Sanierungstool aufbereitete Adressdatenbank aus dem S3-kompatiblen Datendienst der Stadt Regensburg in den Browser geladen. Die genaue Datenbanktechnologie, der interne Speicherort und die öffentliche Bereitstellungsroute werden über die CIVITAS/CORE-Konfiguration der Stadt Regensburg festgelegt: [Datenbankformat, Bucket/Objektpfad und öffentliche APISIX-Route ergänzen].
+Für die Adresssuche wird eine aus den LoD2-/CityJSON-Adressobjekten aufbereitete
+Adressdatenbank aus dem S3-kompatiblen Datendienst der Stadt Regensburg in den
+Browser geladen. Datenbankformat, interner Speicherort und öffentliche
+Bereitstellungsroute werden über die CIVITAS/CORE-Konfiguration festgelegt und in
+der nachfolgenden Datenquellenübersicht ausgewiesen.
 
 Die anschließende Eingabe und Suche nach einer Adresse erfolgt lokal im Browser; die einzelnen Suchbegriffe werden nicht an einen Suchdienst übertragen. Beim Abruf der Adressdatenbank werden in der CIVITAS/CORE-Umgebung der Stadt Regensburg technisch bedingt insbesondere Ihre IP-Adresse, Zeitpunkt, angeforderte Datei sowie Browser- und Verbindungsinformationen verarbeitet.
 
 ### 3D-Gebäude, Gelände und Basiskarte
 
-Die Kartenansicht basiert auf Cesium/Resium. Die benötigten Geodaten werden aus dem S3-kompatiblen Datendienst der Stadt Regensburg geladen und über die für den DEZ konfigurierte APISIX-Route beziehungsweise das Tiles Gateway ausgeliefert:
-
-| Inhalt | Technischer Endpunkt |
-| --- | --- |
-| Adressdatenbank | [öffentliche APISIX-Route und zugehörigen S3-Objektpfad der Stadt Regensburg ergänzen] |
-| 3D-Gebäudemodell | [öffentliche APISIX-/Tiles-Gateway-Route und zugehörigen S3-Objektpfad der Stadt Regensburg ergänzen] |
-| Geländemodell | [öffentliche APISIX-/Tiles-Gateway-Route und zugehörigen S3-Objektpfad der Stadt Regensburg ergänzen] |
-| Basiskarte | [von der Stadt Regensburg konfigurierten Basiskartendienst und Endpunkt ergänzen] |
+Die Kartenansicht basiert auf Cesium/Resium. Die benötigten Geodaten werden aus
+dem S3-kompatiblen Datendienst der Stadt Regensburg geladen und über die für den
+DEZ konfigurierte APISIX-Route beziehungsweise das Tiles Gateway ausgeliefert.
+Die jeweiligen Bezugs- und Bereitstellungsendpunkte sind in der nachfolgenden
+Übersicht zusammengeführt.
 
 Bei jedem Abruf werden in der CIVITAS/CORE-Umgebung der Stadt Regensburg insbesondere IP-Adresse, Zeitpunkt, angeforderte Ressource, Referrer und User-Agent verarbeitet. Die Kartenansicht lädt abhängig von Ausschnitt und Zoomstufe mehrere einzelne Kacheln. Wird für die Basiskarte ein externer Dienst eingebunden, erhält auch dessen Betreiber diese technischen Verbindungsdaten.
 
 Zweck ist die Anzeige des Stadtgebiets, die Gebäudeauswahl und die Vorbelegung von Gebäudemerkmalen. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. e DSGVO in Verbindung mit Art. 4 Abs. 1 BayDSG.
 
 Die Verarbeitung erfolgt in der CIVITAS/CORE-Umgebung der Stadt Regensburg einschließlich des dort angebundenen S3-kompatiblen Datendienstes. Wird die Umgebung durch einen Auftragsverarbeiter betrieben, ist Empfänger [Betreiber, Anschrift, datenschutzrechtliche Rolle, Verarbeitungsort und Löschfrist ergänzen]. Sofern die konfigurierte Basiskarte von einem externen Dienst stammt, sind zusätzlich [Anbieter, Anschrift, Rolle, Verarbeitungsort, Rechtsgrundlage und Löschfrist ergänzen].
+
+### Datenquellen, Metadaten und Bereitstellung
+
+Die Übersicht schafft Transparenz über die für Kartenansicht,
+Offline-Anreicherung und Berechnung verwendeten beziehungsweise vorgesehenen
+Datenquellen. Die Angaben orientieren sich in einem begrenzten Mindestumfang an
+DCAT-AP.de. Die vollständige fachlich-technische Spezifikation einschließlich
+stabiler Piveau-Kennungen und offener Abnahmepunkte enthält der
+[Datenquellenkatalog](../architecture/16-data-sources-dcat-piveau.md). Bei
+Abweichungen ist dessen releasebezogener Quellenstand maßgeblich.
+
+| Datenquelle (`dct:title`) und abgeleitete Bereitstellung | Beschreibung (`dct:description`) und Zweck | Herausgeber (`dct:publisher`) und Lizenz (`dct:license`) | Aktualisierung (`dct:accrualPeriodicity`/`dct:modified`) und Status | Bezug beziehungsweise `dcat:distribution` |
+| --- | --- | --- | --- | --- |
+| 3D-Gebäudemodelle (LoD2) – Stadt Regensburg; daraus 3D Tiles und Adressdatenbank | Amtliche LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit Gebäude-IDs, 3D-Geometrie, Attributen und Adressen soweit vorhanden; intern nach CityJSON, 3D Tiles und in die Adressdatenbank überführt | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellturnus wöchentlich; tatsächlicher DEZ-Übernahmestand releasebezogen; Pflichtquelle, aktuell verwendet | Quelle: [Gemeinde-Metalink](https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4); intern: [CityJSON-Objektpfad], 3D Tiles über [öffentliche APISIX-/Tiles-Gateway-Route und S3-Objektpfad] sowie [Datenbankformat der Adressdatenbank, öffentliche APISIX-Route und S3-Objektpfad ergänzen] |
+| Geländemodell | Terrain-Daten für die dreidimensionale Kartenansicht | [Herausgeber, Lizenz und Attribution ergänzen] | [Aktualisierungsintervall und tatsächlichen Stand ergänzen] | [Terrain-Format, öffentliche APISIX-/Tiles-Gateway-Route und S3-Objektpfad ergänzen] |
+| Basiskarte | Hintergrundkarte der 3D-Ansicht | [Herausgeber, Lizenz und Attribution des tatsächlichen Dienstes ergänzen] | [Aktualisierungsintervall und tatsächlichen Stand ergänzen] | [Von der Stadt Regensburg konfigurierten Dienst, Distribution, Protokoll und Endpunkt ergänzen] |
+| Baualtersklassen | Polygonale Baualtersklassen im GeoPackage zur optionalen Ableitung eines Baujahrs | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; optionale technische Integration vorhanden | Separat gelieferter Link beziehungsweise Archiv; dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
+| Geothermiepotenzial | Vorgesehene Potenzialdaten für Grundwasser, Erdreich und Luft; Schema und Einheiten sind noch zu bestätigen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, aktuell nicht integriert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
+| Solarpotenzial (PV) | Vorgesehene Solarattribute und Textur für Dachflächen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, aktuell nicht integriert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
+| Kostendaten | Vorgesehene Referenzwerte für Investitionskosten und Wirtschaftlichkeit | [Konkreten Datensatz, Herausgeber und Lizenz ergänzen] | Turnus offen; noch nicht vorliegend | Keine Distribution vorhanden |
+| Postleitzahl-Referenz | Vorgesehene Referenz zur Prüfung oder Ergänzung von Postleitzahlen; von den bereits in LoD2/CityJSON enthaltenen Adressobjekten zu unterscheiden | [Konkreten Datensatz, Herausgeber und Lizenz ergänzen] | Turnus offen; noch nicht vorliegend | Keine Distribution vorhanden |
+| DEZ-Berechnungskonfiguration | Versionierte Kataloge, Grenzwerte, Faktoren und Regeln für die energetische Berechnung | Stadt Regensburg; [Lizenz beziehungsweise Nutzungsbedingungen ergänzen] | Bei fachlicher Freigabe einer neuen Version | JSON über `GET /api/public/config/active` |
+
+Für das DCAT-AP.de-Mapping gilt: Titel wird als `dct:title`, Beschreibung als
+`dct:description`, Herausgeber als `dct:publisher` und Lizenz als `dct:license`
+geführt. `dct:accrualPeriodicity` beschreibt den Quellturnus, `dct:modified` den
+tatsächlich verwendeten Stand. Bereitstellungen werden als `dcat:Distribution`
+mit den erforderlichen Zugriffs-, Format- und Lizenzangaben modelliert. Der
+betriebliche Nutzungsstatus im DEZ ist kein Ersatz für
+`dcatap:availability`.
 
 ## 7. Energetische Berechnung
 
@@ -305,20 +336,8 @@ Externe Zugriffe werden verschlüsselt über HTTPS bereitgestellt. Der öffentli
 
 Trotz technischer und organisatorischer Schutzmaßnahmen kann eine Datenübertragung über das Internet nie vollständig risikofrei sein.
 
-## 21. Datenquellen und Metadaten
-
-Die folgende Übersicht dient zugleich der nach den Projektanforderungen vorgesehenen Transparenz über die verwendeten Datenquellen. Die Angaben orientieren sich in einem begrenzten Mindestumfang an DCAT-AP.de.
-
-| Datenquelle/Distribution | `dct:title` | `dct:description` | `dct:publisher` | `dct:license` | `dct:accrualPeriodicity` | `dcat:distribution` |
-| --- | --- | --- | --- | --- | --- | --- |
-| 3D-Gebäudemodell | [Titel ergänzen] | LOD2-Gebäudegeometrien, Gebäude-IDs, Adressen und abgeleitete Gebäudemerkmale für Auswahl und Berechnung | [Herausgeber ergänzen] | [Lizenz ergänzen] | Zielzyklus nach Projektdokumentation: zwei Jahre; tatsächlichen Stand ergänzen | 3D Tiles aus [S3-Bucket/Objektpfad der Stadt Regensburg] über [öffentliche APISIX-/Tiles-Gateway-Route] |
-| Adressdatenbank | [Titel ergänzen] | Für die lokale Adresssuche aufbereitete Gebäudeadressen mit Koordinaten | [Herausgeber ergänzen] | [Lizenz ergänzen] | [Aktualisierungsintervall ergänzen] | [Datenbankformat] aus [S3-Bucket/Objektpfad der Stadt Regensburg] über [öffentliche APISIX-Route] |
-| Geländemodell | [Titel ergänzen] | Terrain-Daten für die dreidimensionale Kartenansicht | [Herausgeber ergänzen] | [Lizenz ergänzen] | [Aktualisierungsintervall ergänzen] | [Terrain-Format] aus [S3-Bucket/Objektpfad der Stadt Regensburg] über [öffentliche APISIX-/Tiles-Gateway-Route] |
-| Basiskarte | [Titel und tatsächlichen Dienst bestätigen] | Hintergrundkarte der 3D-Ansicht | [Herausgeber ergänzen] | [Lizenz und Attribution bestätigen] | [Aktualisierungsintervall ergänzen] | [Distribution, Protokoll und von der Stadt Regensburg konfigurierten Endpunkt ergänzen] |
-| Berechnungskonfiguration | DEZ-Berechnungskonfiguration | Versionierte Kataloge, Grenzwerte, Faktoren und Regeln für die energetische Berechnung | Stadt Regensburg | [Lizenz/Nutzungsbedingungen ergänzen] | Bei fachlicher Freigabe einer neuen Version | JSON über `GET /api/public/config/active` |
-
-## 22. Aktualität dieser Datenschutzhinweise
+## 21. Aktualität dieser Datenschutzhinweise
 
 Diese Datenschutzhinweise werden angepasst, wenn sich Funktionen, Datenflüsse, Empfänger oder Rechtsgrundlagen ändern.
 
-Stand: 24. Juli 2026
+Stand: 27. Juli 2026

@@ -16,7 +16,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **Solarpotenzial (PV)**, **Geothermiepotenzial**, **Solarthermie**
 - **Eingabetiefe (kontinuierliches Spektrum)** von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert"
 - **Bürger (Eigentümer/Vermieter)**, **Stadtverwaltung / Fachpersonal**
-- **Berechnung**, alternativ **Kalkulation** (nicht "Simulation")
+- **Berechnung**, alternativ **Kalkulation**
 
 <a id="grundlagen"></a>
 
@@ -58,6 +58,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **13** [Berechnungskern](architecture/13-architecture-berechnung-core.md)
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
 - **15** [Manuelles Deployment ohne Kubernetes/Cluster (nicht empfohlen)](architecture/15-architecture-deployment-standalone.md)
+- **16** [Datenquellenkatalog und Piveau-Anbindung](architecture/16-data-sources-dcat-piveau.md)
 
 <a id="anleitungen"></a>
 

@@ -28,6 +28,9 @@ angebunden werden.
   - entweder direkt aus dem Datendienst
   - oder über ein optionales Tiles Gateway
 - Stellio läuft als CIVITAS/CORE-Kontextdienst und nimmt NGSI-LD-Entities aus der Offline-Pipeline entgegen.
+- Piveau wird als CIVITAS/CORE-Datenkatalog für die DCAT-AP.de-Metadaten der
+  externen Basis- und Fachdaten aktiviert. Die Binärdaten verbleiben an der Quelle
+  beziehungsweise im S3-kompatiblen Datendienst.
 - Datenbank und Identity Provider laufen innerhalb von CIVITAS/CORE.
 
 ---
@@ -60,7 +63,9 @@ angebunden werden.
 <a id="deployment-diagramm"></a>
 ## Deployment-Diagramm
 
-Das Diagramm zeigt die Kerncontainer und Zugriffspfade; Stellio ist im Text als CIVITAS/CORE-Kontextdienst für NGSI-LD berücksichtigt.
+Das Diagramm zeigt die Kerncontainer und Zugriffspfade; Stellio als
+NGSI-LD-Kontextdienst und Piveau als Metadatenkatalog sind ergänzend im Text
+berücksichtigt.
 
 ![deployment-civitas-core.png](./attachments/deployment-civitas-core.png)
 
@@ -75,7 +80,12 @@ Quelle: `raw/deployment-civitas-core.puml`
 - Airflow ist Teil von CIVITAS/CORE und orchestriert die Offline-Pipeline.
 - Backend läuft als CIVITAS/CORE-fähiges Add-on in einem separaten Container.
 - Stellio ist der NGSI-LD-Zieldienst innerhalb von CIVITAS/CORE; die Pipeline übergibt nur freigegebene statische Gebäude- und Potenzialattribute.
+- Piveau speichert die DCAT-AP.de-Metadaten und verweist auf die
+  Quelldistributionen. Stabile Katalog- und Dataset-IDs sind im
+  [Datenquellenkatalog](16-data-sources-dcat-piveau.md) festgelegt.
 - Ein Tiles Gateway ist optional und wird nur betrieben, wenn direkter HTTPS-Zugriff auf den Datendienst nicht ausreicht oder zusätzliche Proxy-Funktionen benötigt werden.
 - Externe Zugriffe auf den Datendienst erfolgen ausschließlich über APISIX; interne Direktzugriffe sind auf autorisierte Workloads beschränkt.
-- Der LOD2-Datensatz wird im Regelfall alle 2 Jahre aktualisiert; andere Basisdaten können unabhängige Zyklen nutzen.
+- Die amtliche LoD2-Quelldistribution wird wöchentlich aktualisiert. Der
+  Übernahmezyklus in den DEZ-Datendienst wird separat durch den Betreiber
+  festgelegt; andere Basisdaten können unabhängige Zyklen nutzen.
 - Eine DEZ-Instanz bedient genau eine Kommune; weitere Kommunen werden über getrennte Deployments angebunden.
