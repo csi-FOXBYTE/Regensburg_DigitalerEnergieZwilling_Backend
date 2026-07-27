@@ -24,7 +24,7 @@ rectangle "Release 5%n()Sprint 13 + Sprint 14%n()Abschluss 06.07.2026%n()---%n()
 
 rectangle "Release 6%n()Sprint 15 + Sprint 16%n()07.07.2026 - 03.08.2026%n()---%n()Plan%n()Usertesting auswerten%n()Arbeitspakete bewerten%n()Priorisierte Punkte umsetzen%n()Matomo frühestens Sprint 15%n()BKI-Zugang weiter offen" as R6 #FFF4BF
 
-rectangle "Sprint 17%n()04.08.2026 - 17.08.2026%n()---%n()Plan%n()Entwicklung abschließen%n()Priorisierte Änderungen integrieren%n()Regressionstests%n()Inbetriebnahmekandidat stabilisieren" as S17 #E5E7EB
+rectangle "Sprint 17%n()04.08.2026 - 17.08.2026%n()---%n()Plan%n()Entwicklung abschließen%n()Priorisierte Änderungen integrieren%n()Regressionstests%n()CIVITAS/CORE-Staging-Deployment%n()Inbetriebnahmekandidat stabilisieren" as S17 #E5E7EB
 
 rectangle "Inbetriebnahme%n()Sprint 18 + Sprint 19%n()18.08.2026 - 14.09.2026%n()---%n()Plan%n()Produktionsnahe Konfiguration%n()Inbetriebnahme + Abnahmeunterstützung%n()Kritische Fehler beheben%n()Übergabe + Betriebsdokumentation" as IB #DFF7E2
 
@@ -38,7 +38,7 @@ S17 --> IB : inbetriebnahme
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-07-24
+  Stand: 2026-07-27
 endlegend
 
 @enduml

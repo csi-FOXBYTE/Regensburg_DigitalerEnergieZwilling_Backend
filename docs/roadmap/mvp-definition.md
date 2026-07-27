@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-07-24** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-07-27** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -18,7 +18,7 @@ Letzte Änderung: **2026-07-24** (siehe [Roadmap-Pflege und Änderungsverlauf](#
 8. [Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung](#release-4)
 9. [Release 5 - Aktualisierung, Bugfixing und Usertesting](#release-5)
 10. [Release 6 - Usertesting-Auswertung und priorisierte Weiterentwicklung](#release-6)
-11. [Sprint 17 - Abschluss der Entwicklung und Stabilisierung](#sprint-17)
+11. [Sprint 17 - Abschluss der Entwicklung, Stabilisierung und Staging-Deployment](#sprint-17)
 12. [Inbetriebnahme - Sprint 18 und Sprint 19](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
@@ -33,7 +33,7 @@ Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Zwei aufeinanderfolg
 4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
 5. **Release 5 (Sprint 13 und Sprint 14, Abschluss am 06.07.2026):** Aktualisierung und Bugfixing der Anreicherung, des Bürger-Frontends und der Systempflege; Schwerpunkt von Sprint 14 war zusätzlich die Durchführung des Usertestings
 6. **Release 6 (Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung der daraus abgeleiteten Arbeitspakete sowie Umsetzung priorisierter Punkte; die Matomo-Umsetzung kann frühestens in Sprint 15 beginnen
-7. **Sprint 17 (voraussichtlich 04.08.2026 bis 17.08.2026):** Abschluss der Entwicklungsphase, Integration priorisierter Änderungen und Stabilisierung; Sprint 17 bildet keinen eigenständigen semantischen Release, sondern schließt die Entwicklung vor der Inbetriebnahme ab
+7. **Sprint 17 (voraussichtlich 04.08.2026 bis 17.08.2026):** Abschluss der Entwicklungsphase, Integration priorisierter Änderungen, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg; Sprint 17 bildet keinen eigenständigen semantischen Release, sondern schließt die Entwicklung vor der Inbetriebnahme ab
 8. **Inbetriebnahme-Sprints 18 und 19 (voraussichtlich 18.08.2026 bis 14.09.2026):** Produktionsnahe Konfiguration, Inbetriebnahme, Abnahmeunterstützung, Behebung kritischer Fehler und Übergabe
 
 Die Kalenderdaten ab Sprint 15 sind Planungsdaten. Der Umfang der aus dem Usertesting abgeleiteten Arbeiten hängt von der noch ausstehenden Priorisierung durch den Auftraggeber sowie von erforderlichen Daten, Inhalten und fachlichen Freigaben ab.
@@ -69,6 +69,7 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-07-27 | Sprint 17 | Abschluss der Entwicklung und Stabilisierung eines Inbetriebnahmekandidaten | Zusätzlich Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg |
 | 2026-07-24 | Laufzeit und Sprintmodell | Inbetriebnahme vor einer Sommerpause, danach 3 bis 4 Nachlauf-Sprints | Durchgehende zweiwöchige Sprints bis voraussichtlich 14.09.2026; insgesamt 17 Entwicklungssprints und zwei Inbetriebnahme-Sprints |
 | 2026-07-24 | Release-Takt | Release-Zuordnung ab Sprint 15 war von Enddatum und Ansprechpartnerverfügbarkeit abhängig | Zwei Entwicklungssprints bilden semantisch einen Release; Sprint 17 schließt die Entwicklungsphase ab, Sprint 18 und Sprint 19 dienen der Inbetriebnahme |
 | 2026-07-24 | Usertesting | Laufende Testphase ohne konkrete Zuordnung des Schwerpunkts und der Auswertung | Schwerpunkt von Sprint 14 war das Usertesting; die Auswertung und Bündelung der Rückmeldungen startete in Sprint 15; die Priorisierung der daraus abgeleiteten Arbeitspakete durch den Auftraggeber steht aus |
@@ -305,17 +306,19 @@ Ergebnis:
 
 <a id="sprint-17"></a>
 
-## Sprint 17 - Abschluss der Entwicklung und Stabilisierung
+## Sprint 17 - Abschluss der Entwicklung, Stabilisierung und Staging-Deployment
 
 **Planungszeitraum:** voraussichtlich 04.08.2026 bis 17.08.2026
 
-Ziel: Die Entwicklungsphase abschließen, priorisierte Änderungen integrieren und einen stabilen Kandidaten für die Inbetriebnahme bereitstellen.
+Ziel: Die Entwicklungsphase abschließen, priorisierte Änderungen integrieren, einen stabilen Kandidaten für die Inbetriebnahme bereitstellen und eine Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg deployen.
 
 Geplanter Umfang:
 
 - Abschluss der für Sprint 17 priorisierten und ausreichend geklärten Usertesting-Arbeitspakete.
 - Integration und Regressionstest über Bürger-Frontend, Berechnungskern, Backend, Admin-Bereich und PDF.
 - Stabilisierung der Betriebs- und Deploymentkonfiguration.
+- Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg.
+- Prüfung der dort bereitgestellten Version und Dokumentation umgebungsbezogener Fehler oder Einschränkungen.
 - Bereinigung kritischer Inkonsistenzen in Nutzerführung, Texten, Datenflüssen und Ergebnisdarstellung.
 - Dokumentation des umgesetzten Umfangs, verbleibender Einschränkungen und offener Abhängigkeiten.
 - BKI-basierte Kostenfunktionen nur, wenn Datenzugang, Nutzungsbedingungen, fachliches Modell und zeitliche Einplanung rechtzeitig abgesichert sind.
@@ -328,7 +331,7 @@ Hinweis:
 
 Ergebnis:
 
-- Stabilisierter Inbetriebnahmekandidat mit dokumentiertem Funktionsumfang und abgegrenzten offenen Punkten.
+- In der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg bereitgestellter und geprüfter Inbetriebnahmekandidat mit dokumentiertem Funktionsumfang und abgegrenzten offenen Punkten.
 
 ---
 
