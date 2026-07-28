@@ -32,6 +32,9 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 ## Verantwortlichkeiten
 
 - Darstellung des 3D-Stadtmodells und Auswahl einzelner Gebäude.
+- Übernahme der freigegebenen LOD2- und Anreicherungsattribute als
+  Berechnungsvorbelegung gemäß
+  [LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md).
 - Visualisierung von Solarpotenzialen (PV) und Geothermiepotenzialen aus 3D Tiles nach Datenfreigabe.
 - Verbindliche Gebäudeeinfärbung im 3D-Client auf Basis von Effizienzklassen/Ergebnisattributen (Cesium Tileset Styles).
 - Abbildung von zwei PV-Darstellungen in der UI erst nach Datenfreigabe:

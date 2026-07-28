@@ -59,6 +59,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
 - **15** [Manuelles Deployment ohne Kubernetes/Cluster (nicht empfohlen)](architecture/15-architecture-deployment-standalone.md)
 - **16** [Datenquellenkatalog und Piveau-Anbindung](architecture/16-data-sources-dcat-piveau.md)
+- **17** [LOD2-zu-Frontend-Eingabefeld-Mapping](architecture/17-lod2-frontend-input-mapping.md)
 
 <a id="anleitungen"></a>
 

@@ -464,6 +464,10 @@ DockerOperator(
 
 ### Mapping-Regeln
 
+- Die Zuordnung der erzeugten LOD2-/Anreicherungsattribute zu den sichtbaren
+  und internen Frontend-Eingabefeldern ist zentral im
+  [LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md)
+  dokumentiert.
 - **Gebäudezuordnung** erfolgt über `gml:id` der CityGML-Gebäudeobjekte.
 - **Baualtersklassen** werden räumlich über den Gebäudezentrumspunkt zugeordnet.
   Aus `Dominant_Baualtersklasse` wird die am Anfang stehende vierstellige

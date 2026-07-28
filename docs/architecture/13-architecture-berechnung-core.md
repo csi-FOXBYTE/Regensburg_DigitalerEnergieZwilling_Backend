@@ -54,6 +54,10 @@ Der Berechnungskern befindet sich noch nicht in einem finalen Stand. Inhalte und
 
 - Eingaben: Konfigurations-Snapshot (Version), Gebäudedaten/Potenziale, Nutzereingaben.
 - Ausgaben: Ergebnisobjekte für Anzeige, Vergleich und Export.
+- Die konkrete Übergabe von LOD2-Geometriekennwerten in die Eingabestruktur ist
+  im
+  [LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md)
+  beschrieben.
 
 ---
 

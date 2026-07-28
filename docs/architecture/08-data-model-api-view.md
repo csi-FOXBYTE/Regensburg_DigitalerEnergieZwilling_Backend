@@ -144,13 +144,17 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 
 ### Abgeleitete Gebäudeparameter (LOD2)
 
-Aus LOD2 werden u.a. folgende Kenngrößen abgeleitet und im Berechnungskontext genutzt:
-- Nutzfläche, Wohnfläche, Nettoraumvolumen
-- Hüllflächen (Außenwände, Dachflächen)
-- Ausrichtung der Wände / Himmelsrichtungen
-- Anzahl Geschosse / Vollgeschosse
-- Dachform und Dachausrichtung
-- Anzahl Wohneinheiten und angrenzende Gebäude (Kontext)
+Aus der LOD2-Geometrie werden im implementierten Datenfluss insbesondere
+Grundfläche, Fläche der obersten Geschossdecke, Außenwandfläche, Dachfläche,
+Gebäudehöhe und angrenzende Wandflächen abgeleitet. Daraus bestimmt der
+Berechnungskern weitere Vorbelegungen wie Geschosszahl, Wohnfläche sowie
+Fensterflächen.
+
+Die vollständige Feldzuordnung einschließlich UI-Sichtbarkeit, Fallbacks und
+der derzeit nicht gemappten Werte (u.a. LOD2-Volumen, Hüllfläche und Dachform)
+ist zentral im
+[LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md)
+dokumentiert.
 
 ### Konfigurations-Publishing
 
