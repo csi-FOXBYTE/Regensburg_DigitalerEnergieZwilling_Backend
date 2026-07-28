@@ -9,9 +9,10 @@ Stand: 28. Juli 2026
 3. [Übersicht der Datenquellen](#uebersicht-der-datenquellen)
 4. [LoD2-Herkunft und Distributionen](#lod2-herkunft-und-distributionen)
 5. [DGM1-Herkunft und räumliche Auswahl](#dgm1-herkunft-und-raeumliche-auswahl)
-6. [Verknüpfung mit Piveau in CIVITAS/CORE](#verknuepfung-mit-piveau-in-civitascore)
-7. [Pflege- und Freigaberegeln](#pflege-und-freigaberegeln)
-8. [Referenzen](#referenzen)
+6. [Terrain-Textur TopPlusOpen Light](#terrain-textur-topplusopen-light)
+7. [Verknüpfung mit Piveau in CIVITAS/CORE](#verknuepfung-mit-piveau-in-civitascore)
+8. [Pflege- und Freigaberegeln](#pflege-und-freigaberegeln)
+9. [Referenzen](#referenzen)
 
 <a id="ziel-und-geltungsbereich"></a>
 
@@ -69,6 +70,7 @@ ein neuer Datenstand erzeugt keine neue Datensatz-ID, sondern aktualisiert
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `regensburg-dez-lod2-gebaeude` | 3D-Gebäudemodelle (LoD2) – Stadt Regensburg | LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit 3D-Geometrie, Flächensemantik, Gebäudeattributen und, soweit im Quelldatensatz vorhanden, Adressen. | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung) | [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0); Namensnennung: „Bayerische Vermessungsverwaltung – www.geodaten.bayern.de“ | [wöchentlich](http://publications.europa.eu/resource/authority/frequency/WEEKLY); tatsächlicher Bezugsstand aus `published` der Metalink-Datei | CityGML über Gemeinde-Metalink; daraus intern erzeugtes CityJSON 2.0.1 darf nach Bereitstellung einer stabilen Release-URL als weitere Distribution katalogisiert werden | **Pflicht**, aktuell verwendet |
 | `regensburg-dez-dgm1-gelaendemodell` | Digitales Geländemodell 1 m (DGM1) – Auswahl Regensburg | Erdoberfläche ohne Vegetation und Bebauung als Raster mit 1 m Gitterweite. Die dokumentierte Polygonauswahl umfasst das für das Sanierungstool vorgesehene Gebiet um Regensburg. | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung) | [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0); Namensnennung: „Bayerische Vermessungsverwaltung – www.geodaten.bayern.de“ | [unregelmäßig/losweise](http://publications.europa.eu/resource/authority/frequency/IRREG); tatsächlicher fachlicher Datenstand noch zu bestätigen | GeoTIFF, EPSG:25832, Kachelung 1 km × 1 km; Produktseite als `dcat:accessURL`; die Kachelauswahl wird dort mit dem dokumentierten SRID/EWKT-Polygon erzeugt | Auswahl und Quelldistribution dokumentiert; produktive Terrain-Aufbereitung und Bereitstellungsroute noch offen |
+| `regensburg-dez-terrain-textur-topplusopen-light` | TopPlusOpen Light – Terrain-Textur für Regensburg | Reduzierte topografische Hintergrundkarte in Web Mercator (EPSG:3857), die als Rastertextur auf dem Terrain dargestellt wird. Sie ist fachlich vom DGM1-Höhenmodell getrennt. | Bundesamt für Kartographie und Geodäsie (BKG); Betreiber und Weitergabeberechtigung des technischen Tile-Proxys noch bestätigen | [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0); Quellenvermerk: „Kartendarstellung: © BKG (`{JAHR_DES_LETZTEN_DATENBEZUGS}`) dl-de/by-2-0, Datenquellen“ mit den vorgeschriebenen Verlinkungen | [jährlich](http://publications.europa.eu/resource/authority/frequency/ANNUAL); tatsächlichen Datenbezugsstand des Proxy-Dienstes ergänzen | Gekachelter Darstellungsdienst über die URL-Vorlage `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; als `dcat:DataService` modellieren und über `dcat:accessService` anbinden | **Aktuell für die Terrain-Textur verwendet**; Proxy-Betreiber, Nutzungsfreigabe und Jahr des letzten Datenbezugs vor Produktivfreigabe bestätigen |
 | `regensburg-dez-baualtersklassen` | Baualtersklassen – Stadt Regensburg | Polygonale Baualtersklassen zur räumlichen Ableitung von `constructionYear`. Die aktuelle Implementierung erwartet GeoPackage, EPSG:25832, Tabelle `gebiete__baualtersklasse` und Feld `Dominant_Baualtersklasse`. | **Offen:** Originalherausgeber der bereitgestellten Datei bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Dateiname, Prüfsumme und interner Objektpfad fehlen noch | **Optional**, Integration implementiert und bei konfiguriertem `--age-zones` verwendet |
 | `regensburg-dez-geothermiepotenzial` | Geothermiepotenzial – Stadt Regensburg | Vorgesehene Potenzialdaten für die priorisierte Bewertung von Grundwasser, Erdreich und Luft. Granularität, Zielschema und Einheiten sind noch fachlich zu bestätigen. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | Bereitgestellt, aber **aktuell nicht integriert**; optional vorgesehen |
 | `regensburg-dez-solarpotenzial` | Solarpotenzial (PV) – Stadt Regensburg | Vorgesehene Solarattribute und Textur für Dachflächen, unter anderem Einstrahlung, Dachneigung und Dachorientierung. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | Bereitgestellt, aber **aktuell nicht integriert**; optional vorgesehen |
@@ -169,6 +171,55 @@ Das SRID/EWKT-Polygon dokumentiert die dort reproduzierbare Auswahl. Eine
 `dcat:downloadURL` wird erst ergänzt, wenn die ausgewählten GeoTIFF-Kacheln als
 produktive, stabile Distribution über APISIX beziehungsweise einen Datendienst
 bereitgestellt werden.
+
+<a id="terrain-textur-topplusopen-light"></a>
+
+## Terrain-Textur TopPlusOpen Light
+
+Das DGM1 liefert ausschließlich die Höhenwerte des Geländes. Die darauf
+dargestellte Rastertextur stammt aus einem davon unabhängigen gekachelten
+Darstellungsdienst:
+
+```text
+https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}
+```
+
+Die Platzhalter `{z}`, `{x}` und `{y}` bezeichnen Zoomstufe und Kachelkoordinaten.
+Der Layername weist auf **TopPlusOpen Light** hin. Das offizielle BKG-Produkt ist
+eine Hintergrundkarte in EPSG:3857, wird jährlich fortgeführt und steht unter der
+Datenlizenz Deutschland – Namensnennung – Version 2.0. In der Kartenansicht ist
+folgender BKG-konformer Quellenvermerk sichtbar anzuzeigen:
+
+> Kartendarstellung: © [BKG](https://www.bkg.bund.de)
+> (`{JAHR_DES_LETZTEN_DATENBEZUGS}`)
+> [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0),
+> [Datenquellen](https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_topplusopen.html)
+
+Für eine HTML-fähige `credit`-Konfiguration kann der Quellenvermerk unmittelbar
+so hinterlegt werden:
+
+```javascript
+credit:
+  'Kartendarstellung: © <a href="https://www.bkg.bund.de">BKG</a> ' +
+  '({JAHR_DES_LETZTEN_DATENBEZUGS}) ' +
+  '<a href="https://www.govdata.de/dl-de/by-2-0">dl-de/by-2-0</a>, ' +
+  '<a href="https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_topplusopen.html">Datenquellen</a>'
+```
+
+Das Jahr muss aus dem tatsächlich über den Proxy ausgelieferten Datenstand
+ermittelt, im Release-Manifest festgehalten und vor der Auslieferung in den
+Credit eingesetzt werden. Ein CartoDB-/OpenStreetMap-Credit ist für diesen
+TopPlusOpen-Light-Layer nicht zu verwenden. Unabhängig davon müssen vor der
+Produktivfreigabe der Betreiber des Hosts `intergeo38.bayernwolke.de` und dessen
+Berechtigung zur Bereitstellung bestätigt werden.
+
+Da Texturkarte und DGM1 unterschiedliche Inhalte, Herausgeber und Lizenzen haben,
+werden sie als zwei `dcat:Dataset`-Ressourcen geführt. Der Tile-Dienst wird als
+`dcat:DataService` beschrieben; dessen stabile Basis- beziehungsweise
+Dokumentations-URL wird als `dcat:endpointURL` veröffentlicht und über
+`dcat:accessService` mit einer Distribution der Terrain-Textur verknüpft. Die
+URL-Vorlage mit Platzhaltern bleibt zusätzlich in der technischen Beschreibung
+und im Release-Manifest erhalten.
 
 <a id="verknuepfung-mit-piveau-in-civitascore"></a>
 
@@ -329,6 +380,9 @@ Offene Abnahmepunkte:
 - geeignete Postleitzahl-Referenz einschließlich räumlicher Granularität,
 - tatsächlicher fachlicher DGM1-Kachelstand und produktive Bereitstellungsroute
   der ausgewählten GeoTIFF-Kacheln,
+- Betreiber, Nutzungsfreigabe und Jahr des letzten Datenbezugs für den
+  BKG-konformen Quellenvermerk des über `intergeo38.bayernwolke.de`
+  bereitgestellten TopPlusOpen-Light-Layers,
 - produktive Piveau-, APISIX- und S3-Endpunkte der Stadt Regensburg sowie
 - fachlicher und technischer Metadatenverantwortlicher.
 
@@ -343,3 +397,5 @@ Offene Abnahmepunkte:
 - [Bayerische Vermessungsverwaltung – OpenData LoD2](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=lod2)
 - [Bayerische Vermessungsverwaltung – OpenData DGM1](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1)
 - [Bayerische Vermessungsverwaltung – Nutzungsbedingungen](https://www.geodaten.bayern.de/odd/m/3/html/nutzungsbedingungen.html)
+- [BKG – Metadatensatz TopPlusOpen Light](https://mis.bkg.bund.de/trefferanzeige?docuuid=BD4D5B0F-2809-44D4-B2CE-D22ACC4CE0CC)
+- [BKG – Webdienste, Nutzungsbedingungen und Quellenvermerk für TopPlusOpen](https://gdz.bkg.bund.de/index.php/default/wms-topplusopen-wms-topplus-open.html)

@@ -36,6 +36,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 
 - **LoD2-Gebäudedaten** (amtliche CityGML-Quelldaten für Gemeinde `09362000`; intern nach CityJSON 2.0.1 konvertiert; Pflichtquelle)
 - **DGM1-Geländemodell** (amtliche GeoTIFF-Kacheln für die dokumentierte Regensburger Polygonauswahl; Terrain-Bereitstellung noch zu konfigurieren)
+- **TopPlusOpen-Light-Terrain-Textur** (externer Tile-Dienst über `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; fachlich und lizenzrechtlich vom DGM1 getrennte Darstellungsquelle; BKG-Quellenvermerk gemäß `dl-de/by-2-0` verwenden; Proxy-Betreiber und Jahr des letzten Datenbezugs noch zu bestätigen)
 - **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
 - **Geothermiepotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft vorgesehen)
 - **Solarpotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; 3D Tiles mit Attributen und Textur vorgesehen)

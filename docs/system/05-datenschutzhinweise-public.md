@@ -42,7 +42,7 @@ Das Sanierungstool kann ohne Registrierung und ohne Benutzerkonto verwendet werd
 
 Die Berechnung erfolgt grundsätzlich in Ihrem Browser. Ihre Eingaben werden dabei zunächst nur auf Ihrem Endgerät gespeichert. Eine Übermittlung Ihrer Gebäude- und Berechnungsdaten an die Stadt Regensburg erfolgt nur, wenn Sie der freiwilligen Bereitstellung ausdrücklich zustimmen.
 
-Unabhängig davon fallen beim Aufruf des Angebots technisch erforderliche Verbindungs- und Protokolldaten an. Die Kartenansicht lädt Geodaten aus der CIVITAS/CORE-Umgebung der Stadt Regensburg und die konfigurierte Basiskarte aus [städtische oder externe Bereitstellung ergänzen]. Einzelheiten finden Sie in den folgenden Abschnitten.
+Unabhängig davon fallen beim Aufruf des Angebots technisch erforderliche Verbindungs- und Protokolldaten an. Die Kartenansicht lädt 3D-Gebäude- und Geländedaten aus der CIVITAS/CORE-Umgebung der Stadt Regensburg sowie die TopPlusOpen-Light-Terrain-Textur von `intergeo38.bayernwolke.de`. Einzelheiten finden Sie in den folgenden Abschnitten.
 
 ## 4. Aufruf der Webseite und technische Protokolldaten
 
@@ -106,17 +106,18 @@ Die anschließende Eingabe und Suche nach einer Adresse erfolgt lokal im Browser
 
 ### 3D-Gebäude, Gelände und Basiskarte
 
-Die Kartenansicht basiert auf Cesium/Resium. Die benötigten Geodaten werden aus
-dem S3-kompatiblen Datendienst der Stadt Regensburg geladen und über die für den
-DEZ konfigurierte APISIX-Route beziehungsweise das Tiles Gateway ausgeliefert.
-Die jeweiligen Bezugs- und Bereitstellungsendpunkte sind in der nachfolgenden
-Übersicht zusammengeführt.
+Die Kartenansicht basiert auf Cesium/Resium. 3D-Gebäude- und Geländedaten werden
+aus dem S3-kompatiblen Datendienst der Stadt Regensburg geladen und über die für
+den DEZ konfigurierte APISIX-Route beziehungsweise das Tiles Gateway
+ausgeliefert. Die TopPlusOpen-Light-Textur für das Terrain wird derzeit direkt
+von einem externen Tile-Endpunkt geladen. Die jeweiligen Bezugs- und
+Bereitstellungsendpunkte sind in der nachfolgenden Übersicht zusammengeführt.
 
-Bei jedem Abruf werden in der CIVITAS/CORE-Umgebung der Stadt Regensburg insbesondere IP-Adresse, Zeitpunkt, angeforderte Ressource, Referrer und User-Agent verarbeitet. Die Kartenansicht lädt abhängig von Ausschnitt und Zoomstufe mehrere einzelne Kacheln. Wird für die Basiskarte ein externer Dienst eingebunden, erhält auch dessen Betreiber diese technischen Verbindungsdaten.
+Bei jedem Abruf werden in der CIVITAS/CORE-Umgebung der Stadt Regensburg insbesondere IP-Adresse, Zeitpunkt, angeforderte Ressource, Referrer und User-Agent verarbeitet. Die Kartenansicht lädt abhängig von Ausschnitt und Zoomstufe mehrere einzelne Kacheln. Beim Abruf der TopPlusOpen-Light-Terrain-Textur erhält auch der Betreiber von `intergeo38.bayernwolke.de` diese technischen Verbindungsdaten.
 
 Zweck ist die Anzeige des Stadtgebiets, die Gebäudeauswahl und die Vorbelegung von Gebäudemerkmalen. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. e DSGVO in Verbindung mit Art. 4 Abs. 1 BayDSG.
 
-Die Verarbeitung erfolgt in der CIVITAS/CORE-Umgebung der Stadt Regensburg einschließlich des dort angebundenen S3-kompatiblen Datendienstes. Wird die Umgebung durch einen Auftragsverarbeiter betrieben, ist Empfänger [Betreiber, Anschrift, datenschutzrechtliche Rolle, Verarbeitungsort und Löschfrist ergänzen]. Sofern die konfigurierte Basiskarte von einem externen Dienst stammt, sind zusätzlich [Anbieter, Anschrift, Rolle, Verarbeitungsort, Rechtsgrundlage und Löschfrist ergänzen].
+Die Verarbeitung erfolgt in der CIVITAS/CORE-Umgebung der Stadt Regensburg einschließlich des dort angebundenen S3-kompatiblen Datendienstes. Wird die Umgebung durch einen Auftragsverarbeiter betrieben, ist Empfänger [Betreiber, Anschrift, datenschutzrechtliche Rolle, Verarbeitungsort und Löschfrist ergänzen]. Für den externen TopPlusOpen-Light-Tile-Endpunkt sind zusätzlich [Betreiber von `intergeo38.bayernwolke.de`, Anschrift, datenschutzrechtliche Rolle, Verarbeitungsort, Rechtsgrundlage und Löschfrist ergänzen].
 
 ### Datenquellen, Metadaten und Bereitstellung
 
@@ -132,7 +133,7 @@ Abweichungen ist dessen releasebezogener Quellenstand maßgeblich.
 | --- | --- | --- | --- | --- |
 | 3D-Gebäudemodelle (LoD2) – Stadt Regensburg; daraus 3D Tiles und Adressdatenbank | Amtliche LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit Gebäude-IDs, 3D-Geometrie, Attributen und Adressen soweit vorhanden; intern nach CityJSON, 3D Tiles und in die Adressdatenbank überführt | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellturnus wöchentlich; tatsächlicher DEZ-Übernahmestand releasebezogen; Pflichtquelle, aktuell verwendet | Quelle: [Gemeinde-Metalink](https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4); intern: [CityJSON-Objektpfad], 3D Tiles über [öffentliche APISIX-/Tiles-Gateway-Route und S3-Objektpfad] sowie [Datenbankformat der Adressdatenbank, öffentliche APISIX-Route und S3-Objektpfad ergänzen] |
 | Digitales Geländemodell 1 m (DGM1) – Auswahl Regensburg | Erdoberfläche ohne Vegetation und Bebauung als Raster mit 1 m Gitterweite für die Terrain-Darstellung; Polygonauswahl ist im Datenquellenkatalog dokumentiert | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellaktualisierung losweise; referenzierte Polygonauswahl am 28.07.2026 geprüft; tatsächlichen fachlichen Datenstand ergänzen; produktive Terrain-Aufbereitung noch offen | [DGM1-Produktseite](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1); ausgewählte GeoTIFF-Kacheln in EPSG:25832 über [öffentliche APISIX-/Terrain-Route und S3-Objektpfad ergänzen] |
-| Basiskarte | Hintergrundkarte der 3D-Ansicht | [Herausgeber, Lizenz und Attribution des tatsächlichen Dienstes ergänzen] | [Aktualisierungsintervall und tatsächlichen Stand ergänzen] | [Von der Stadt Regensburg konfigurierten Dienst, Distribution, Protokoll und Endpunkt ergänzen] |
+| TopPlusOpen Light – Terrain-Textur für Regensburg | Gekachelte topografische Hintergrundkarte in EPSG:3857 als Textur des DGM1-Terrains; fachlich vom Höhenmodell getrennt | Bundesamt für Kartographie und Geodäsie (BKG); [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0); Quellenvermerk: „Kartendarstellung: © [BKG](https://www.bkg.bund.de) (`{JAHR_DES_LETZTEN_DATENBEZUGS}`) [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0), [Datenquellen](https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_topplusopen.html)“ | Offizieller Quellturnus jährlich; tatsächlichen Datenbezugsstand des Proxy-Dienstes ergänzen; aktuell für die Terrain-Darstellung verwendet | Externer Tile-Endpunkt `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; die Anwendung übermittelt dabei technisch bedingt Verbindungsdaten an den Betreiber von `intergeo38.bayernwolke.de` |
 | Baualtersklassen | Polygonale Baualtersklassen im GeoPackage zur optionalen Ableitung eines Baujahrs | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; optionale technische Integration vorhanden | Separat gelieferter Link beziehungsweise Archiv; dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
 | Geothermiepotenzial | Vorgesehene Potenzialdaten für Grundwasser, Erdreich und Luft; Schema und Einheiten sind noch zu bestätigen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, aktuell nicht integriert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
 | Solarpotenzial (PV) | Vorgesehene Solarattribute und Textur für Dachflächen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, aktuell nicht integriert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
@@ -287,7 +288,7 @@ Als externe Empfänger beziehungsweise Auftragsverarbeiter kommen nach der aktue
 - [Betreiber des S3-kompatiblen Datendienstes der Stadt Regensburg einschließlich Hostingort],
 - [Betreiber und Technologie der Produktivdatenbank der Stadt Regensburg],
 - [Anbieter beziehungsweise Betreiber der Kubernetes-, Backup- und Log-Plattform der Stadt Regensburg],
-- [Betreiber des von der Stadt Regensburg konfigurierten Basiskartendienstes, sofern dieser nicht innerhalb ihrer CIVITAS/CORE-Umgebung bereitgestellt wird],
+- [vollständiger Name, Anschrift und datenschutzrechtliche Rolle des Betreibers von `intergeo38.bayernwolke.de` als Bereitsteller der TopPlusOpen-Light-Terrain-Textur],
 - [Betreiber der Matomo-Instanz innerhalb der CIVITAS/CORE-Umgebung der Stadt Regensburg].
 
 Eine Offenlegung kann außerdem erfolgen, wenn die Stadt Regensburg hierzu gesetzlich verpflichtet ist. Eine Übermittlung freiwilliger Einreichungen an Stellio findet nicht statt.
@@ -296,7 +297,7 @@ Eine Offenlegung kann außerdem erfolgen, wenn die Stadt Regensburg hierzu geset
 
 Die DEZ-Kernkomponenten, die Produktivdatenbank, der S3-kompatible Datendienst, Sicherungskopien und die zentralen Protokolle werden in der CIVITAS/CORE-Umgebung der Stadt Regensburg verarbeitet. [Produktive Hostingregionen und Backupstandorte bestätigen.]
 
-Eine Übermittlung personenbezogener Daten in Staaten außerhalb der Europäischen Union oder des Europäischen Wirtschaftsraums findet für die DEZ-Kernfunktionen nicht statt. Sofern für den von der Stadt Regensburg konfigurierten Basiskartendienst oder einen anderen Zusatzdienst ein Drittlandbezug besteht, werden [Empfänger, Staat, Rechtsgrundlage nach Art. 44 ff. DSGVO und geeignete Garantien ergänzen].
+Eine Übermittlung personenbezogener Daten in Staaten außerhalb der Europäischen Union oder des Europäischen Wirtschaftsraums findet für die DEZ-Kernfunktionen nicht statt. Für den externen Tile-Endpunkt auf `intergeo38.bayernwolke.de` und andere Zusatzdienste ist ein möglicher Drittlandbezug noch zu bestätigen; gegebenenfalls werden [Empfänger, Staat, Rechtsgrundlage nach Art. 44 ff. DSGVO und geeignete Garantien ergänzen].
 
 ## 17. Pflicht zur Bereitstellung
 
