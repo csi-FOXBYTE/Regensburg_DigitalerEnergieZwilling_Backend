@@ -1,6 +1,6 @@
 # Architektur – Datenquellenkatalog und Piveau-Anbindung
 
-Stand: 27. Juli 2026
+Stand: 28. Juli 2026
 
 ## Inhaltsverzeichnis
 
@@ -8,9 +8,10 @@ Stand: 27. Juli 2026
 2. [Mapping der geforderten Metadaten](#mapping-der-geforderten-metadaten)
 3. [Übersicht der Datenquellen](#uebersicht-der-datenquellen)
 4. [LoD2-Herkunft und Distributionen](#lod2-herkunft-und-distributionen)
-5. [Verknüpfung mit Piveau in CIVITAS/CORE](#verknuepfung-mit-piveau-in-civitascore)
-6. [Pflege- und Freigaberegeln](#pflege-und-freigaberegeln)
-7. [Referenzen](#referenzen)
+5. [DGM1-Herkunft und räumliche Auswahl](#dgm1-herkunft-und-raeumliche-auswahl)
+6. [Verknüpfung mit Piveau in CIVITAS/CORE](#verknuepfung-mit-piveau-in-civitascore)
+7. [Pflege- und Freigaberegeln](#pflege-und-freigaberegeln)
+8. [Referenzen](#referenzen)
 
 <a id="ziel-und-geltungsbereich"></a>
 
@@ -67,6 +68,7 @@ ein neuer Datenstand erzeugt keine neue Datensatz-ID, sondern aktualisiert
 | Piveau-`originalId` | `dct:title` | `dct:description` | `dct:publisher` | `dct:license` | `dct:accrualPeriodicity` | `dcat:distribution` | DEZ-Nutzungsstatus |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `regensburg-dez-lod2-gebaeude` | 3D-Gebäudemodelle (LoD2) – Stadt Regensburg | LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit 3D-Geometrie, Flächensemantik, Gebäudeattributen und, soweit im Quelldatensatz vorhanden, Adressen. | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung) | [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0); Namensnennung: „Bayerische Vermessungsverwaltung – www.geodaten.bayern.de“ | [wöchentlich](http://publications.europa.eu/resource/authority/frequency/WEEKLY); tatsächlicher Bezugsstand aus `published` der Metalink-Datei | CityGML über Gemeinde-Metalink; daraus intern erzeugtes CityJSON 2.0.1 darf nach Bereitstellung einer stabilen Release-URL als weitere Distribution katalogisiert werden | **Pflicht**, aktuell verwendet |
+| `regensburg-dez-dgm1-gelaendemodell` | Digitales Geländemodell 1 m (DGM1) – Auswahl Regensburg | Erdoberfläche ohne Vegetation und Bebauung als Raster mit 1 m Gitterweite. Die dokumentierte Polygonauswahl umfasst das für das Sanierungstool vorgesehene Gebiet um Regensburg. | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung) | [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0); Namensnennung: „Bayerische Vermessungsverwaltung – www.geodaten.bayern.de“ | [unregelmäßig/losweise](http://publications.europa.eu/resource/authority/frequency/IRREG); tatsächlicher fachlicher Datenstand noch zu bestätigen | GeoTIFF, EPSG:25832, Kachelung 1 km × 1 km; Produktseite als `dcat:accessURL`; die Kachelauswahl wird dort mit dem dokumentierten SRID/EWKT-Polygon erzeugt | Auswahl und Quelldistribution dokumentiert; produktive Terrain-Aufbereitung und Bereitstellungsroute noch offen |
 | `regensburg-dez-baualtersklassen` | Baualtersklassen – Stadt Regensburg | Polygonale Baualtersklassen zur räumlichen Ableitung von `constructionYear`. Die aktuelle Implementierung erwartet GeoPackage, EPSG:25832, Tabelle `gebiete__baualtersklasse` und Feld `Dominant_Baualtersklasse`. | **Offen:** Originalherausgeber der bereitgestellten Datei bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Dateiname, Prüfsumme und interner Objektpfad fehlen noch | **Optional**, Integration implementiert und bei konfiguriertem `--age-zones` verwendet |
 | `regensburg-dez-geothermiepotenzial` | Geothermiepotenzial – Stadt Regensburg | Vorgesehene Potenzialdaten für die priorisierte Bewertung von Grundwasser, Erdreich und Luft. Granularität, Zielschema und Einheiten sind noch fachlich zu bestätigen. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | Bereitgestellt, aber **aktuell nicht integriert**; optional vorgesehen |
 | `regensburg-dez-solarpotenzial` | Solarpotenzial (PV) – Stadt Regensburg | Vorgesehene Solarattribute und Textur für Dachflächen, unter anderem Einstrahlung, Dachneigung und Dachorientierung. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | Bereitgestellt, aber **aktuell nicht integriert**; optional vorgesehen |
@@ -110,6 +112,63 @@ jedem Bezug erneut aus der Metalink-Datei ermittelt. Für den Piveau-Eintrag gil
 Die Quellaktualisierung ist nicht mit dem DEZ-Importzyklus gleichzusetzen. Wie oft
 die Stadt Regensburg einen neuen Stand übernimmt, wird im Betriebsplan separat
 festgelegt.
+
+<a id="dgm1-herkunft-und-raeumliche-auswahl"></a>
+
+## DGM1-Herkunft und räumliche Auswahl
+
+Amtliche Produktseite:
+<https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1>
+
+Die DGM1-Quelldaten werden als GeoTIFF in EPSG:25832 und in Kacheln von
+1 km × 1 km bereitgestellt. Die Aktualisierung erfolgt losweise. Für den Bezug
+des Regensburger Ausschnitts wurde auf der Produktseite folgende Polygonauswahl
+im EWKT-Format und in WGS 84 verwendet:
+
+```text
+SRID=4326;POLYGON Z((11.97759446 48.94846059 0,11.98726795 49.11016127 0,12.23352702 49.10351988 0,12.22305933 48.94185670 0,11.97759446 48.94846059 0))
+```
+
+Das EWKT bleibt unverändert im Release-Manifest erhalten. Im Piveau-RDF wird die
+Geometrie über `dct:spatial` und `locn:geometry` als GeoSPARQL-WKT-Literal
+abgebildet:
+
+```turtle
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+
+<{DEZ_PUBLIC_BASE_URL}/id/dataset/regensburg-dez-dgm1-gelaendemodell>
+    dct:spatial [
+        a dct:Location ;
+        locn:geometry "<http://www.opengis.net/def/crs/EPSG/0/4326> POLYGON Z((11.97759446 48.94846059 0,11.98726795 49.11016127 0,12.23352702 49.10351988 0,12.22305933 48.94185670 0,11.97759446 48.94846059 0))"^^geo:wktLiteral
+    ] .
+```
+
+Die Produktseite erzeugt aus dieser SRID/EWKT-Auswahl ein Metalink-Manifest mit
+den Download-URLs der betroffenen GeoTIFF-Kacheln. Dieses Auswahlmanifest dient
+inhaltlich als Bezugsnachweis für den dokumentierten Stand, besitzt aber keine
+dauerhafte, aus der Auswahl ableitbare öffentliche URL und ist daher noch keine
+Piveau-Distribution.
+
+Inhaltlicher Prüfstand der so erzeugten Auswahl vom 28. Juli 2026:
+
+- Generator: `poly2metalink`
+- Erzeugungszeit (`metalink/published`): `2026-07-28T08:59:30Z`
+- 368 eindeutige GeoTIFF-Dateien und 736 Download-URLs auf zwei Spiegelservern
+- keine im Manifest enthaltenen Dateigrößen oder Datei-Prüfsummen
+
+`metalink/published` beschreibt die Erzeugung der Auswahl, nicht den fachlichen
+Aktualitätsstand der DGM1-Kacheln. Für DCAT-AP.de wird dieser Zeitstempel deshalb
+als Erzeugungszeit des Bezugsnachweises protokolliert, aber nicht als
+`dct:modified` des Datensatzes verwendet. Der tatsächliche Datenstand ist separat
+zu ermitteln und als `dct:modified` zu pflegen.
+
+Im Piveau-Eintrag wird die amtliche Produktseite als `dcat:accessURL` verwendet.
+Das SRID/EWKT-Polygon dokumentiert die dort reproduzierbare Auswahl. Eine
+`dcat:downloadURL` wird erst ergänzt, wenn die ausgewählten GeoTIFF-Kacheln als
+produktive, stabile Distribution über APISIX beziehungsweise einen Datendienst
+bereitgestellt werden.
 
 <a id="verknuepfung-mit-piveau-in-civitascore"></a>
 
@@ -219,6 +278,22 @@ folgenden Angaben referenziert:
 }
 ```
 
+Für das DGM1 werden zusätzlich die Auswahlgeometrie und deren Erzeugungszeit
+protokolliert. Solange der fachliche Kachelstand nicht bestätigt ist, bleibt
+`source_version` leer:
+
+```json
+{
+  "piveau_catalogue_id": "regensburg-dez-sanierungstool",
+  "piveau_original_id": "regensburg-dez-dgm1-gelaendemodell",
+  "source_version": null,
+  "selection_generated_at": "2026-07-28T08:59:30Z",
+  "selection_ewkt": "SRID=4326;POLYGON Z((11.97759446 48.94846059 0,11.98726795 49.11016127 0,12.23352702 49.10351988 0,12.22305933 48.94185670 0,11.97759446 48.94846059 0))",
+  "distribution_access_url": "https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1",
+  "mapping_profile_version": "regensburg-v1"
+}
+```
+
 Bei dateibasierten Eingaben werden zusätzlich Dateiname, Byte-Größe und
 SHA-256-Prüfsumme gespeichert. Dadurch ist vom aktiven DEZ-Release zum
 Piveau-Datensatz und von dort zur konkreten Quelldistribution navigierbar.
@@ -252,6 +327,8 @@ Offene Abnahmepunkte:
 - Nutzungs- und Weitergaberechte dieser drei Lieferungen,
 - konkrete Kostenquelle einschließlich Lizenz, Preisstand und Regionalisierung,
 - geeignete Postleitzahl-Referenz einschließlich räumlicher Granularität,
+- tatsächlicher fachlicher DGM1-Kachelstand und produktive Bereitstellungsroute
+  der ausgewählten GeoTIFF-Kacheln,
 - produktive Piveau-, APISIX- und S3-Endpunkte der Stadt Regensburg sowie
 - fachlicher und technischer Metadatenverantwortlicher.
 
@@ -264,4 +341,5 @@ Offene Abnahmepunkte:
 - [Piveau – Hub APIs](https://doc.piveau.eu/guides/use-the-hub-apis/)
 - [Piveau – Serviceübersicht](https://doc.piveau.eu/hub/services/)
 - [Bayerische Vermessungsverwaltung – OpenData LoD2](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=lod2)
+- [Bayerische Vermessungsverwaltung – OpenData DGM1](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1)
 - [Bayerische Vermessungsverwaltung – Nutzungsbedingungen](https://www.geodaten.bayern.de/odd/m/3/html/nutzungsbedingungen.html)

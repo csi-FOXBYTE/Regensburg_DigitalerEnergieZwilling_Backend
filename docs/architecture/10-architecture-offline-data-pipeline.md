@@ -35,6 +35,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 ## Datenquellen
 
 - **LoD2-Gebäudedaten** (amtliche CityGML-Quelldaten für Gemeinde `09362000`; intern nach CityJSON 2.0.1 konvertiert; Pflichtquelle)
+- **DGM1-Geländemodell** (amtliche GeoTIFF-Kacheln für die dokumentierte Regensburger Polygonauswahl; Terrain-Bereitstellung noch zu konfigurieren)
 - **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
 - **Geothermiepotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft vorgesehen)
 - **Solarpotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; 3D Tiles mit Attributen und Textur vorgesehen)
@@ -363,9 +364,17 @@ Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calc
       "piveau_original_id": "regensburg-dez-lod2-gebaeude",
       "source_version": "2026-07-21T21:07:37Z",
       "distribution_url": "https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4"
+    },
+    {
+      "piveau_catalogue_id": "regensburg-dez-sanierungstool",
+      "piveau_original_id": "regensburg-dez-dgm1-gelaendemodell",
+      "source_version": null,
+      "selection_generated_at": "2026-07-28T08:59:30Z",
+      "selection_ewkt": "SRID=4326;POLYGON Z((11.97759446 48.94846059 0,11.98726795 49.11016127 0,12.23352702 49.10351988 0,12.22305933 48.94185670 0,11.97759446 48.94846059 0))",
+      "distribution_access_url": "https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1"
     }
   ],
-  "input_file_count": 340,
+  "input_file_count": 401,
   "created_at": "2026-02-04T12:00:00Z",
   "started_at": "2026-02-04T12:05:00Z",
   "completed_at": null,
