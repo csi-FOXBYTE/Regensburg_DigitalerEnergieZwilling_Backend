@@ -14,7 +14,7 @@
     "schema": "src/zenstack/schema.zmodel"
   },
   "keywords": [],
-  "license": "ISC",
+  "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
     "@types/node": "^25.0.2",
