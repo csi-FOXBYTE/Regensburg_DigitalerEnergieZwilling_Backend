@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-07-27** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-08-03** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -69,6 +69,7 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-08-03 | Usertesting-Hervorhebung und Geothermie | Flächendeckende Effizienzklassen-Einfärbung war gefordert; Geothermie blieb von Datenbereitstellung abhängig | Ausgewähltes Gebäude wird statisch hervorgehoben; Geothermiedaten wurden durch den Auftraggeber bereitgestellt und werden integriert, Metadaten sind noch zu klären |
 | 2026-07-27 | Sprint 17 | Abschluss der Entwicklung und Stabilisierung eines Inbetriebnahmekandidaten | Zusätzlich Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg |
 | 2026-07-24 | Laufzeit und Sprintmodell | Inbetriebnahme vor einer Sommerpause, danach 3 bis 4 Nachlauf-Sprints | Durchgehende zweiwöchige Sprints bis voraussichtlich 14.09.2026; insgesamt 17 Entwicklungssprints und zwei Inbetriebnahme-Sprints |
 | 2026-07-24 | Release-Takt | Release-Zuordnung ab Sprint 15 war von Enddatum und Ansprechpartnerverfügbarkeit abhängig | Zwei Entwicklungssprints bilden semantisch einen Release; Sprint 17 schließt die Entwicklungsphase ab, Sprint 18 und Sprint 19 dienen der Inbetriebnahme |
@@ -327,7 +328,7 @@ Hinweis:
 
 - Sprint 17 ist der letzte Entwicklungssprint vor der Inbetriebnahme und bildet wegen der ungeraden Gesamtzahl von 17 Entwicklungssprints keinen eigenständigen semantischen Zwei-Sprint-Release.
 - Nicht priorisierte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend in Sprint 17 aufgenommen.
-- Quartiersanalyse sowie Solar/PV/Geothermie bleiben von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung abhängig.
+- Quartiersanalyse sowie Solar/PV bleiben von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung abhängig. Die vom Auftraggeber bereitgestellten Geothermiedaten werden integriert; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
 
 Ergebnis:
 

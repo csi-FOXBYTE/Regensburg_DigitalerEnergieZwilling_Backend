@@ -3,21 +3,21 @@ hide circle
 skinparam classAttributeIconSize 0
 left to right direction
 
-title Digitaler Energie Zwilling (DEZ) - Data Model (Conceptual)
+title Digitaler Energie Zwilling (DEZ) - Datenmodell (fachlich)
 
-class District {
+class "Stadtbezirk" as District {
   +district_id
   +name
 }
 
-class Building {
+class "Gebäude" as Building {
   +building_id
   +lod2_id
   +address
   +district_id
 }
 
-class InputSet {
+class "Eingabensatz" as InputSet {
   +input_id
   +building_id
   +stage
@@ -26,7 +26,7 @@ class InputSet {
   +created_at
 }
 
-class ComponentInput {
+class "Bauteileingabe" as ComponentInput {
   +component_input_id
   +input_id
   +component_type
@@ -35,7 +35,7 @@ class ComponentInput {
   +u_value
 }
 
-class VentilationReference {
+class "Lüftungsreferenz" as VentilationReference {
   +ventilation_reference_id
   +input_id
   +catalog_source
@@ -44,7 +44,7 @@ class VentilationReference {
   +derived_at
 }
 
-class WarmWaterInput {
+class "Warmwassereingabe" as WarmWaterInput {
   +warmwater_input_id
   +input_id
   +method
@@ -52,7 +52,7 @@ class WarmWaterInput {
   +area
 }
 
-class HeatingSystemInput {
+class "Heizsystemeingabe" as HeatingSystemInput {
   +heating_input_id
   +input_id
   +energy_carrier
@@ -60,27 +60,27 @@ class HeatingSystemInput {
   +age
 }
 
-class MeasureOption {
+class "Maßnahmenoption" as MeasureOption {
   +measure_option_id
   +name
   +category
 }
 
-class MeasureSelection {
+class "Maßnahmenauswahl" as MeasureSelection {
   +selection_id
   +input_id
   +measure_option_id
   +with_subsidy
 }
 
-class SubsidyProgram {
+class "Förderprogramm" as SubsidyProgram {
   +subsidy_id
   +name
   +category
   +url
 }
 
-class BerechnungConfigVersion {
+class "Berechnungskonfigurationsversion" as BerechnungConfigVersion {
   +config_version_id
   +version
   +status
@@ -88,7 +88,7 @@ class BerechnungConfigVersion {
   +published_at
 }
 
-class InputConstraint {
+class "Eingabegrenze" as InputConstraint {
   +constraint_id
   +config_version_id
   +key
@@ -97,7 +97,7 @@ class InputConstraint {
   +unit
 }
 
-class BerechnungConfigSnapshot {
+class "Berechnungskonfigurations-Snapshot" as BerechnungConfigSnapshot {
   +snapshot_id
   +config_version_id
   +json_payload
@@ -106,7 +106,7 @@ class BerechnungConfigSnapshot {
   +created_at
 }
 
-class ConfigOption {
+class "Konfigurationsoption" as ConfigOption {
   +option_id
   +config_version_id
   +option_type
@@ -114,14 +114,14 @@ class ConfigOption {
   +value
 }
 
-class BerechnungRun {
+class "Berechnungslauf" as BerechnungRun {
   +run_id
   +input_id
   +config_version_id
   +created_at
 }
 
-class BerechnungResult {
+class "Berechnungsergebnis" as BerechnungResult {
   +result_id
   +run_id
   +scenario_label
@@ -134,7 +134,7 @@ class BerechnungResult {
   +verified_at
 }
 
-class BuildingIndex {
+class "Gebäudeindex" as BuildingIndex {
   +index_id
   +building_id
   +source_triage_id
@@ -145,14 +145,14 @@ class BuildingIndex {
   +efficiency_class
 }
 
-class EfficiencyClass {
+class "Effizienzklasse" as EfficiencyClass {
   +class_id
   +label
   +min_value
   +max_value
 }
 
-class TriageRecord {
+class "Triage-Eintrag" as TriageRecord {
   +triage_id
   +input_id
   +status
@@ -162,30 +162,30 @@ class TriageRecord {
   +published_at
 }
 
-class ReportExport {
+class "Berichtsexport" as ReportExport {
   +export_id
   +scope
   +format
   +created_at
 }
 
-District "1" -- "many" Building
-Building "1" -- "many" InputSet
+District "1" -- "*" Building
+Building "1" -- "*" InputSet
 
-InputSet "1" -- "many" ComponentInput
+InputSet "1" -- "*" ComponentInput
 InputSet "0..1" -- "1" VentilationReference
 InputSet "0..1" -- "1" WarmWaterInput
 InputSet "0..1" -- "1" HeatingSystemInput
 
-InputSet "1" -- "many" MeasureSelection
+InputSet "1" -- "*" MeasureSelection
 MeasureSelection "*" -- "1" MeasureOption
 MeasureOption "*" -- "*" SubsidyProgram
 
-BerechnungConfigVersion "1" -- "many" ConfigOption
-BerechnungConfigVersion "1" -- "many" InputConstraint
+BerechnungConfigVersion "1" -- "*" ConfigOption
+BerechnungConfigVersion "1" -- "*" InputConstraint
 BerechnungConfigVersion "1" -- "0..1" BerechnungConfigSnapshot
-BerechnungConfigVersion "1" -- "many" BerechnungRun
-BerechnungRun "1" -- "many" BerechnungResult
+BerechnungConfigVersion "1" -- "*" BerechnungRun
+BerechnungRun "1" -- "*" BerechnungResult
 BerechnungResult "*" -- "1" EfficiencyClass
 
 InputSet "1" -- "1" TriageRecord
@@ -194,26 +194,27 @@ Building "1" -- "0..1" BuildingIndex
 InputSet "0..*" -- "0..*" ReportExport
 
 note right of Building
-Static potentials and geometry are stored in 3D Tiles,
-not in the database. Only references are persisted.
+Statische Potenziale und Geometrien werden in 3D Tiles gespeichert,
+nicht in der Datenbank. Persistiert werden nur Referenzen.
 end note
 
 note right of ReportExport
-Citizen reports are shown in-app;
-exports are created only on demand.
+Berichte für Bürger/Eigentümer/Vermieter werden in der Anwendung angezeigt;
+Exporte werden nur bei Bedarf erstellt.
 end note
 
 note right of VentilationReference
-Tightness is referenced from catalog values
-and building age (no direct user input).
+Die Luftdichtheit wird aus Katalogwerten
+und Gebäudealter abgeleitet (keine direkte Nutzereingabe).
 end note
 
 note right of TriageRecord
-Status lifecycle:
-neu -> in_pruefung -> freigegeben | abgelehnt | geloescht
-Unplausible or automatically rejected records
-use the status abgelehnt.
-geloescht is the logical tombstone status.
+Statuslebenszyklus:
+neu -> in_pruefung -> freigegeben | abgelehnt
+Die Admin-Aktion "Datensatz abgelehnt"
+verwendet abgelehnt (DECLINED) als Endstatus.
+Die physische Löschung ist eine separate Operation
+und kein Triage- oder Löschmarkierungsstatus.
 end note
 
 @enduml

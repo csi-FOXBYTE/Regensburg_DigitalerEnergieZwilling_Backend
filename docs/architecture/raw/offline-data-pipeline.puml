@@ -7,23 +7,23 @@ skinparam rectangle {
 
 title Offline-Datenpipeline
 
-rectangle "LOD2 Daten\n(CityGML, inkl. Adressen)" as lod2
+rectangle "LoD2-Daten\n(CityGML, inkl. Adressen)" as lod2
 rectangle "Solarpotenziale\n(3D Tiles + Textur)" as solar
-rectangle "Geothermiepotenziale\n(WMS, offen)" as geo
-rectangle "Vegetation (Baeume)\n(3D Tiles)" as trees
+rectangle "Geothermiepotenziale\n(vom Auftraggeber bereitgestellt; Metadaten offen)" as geo
+rectangle "Vegetation (Bäume)\n(3D Tiles)" as trees
 
 rectangle "Externer Datendienst\n(S3-kompatibel)" as s3
-rectangle "CIVITAS/CORE\n(Airflow Orchestrator)" as airflow
-rectangle "Extract-Container\nZIP entpacken" as extract
+rectangle "CIVITAS/CORE\n(Airflow-Orchestrierung)" as airflow
+rectangle "Extraktions-Container\nZIP-Datei entpacken" as extract
 rectangle "Konvertierungs-Container (Add-on)\nCityGML -> CityJSON" as convert
-rectangle "Anreicherungs-Container (Add-on)\nEnrichment auf CityJSON\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
-rectangle "Calculation Core (optional)\nKennwerte auf CityJSON" as calc
+rectangle "Anreicherungs-Container (Add-on)\nAnreicherung von CityJSON\nSolar (PV) + Geothermie\n+ optionale Kennwerte" as enrich
+rectangle "Berechnungskern (optional)\nKennwerte für CityJSON" as calc
 rectangle "Export-Container A\nCityJSON -> 3D Tiles" as export_tiles
 rectangle "Export-Container B\nCityJSON -> CityGML" as export_gml
 
-rectangle "APISIX\n(Web/API Gateway)" as apisix
-rectangle "Tiles Gateway\n(optional)" as gw
-rectangle "Public Client" as client
+rectangle "APISIX\n(Web-/API-Gateway)" as apisix
+rectangle "Externer Kacheldienst\n(TILES_URL)" as tiles_service
+rectangle "Öffentlicher Client" as client
 
 lod2 --> s3
 solar --> s3
@@ -36,22 +36,27 @@ airflow ..> enrich : orchestriert
 airflow ..> calc : orchestriert (optional)
 airflow ..> export_tiles : orchestriert
 airflow ..> export_gml : orchestriert
-s3 --> extract : Download input ZIP
-extract --> convert : extracted files
-convert --> s3 : Upload cityjson/
-s3 --> enrich : Download cityjson/
-enrich --> s3 : Upload cityjson_enriched/
-s3 --> calc : Download cityjson_enriched/
-calc --> s3 : Upload cityjson_enriched/ (updated)
-s3 --> export_tiles : Download cityjson_enriched/
-export_tiles --> s3 : Upload tiles/
-s3 --> export_gml : Download cityjson_enriched/
-export_gml --> s3 : Upload citygml/
+s3 --> extract : Eingabe-ZIP herunterladen
+extract --> convert : entpackte Dateien
+convert --> s3 : cityjson/ hochladen
+s3 --> enrich : cityjson/ herunterladen
+enrich --> s3 : cityjson_enriched/ hochladen
+s3 --> calc : cityjson_enriched/ herunterladen
+calc --> s3 : cityjson_enriched/ hochladen (aktualisiert)
+s3 --> export_tiles : cityjson_enriched/ herunterladen
+export_tiles --> s3 : tiles/ hochladen
+s3 --> export_gml : cityjson_enriched/ herunterladen
+export_gml --> s3 : citygml/ hochladen
 
-s3 --> apisix : direct mode
-apisix --> client : direct mode
-s3 --> gw : optional mode
-gw --> apisix : optional mode
-apisix --> client : optional mode
+s3 --> tiles_service : veröffentlichte Kacheln
+client --> apisix : GET /api/public/tiles/*
+apisix --> client : Weiterleitungsantwort des Backends
+client --> tiles_service : Weiterleitung folgen / Kacheln laden
+
+note right of enrich
+Jeder Lauf verwendet einen aktuellen LoD2-Datensatz.
+Optionale Eingaben werden nur bei Verfügbarkeit verarbeitet.
+Kein update_scope und keine Wiederverwendung angereicherter Ergebnisse.
+end note
 
 @enduml

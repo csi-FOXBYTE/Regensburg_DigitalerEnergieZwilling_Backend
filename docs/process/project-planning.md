@@ -45,6 +45,8 @@ Dieses Dokument fasst Planungs- und Backlog-Notizen aus dem UX/UI-Board zusammen
 - Unit-Tests werden dort umgesetzt, wo sie sinnvoll sind: im Backend, im Berechnungskern und in den Konvertern.
 - Für das Frontend sind keine Unit-Tests vorgesehen.
 - Integrationstests finden nachgelagert statt.
+- Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung.
+- Automatisierte Tests dienen der technischen Regression. Normative Golden Tests und eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
 
 ---
 

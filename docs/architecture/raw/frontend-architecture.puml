@@ -7,27 +7,24 @@ skinparam rectangle {
 
 title Frontend-Architektur
 
-rectangle "Astro Build\n(Static Site Generator)" as astro
-rectangle "Statische Assets\n(HTML/JS/CSS)" as assets
-rectangle "APISIX\n(Web/API Gateway)" as apisix
-rectangle "Public Client\n(BÃ¼rgerbereich)" as public_client
+rectangle "Repository des öffentlichen Frontends\nAstro-Build + nginx" as public_build
+rectangle "Repository des Admin-Frontends\nAstro-Build + nginx" as admin_build
+rectangle "APISIX\n(Web-/API-Gateway)" as apisix
+rectangle "Öffentlicher Client\n(Bürgerbereich)" as public_client
 rectangle "Admin-Bereich\n(Fachpersonal)" as admin_client
 rectangle "Berechnungskern\n(JS-Modul)" as core
-rectangle "Tiles Gateway\n(optional)" as tiles
-rectangle "Externer Datendienst\n(S3-kompatibel, 3D Tiles)" as s3
-rectangle "Backend API\n(Ã¶ffentlich)" as api_public
-rectangle "Backend API\n(admin)" as api_admin
-rectangle "Basemap Services\n(WMS/WMTS)" as basemap
+rectangle "Backend-Kachelweiterleitung\n/api/public/tiles/*" as tiles_redirect
+rectangle "Externer Kacheldienst\n(TILES_URL)" as tiles
+rectangle "Backend-API\n(öffentlich)" as api_public
+rectangle "Backend-API\n(Admin)" as api_admin
+rectangle "Basiskartendienste\n(WMS/WMTS)" as basemap
 
-astro --> assets
-assets --> public_client
-assets --> admin_client
+public_build --> public_client
+admin_build --> admin_client
 public_client --> core
-admin_client --> core
-public_client --> apisix : GET /tiles
-apisix --> s3 : direct mode
-apisix --> tiles : optional mode
-tiles --> s3
+public_client --> apisix : GET /api/public/tiles/*
+apisix --> tiles_redirect
+tiles_redirect --> tiles : HTTP-Weiterleitung
 public_client --> api_public
 admin_client --> api_admin
 public_client --> basemap

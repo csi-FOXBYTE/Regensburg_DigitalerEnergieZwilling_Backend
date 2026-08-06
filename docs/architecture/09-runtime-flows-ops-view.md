@@ -23,8 +23,8 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
-Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional über APISIX an das Backend; Altcha und Rate Limiting werden dabei durch APISIX geprüft. Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.
-Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, optional Tiles Gateway oder direkter Datendienstzugriff, Config Snapshot, Backend API (optional).  
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Tile-Anfragen laufen über `GET /api/public/tiles/*`; das Backend leitet sie per Redirect an die über `TILES_URL` konfigurierte externe Tiles-URL weiter. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional über APISIX an das Backend; Altcha und Rate Limiting werden dabei durch die globale Policy der externen Deployment-Plattform geprüft. Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.
+Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, externer Tiles-Dienst, Config Snapshot, Backend API.  
 Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, APISIX-Altcha-/Rate-Limit-Prüfung fehlgeschlagen, Server-Recompute abweichend.
 
 ![runtime-flow-public.png](./attachments/runtime-flow-public.png)
@@ -32,7 +32,7 @@ Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, APISIX-Altcha-/Rate-Lim
 Quelle: `raw/runtime-flow-public.puml`
 
 **Stadtverwaltung / Fachpersonal-Flow**  
-Admins authentifizieren sich via OIDC über Keycloak. Nach erfolgreichem Login liegt ein verschlüsseltes JWT-Token als Browser-Cookie vor; APISIX prüft dieses Cookie, schützt die Admin-Routen und leitet geprüfte Claims/Rollen an das Backend weiter. Danach bearbeiten Admins Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.
+Admins authentifizieren sich via OIDC über Keycloak. APISIX schützt die Admin-Routen, prüft OIDC vorgelagert und leitet das Access Token weiter. Das Backend vertraut dieser Prüfung nicht allein, sondern validiert das Token produktiv und unabhängig per RS256 gegen die konfigurierte Keycloak-JWKS-Quelle und wertet anschließend Claims und Rollen für die eigene Autorisierungsentscheidung aus. Danach bearbeiten Admins Konfigurationen, veröffentlichen Versionen und triagieren eingegangene Nutzereingaben.
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Admin-Bereich, Auth Middleware, Configuration Service, Triage/Reporting Service, Database.  
 Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validierungsfehler, fehlende Berechtigungen.
 
@@ -41,16 +41,16 @@ Fehlerpfade: Auth fehlgeschlagen, Konflikte bei Konfigurationsversionen, Validie
 Quelle: `raw/runtime-flow-admin.puml`
 
 **Admin Triage-Flow (Detail)**  
-Admins sehen gruppierte Eingaben je Gebäude, vergleichen Datensätze, markieren plausible Einträge und markieren unplausible oder automatisch abgelehnte Datensätze als `abgelehnt`. Fachlich zu entfernende Datensätze können als `gelöscht` markiert werden. Freigegebene Datensätze können für interne Auswertungen genutzt werden.
+Admins sehen Eingaben je Gebäude gruppiert und navigieren zur Prüfung nacheinander zwischen den Geschwistereinreichungen; eine Side-by-side- oder Delta-Ansicht ist nicht vorgesehen. Die technische Vollständigkeit der in die Triage übernommenen Datensätze ist gewährleistet und daher kein Filterkriterium. Admins geben plausible Einträge frei und setzen über die Aktion „Datensatz abgelehnt“ den Endstatus `abgelehnt` (im Code `DECLINED`). Eine tatsächliche Löschung ist kein Triage-Status: Einzelne Einreichungen können gezielt gelöscht werden; die gebündelte Löschung aller Einreichungen einer Gebäude-ID wird nur ausgeführt, wenn sämtliche Einreichungen der Gruppe abgelehnt sind. Freigegebene Datensätze können für interne Auswertungen genutzt werden.
 Beteiligte Komponenten: Admin-Bereich, Backend API, Triage Service, Database.  
-Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates.
+Fehlerpfade: ungültige Filter, fehlende Berechtigung, konkurrierende Status-Updates, gebündelte Löschung bei mindestens einer nicht abgelehnten Einreichung.
 
 ![runtime-flow-admin-triage.png](./attachments/runtime-flow-admin-triage.png)
 
 Quelle: `raw/runtime-flow-admin-triage.puml`
 
 **Datenpipeline-Flow**  
-Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet (vollständiger Lauf oder Teil-Update per `update_scope`); jeder Anreicherungsrun basiert mindestens auf LoD2-GML-Daten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit geänderten oder wiederverwendeten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles, CityGML und NGSI-LD exportiert; 3D Tiles und CityGML werden in den Datendienst hochgeladen, NGSI-LD-Entities werden innerhalb von CIVITAS/CORE an Stellio übergeben und alles wird im Manifest dokumentiert. Einzelne Teilcontainer werden dabei nicht separat manuell getriggert.
+Ein Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet und verarbeitet stets einen aktualisierten LoD2-GML-Datensatz vollständig. Zusätzliche Eingaben werden konditional einbezogen; Adressen stammen aus LoD2 und sind immer enthalten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit den im Lauf bereitgestellten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles, CityGML und NGSI-LD exportiert. 3D Tiles und CityGML werden in den Datendienst hochgeladen, NGSI-LD-Entities werden innerhalb von CIVITAS/CORE an Stellio übergeben und alles wird im Manifest dokumentiert. Separate Teilupdates sowie die Übernahme von Attributen aus einem bereits angereicherten Ergebnisdatensatz sind nicht vorgesehen.
 Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Stellio Context Broker, Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML/NGSI-LD).
 Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Stellio-Publish-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
 
@@ -84,9 +84,9 @@ Quelle: `raw/runtime-flow-delete.puml`
 
 Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
-- **Public Flow**: APISIX prüft Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
-- **Admin Flow**: Keycloak setzt nach Login ein verschlüsseltes JWT-Cookie; APISIX prüft dieses Cookie, erzwingt Rollenprüfung für `Verwalter`, `Systempfleger` und `Administrator` und schützt die Auslieferung des Admin-HTMLs vor administrativen Aktionen.
-- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; unplausible oder automatisch abgelehnte Datensätze enden fachlich im Status `abgelehnt`, fachlich gelöschte Datensätze im Status `gelöscht`.
+- **Public Flow**: Die externe Deployment-Plattform betreibt die globale APISIX-Policy zur Prüfung von Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
+- **Admin Flow**: APISIX schützt die administrativen Routen und prüft OIDC vorgelagert; das Backend validiert das weitergeleitete Access Token unabhängig per RS256/JWKS und setzt die Rollen `manager`, `maintainer` und `admin` selbst für fachliche Zugriffsentscheidungen ein.
+- **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; die Aktion „Datensatz abgelehnt“ endet im fachlichen Status `abgelehnt`. Die physische Löschung ist eine separate Operation und kein Statusübergang. Einzelne Einreichungen werden gezielt gelöscht; vor einer gebündelten Löschung prüft das Backend atomar, dass alle Einreichungen der Gebäude-ID abgelehnt sind.
 - **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefakt- und Publish-Pfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
 

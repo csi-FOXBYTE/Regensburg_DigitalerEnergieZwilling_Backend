@@ -48,7 +48,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles und NGSI-LD, offlin
 
 - **Grunddaten**: Baujahr/Baualtersklasse, Gebäudetyp, Wohnfläche, Wohneinheiten, Personenanzahl.
 - **Gebäudehülle**: Dach, Außenwand, Fenster, Kellerdecke inkl. Zustand/Sanierungsjahr und Dämmung.
-- **Lüftung**: Luftdichtheit als referenzierter Parameter aus Katalogwerten und Baualter (keine direkte Nutzereingabe).
+- **Lüftung**: globaler Lüftungsfaktor im abgestimmten Berechnungskern; keine direkte Nutzereingabe und keine zusätzliche Ableitung einer Luftdichtheitsklasse aus dem Baualter.
 - **Warmwasser & Nutzung**: pauschal, personenbasiert oder verbrauchsbezogen.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Heizkreistemperatur, Regelung, Zusatzheizung und Sanierungsrandbedingungen.
 - **Kosten/Preise & Faktoren**: Jahresverbrauch, Arbeitspreis, Grundpreis, Heizwert, Primärenergiefaktor und CO₂-Faktor.
@@ -119,9 +119,10 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 ### Status-Lifecycle (Triage)
 
 - `neu` → `in_pruefung`
-- `in_pruefung` → `freigegeben`, `abgelehnt` oder `geloescht`
+- `in_pruefung` → `freigegeben` oder `abgelehnt`
 - Statuswechsel werden im Audit-Log mit Zeitstempel und Benutzerkennung protokolliert.
-- `abgelehnt` kennzeichnet unplausible oder automatisch abgelehnte Datensätze; `geloescht` ist ein fachlicher Tombstone-Status. Beide Status dürfen nicht indexiert oder exportiert werden.
+- Die Admin-Aktion „Datensatz abgelehnt“ setzt `abgelehnt` (im Code `DECLINED`) als fachlichen Endstatus. Abgelehnte Datensätze dürfen nicht indexiert oder exportiert werden.
+- Eine tatsächliche Löschung entfernt den Datensatz und wird nicht als Triage- oder Tombstone-Status modelliert. In der Admin-Triage können einzelne Einreichungen gezielt gelöscht werden; die gebündelte Löschung einer Gebäudegruppe ist nur zulässig, wenn alle Einreichungen zu ihrer Gebäude-ID den Status `abgelehnt` besitzen.
 
 ### Statische Tile-Attribute (Auszug)
 
@@ -131,8 +132,8 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
-- **Geothermiepotenziale** werden bei verfügbarer, durch den Auftraggeber freigegebener Datenbereitstellung über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
-- **Datenstand Solar/Geothermie**: Die Einbindung in den MVP hängt von der rechtzeitigen Bereitstellung und Freigabe belastbarer Datensätze ab. Für Solarpotenzial/PV/Speicher liegt aktuell keine Datenfreigabe durch den Auftraggeber vor; Geothermie-Daten sind ebenfalls noch nicht durch den Auftraggeber freigegeben. Optional kann eine Berechnung flurstücksbezogener Geothermie-Potenziale nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
+- **Geothermiepotenziale** werden aus den vom Auftraggeber bereitgestellten Daten über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
+- **Datenstand Solar/Geothermie**: Für Solarpotenzial/PV/Speicher liegt aktuell keine Datenfreigabe durch den Auftraggeber vor. Die Geothermie-Daten liegen vor, sollen verwendet werden und befinden sich in technischer Integration; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 
 ### NGSI-LD-Export nach Stellio
@@ -169,7 +170,7 @@ dokumentiert.
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
-- **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei, lehnt sie ab oder markiert sie fachlich als gelöscht.
+- **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei oder lehnt sie ab. Eine tatsächliche Löschung erfolgt separat über die dafür vorgesehenen Delete-Endpunkte. Der Endpunkt für eine einzelne Einreichung löscht nur diese Einreichung; der Endpunkt für eine Gebäudegruppe prüft atomar, dass alle zugehörigen Einreichungen abgelehnt sind.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
 
@@ -201,17 +202,17 @@ Quelle: `raw/public-write-flow.puml`
 - **Ressourcen**: Gebäude, Eingaben, Berechnungen, Konfigurationen, Kataloge, Triage, Reports
 - **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit Local Storage für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
-- **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch APISIX-Policies für Altcha-Challenges und Rate Limiting geschützt
+- **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch die globale, von der externen Deployment-Plattform betriebene APISIX-Policy für Altcha-Challenges und Rate Limiting geschützt
 - **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
-- **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das von APISIX geprüft wird.
-- **Enforcement**: Altcha-Token und Rate Limiting werden im APISIX Web Gateway geprüft; das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
+- **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das von der globalen APISIX-Policy der externen Deployment-Plattform geprüft wird.
+- **Enforcement**: Bereitstellung, Betrieb und Nachweis der Altcha- und Rate-Limit-Policy sind externe Plattformverantwortung und nicht Bestandteil der DEZ-Repositories. Das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
 - **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
 - **Versionierung**: Konfigurations- und API-Versionen klar trennen
 - **Fehlerformate**: Standardisierte Fehlercodes und Validierungsdetails
 
 ### Client-Generierung aus OpenAPI
 
-- **Source of Truth**: OpenAPI 3.0 aus dem Backend (Fastify-toab/Fastify-Swagger).
+- **Source of Truth**: OpenAPI 3.0 oder höher aus dem Backend (Fastify-toab/Fastify-Swagger; aktuell OpenAPI 3.1.0).
 - **Generator**: Orval im Frontend.
 - **Frontend-Integration**: Orval generiert den API-Client aus der vom Backend abgefragten OpenAPI-Spezifikation.
 - **Versionierung**: Ein separat versioniertes Artefakt `openapi/openapi.json` wird bewusst nicht gepflegt, da die Anzahl angebundener Clients gering bleibt.
@@ -227,10 +228,11 @@ Security by Design wird in Datenmodell und API-Vertrag explizit verankert:
 - **Vertragsbasierte Eingabehärtung**: Public-Write-Requests werden über Schema und Wertebereiche geprüft; ungültige Payloads werden verworfen.
 - **Verifikation vor Weiterverwendung**: Serverseitige Neu-Berechnung und Triage sind Voraussetzungen für interne Indexierung.
 - **Lebenszyklus-Kontrolle**: Statuswechsel folgen einem definierten Triage-Lifecycle und werden auditierbar protokolliert.
+- **Löschsicherheit**: Die gebündelte administrative Löschung wird vollständig zurückgewiesen, sobald mindestens eine Einreichung der Gebäude-ID nicht den Status `abgelehnt` besitzt; eine Teillöschung findet nicht statt.
 - **Konfigurationsintegrität**: Versionierte Snapshots und Checksummen sichern Reproduzierbarkeit und Änderungsnachvollziehbarkeit.
 - **Zugriffsmodell**: OIDC-geschützte Admin-Endpunkte, getrennt von öffentlichen Endpunkten.
 
-Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, TA-43 bis TA-46 sowie TA-58 bis TA-64.
+Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, TA-151, TA-43 bis TA-46 sowie TA-58 bis TA-64.
 
 ---
 
@@ -240,7 +242,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 ### Abgleich mit technischen Anforderungen
 
 - Die Trennung von öffentlichen und administrativen APIs entspricht TA-02, TA-03 und TA-35.
-- Public Write mit APISIX-Altcha und Rate Limiting entspricht TA-47 bis TA-51.
+- Public Write mit der extern betriebenen globalen APISIX-Policy für Altcha und Rate Limiting entspricht TA-47 bis TA-51.
 - Konfigurations-Publishing mit Snapshot entspricht TA-27 bis TA-46.
 - Offline-Pipeline, 3D Tiles Prinzipien und NGSI-LD-Export nach Stellio entsprechen TA-10 bis TA-18 sowie TA-72.
 
@@ -249,10 +251,10 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 - **Configuration Service**: Konfigurationen, Versionierung, Publishing (TA-27 bis TA-46).
 - **Config Snapshot Exporter**: Export der JSON-Snapshots (TA-44 bis TA-45).
 - **User Data Service**: Public Write, Persistenz der Eingaben und Ergebnisse (TA-33, TA-36).
-- **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views (TA-34, TA-50).
+- **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views sowie gezielte und bedingte gebündelte Löschoperationen (TA-34, TA-50, TA-151).
 - **Berechnungsservice**: Server-Recompute für Verifikation (TA-49).
 - **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
-- **Auth Middleware**: Auswertung APISIX-geprüfter Claims/Rollen für Admin-Endpoints; JWT/OIDC-Prüfung und Routenschutz erfolgen in APISIX (TA-04).
+- **Auth Middleware**: Das Backend nimmt Access Tokens aus `X-Access-Token` oder `Authorization: Bearer` entgegen, validiert sie produktiv per RS256 gegen die konfigurierte Keycloak-JWKS-Quelle und wertet anschließend Claims und Rollen aus. APISIX schützt zusätzlich die externen Admin-Routen (TA-04).
 
 ### Entscheidung Reports
 

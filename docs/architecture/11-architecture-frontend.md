@@ -23,7 +23,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 <a id="umfang-und-abgrenzung"></a>
 ## Umfang und Abgrenzung
 
-- Umfasst Public Client und Admin-Bereich.
+- Umfasst Public Frontend und Admin Frontend als getrennte Anwendungen, Repositories, Builds und Deployments.
 - Beschreibt nicht die Offline-Datenpipeline oder die Backend-Implementierung.
 
 ---
@@ -35,8 +35,8 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Übernahme der freigegebenen LOD2- und Anreicherungsattribute als
   Berechnungsvorbelegung gemäß
   [LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md).
-- Visualisierung von Solarpotenzialen (PV) und Geothermiepotenzialen aus 3D Tiles nach Datenfreigabe.
-- Verbindliche Gebäudeeinfärbung im 3D-Client auf Basis von Effizienzklassen/Ergebnisattributen (Cesium Tileset Styles).
+- Visualisierung von Solarpotenzialen (PV) nach Datenfreigabe und Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten.
+- Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; keine flächendeckende Einfärbung nach Energieeffizienzklassen.
 - Abbildung von zwei PV-Darstellungen in der UI erst nach Datenfreigabe:
   - PV + Speicher für Wärmepumpenbetrieb (energetische und finanzielle Effekte)
   - maximale Ausnutzung geeigneter PV-Flächen (Potenzialkommunikation für Haushaltsstrom/KFZ-Ladung)
@@ -55,12 +55,10 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 <a id="schnittstellen"></a>
 ## Schnittstellen
 
-- 3D Tiles über APISIX:
-  - direkter Zugriff auf den externen Datendienst oder
-  - Zugriff über ein optionales Tiles Gateway.
+- 3D Tiles über `GET /api/public/tiles/*`; das Backend leitet per Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL weiter.
 - Konfigurations-Snapshots (versionierte JSON) vom Backend.
 - Öffentliche und administrative Backend-APIs.
-- Generierter, typsicherer API-Client aus OpenAPI 3.0 mit Orval.
+- Generierter, typsicherer API-Client aus OpenAPI 3.0 oder höher mit Orval.
 - Basemap-Dienste (WMS/WMTS) für Kartenhintergründe.
 
 ---
@@ -104,22 +102,22 @@ Eventkatalog, Funnel-IDs, KPI-Definitionen und Abnahmekriterien sind im [Matomo-
 - Solarthermie ist derzeit nicht Bestandteil des vorgesehenen Berechnungskern-Umfangs; eine spätere Erweiterung erfordert zuerst einen fachlich definierten Rechenweg.
 - Für PV/Speicher liegt aktuell noch keine Datenfreigabe durch den Auftraggeber vor; aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt.
 - Für die Solar-Anreicherung liegt aktuell ebenfalls keine Datenfreigabe durch den Auftraggeber vor; daher findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
-- Die Geothermie-Bewertung hängt von der Datenfreigabe durch den Auftraggeber ab und bleibt im MVP bis zur Datenklärung offen. Optional kann eine Ersatzberechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
+- Die Geothermie-Daten wurden durch den Auftraggeber bereitgestellt und sollen verwendet werden; die Implementierung befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ---
 
 <a id="build-und-auslieferung"></a>
 ## Build und Auslieferung
 
-- Statische Webanwendung; Build erfolgt zur Projekt-Build-Zeit.
-- Build basiert auf Astro mit zwei Islands: Public Client und Admin Dashboard.
-- API-Client und Query-/Mutation-Anbindungen werden aus der OpenAPI-3.0-Spezifikation mit Orval generiert.
-- Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert.
+- Public Frontend und Admin Frontend sind eigenständige statische Webanwendungen in getrennten Repositories.
+- Jede Anwendung besitzt einen eigenen Astro-Build, ein eigenes Container-Image und ein separates nginx-Deployment.
+- API-Client und Query-/Mutation-Anbindungen werden aus einer Spezifikation nach OpenAPI 3.0 oder höher mit Orval generiert.
+- Administrative API-Aktionen werden durch APISIX und die Token-/Rollenprüfung des Backends geschützt; die statische Auslieferung des Admin Frontends enthält keine fachliche Autorisierungslogik.
 - Statische Assets sind cachefähig, dynamische Daten kommen über APIs.
 - Die Laufzeit-Auslieferung erfolgt über nginx; Logging wird über den nginx-Standard-Logger auf `stdout`/`stderr` ausgegeben.
 - Requests auf statische Assets, die keine HTML-Dateien sind, werden in diesem Setup nicht geloggt.
 
-Begriff: **Island-Architektur** bezeichnet in Astro die Kombination aus statischem HTML und gezielt eingebundenen interaktiven Islands.
+Innerhalb beider Astro-Anwendungen können interaktive Islands eingesetzt werden; sie bilden jedoch keine gemeinsame Laufzeiteinheit und kein gemeinsames Deployment.
 
 ---
 

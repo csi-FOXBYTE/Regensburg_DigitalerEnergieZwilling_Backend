@@ -37,7 +37,7 @@ Zusätzlich konfiguriert das Add-on zur Laufzeit:
 
 - Ingress-Einträge für die drei Hosts (in Kubernetes)
 - APISIX-Upstreams und APISIX-Routen
-- OIDC-Client und Rollen (`Verwalter`, `Systempfleger`, `Administrator`) in Keycloak
+- OIDC-Client und Rollen (`manager`, `maintainer`, `admin`) in Keycloak
 - Backend-Datenbankzugang aus zentralem CIVITAS/CORE-DB-Secret
 
 ---
@@ -78,7 +78,7 @@ Empfehlung: Produktiver Betrieb soll auf dem vorgesehenen CIVITAS/CORE-Betriebsm
 
 Die folgenden Risiken sind im manuellen Deployment regelmäßig zu erwarten:
 
-- **Sicherheitsrisiko**: OIDC-Flows, Rollenprüfung und Gateway-Regeln können inkonsistent oder unvollständig umgesetzt werden.
+- **Sicherheitsrisiko**: OIDC-Flows, Gateway-Regeln sowie die davon unabhängige Token- und Rollenprüfung im Backend können inkonsistent oder unvollständig umgesetzt werden.
 - **Compliance-Risiko**: Security-Header, CORS und Rate-Limits werden nicht einheitlich gepflegt.
 - **Betriebsrisiko**: Zertifikatsablauf, DNS-Fehler und Secret-Rotation müssen manuell überwacht werden.
 - **Verfügbarkeitsrisiko**: Fehlende Cluster-Mechanismen (Self-Healing, Rolling Update, standardisierte Probes) erhöhen Ausfallwahrscheinlichkeit.
@@ -96,7 +96,7 @@ Wer dennoch manuell deployt, übernimmt dauerhaft:
 - Provisionierung und Betrieb von `admin`, `public`, `backend`
 - vollständige Gateway-Konfiguration für `admin_host`, `public_host`, `backend_host`
 - OIDC-Client-Lifecycle (Anlage, Secret-Rotation, Redirect-URI-Pflege, Rollenmodell)
-- Betrieb der Sicherheitskontrollen (`openid-connect`, Rollenprüfung, CORS, Rate-Limit, Security-Header)
+- Betrieb der Sicherheitskontrollen (`openid-connect`, Gateway-Routenschutz, unabhängige Token-/Rollenprüfung im Backend, CORS, Rate-Limit, Security-Header)
 - TLS-/Zertifikatsmanagement inklusive Erneuerung und Monitoring
 - Secret-Management für Datenbank und OIDC
 - Incident-Handling bei Auth-/Routing-/Zertifikatsfehlern

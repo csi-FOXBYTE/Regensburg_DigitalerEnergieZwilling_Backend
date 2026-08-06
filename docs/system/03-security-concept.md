@@ -38,7 +38,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Administrativer Client (geschützter Bereich).
 - Backend-API, Datenbank, Konfigurations-Publishing.
 - Offline-Datenpipeline (Airflow, Container, externer Datendienst).
-- Tiles Gateway und 3D Tiles Storage.
+- Backend-Redirect für 3D Tiles und extern bereitgestellter Tiles-Dienst.
 
 ---
 
@@ -88,15 +88,15 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 ## Identität, Zugriff und Rollen
 
 - Admin-Zugriff ausschließlich über OIDC (Keycloak).
-- Ist ein Nutzer nicht authentifiziert, wird der Login über Keycloak durchgeführt. Nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie; APISIX prüft dieses Cookie für geschützte Routen.
+- Ist ein Nutzer nicht authentifiziert, wird der Login über Keycloak durchgeführt. APISIX schützt die administrativen Routen und übernimmt die vorgelagerte OIDC-Prüfung. Diese Prüfung ist nicht die einzige Vertrauensinstanz: Das Backend validiert das weitergeleitete Access Token in produktiven Umgebungen unabhängig per RS256 gegen die konfigurierte Keycloak-JWKS-Quelle.
 - Rollenbasierte Freigaben für Systempflege und Triage. Das Rollenmodell ist in Definition:
-  - `Verwalter`: Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
-  - `Systempfleger`: Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
-  - `Administrator`: voller Zugriff auf den internen Client.
-- Öffentliche Schreibzugriffe nur mit APISIX-Policies für Altcha und Rate Limiting sowie serverseitiger fachlicher Validierung im Backend.
+  - `manager` (Verwalter): Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
+  - `maintainer` (Systempfleger): Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
+  - `admin` (Administrator): voller Zugriff auf den internen Client.
+- Öffentliche Schreibzugriffe nur mit der globalen APISIX-Policy der externen Deployment-Plattform für Altcha und Rate Limiting sowie serverseitiger fachlicher Validierung im Backend. Bereitstellung, Betrieb und Nachweis der Gateway-Policy liegen außerhalb der DEZ-Repositories.
 - Namespace-Policy für APIs:
-  - `"/api/admin/*"` ist per Default geschützt; APISIX prüft JWT/OIDC und erzwingt AuthN/AuthZ sowie Routenschutz.
-  - Das Backend wertet nur vom Gateway durchgereichte Claims/Rollen für fachliche Zugriffskontrolle aus; eine eigene JWT-Signaturprüfung ist nicht Teil der Backend-Implementierung.
+  - `"/api/admin/*"` ist per Default geschützt; APISIX erzwingt den externen Routenschutz.
+  - Das Backend nimmt Access Tokens aus `X-Access-Token` oder `Authorization: Bearer` entgegen, validiert sie produktiv per RS256/JWKS und wertet danach Claims/Rollen für die fachliche Zugriffskontrolle aus.
   - `"/api/public/*"` ist per Default nicht über Backend-Auth-Middleware geschützt; Absicherung erfolgt über APISIX-Policies plus serverseitige Validierung.
 
 ---
@@ -131,9 +131,10 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Verschlüsselte Datenübertragung (TLS) für alle externen Zugriffe.
 - Backend nicht direkt aus dem Internet erreichbar; Zugriff über API-Management (APISIX).
 - Route-Schutz (public/protected) wird zentral im API-Gateway definiert und versioniert (lokal: `.devcontainer/apisix/apisix.yaml`).
-- APISIX ist der verbindliche Enforcement-Point für JWT/OIDC-Validierung, Signaturprüfung und geschützte Routen.
-- Die produktive Auth-Prüfung basiert auf dem von Keycloak gesetzten verschlüsselten JWT-Cookie im Browser.
-- APISIX ist außerdem der Enforcement-Point für Altcha-Challenges und Rate Limiting bei öffentlichen Schreibzugriffen.
+- APISIX ist der verbindliche externe Enforcement-Point für Routenschutz und die vorgelagerte JWT/OIDC-Prüfung.
+- Das Backend bildet eine eigenständige zweite Enforcement-Schicht: Es übernimmt das Access Token aus `X-Access-Token` oder `Authorization: Bearer`, prüft Signatur und zeitliche Gültigkeit erneut per RS256/JWKS und erzwingt die fachlichen Rollen und Berechtigungen. Eine alleinige Freigabe durch APISIX reicht für administrative Aktionen nicht aus.
+- Keycloak stellt das Access Token aus. APISIX kann es im OIDC-Flow über das geschützte Browser-Cookie verarbeiten; das Backend erhält das Token über `X-Access-Token` oder `Authorization: Bearer` und führt darauf seine unabhängige Prüfung aus.
+- Die externe Deployment-Plattform betreibt APISIX als Enforcement-Point für die globale Altcha- und Rate-Limit-Policy bei öffentlichen Schreibzugriffen. Die DEZ-Repositories setzen diese Policy voraus, stellen sie aber nicht selbst bereit; der Betriebsnachweis ist daher auf Plattformebene zu führen.
 - Datenbankzugriff nur aus dem Backend, keine direkten Client-Verbindungen.
 
 ---

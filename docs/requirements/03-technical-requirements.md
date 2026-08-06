@@ -55,6 +55,8 @@ Die technischen Anforderungen dienen als:
 
 Verbindlichkeit: **MUSS** = verpflichtend, **SOLL** = wünschenswert/nice-to-have, **KANN** = optional.
 
+Die Anforderungs-IDs sind dauerhaft stabil. Entfällt eine Anforderung, bleibt ihre Nummer als beabsichtigte Lücke unbesetzt; vorhandene Anforderungen werden nicht nachträglich umnummeriert und freie IDs nicht erneut vergeben.
+
 ---
 
 <a id="1-architektur-grundprinzipien"></a>
@@ -83,7 +85,7 @@ Das System muss eine klare technische Trennung zwischen öffentlichem Bürgerber
 
 **TA-04**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Administrative Funktionen müssen serverseitig geschützt und nur nach erfolgreicher Authentifizierung erreichbar sein.
+Administrative Funktionen müssen serverseitig geschützt und nur nach erfolgreicher Authentifizierung und Autorisierung erreichbar sein. APISIX übernimmt den vorgelagerten Routenschutz und die Gateway-seitige OIDC-Prüfung. Das Backend darf dieser Prüfung nicht allein vertrauen: Es muss das weitergeleitete Access Token in produktiven Umgebungen unabhängig per RS256 gegen die konfigurierte Keycloak-JWKS-Quelle validieren und die erforderlichen Rollen beziehungsweise Berechtigungen selbst durchsetzen.
 
 ---
 
@@ -145,13 +147,13 @@ Die 3D-Visualisierung muss auf dem Standard 3D Tiles basieren.
 <a id="ta-12"></a>
 
 **TA-12**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
-Wenn belastbare Solarpotenzial- bzw. Geothermiedaten rechtzeitig bereitgestellt und durch den Auftraggeber freigegeben werden, müssen diese als statische Attribute direkt in den 3D Tiles abgelegt sein.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Belastbare Solarpotenzialdaten müssen nach ihrer Freigabe als statische Attribute direkt in den 3D Tiles abgelegt werden. Die vom Auftraggeber bereitgestellten Geothermiedaten sind entsprechend offline anzureichern; vor der produktiven Veröffentlichung müssen ihre noch offenen Metadaten geklärt sein.
 
 <a id="ta-13"></a>
 
 **TA-13**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht zur Laufzeit berechnet werden.
 
 > ⚠️ **Hinweis:** Für Solarthermie ist im aktuellen Berechnungskern noch kein Rechenweg vorgesehen. Eine technische Einbindung ist daher derzeit nicht belastbar spezifiziert.
@@ -166,7 +168,7 @@ Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht 
 
 **TA-15**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-3D Tiles müssen über APISIX bereitgestellt werden, entweder per direktem HTTPS-Zugriff auf den externen Datendienst (S3-kompatibel) oder über ein dediziertes Tiles Gateway.
+3D-Tile-Anfragen müssen über APISIX an `GET /api/public/tiles/*` des Backends geleitet werden. Das Backend gibt einen Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL zurück; der Tiles-Dienst selbst wird nicht vom DEZ-Add-on bereitgestellt.
 
 ---
 
@@ -339,7 +341,7 @@ Nutzereingaben müssen persistent in einer relationalen Datenbank gespeichert we
 
 **TA-37**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Die Datenbank muss räumliche Erweiterungen für Geoabfragen unterstützen. Für den DEZ wird hierfür SQLite mit SpatiaLite eingesetzt.
+Das Backend muss Nutzereingaben, Triagezustände und Berechnungskonfigurationen in PostgreSQL speichern. Räumliche Vorverarbeitung und die Erzeugung der lokalen Adressdatenbank erfolgen außerhalb des Backend-Laufzeitpfads in der Offline-Pipeline; dort werden SQLite und, soweit für räumliche Verarbeitung erforderlich, SpatiaLite eingesetzt.
 
 <a id="ta-38"></a>
 
@@ -375,7 +377,7 @@ Das System muss Mechanismen zur Beobachtbarkeit wie Logging, Metriken und Tracin
 
 **TA-42**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Das System muss containerisierbar sein und in einer orchestrierten Umgebung betrieben werden können.
+Das System muss containerisierbar sein und in einer orchestrierten Umgebung betrieben werden können. Das Backend stellt dafür den gemeinsamen Health-Endpunkt `GET /health` bereit, der von der Deployment-Plattform für Liveness- und Readiness-Prüfungen verwendet werden kann.
 
 ---
 
@@ -442,7 +444,7 @@ Nur verifizierte und triagierte Ergebnisse dürfen für die Gebäude-Indexierung
 **TA-51**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
 Öffentliche Schreibzugriffe müssen durch Altcha-Challenges und Rate Limiting geschützt werden.
-Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; Prüfung des übermittelten Tokens und Rate Limiting erfolgen über APISIX als vorgelagerte Gateway-Policy.
+Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; Prüfung des übermittelten Tokens und Rate Limiting erfolgen über eine globale APISIX-Gateway-Policy. Bereitstellung, Konfiguration, Betrieb und Nachweis dieser Policy liegen in der Verantwortung der externen Deployment-Plattform und nicht in den Repositories des DEZ-Add-ons. Das Backend übernimmt nachgelagert weiterhin Schema- und Fachvalidierung sowie Recompute-Verifikation.
 
 ---
 
@@ -502,7 +504,7 @@ Das System muss Prinzipien von Security by Design umsetzen (Least Privilege, Sec
 
 **TA-59**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Alle externen Zugriffe müssen authentifiziert und autorisiert sein; Zugriffstoken dürfen nicht im Code abgelegt werden.
+Alle nicht ausdrücklich öffentlichen externen Zugriffe müssen authentifiziert und autorisiert sein; Zugriffstoken dürfen nicht im Code abgelegt werden. Für administrative APIs müssen mindestens zwei Schutzschichten wirken: APISIX als vorgelagerter Gateway- und Routenschutz sowie die unabhängige Token-, Claim- und Rollenprüfung im Backend. Eine erfolgreiche Prüfung durch APISIX allein darf keinen administrativen Zugriff gewähren.
 
 <a id="ta-60"></a>
 
@@ -592,7 +594,7 @@ Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempel
 <a id="ta-71"></a>
 
 **TA-71**  
-*Release-Zuordnung:* [Release 6 / Inbetriebnahme vor der Sommerpause](../roadmap/mvp-definition.md#release-6-inbetriebnahme)
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanning und Patch-Management sind verpflichtend; vor Go-Live ist ein Penetrationstest durchzuführen. Ergänzend müssen Programmdokumentation, Inline-Dokumentation sowie Architektur-, ER- und Datenflussmodell fortlaufend gepflegt und bereitgestellt werden.
 
 ---
@@ -677,19 +679,25 @@ Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss tra
 
 **TA-80**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`, `gelöscht`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Unplausible oder automatisch abgelehnte Datensätze sind als `abgelehnt` zu markieren; fachlich gelöschte Datensätze erhalten den Status `gelöscht`.
+Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Die Admin-Aktion „Datensatz abgelehnt“ setzt den fachlichen Endstatus `abgelehnt` (im Code `DECLINED`). Eine tatsächliche Löschung entfernt den Datensatz, ist kein Triage-Status und erfolgt entweder öffentlich nach TA-76 und TA-77 oder administrativ nach TA-151.
 
 <a id="ta-81"></a>
 
 **TA-81**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude bereitstellen, inkl. Vergleich mehrerer Datensätze.
+Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude und die Navigation zwischen den zugehörigen Geschwistereinreichungen bereitstellen. Der Vergleich erfolgt durch das nacheinander erfolgende Prüfen innerhalb dieser Gruppe; eine parallele Side-by-side- oder automatisch berechnete Delta-Ansicht ist nicht erforderlich.
 
 <a id="ta-83"></a>
 
 **TA-83**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben`, `abgelehnt` oder `gelöscht`. Die Status `freigegeben`, `abgelehnt` und `gelöscht` sind fachliche Endzustände; `abgelehnt` kennzeichnet unplausible oder automatisch abgelehnte Datensätze.
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `abgelehnt`. Die Status `freigegeben` und `abgelehnt` sind fachliche Endzustände. `abgelehnt` kennzeichnet Datensätze, die durch die Admin-Aktion „Datensatz abgelehnt“ verworfen wurden. Die physische Löschung ist eine separate Operation außerhalb des Status-Lifecycles.
+
+<a id="ta-151"></a>
+
+**TA-151**  
+*Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
+Die administrative Triage-API muss die gezielte physische Löschung einer einzelnen Einreichung unterstützen. Für die gebündelte physische Löschung aller Einreichungen zu einer Gebäude-ID muss das Backend unmittelbar vor der Löschung prüfen, dass sämtliche aktuell zugeordneten Einreichungen den Status `abgelehnt` besitzen; andernfalls muss es die gesamte gebündelte Löschoperation ohne Teillöschung zurückweisen.
 
 ---
 
@@ -727,7 +735,7 @@ Live-Ergebnisse sollen nach Eingabeänderungen ohne expliziten Berechnungs-Butto
 
 > ⚠️ **Hinweis:** Die genannten Eingaben bilden keine festen Stufen. Sie können entlang eines kontinuierlichen Spektrums bedarfsorientiert kombiniert werden.
 >
-> Luftdichtheit wird nicht direkt durch Nutzer eingegeben, sondern aus allgemeinen Annahmen (Katalogwerte und Baualter) referenziert.
+> Luftdichtheit wird nicht direkt durch Nutzer eingegeben. Im abgestimmten Berechnungskern wird der Lüftungswärmeverlust über einen globalen Faktor berücksichtigt; eine baualtersabhängige Luftdichtheitsklasse ist nicht Bestandteil des vereinbarten Umfangs.
 >
 > Eingaben sind als automatisch/manuell/geschätzt zu markieren; Validierungen erfolgen eingabetiefenspezifisch.
 
@@ -826,7 +834,7 @@ Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen 
 
 **TA-95**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Falls flurstücksbezogene Geothermiepotenziale nicht rechtzeitig verfügbar und durch den Auftraggeber freigegeben sind, kann eine optionale Berechnung aus den verfügbaren Daten nach dem LfU-/TUM-Vorgehen geprüft werden. Dieser Fallback ist fachlich zu beauftragen und in der Pipeline nur nach Datenklärung vorzusehen.
+Ein zusätzlicher Fallback zur Berechnung flurstücksbezogener Geothermiepotenziale nach dem LfU-/TUM-Vorgehen wird gemäß Projektentscheidung nicht benötigt und ist nicht Bestandteil des Implementierungsumfangs.
 
 ---
 
@@ -858,19 +866,19 @@ Das Sicherheitskonzept muss sich an relevanten Bausteinen des BSI IT-Grundschutz
 <a id="ta-97"></a>
 
 **TA-97**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Für Solarthermie besteht im aktuellen Berechnungskern noch kein technischer Rechenweg. Eine Modellierung als Maßnahme zur Unterstützung der Warmwasserbereitung ist daher erst nach fachlicher Spezifikation und Core-Erweiterung möglich.
 
 <a id="ta-98"></a>
 
 **TA-98**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, Eingabeparameter, Ergebniskennzahlen und Validierungsregeln verbindlich festgelegt werden.
 
 <a id="ta-99"></a>
 
 **TA-99**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Sofern belastbare PV-Potenzialdaten bereitgestellt und durch den Auftraggeber freigegeben werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
 
 - Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
@@ -881,14 +889,14 @@ Aktuell liegt für PV/Speicher keine Datenfreigabe durch den Auftraggeber vor. A
 <a id="ta-100"></a>
 
 **TA-100**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
-Wenn Geothermiedaten eingebunden werden, muss die Geothermie-Einschätzung technisch in einer festen Prioritätsreihenfolge erfolgen: Grundwasser, Erdreich, Luft. Voraussetzung ist die Freigabe der Daten durch den Auftraggeber oder eine beauftragte optionale Ersatzberechnung nach LfU-/TUM-Vorbild.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Die vom Auftraggeber bereitgestellten Geothermiedaten müssen technisch in einer festen Prioritätsreihenfolge ausgewertet werden: Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten müssen vor der produktiven Veröffentlichung ergänzt werden. Eine Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
 
 <a id="ta-101"></a>
 
 **TA-101**  
-*Release-Zuordnung:* [Nachlauf nach der Sommerpause](../roadmap/mvp-definition.md#nachlauf-nach-der-sommerpause)
-Bis zur Bereitstellung und Freigabe belastbarer Solarpotenzial- und Geothermie-Datensätze ist deren Einbindung im MVP optional. Für Solarpotenzial/PV/Speicher erfolgt ohne Datenfreigabe keine vorbereitende Implementierung. Für Geothermie liegt aktuell ebenfalls keine Datenfreigabe durch den Auftraggeber vor; eine optionale Berechnung nach LfU-/TUM-Vorbild ersetzt die Datenfreigabe nur bei gesonderter fachlicher Entscheidung. Falls Geothermie vor einer vollständigen Klärung eingebunden wird, ist die Bewertung als vorläufig zu kennzeichnen; der produktive Einsatz im MVP bleibt bis zur Klärung offen.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Bis zur Bereitstellung und Freigabe belastbarer Solarpotenzialdaten ist deren Einbindung im MVP optional; für Solarpotenzial/PV/Speicher erfolgt ohne Datenfreigabe keine vorbereitende Implementierung. Geothermiedaten wurden durch den Auftraggeber bereitgestellt, sollen verwendet werden und befinden sich in technischer Integration. Solange Herkunfts-, Lizenz-, Turnus- und Schemametadaten nicht vollständig geklärt sind, muss die Geothermie-Bewertung als vorläufig gekennzeichnet werden. Ein zusätzlicher Fallback nach LfU-/TUM-Vorbild wird nicht benötigt.
 
 ---
 
@@ -918,10 +926,7 @@ Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzeln
 
 **TA-105**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Für die Bereitstellung von 3D Tiles müssen zwei Betriebsmodi unterstützt werden:
-
-- direkter Zugriff auf den externen S3-kompatiblen Datendienst hinter APISIX
-- Zugriff über ein optionales Tiles Gateway hinter APISIX
+Das Backend muss unter `GET /api/public/tiles/*` auf die entsprechend konfigurierte externe Tiles-URL weiterleiten. Das Ziel wird über `TILES_URL` aus der Deployment-Konfiguration vorgegeben. Der DEZ setzt damit einen extern bereitgestellten Tiles-Dienst voraus und stellt selbst kein Tiles Gateway bereit.
 
 <a id="ta-106"></a>
 
@@ -935,7 +940,7 @@ Der Aufruf der DEZ-Plattform aus dem MasterPortal muss technisch verbindlich üb
 
 **TA-107**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen und muss über Cesium Tileset Styles (z.B. `Cesium3DTileStyle`) auf Basis der Effizienzklassen bzw. Ergebnisattribute steuerbar sein.
+Das im öffentlichen 3D-Client ausgewählte Gebäude muss unabhängig von seiner Energieeffizienzklasse gut sichtbar und statisch hervorgehoben werden. Eine flächendeckende Einfärbung des Tilesets nach Energieeffizienzklassen ist aufgrund der nach dem Usertesting geänderten Ergebnisdarstellung nicht vorgesehen.
 
 ---
 
@@ -947,13 +952,13 @@ Die Gebäudeeinfärbung im öffentlichen 3D-Client ist verpflichtend umzusetzen 
 
 **TA-108**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Das Backend muss eine OpenAPI-3.0-Spezifikation als Source of Truth bereitstellen; die Spezifikation wird über die bestehenden Fastify-toab/OpenAPI-Mechanismen erzeugt.
+Das Backend muss eine Spezifikation nach OpenAPI 3.0 oder höher als Source of Truth bereitstellen; die Spezifikation wird über die bestehenden Fastify-toab/OpenAPI-Mechanismen erzeugt.
 
 <a id="ta-109"></a>
 
 **TA-109**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der Frontend-API-Client muss aus der vom Backend bereitgestellten OpenAPI-3.0-Spezifikation generiert werden; hierfür wird Orval eingesetzt.
+Der Frontend-API-Client muss aus der vom Backend bereitgestellten Spezifikation nach OpenAPI 3.0 oder höher generiert werden; hierfür wird Orval eingesetzt.
 
 <a id="ta-110"></a>
 
@@ -1010,25 +1015,25 @@ Der LOD2-Basisdatensatz muss mit einem Zielzyklus von zwei Jahren aktualisiert w
 
 **TA-117**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Solarpotenzial- und Geothermie-Basisdaten müssen unabhängig vom LOD2-Zyklus mit jeweils eigenen Aktualisierungszeiträumen aktualisierbar sein.
+Solarpotenzial- und Geothermie-Basisdaten dürfen eigene fachliche Aktualisierungszeiträume besitzen. Ihre Übernahme in den DEZ erfolgt innerhalb eines kombinierten Pipeline-Laufs, der stets einen aktualisierten LoD2-GML-Datensatz vollständig verarbeitet.
 
 <a id="ta-118"></a>
 
 **TA-118**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die Offline-Pipeline muss Aktualisierungsruns über einen `update_scope` unterstützen (mindestens: `lod2`, `solar`, `geothermie`, `full`). Jeder Anreicherungsrun muss mindestens auf LoD2-GML-Daten basieren; nachträgliche Anreicherungen ausschließlich über Nicht-LoD2-Datenquellen sind nicht vorgesehen.
+Jeder Lauf der Offline-Pipeline muss einen aktualisierten LoD2-GML-Datensatz als verpflichtende Basiseingabe vollständig verarbeiten. Zusätzliche Eingaben wie Solar- oder Geothermiedaten werden konditional verarbeitet, wenn sie für den Lauf bereitgestellt sind. Adressdaten werden aus LoD2 übernommen und sind deshalb Bestandteil jedes Laufs. Ein separater `update_scope` für isolierte Teilupdates ist nicht vorgesehen.
 
 <a id="ta-119"></a>
 
 **TA-119**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Ein Aktualisierungsrun darf keine obligatorische Neuverarbeitung unveränderter Zusatzdaten erzwingen. Optionale Komponenten, die bereits im angereicherten Datensatz vorhanden sind (z.B. Solarpotenzial, Baualtersklasse), dürfen bei einem reinen LoD2-Update wiederverwendet werden, sofern sich die zugehörigen Zusatzdatensätze nicht geändert haben.
+Jeder Aktualisierungsrun erzeugt aus dem aktualisierten LoD2-Datensatz und den für diesen Lauf bereitgestellten optionalen Eingangsdaten einen neuen konsistenten Ergebnisdatensatz. Bereits angereicherte Ergebnisdatensätze werden weder erneut eingereicht noch als Quelle für die Übernahme unveränderter Zusatzattribute verwendet.
 
 <a id="ta-120"></a>
 
 **TA-120**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für die Nachnutzung durch andere Kommunen muss die Pipeline so ausgelegt sein, dass Aktualisierungen je Datenquelle unabhängig voneinander konfiguriert, gestartet und validiert werden können.
+Für die Nachnutzung durch andere Kommunen muss die Pipeline so konfigurierbar sein, dass optionale Datenquellen je Deployment aktiviert, deaktiviert und validiert werden können. Die Ausführung bleibt ein kombinierter Lauf auf Basis eines aktualisierten LoD2-Datensatzes; isolierte Aktualisierungsläufe einzelner Zusatzquellen sind nicht vorgesehen.
 
 ---
 
@@ -1150,7 +1155,7 @@ Jeder abgeleitete Basisdatenwert in 3D Tiles muss provenance-fähig auf Quellver
 
 **TA-137**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Teil-Updates dürfen nur den betroffenen Daten-Scope neu verarbeiten; der aktive Stand unveränderter Zusatzdaten muss weiterverwendbar bleiben. Die Veröffentlichung erfolgt weiterhin als konsistenter angereicherter Datensatz auf Basis des jeweils aktuellen LoD2-GML-Eingangs.
+Die Veröffentlichung muss als vollständig neu erzeugter, konsistenter Datensatz auf Basis des aktualisierten LoD2-GML-Eingangs erfolgen. Optionale Zusatzdaten werden nur berücksichtigt, wenn sie im betreffenden Lauf bereitgestellt sind. Separate Teilupdates und die Wiederverwendung von Attributen aus einem zuvor angereicherten Ergebnisdatensatz sind nicht vorgesehen.
 
 <a id="ta-138"></a>
 
@@ -1196,7 +1201,7 @@ Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der dist
 
 **TA-142**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt.
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt. Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung. Automatisierte Tests bleiben Bestandteil der technischen Qualitätssicherung; normative Golden Tests und eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
 
 ---
 

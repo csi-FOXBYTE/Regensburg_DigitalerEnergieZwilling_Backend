@@ -11,7 +11,7 @@ rectangle "Frontend\n(Browser)" as frontend
 rectangle "Backend\n(Node.js)" as backend
 rectangle "Berechnungskern\n(JS-Modul)" as core
 rectangle "Konfigurations-Snapshot\n(versioniert)" as config
-rectangle "Gebäudedaten\n(Potenziale aus Tiles)" as building
+rectangle "Gebäudedaten\n(Potenziale aus 3D Tiles)" as building
 rectangle "Nutzereingaben" as inputs
 rectangle "Berechnungsergebnisse\n(Energie, CO₂, Kosten)" as outputs
 

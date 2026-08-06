@@ -37,22 +37,28 @@ Quelle: `raw/c4-context.puml`
 
 - **Bürger (Eigentümer/Vermieter)**: nutzt den öffentlichen 3D-Client zur Visualisierung und Berechnung.
 - **Stadtverwaltung / Fachpersonal**: nutzt den Admin-Bereich zur Konfiguration und QS.
+- **APISIX (CIVITAS/CORE)**: zentraler externer Web-/API-Einstiegspunkt und Routenschutz.
 - **Keycloak (CIVITAS/CORE)**: OIDC-Identity-Provider für Admin-Login (Plattformdienst innerhalb von CIVITAS/CORE).
+- **Stellio Context Broker (CIVITAS/CORE)**: Ziel der freigegebenen statischen NGSI-LD-Entities aus der Offline-Pipeline.
+- **DEZ Offline Data Pipeline**: separates Airflow-Add-on für LoD2-Konvertierung, konditionale Anreicherung und Export.
 - **MasterPortal**: Externer Einstiegspunkt mit Link-Out auf den öffentlichen DEZ-Client.
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
-- **CityGML LOD2 Source**: Gebäudedaten für die Offline-Aufbereitung.
-- **Solar and Geothermal Sources**: Potenzialdaten als Raster-/Vektorquellen bzw. 3D Tiles (Solar).
+- **CityGML LoD2 Source**: verpflichtende Gebäudedaten einschließlich Adressen für jeden Pipeline-Lauf.
+- **Solar Potential Source**: optionale Potenzialdaten nach Datenfreigabe.
+- **Geothermal Source**: vom Auftraggeber bereitgestellte und zur Verwendung vorgesehene Daten; Metadaten noch offen.
+- **External Tiles Service**: durch die Deployment-Plattform bereitgestellte Ziel-URL für den Backend-Redirect.
 
 ---
 
 <a id="schnittstellen-und-datenfluesse-high-level"></a>
 ## Schnittstellen und Datenflüsse (high level)
 
-- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS auf den Digitaler Energie Zwilling (DEZ) zu.
+- Bürger (Eigentümer/Vermieter) und Stadtverwaltung / Fachpersonal greifen über HTTPS und APISIX auf den Digitaler Energie Zwilling (DEZ) zu.
 - Das MasterPortal verweist per Link-Out auf den öffentlichen DEZ-Client; es gibt keine API-Kopplung für Fachdaten.
-- Admin-Authentifizierung erfolgt über OIDC gegen Keycloak (CIVITAS/CORE).
+- Admin-Authentifizierung erfolgt über OIDC gegen Keycloak (CIVITAS/CORE). APISIX schützt die Route und prüft OIDC vorgelagert; das Backend validiert das Access Token produktiv und unabhängig davon per RS256/JWKS und erzwingt die Rollenprüfung selbst.
 - Basemaps werden zur Laufzeit aus City Geo Services geladen (WMS/WMTS).
-- CityGML- und Potenzialdaten werden **offline** in das System importiert.
+- Tile-Anfragen laufen über `/api/public/tiles/*`; das Backend leitet auf die konfigurierte externe Tiles-URL weiter.
+- LoD2- und Potenzialdaten werden durch das separate Airflow-Add-on **offline** verarbeitet; statische NGSI-LD-Entities werden an Stellio übergeben.
 
 ---
 
@@ -69,7 +75,7 @@ Sicherheitsrelevante Konsequenzen:
 
 - Kein direkter Client-Zugriff auf interne Persistenz.
 - Keine direkte öffentliche Exponierung interner Services.
-- Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt: APISIX übernimmt Challenge und Rate Limiting, das Backend übernimmt fachliche Validierung und Verifikation.
+- Öffentliche Schreibzugriffe werden als eigener Schutzpfad behandelt: Die externe Deployment-Plattform betreibt die globale APISIX-Policy für Altcha und Rate Limiting und führt den zugehörigen Betriebsnachweis außerhalb der DEZ-Repositories; das Backend übernimmt fachliche Validierung und Verifikation.
 
 Diese Sicht referenziert insbesondere TA-58 bis TA-64 sowie TA-102.
 

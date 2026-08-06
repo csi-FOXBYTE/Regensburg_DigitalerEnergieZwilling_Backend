@@ -2,37 +2,37 @@
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 
-title Public Write Flow - APISIX Altcha + Server-Recompute
+title Öffentlicher Schreibvorgang - APISIX Altcha + Neuberechnung auf dem Server
 
-actor Citizen as user
-participant "Public Client" as client
-participant "Altcha Widget" as altcha
-participant "APISIX (Web/API Gateway)" as gateway
-participant "Backend API" as api
+actor "Bürger/Eigentümer/Vermieter" as user
+participant "Öffentlicher Client" as client
+participant "Altcha-Widget" as altcha
+participant "APISIX (Web-/API-Gateway)" as gateway
+participant "Backend-API" as api
 participant "Berechnungskern (Server)" as calc
-database "Database" as db
+database "Datenbank" as db
 
-user -> client: Enters inputs
-client -> altcha: Request challenge
-altcha --> client: Challenge data
-client -> altcha: Solve challenge
-altcha --> client: Altcha token
+user -> client: Eingaben erfassen
+client -> altcha: Aufgabe anfordern
+altcha --> client: Aufgabendaten
+client -> altcha: Aufgabe lösen
+altcha --> client: Altcha-Token
 
-client -> gateway: Submit inputs + results + config_version + Altcha token
-gateway -> gateway: Validate Altcha token, rate limit and API policy
-gateway -> api: Forward validated request
-api -> api: Validate input ranges (config)
-api -> calc: Recompute with same core + config
-calc --> api: Server results
-api -> db: Store inputs + results
-api -> api: Write audit event
-db --> api: Stored
-api --> gateway: Accepted / Rejected
-gateway --> client: Accepted / Rejected
+client -> gateway: Eingaben + Ergebnisse + config_version + Altcha-Token senden
+gateway -> gateway: Altcha-Token, Ratenbegrenzung und API-Regeln prüfen
+gateway -> api: Geprüfte Anfrage weiterleiten
+api -> api: Eingabebereiche prüfen (Konfiguration)
+api -> calc: Mit demselben Kern und derselben Konfiguration neu berechnen
+calc --> api: Serverergebnisse
+api -> db: Eingaben + Ergebnisse speichern
+api -> api: Audit-Ereignis schreiben
+db --> api: Gespeichert
+api --> gateway: Angenommen / Abgelehnt
+gateway --> client: Angenommen / Abgelehnt
 
 note right of api
-Only verified + triaged results
-flow into BuildingIndex.
+Nur geprüfte und triagierte Ergebnisse
+fließen in den BuildingIndex ein.
 end note
 
 @enduml

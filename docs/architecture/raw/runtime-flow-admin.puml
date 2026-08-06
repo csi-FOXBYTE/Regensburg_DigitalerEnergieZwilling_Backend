@@ -1,4 +1,4 @@
-﻿@startuml
+@startuml
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
 skinparam sequence {
@@ -10,81 +10,53 @@ skinparam sequence {
   NoteBackgroundColor #F7F7F7
 }
 
-title Runtime-Flow - Stadtverwaltung / Fachpersonal (Admin)
+title Ablauf - Stadtverwaltung/Fachpersonal (Admin)
 
 actor Admin as admin
-participant "Admin-Bereich Client" as client
-participant "APISIX (Web/API Gateway)" as gateway
-participant "Auth Middleware" as auth
-participant "Keycloak (OIDC)" as keycloak
-participant "Backend API" as api
-participant "Configuration Service" as config
-participant "Config Snapshot Exporter" as export
-participant "Triage/Reporting Service" as triage
-database "Database" as db
-participant "Public Static Delivery" as public_static
+participant "Admin-Frontend\n(separate Astro/nginx-Bereitstellung)" as client
+participant "APISIX" as gateway
+participant "Keycloak" as keycloak
+participant "Backend-Authentifizierungs-Middleware" as auth
+participant "Backend-API" as api
+participant "Konfigurationsdienst" as config
+participant "Einreichungsdienst" as submissions
+database "PostgreSQL" as db
 
-admin -> client: Oeffnet /admin
-client -> gateway: GET /admin
-gateway -> keycloak: Redirect to OIDC login
-keycloak --> client: Set encrypted JWT cookie
-client -> gateway: GET /admin with cookie
-gateway -> gateway: Validate JWT cookie and route access
-gateway --> client: Admin HTML
+admin -> client: Öffnet die Admin-Anwendung
+client -> gateway: OIDC-Anmeldung / Tokenabruf
+gateway -> keycloak: Authentifizieren
+keycloak --> client: Zugriffstoken
 
-alt Auth fehlgeschlagen
-  gateway --> client: 401/403
+admin -> client: Konfiguration laden oder bearbeiten
+client -> gateway: GET/POST/PATCH /api/admin/config + Token
+gateway -> gateway: OIDC-Vorprüfung und Routenregeln
+gateway -> api: Geschützte Anfrage weiterleiten
+api -> auth: Token validieren
+auth -> keycloak: JWKS laden (zwischengespeichert)
+keycloak --> auth: Öffentliche Schlüssel
+auth -> auth: RS256 und Rollen prüfen
+auth --> api: Autorisierter Benutzer
+api -> config: Konfigurationsoperation ausführen
+config -> db: Version lesen/schreiben
+db --> config: Ergebnis
+config --> api: Ergebnis
+api --> client: API-Antwort
+
+admin -> client: Einreichungen sichten / triagieren
+client -> gateway: /api/admin/submissions/* + Token
+gateway -> gateway: OIDC-Vorprüfung und Routenregeln
+gateway -> api: Geschützte Anfrage weiterleiten
+api -> auth: Token und Rollen validieren
+auth --> api: Kontext mit Rolle manager/admin
+api -> submissions: Auflisten, zuweisen, akzeptieren, ablehnen oder löschen
+submissions -> db: Einreichung und Historie lesen/schreiben
+db --> submissions: Ergebnis
+submissions --> api: Ergebnis
+api --> client: API-Antwort
+
+alt Token ungültig oder Rolle fehlt
+  auth --> api: 401/403
+  api --> client: Abgelehnt
 end
-
-admin -> client: Konfiguration bearbeiten
-client -> gateway: POST /api/admin/config
-gateway -> gateway: Validate JWT cookie
-gateway -> api: Forward APISIX-validated request + claims
-api -> auth: Evaluate claims and roles
-auth --> api: Authorized
-api -> config: Update Config
-config -> db: Store Version
-db --> config: OK
-api -> api: Write audit event
-config --> api: OK
-api --> gateway: Updated
-gateway --> client: Updated
-
-alt Validierung oder Konflikt
-  config --> api: Error (Validation/Conflict)
-  api --> gateway: Error
-  gateway --> client: Error
-end
-
-admin -> client: Konfiguration veroeffentlichen
-client -> gateway: POST /api/admin/config/publish
-gateway -> api: Forward request
-api -> api: Authorize admin action
-api -> config: Publish
-config -> export: Generate Snapshot
-export -> public_static: Write /config/versioned.json
-export --> config: Done
-api -> api: Write audit event
-config --> api: Published
-api --> gateway: Published
-gateway --> client: Published
-
-alt Export fehlgeschlagen
-  export --> config: Error
-  config --> api: Error
-  api --> gateway: Error
-  gateway --> client: Error
-end
-
-admin -> client: Triage oeffnen
-client -> gateway: GET /api/admin/triage
-gateway -> api: Forward request
-api -> api: Authorize admin action
-api -> triage: Load Cases
-triage -> db: Query Inputs/Results
-db --> triage: Data
-triage --> api: Data
-api --> gateway: Triage View
-gateway --> client: Triage View
 
 @enduml

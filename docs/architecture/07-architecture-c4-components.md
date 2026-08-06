@@ -55,9 +55,9 @@ Quelle: `raw/c4-components-backend.puml` (Backend View)
 <a id="frontend-komponenten"></a>
 ## Frontend-Komponenten
 
-### Astro Static Build
+### Getrennte Astro Static Builds
 
-Der Astro Build-Prozess erzeugt das vollständige statische Frontend.
+Public Frontend und Admin Frontend sind eigenständige Anwendungen in getrennten Repositories. Jede Anwendung besitzt einen eigenen Astro-Build und wird als eigener nginx-Container ausgeliefert.
 
 Aufgaben:
 - Generierung der HTML-Struktur
@@ -68,13 +68,13 @@ Zur Laufzeit ist Astro nicht beteiligt.
 
 ---
 
-### Public Client Island
+### Public Frontend
 
 Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer/Vermieter).
 
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
-- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen aus den 3D Tiles nach Datenfreigabe
+- Anzeige von Solarpotenzialen (PV) nach Datenfreigabe und Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten
 - Durchführung der energetischen Berechnung
 - Darstellung der Berechnungsergebnisse
 > ⚠️ **Hinweis:** Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt. Die Solarpotenzial-Textur wird erst nach Datenfreigabe durch den Auftraggeber übernommen.
@@ -83,22 +83,22 @@ Die Berechnung wird standardmäßig vollständig im Browser ausgeführt.
 
 ---
 
-### Admin Island (Stadtverwaltung / Fachpersonal)
+### Admin Frontend (Stadtverwaltung / Fachpersonal)
 
-Die Admin Island stellt die administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal bereit.
+Das eigenständig gebaute Admin Frontend stellt die administrative Benutzeroberfläche für Stadtverwaltung / Fachpersonal bereit.
 
 Aufgaben:
 - Pflege und Veröffentlichung von Berechnungskonfigurationen
 - Sichtung und Triage von Nutzereingaben
 - Qualitätssicherung
 
-Der HTML-Code dieser Komponente wird erst nach erfolgreicher Authentifizierung ausgeliefert.
+Die statischen Assets werden über den eigenen nginx-Container ausgeliefert; administrative API-Aktionen erfordern eine erfolgreiche Authentifizierung und Autorisierung.
 
 ---
 
-### Shared UI Components
+### Gemeinsame UI-Konventionen
 
-Diese Komponente enthält gemeinsam genutzte UI-Bausteine.
+Public Frontend und Admin Frontend folgen gemeinsamen UI- und Designkonventionen, bleiben aber getrennte Builds und Deployments.
 
 Aufgaben:
 - Sicherstellung eines konsistenten Erscheinungsbildes
@@ -110,27 +110,6 @@ Aufgaben:
 <a id="backend-komponenten"></a>
 ## Backend-Komponenten
 
-### Public Static Delivery
-
-Diese Komponente liefert:
-- das öffentliche Frontend
-- veröffentlichte Konfigurationsdateien
-
-Sie enthält keine fachliche Logik.
-
----
-
-### Protected Admin HTML Gateway (Stadtverwaltung / Fachpersonal)
-
-Diese Komponente stellt den Admin-Bereich bereit.
-
-Aufgaben:
-- Prüfung der Authentifizierung
-- Auslieferung des Admin-HTMLs
-- Durchsetzung von Zugriffsbeschränkungen
-
----
-
 ### OpenAPI Controllers
 
 Die API Controller bilden den Einstiegspunkt für alle Backend-Funktionalitäten.
@@ -139,19 +118,19 @@ Aufgaben:
 - Bereitstellung öffentlicher und administrativer Endpunkte
 - Validierung eingehender Anfragen
 - Weiterleitung an fachliche Services
-- Bereitstellung des OpenAPI-3.0-Vertrags als Grundlage für die Client-Generierung
+- Bereitstellung eines Vertrags nach OpenAPI 3.0 oder höher als Grundlage für die Client-Generierung
 
 ---
 
 ### Auth Middleware
 
-Die Auth Middleware ist für die fachliche Rollenprüfung auf Basis der von APISIX geprüften Claims zuständig. Maßgeblich sind die Rollen `Verwalter`, `Systempfleger` und `Administrator`.
+Die Auth Middleware validiert produktiv das RS256-signierte Access Token unabhängig von der vorgelagerten APISIX-Prüfung gegen die über `KEYCLOAK_JWKS_URI` konfigurierte JWKS-Quelle und wertet die Rollen aus dem konfigurierten Resource-Access-Client aus. Im Code werden die Rollen `manager`, `maintainer` und `admin` verwendet.
 
 Aufgaben:
-- Auswertung der von APISIX durchgereichten Token-Claims
+- Annahme des Tokens aus `X-Access-Token` oder `Authorization: Bearer`
+- produktive Prüfung von Signatur und Gültigkeit gegen Keycloak-JWKS
 - Durchsetzung fachlicher Rollen- und Zugriffskonzepte
-- Trennung von Gebäudedaten-/Triage-Zugriff (`Verwalter`, `Administrator`) und Systempflege (`Systempfleger`, `Administrator`)
-- Keine eigene JWT-Signaturprüfung; JWT/OIDC und Routenschutz liegen in APISIX
+- Trennung von Triage-Zugriff (`manager`, `admin`) und Systempflege (`maintainer`, `manager`, `admin`) entsprechend den Berechtigungen
 
 ---
 
@@ -188,18 +167,8 @@ Der User Data Service verwaltet persistente Nutzerdaten.
 Aufgaben:
 - Speicherung von Nutzereingaben
 - Verwaltung von Triage-Informationen
+- Gezielte Löschung einzelner Einreichungen sowie gebündelte Löschung einer Gebäudegruppe ausschließlich bei durchgängig abgelehntem Status
 - Unterstützung administrativer Auswertungen
-
----
-
-### Geo Query Service
-
-Diese Komponente stellt räumliche Abfragen für administrative Funktionen bereit.
-
-Aufgaben:
-- Zugriff auf SpatiaLite-Funktionen
-- Unterstützung fachlicher Auswertungen
-- Bereitstellung von Gebäudekontexten
 
 ---
 
@@ -234,9 +203,9 @@ Der Berechnungskern ist bewusst frei von Infrastrukturabhängigkeiten.
 
 Auf Komponentenebene werden Sicherheitsanforderungen als konkrete Kontrollpunkte umgesetzt:
 
-- **APISIX + Protected Admin HTML Gateway + Auth Middleware**: APISIX prüft JWT/OIDC und schützt administrative Routen; das Backend wertet Claims/Rollen für fachliche Autorisierung aus.
+- **APISIX + Auth Middleware**: APISIX schützt die administrativen Routen und prüft OIDC vorgelagert. Das Backend betrachtet dies nicht als alleinige Freigabe, sondern validiert Access Tokens unabhängig per RS256/JWKS und wertet Claims/Rollen für die eigene fachliche Autorisierung aus.
 - **OpenAPI Controllers**: Trennen öffentliche und administrative Endpunkte, validieren Anfragen und leiten nur validierte Daten an Fachservices weiter.
-- **User Data Service**: Verarbeitet öffentliche Schreibzugriffe erst nach APISIX-Policies für Altcha/Rate-Limit und führt anschließend fachliche Validierung und Verifikation aus.
+- **User Data Service**: Verarbeitet öffentliche Schreibzugriffe erst nach der globalen Altcha-/Rate-Limit-Policy, die durch die externe Deployment-Plattform in APISIX betrieben wird, und führt anschließend fachliche Validierung und Verifikation aus.
 - **Configuration Service + Snapshot Exporter**: Erzwingen versionierte, unveränderliche Veröffentlichungen statt in-place-Änderungen.
 - **Triage/Reporting-Pfad**: Statuswechsel werden nachvollziehbar geführt und für Audit-Zwecke protokolliert.
 - **Observability**: Erfasst sicherheitsrelevante Ereignisse (Auth, Zugriffsentscheidungen, Fehlerpfade) als Grundlage für Incident-Analyse.
@@ -252,7 +221,7 @@ Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad in CIVITAS/C
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solarpotenzialen (PV) und Geothermiepotenzialen erst nach jeweiliger Datenfreigabe des Auftraggebers
+- konditionale Integration von Solarpotenzialen (PV) nach Datenfreigabe sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
 - Anreicherung der Gebäudedaten
 - Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
 - Übergabe freigegebener NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE
@@ -287,7 +256,7 @@ Quelle: `raw/c4-components-pipeline.puml` (Offline Pipeline View)
   Admin (Stadtverwaltung / Fachpersonal) → Backend → Konfigurationsdatei → Public Client
 
 - Nutzerdaten:  
-  Public Client → Backend → DEZ-Datenbank (SQLite-basiert mit Geo-Erweiterung) → Admin-Triage (Stadtverwaltung / Fachpersonal)
+  Public Client → Backend → PostgreSQL-Datenbank → Admin-Triage (Stadtverwaltung / Fachpersonal)
 
 ---
 

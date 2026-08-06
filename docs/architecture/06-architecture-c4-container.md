@@ -33,13 +33,12 @@ Das System besteht aus folgenden zentralen Containern:
 - Public Frontend (statische Webanwendung)
 - Admin Frontend (statische Webanwendung)
 - Backend API
-- Tiles Gateway (optional)
 - Datenbank
 - Airflow Offline Datenpipeline (separates CIVITAS/CORE-Add-on)
 
 Externer angebundener Dienst:
 
-- 3D Tiles Storage (S3)
+- externer Tiles-Dienst bzw. 3D Tiles Storage
 
 CIVITAS/CORE-Plattformdienst:
 
@@ -63,7 +62,7 @@ Das Web Gateway fungiert als zentraler Einstiegspunkt für alle Client-Anfragen.
 Aufgaben:
 - Routing von HTTP-Anfragen zu den jeweiligen Zielsystemen
 - Trennung von Public-, Admin-, API- und Tile-Zugriffen
-- JWT/OIDC-Validierung über das von Keycloak gesetzte verschlüsselte Browser-Cookie und Schutz administrativer Routen
+- vorgelagerte JWT/OIDC-Prüfung über das von Keycloak gesetzte geschützte Browser-Cookie und Schutz administrativer Routen; die unabhängige Backend-Prüfung bleibt zwingend
 - Entkopplung des Backends von hohem statischem Traffic
 - Erzwingung des Zugriffs über APISIX für externe Datenzugriffe
 
@@ -71,7 +70,7 @@ Typische Routen:
 - `/` → Public Frontend
 - `/admin` → Admin Frontend (geschützt)
 - `/api/*` → Backend API
-- `/tiles/*` → optional Tiles Gateway oder direkter Zugriff auf 3D Tiles Storage
+- `/api/public/tiles/*` → Backend API; von dort Redirect auf die konfigurierte externe Tiles-URL
 
 Das Gateway enthält keine fachliche Logik.
 
@@ -111,40 +110,32 @@ Das Laufzeit-Logging erfolgt über den nginx-Standard-Logger auf `stdout`/`stder
 Das Backend stellt alle serverseitigen Funktionen bereit, die nicht sinnvoll clientseitig umgesetzt werden können.
 
 Aufgaben:
-- Entgegennahme der vom APISIX Gateway geprüften Token-Claims
-- Fachliche Autorisierung auf Basis der Rollen `Verwalter`, `Systempfleger` und `Administrator`
+- Produktive, von der APISIX-Prüfung unabhängige Validierung weitergeleiteter Access Tokens per RS256/JWKS
+- Eigenständige fachliche Autorisierung auf Basis der Rollen `manager`, `maintainer` und `admin`
 - Verwaltung und Veröffentlichung von Berechnungskonfigurationen
 - Persistenz von Nutzereingaben
 - Strukturiertes Logging über Pino/Fastify auf `stdout`/`stderr`
 - Administrative Triage-Funktionen
 - Optionale serverseitige Berechnung
 
-Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen wie 3D Tiles verantwortlich.
+Das Backend liefert große statische Datenmengen wie 3D Tiles nicht selbst aus. Die Route `GET /api/public/tiles/*` erzeugt lediglich einen Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL.
 
 ---
 
-### Tiles Gateway (optional)
+### Externer Tiles-Dienst
 
-Das Tiles Gateway ist ein optionaler Container für die Bereitstellung der 3D Tiles.
-
-Aufgaben:
-- Auslieferung der 3D Tiles an den Public Client
-- Weiterleitung an das zugrunde liegende Storage-System
-- Unterstützung von Caching und Range Requests
-
-Wenn der externe S3-kompatible Datendienst den direkten HTTPS-Lesezugriff unterstützt, kann die
-Tiles-Auslieferung auch ohne Tiles Gateway erfolgen.
+Der DEZ setzt eine von der Deployment-Plattform bereitgestellte externe Tiles-URL voraus. Das `digital-energy-twin_addon` stellt keinen eigenen Tiles-Gateway-Container bereit. Das Backend bildet angeforderte Restpfade unter `/api/public/tiles/*` auf die konfigurierte Umgebungsvariable `TILES_URL` ab und antwortet mit einem HTTP-Redirect.
 
 ---
 
 ### 3D Tiles Storage
 
-Das 3D Tiles Storage ist ein externer S3-kompatibler Datendienst und **kein** Bestandteil des `digital-energy-twin_addon` oder von CIVITAS/CORE.
+Der 3D Tiles Storage beziehungsweise Tiles-Dienst ist extern angebunden und **kein** Bestandteil des `digital-energy-twin_addon`.
 
 Eigenschaften:
 - Statische Datenhaltung
 - Enthält Gebäudestrukturen und Adressen aus LOD2; Solarpotenzial-Attribute inkl. Textur werden erst nach Datenfreigabe des Auftraggebers übernommen
-- Geothermiepotenziale werden erst nach Datenfreigabe des Auftraggebers ergänzt; die Abfrage erfolgt priorisiert über Grundwasser, Erdreich, Luft (MVP-Klärung noch offen)
+- Geothermiepotenziale werden aus den vom Auftraggeber bereitgestellten Daten ergänzt; die Auswertung erfolgt priorisiert über Grundwasser, Erdreich und Luft, während die Metadaten noch zu klären sind
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.
@@ -156,7 +147,7 @@ Vegetationsdaten (Bäume) werden nicht in der Offline-Datenpipeline verarbeitet,
 ### Datenbank
 
 Die DEZ-Datenbank dient als persistente Datenhaltung für dynamische und nutzerspezifische Informationen.
-Sie ist logisch Teil des `digital-energy-twin_addon` und wird als SQLite-Datenbank mit SpatiaLite betrieben.
+Sie ist logisch Teil des `digital-energy-twin_addon` und wird durch das Backend als PostgreSQL-Datenbank verwendet. SQLite und SpatiaLite werden ausschließlich in der Offline-Datenverarbeitung beziehungsweise für daraus erzeugte lokale Hilfsdatenbanken eingesetzt.
 
 Enthält:
 - Nutzereingaben aus Berechnungen
@@ -173,7 +164,7 @@ Die Offline Datenpipeline läuft in CIVITAS/CORE, wird jedoch **nicht** durch da
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- Integration von Solarpotenzialen (PV) und Geothermiedaten erst nach jeweiliger Datenfreigabe des Auftraggebers
+- konditionale Integration von Solarpotenzialen (PV) nach Datenfreigabe sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
 - Übergabe der NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE
@@ -189,12 +180,12 @@ Die Container-Sicht verankert Security by Design als konkrete Zuständigkeit:
 
 | Container | Security-Kernpunkte |
 | --- | --- |
-| APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, prüft das von Keycloak gesetzte JWT-Cookie, schützt Routen, trennt Public/Admin-Pfade, setzt Transportschutz und Richtlinien für öffentliche Schreibzugriffe durch. |
+| APISIX Web Gateway | Erzwingt den externen Eintrittspunkt, schützt Routen, trennt Public/Admin-Pfade und setzt Transportschutz sowie Richtlinien für öffentliche Schreibzugriffe durch. |
 | Public Frontend | Führt Berechnungen standardmäßig lokal aus; übermittelt Nutzerdaten nur optional und explizit ausgelöst. |
 | Admin Frontend | Statischer Admin-Client ohne eigene Serverlogik; sensible Aktionen erfolgen ausschließlich über geschützte Backend-APIs. |
-| Backend API | Wertet vom APISIX Gateway geprüfte Claims/Rollen aus, validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
-| Datenbank | DEZ-Datenhaltung auf SQLite mit SpatiaLite; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
-| 3D Tiles Storage / Tiles Gateway | Dient nur der Auslieferung statischer Artefakte; der Storage ist extern angebunden, keine fachliche Schreiblogik aus Public-Laufzeitpfaden. |
+| Backend API | Validiert produktiv Access Tokens unabhängig vom Gateway per RS256/JWKS, wertet Claims/Rollen aus und erzwingt Berechtigungen selbst; validiert Eingaben serverseitig, prüft/verifiziert Public-Write-Payloads und protokolliert sicherheitsrelevante Ereignisse. |
+| Datenbank | PostgreSQL-Datenhaltung des Backends; nicht öffentlich erreichbar, Zugriffe ausschließlich über das Backend mit rollenbasierten Rechten. |
+| Externer Tiles-Dienst / 3D Tiles Storage | Dient nur der Auslieferung statischer Artefakte; die Ziel-URL wird über `TILES_URL` konfiguriert, das Backend stellt lediglich einen Redirect bereit. |
 | Stellio Context Broker | Nimmt nur freigegebene statische NGSI-LD-Entities aus der Offline-Pipeline entgegen; keine Übergabe personenbezogener Nutzereingaben. |
 | Offline-Datenpipeline | Läuft getrennt vom Laufzeitsystem, nutzt dedizierte Job-Kontexte und arbeitet mit minimalen Datendienst- und Stellio-Berechtigungen. |
 
@@ -207,7 +198,7 @@ Diese Verantwortungsverteilung deckt insbesondere TA-58 bis TA-64, TA-102 sowie 
 
 - Der Public Frontend-Client (Hauptzielgruppe) kommuniziert direkt mit:
   - dem Web Gateway (APISIX)
-  - optional dem Tiles Gateway oder direkt dem 3D Tiles Storage (über APISIX)
+  - der Backend-Route `/api/public/tiles/*`, die auf den externen Tiles-Dienst weiterleitet
   - der externen Vegetationsquelle (nur visuelle Darstellung)
   - optional dem Backend (z.B. zur Speicherung von Nutzereingaben)
 

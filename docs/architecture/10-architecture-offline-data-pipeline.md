@@ -38,7 +38,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **DGM1-Geländemodell** (amtliche GeoTIFF-Kacheln für die dokumentierte Regensburger Polygonauswahl; Terrain-Bereitstellung noch zu konfigurieren)
 - **TopPlusOpen-Light-Terrain-Textur** (externer Tile-Dienst über `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; fachlich und lizenzrechtlich vom DGM1 getrennte Darstellungsquelle; BKG-Quellenvermerk gemäß `dl-de/by-2-0` verwenden; Proxy-Betreiber und Jahr des letzten Datenbezugs noch zu bestätigen)
 - **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
-- **Geothermiepotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; Datensatzabfrage in Reihenfolge Grundwasser, Erdreich, Luft vorgesehen)
+- **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; Integration in Arbeit; Auswertung in Reihenfolge Grundwasser, Erdreich, Luft; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
 - **Solarpotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; 3D Tiles mit Attributen und Textur vorgesehen)
 - **Kostendaten** (noch nicht vorliegend)
 - **Postleitzahl-Referenz** (noch nicht vorliegend; Adressobjekte aus LoD2/CityJSON sind davon zu unterscheiden)
@@ -79,11 +79,11 @@ Beispiele für Datenherkünfte und Referenzen:
 ## Aktualisierungsstrategie der Basisdaten
 
 - Die amtliche LoD2-Quelldistribution wird **wöchentlich** aktualisiert. Der davon unabhängige Übernahmezyklus in den DEZ-Datendienst wird durch den Betreiber festgelegt und pro Release protokolliert.
-- Solarpotenzial- und Geothermie-Basisdaten können nach Datenfreigabe abweichende Aktualisierungszeiträume haben; ein gemeinsamer, fester Gesamtzyklus ist nicht erforderlich.
-- Aktualisierungen werden über einen `update_scope` gesteuert, basieren aber für die Anreicherung immer mindestens auf LoD2-GML-Daten.
-- Eine nachträgliche Anreicherung ausschließlich über Nicht-LoD2-Datenquellen ist nicht vorgesehen.
-- Optionale Komponenten wie Solarpotenzial, Geothermie oder Baualtersklassen werden nur erneut eingebunden, wenn sie für den gewählten Lauf bereitgestellt bzw. geändert wurden; bereits im angereicherten Datensatz vorhandene optionale Attribute können bei einem reinen LoD2-Update weiterverwendet werden.
-- Für die Nachnutzung durch andere Kommunen muss die Pipeline klar beschreiben, welche Eingaben je `update_scope` verpflichtend sind und welche Zusatzdaten wiederverwendet werden dürfen.
+- Solarpotenzial- und Geothermie-Basisdaten können abweichende Aktualisierungszeiträume haben. Ihre Verarbeitung erfolgt dennoch nur innerhalb eines kombinierten Laufs mit einem aktualisierten LoD2-GML-Datensatz.
+- Jeder Lauf verarbeitet den aktualisierten LoD2-GML-Datensatz vollständig; ein separater `update_scope` wird nicht verwendet.
+- Zusätzliche Quellen wie Solar, Geothermie oder Baualtersklassen werden konditional verarbeitet, wenn sie im betreffenden Lauf bereitgestellt sind. Adressdaten stammen aus LoD2 und sind immer enthalten.
+- Bereits angereicherte Ergebnisdatensätze werden nicht erneut eingereicht. Attribute unveränderter Zusatzdaten werden daher nicht aus einem früheren Ergebnisdatensatz übernommen.
+- Für die Nachnutzung durch andere Kommunen muss die Pipeline klar beschreiben, welche Zusatzquellen aktiviert werden können und welche Eingaben je kombiniertem Lauf erforderlich sind.
 
 ---
 
@@ -113,7 +113,7 @@ Beispiele für Datenherkünfte und Referenzen:
 
 - Die beteiligten Pipeline-Container (Extraktion, Konvertierung, Enrichment, Export) greifen direkt auf den S3-kompatiblen Datendienst zu (Download/Upload je `job_id`).
 - Der NGSI-LD-Exporter veröffentlicht die freigegebenen statischen Gebäudedaten über die interne Stellio-API in CIVITAS/CORE.
-- Optional greift ein Tiles Gateway intern auf denselben Datendienst zu, wenn der externe Read-Pfad nicht direkt aus APISIX bedient wird.
+- Der durch die Deployment-Plattform bereitgestellte externe Tiles-Dienst greift auf die veröffentlichten Artefakte zu; er ist kein Container dieses Add-ons.
 - Die Authentifizierung erfolgt mit technischen Service-Credentials aus dem Secrets-Management (keine statischen Credentials im Code oder in Container-Images).
 - Berechtigungen sind strikt auf Bucket/Prefix-Ebene zu begrenzen (Least Privilege), mindestens:
   - Lesen: `jobs/{job_id}/input/`
@@ -122,14 +122,12 @@ Beispiele für Datenherkünfte und Referenzen:
 ### Externer Zugriff (außerhalb UDP/CIVITAS/CORE)
 
 - Direkter externer Zugriff auf den Datendienst ist nicht vorgesehen.
-- Externe Zugriffe auf 3D Tiles erfolgen ausschließlich über APISIX (TA-102):
-  - entweder APISIX -> Datendienst (direct mode)
-  - oder APISIX -> Tiles Gateway -> Datendienst (optional mode)
+- Der Public Client ruft 3D Tiles über `GET /api/public/tiles/*` auf. APISIX leitet die Anfrage an das Backend; das Backend antwortet mit einem Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL.
 - Externe Zugriffe sind auf veröffentlichte Read-Pfade zu begrenzen; Schreibzugriffe auf den Datendienst bleiben interne Betriebsfunktionen.
 
 ### Keycloak-Bezug für Authentifizierung
 
-- Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene; APISIX prüft JWT/OIDC und schützt die Routen.
+- Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene. APISIX prüft JWT/OIDC vorgelagert und schützt die Routen; für administrative Backend-Endpunkte wird das weitergeleitete Access Token zusätzlich und unabhängig im Backend per RS256/JWKS validiert. Claims, Rollen und Berechtigungen werden dort erneut ausgewertet.
 - Für direkte S3-Protokollzugriffe der Pipeline-Container werden technische Datendienst-Credentials verwendet; OIDC-Tokens werden dort nicht direkt als S3-Schreibberechtigung genutzt.
 - Falls der Datendienst OIDC-Föderation/STS unterstützt, kann Keycloak optional zur Ausgabe kurzlebiger Datendienst-Credentials eingebunden werden.
 
@@ -152,10 +150,11 @@ Beispiele für Datenherkünfte und Referenzen:
    räumlich als `constructionYear` zuordnen.
    Solarpotenziale werden erst nach Daten- und Metadatenfreigabe als 3D Tiles mit
    Attributen und Textur in einem separaten Verarbeitungsschritt mit den
-   CityJSON-Gebäuden zusammengeführt. Geothermiepotenziale werden nach
-   Daten- und Metadatenfreigabe über eine priorisierte Datensatzabfrage ergänzt:
+   CityJSON-Gebäuden zusammengeführt. Die vom Auftraggeber bereitgestellten
+   Geothermiepotenziale werden über eine priorisierte Datensatzabfrage ergänzt:
    Grundwasser → Erdreich → Luft.
-   Falls flurstücksbezogene Potenziale nicht rechtzeitig nutzbar bereitgestellt werden, kann eine optionale Berechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
+   Die erforderlichen Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
+   Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie ist gemäß Projektentscheidung nicht vorgesehen.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
    Dadurch werden Laufzeit-DB-Zugriffe minimiert.
 
@@ -170,9 +169,9 @@ Beispiele für Datenherkünfte und Referenzen:
 
 6. **Bereitstellung**  
    Die erzeugten Artefakte (3D Tiles und CityGML) werden im Datendienst bereitgestellt; NGSI-LD-Entities werden an Stellio übergeben.
-   3D Tiles werden über APISIX ausgeliefert:
-   - entweder direkt aus dem externen Datendienst
-   - oder über ein optionales Tiles Gateway.
+   Der Public Client fordert 3D Tiles über APISIX und die Backend-Route
+   `/api/public/tiles/*` an. Das Backend leitet per Redirect auf die über
+   `TILES_URL` konfigurierte externe Tiles-URL weiter.
 
 ---
 
@@ -207,10 +206,10 @@ Beispiele für Datenherkünfte und Referenzen:
 ### Airflow DAG (konkret)
 
 - DAG-ID: `dez_offline_pipeline`.
-- Jeder Lauf definiert einen `update_scope` (z.B. `lod2`, `solar`, `geothermie`, `full`), damit der Aktualisierungsumfang nachvollziehbar ist.
-- Für jeden Anreicherungsrun sind LoD2-GML-Daten verpflichtend. Reine Nachläufe ausschließlich auf Basis von Solar-, Geothermie- oder anderen Nicht-LoD2-Datenquellen sind nicht vorgesehen.
-- Teil-Updates sind zulässig; der `update_scope` steuert, welche Zusatzdaten neu eingelesen werden. Bereits vorhandene optionale Attribute können übernommen werden, wenn sich die zugehörigen Zusatzdatensätze nicht geändert haben.
-- Auch bei Teil-Updates bleibt die Ausführung ein einzelner DAG-Run; nur nicht benötigte Schritte werden innerhalb des DAG übersprungen.
+- Jeder Lauf verarbeitet einen aktualisierten LoD2-GML-Datensatz als verpflichtende Basiseingabe vollständig.
+- Solar-, Geothermie- und andere Zusatzdaten sind konditionale Eingaben desselben DAG-Laufs. Adressdaten stammen aus LoD2 und sind immer enthalten.
+- Ein `update_scope` sowie isolierte Teilupdates einzelner Zusatzquellen sind nicht vorgesehen.
+- Jeder Ergebnisdatensatz wird vollständig neu erzeugt; ein zuvor angereicherter Datensatz wird weder erneut eingereicht noch zum Übernehmen unveränderter Attribute verwendet.
 
 ### Kommunenprofil und Mapping-Profil
 
@@ -274,12 +273,11 @@ Task-Reihenfolge je `job_id`:
 - `hasAlphaChannel` (Boolean) gibt an, ob die Texture-Daten einen **Alpha-Kanal** enthalten.
   > ⚠️ **Hinweis:** Für die Verarbeitung wird ein **Job-Ordner gemountet**; der Container arbeitet ausschließlich in diesem Ordner bis Abschluss.
 
-Hinweis zu Teil-Updates:
+Hinweis zu konditionalen Zusatzdaten:
 
-- Für `update_scope = full` gelten alle oben aufgeführten Eingaben.
-- Für jeden `update_scope` ist mindestens ein LoD2-GML-Eingang verpflichtend, da die Anreicherung immer auf dem LoD2-Datensatz aufsetzt.
-- Für Teil-Updates sind nur die jeweils geänderten Zusatzdaten verpflichtend. Nicht geänderte optionale Komponenten, die bereits im angereicherten Datensatz vorhanden sind, können weggelassen und wiederverwendet werden.
-- Ein Teil-Update darf nicht an fehlenden, unveränderten Zusatzdaten scheitern.
+- Ein aktualisierter LoD2-GML-Eingang ist für jeden Lauf verpflichtend und wird vollständig verarbeitet.
+- Zusatzdaten sind nur verpflichtend, wenn die zugehörige Anreicherung in diesem Lauf erfolgen soll.
+- Nicht bereitgestellte Zusatzdaten werden übersprungen; sie werden nicht aus einem früheren angereicherten Ergebnisdatensatz übernommen.
 - Der Lauf muss ohne CityGML Energy ADE über definierte Fallback-Pfade (LOD2 + externe Potenzialdaten + Konfigurationswerte) vollständig ausführbar bleiben.
 
 ### Ausgaben
@@ -453,16 +451,17 @@ DockerOperator(
 
 - Aktuell: Berechnung abgeleiteter Gebäude- und Nachbarschaftskennwerte,
   Adressextraktion sowie optionale Zuordnung von Baualtersklassen.
-- Vorgesehen: Ergänzung von CityJSON um Solarpotenziale (PV) und
-  Geothermiepotenziale nach Daten- und Metadatenfreigabe.
+- Vorgesehen: Ergänzung von CityJSON um Solarpotenziale (PV) nach Datenfreigabe
+  sowie um die vom Auftraggeber bereitgestellten Geothermiepotenziale; deren
+  Metadaten sind noch zu klären.
 
 ### Erwartete Eingaben
 
 - Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
 - Optional Baualtersklassen als GeoPackage in EPSG:25832, Tabelle
   `gebiete__baualtersklasse`, Feld `Dominant_Baualtersklasse`.
-- Zukünftig Geothermiepotenziale über Datensatzabfrage (Priorität: Grundwasser,
-  Erdreich, Luft; EPSG wird für die Abfrage verwendet).
+- Bereitgestellte Geothermiepotenziale über Datensatzabfrage (Priorität:
+  Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet).
 - Zukünftig Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das
   Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
@@ -484,7 +483,7 @@ DockerOperator(
   Untergrenze als `constructionYear` übernommen; ohne parsebaren Wert oder
   räumlichen Treffer bleibt das Attribut aus.
 - **Solarpotenziale** werden nach Datenfreigabe aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional. Ohne Freigabe findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
-- **Geothermiepotenziale** werden nach Datenfreigabe über die Gebäudegrundfläche aus dem Datensatz gemittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Eine optionale Ersatzberechnung nach LfU-/TUM-Vorbild ist nur nach gesonderter fachlicher Entscheidung vorzusehen.
+- **Geothermiepotenziale** werden aus den vom Auftraggeber bereitgestellten Daten über die Gebäudegrundfläche ermittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Eine zusätzliche Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
 
@@ -522,7 +521,7 @@ Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverä
 
 > ⚠️ **Hinweis:** Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
 
-> ⚠️ **Hinweis MVP:** Die Geothermie-Daten sind aktuell noch nicht durch den Auftraggeber freigegeben. Bewertungslogik und konkrete Ausgabefelder bleiben bis zur Datenfreigabe offen; eine optionale Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie ist nur nach gesonderter Beauftragung vorzusehen.
+> ⚠️ **Hinweis MVP:** Die Geothermie-Daten wurden durch den Auftraggeber bereitgestellt und sollen verwendet werden; die Implementierung befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sowie die endgültigen Ausgabefelder bleiben bis zur Klärung offen. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ### NGSI-LD-Mapping und Stellio-Übergabe
 

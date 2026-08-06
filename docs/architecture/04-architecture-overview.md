@@ -97,8 +97,8 @@ ohne die Systemarchitektur pro Kommune neu aufzubauen (vgl. TA-121 bis TA-128).
 Security by Design wird nicht als separates Add-on verstanden, sondern als feste Architekturinvariante:
 
 - **Single Entry Point**: Externe Zugriffe erfolgen ausschließlich über APISIX; interne Dienste sind nicht direkt öffentlich erreichbar (TA-102, TA-59).
-- **Trust-Boundary Public/Admin**: Öffentliche und administrative Pfade sind technisch getrennt; APISIX prüft JWT/OIDC und schützt administrative Routen, Admin-HTML wird erst nach erfolgreicher Authentifizierung ausgeliefert (TA-02, TA-04, TA-09).
-- **Missbrauchsschutz bei Public Write**: APISIX übernimmt Altcha und Rate Limiting; Backend-Validierung und Server-Recompute wirken als nachgelagerte fachliche Schutzkette (TA-47 bis TA-51, TA-62).
+- **Trust-Boundary Public/Admin**: Öffentliche und administrative Pfade sind technisch getrennt. APISIX schützt die administrativen Routen und prüft OIDC vorgelagert. Das Backend vertraut dieser Freigabe nicht allein, sondern validiert Access Tokens produktiv und unabhängig per RS256/JWKS und erzwingt die fachliche Autorisierung selbst. Public Frontend und Admin Frontend werden als getrennte statische nginx-Deployments ausgeliefert (TA-02, TA-04, TA-09).
+- **Missbrauchsschutz bei Public Write**: Die externe Deployment-Plattform stellt die globale APISIX-Policy für Altcha und Rate Limiting bereit und weist deren Betrieb außerhalb der DEZ-Repositories nach; Backend-Validierung und Server-Recompute wirken als nachgelagerte fachliche Schutzkette (TA-47 bis TA-51, TA-62).
 - **Datenminimierung und Angriffsflächenreduktion**: Statische Potenziale liegen in Tiles statt in der Datenbank; das Backend liefert keine großen Tile-Daten aus (TA-14, TA-38).
 - **Konfigurationsintegrität**: Veröffentlicht werden unveränderliche, versionierte Snapshots; Berechnungsergebnisse bleiben reproduzierbar (TA-43 bis TA-46, TA-31).
 - **Plattformhärtung**: Secrets-Management, TLS, Non-Root-Container und auditierbare Security-Events sind verbindlich (TA-60, TA-61, TA-63, TA-64).
@@ -111,12 +111,12 @@ Die Architekturdokumente konkretisieren, **wo** diese Kontrollen technisch veran
 <a id="zentrale-systembausteine"></a>
 ## Zentrale Systembausteine
 
-### Frontend
+### Frontends
 
-- Statische HTML-Seiten als Einstiegspunkt
+- Public Frontend und Admin Frontend als getrennte Repositories, Astro-Builds, Container-Images und nginx-Deployments
 - Öffentlicher 3D-Client auf Basis von Cesium
 - Administrativer Client für Konfigurations- und Triage-Aufgaben
-- Gemeinsame UI-Komponenten für konsistentes Erscheinungsbild
+- Gemeinsame UI- und Designkonventionen bei technisch getrennter Auslieferung
 
 ---
 
@@ -133,16 +133,16 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen z
 
 ---
 
-### 3D Tiles & Gateway
+### 3D Tiles & externer Tiles-Dienst
 
 3D Tiles werden:
 - offline erzeugt
 - mit allen relevanten Potenzialattributen angereichert
-- über APISIX bereitgestellt (direkter Zugriff auf den externen Datendienst oder optional über ein Tiles Gateway)
+- vom Public Frontend über `GET /api/public/tiles/*` angefordert; das Backend antwortet mit einem Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL
 
 Die Tiles enthalten zusätzlich Adressen aus LOD2 und Vegetationsobjekte (Bäume) für die 3D-Darstellung. Optionale Texturen zur Solarpotenzial-Visualisierung werden erst nach Datenfreigabe des Auftraggebers übernommen.
 
-Das optionale Tiles Gateway entkoppelt die Auslieferung der Tiles vom Backend und kann bei Bedarf zusätzliche Proxy-Funktionen übernehmen.
+Der externe Tiles-Dienst wird durch die Deployment-Plattform bereitgestellt und ist nicht Bestandteil des `digital-energy-twin_addon`. Das Backend überträgt keine Tile-Inhalte, sondern stellt ausschließlich den konfigurationsbasierten Redirect bereit.
 
 ### NGSI-LD & Stellio
 
@@ -155,7 +155,7 @@ Dieser Pfad dient der standardisierten Nachnutzung statischer Gebäude- und Pote
 
 - **3D Tiles**: enthalten ausschließlich statische, allgemein gültige Daten
 - **Stellio (NGSI-LD)**: enthält freigegebene statische Gebäude- und Potenzialattribute für CIVITAS/CORE-Nachnutzung
-- **Datenbank**: enthält Nutzereingaben, Triage-Informationen und Konfigurationsdaten
+- **PostgreSQL-Datenbank**: enthält Nutzereingaben, Triage-Informationen und Konfigurationsdaten
 - Dynamische oder personenbezogene Daten werden nicht doppelt gehalten; statische Attribute werden bewusst in zweckgebundenen Ausspielungen für 3D Tiles und NGSI-LD geführt.
 
 ---

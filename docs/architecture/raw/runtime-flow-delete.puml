@@ -1,35 +1,35 @@
 @startuml
-title Runtime-Flow: Public Delete
+title Ablauf: Öffentliche Löschung
 
-actor User
-participant "Public Client" as client
-participant "APISIX (Web/API Gateway)" as gateway
-participant "Backend API" as api
-participant "User Data Service" as uds
-database "Database" as db
+actor Benutzer
+participant "Öffentlicher Client" as client
+participant "APISIX (Web-/API-Gateway)" as gateway
+participant "Backend-API" as api
+participant "Nutzerdatendienst" as uds
+database "Datenbank" as db
 
-User -> client : Open delete link/QR
+Benutzer -> client : Löschlink/QR-Code öffnen
 client -> gateway : GET /delete/{token}
-gateway -> api : Forward request
-api -> uds : validate token
-uds -> db : lookup record
-db --> uds : record or not found
-uds --> api : valid/invalid
-api --> gateway : show confirmation or error
-gateway --> client : show confirmation or error
+gateway -> api : Anfrage weiterleiten
+api -> uds : Token validieren
+uds -> db : Datensatz suchen
+db --> uds : Datensatz oder nicht gefunden
+uds --> api : Gültig/ungültig
+api --> gateway : Bestätigung oder Fehler anzeigen
+gateway --> client : Bestätigung oder Fehler anzeigen
 
-alt confirmed
-  client -> gateway : POST /delete/{token}\naddress confirmation
-  gateway -> api : Forward request
-  api -> uds : delete request
-  uds -> db : verify address\nand delete record
-  db --> uds : deleted
-  uds --> api : success
-  api --> gateway : confirmation
-  gateway --> client : confirmation
-else invalid
-  api --> gateway : error (token/address)
-  gateway --> client : error (token/address)
+alt Bestätigt
+  client -> gateway : POST /delete/{token}\nAdressbestätigung
+  gateway -> api : Anfrage weiterleiten
+  api -> uds : Löschanfrage
+  uds -> db : Adresse prüfen\nund Datensatz löschen
+  db --> uds : Gelöscht
+  uds --> api : Erfolgreich
+  api --> gateway : Bestätigung
+  gateway --> client : Bestätigung
+else Ungültig
+  api --> gateway : Fehler (Token/Adresse)
+  gateway --> client : Fehler (Token/Adresse)
 end
 
 @enduml

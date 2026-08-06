@@ -45,8 +45,8 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 ### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
-- Anzeige von Solarpotenzialen (PV) und Geothermiepotenzialen bei verfügbarer und durch den Auftraggeber freigegebener belastbarer Datenbereitstellung
-- Verbindliche farbliche Gebäudeeinfärbung im 3D-Client zur Einordnung der Effizienz
+- Anzeige von Solarpotenzialen (PV) nach belastbarer Datenfreigabe sowie von Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten
+- Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; die Energieeffizienzklasse wird in der energetischen Bewertung ausgewiesen
 - Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien erst nach belastbarer Datenfreigabe; Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
 - Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
@@ -100,7 +100,7 @@ Das System besteht aus:
 - einem Backend für Authentifizierung, Konfiguration, Persistenz und Triage
 - einer Offline-Datenpipeline zur Vorverarbeitung von Geodaten
 - APISIX als zentralem Web/API-Gateway für externe Zugriffe
-- einem optionalen 3D Tiles Gateway zur Auslieferung statischer Tiles
+- einem extern bereitgestellten Tiles-Dienst; das Backend leitet Zugriffe unter `/api/public/tiles/*` auf die über `TILES_URL` konfigurierte Ziel-URL weiter
 
 Rechenintensive Potenzialanalysen werden offline durchgeführt und als Attribute in 3D Tiles abgelegt. Zur Laufzeit findet keine Neuberechnung der Potenziale statt.
 
@@ -149,7 +149,7 @@ Warum der DEZ als separate Applikation verlinkt wird:
   1) Dimensionierung von PV + Speicher für den Wärmepumpenbetrieb inkl. energetischer/finanzieller Effekte.  
   2) Maximale Ausnutzung geeigneter PV-Flächen zur Kommunikation von Potenzialen für Haushaltsstrom, KFZ-Ladung und ähnliche Verbräuche.
 - **Solar-Anreicherung**: Solarpotenzialdaten sind aktuell noch nicht durch den Auftraggeber freigegeben. Daher findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
-- **Geothermie**: Einschätzung über Datensatzabfrage in Reihenfolge Grundwasser → Erdreich → Luft; die Daten sind aktuell noch nicht durch den Auftraggeber freigegeben. Falls die flurstücksbezogenen Geothermiepotenziale nicht rechtzeitig nutzbar bereitgestellt werden, kann eine optionale Berechnung nach dem Vorbild der LfU-/TUM-Studie geprüft werden.
+- **Geothermie**: Die vom Auftraggeber bereitgestellten Daten sollen verwendet werden; die Implementierung der Auswertung in der Reihenfolge Grundwasser → Erdreich → Luft befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ---
 

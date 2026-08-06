@@ -1,5 +1,5 @@
 @startuml
-title Runtime-Flow - Offline-Datenpipeline (Airflow, kombinierter DAG)
+title Ablauf - Offline-Datenpipeline (Airflow, kombinierter DAG)
 top to bottom direction
 
 skinparam shadowing false
@@ -12,13 +12,13 @@ skinparam rectangle {
 }
 skinparam ArrowColor #444444
 
-rectangle "Download ZIP File from S3" as A
-rectangle "Extract ZIP" as B
-rectangle "Convert CityGML to CityJSON" as C
-rectangle "Enrich CityJSON + precalculate Energy" as D
-rectangle "Generate 3D Tiles from CityJSON" as E
-rectangle "Convert CityJSON back to CityGML" as F
-rectangle "Upload to S3" as G
+rectangle "ZIP-Datei von S3 herunterladen" as A
+rectangle "ZIP-Datei entpacken" as B
+rectangle "CityGML in CityJSON konvertieren" as C
+rectangle "CityJSON anreichern + Energie vorab berechnen" as D
+rectangle "3D Tiles aus CityJSON erzeugen" as E
+rectangle "CityJSON zurück in CityGML konvertieren" as F
+rectangle "Zu S3 hochladen" as G
 
 A --> B
 B --> C
@@ -30,7 +30,10 @@ F --> G
 
 note right of D
 Ein Airflow-Trigger startet den gesamten kombinierten DAG.
-Keine separaten manuellen Trigger fuer Einzelschritte.
+Keine separaten manuellen Trigger für Einzelschritte.
+Aktualisierte LoD2-Daten sind immer die Basis.
+Zusatzdaten sind konditional; Adressen stammen aus LoD2.
+Kein update_scope und keine Wiederverwendung alter Anreicherungsergebnisse.
 end note
 
 @enduml

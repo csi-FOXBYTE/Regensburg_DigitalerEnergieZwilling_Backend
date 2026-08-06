@@ -109,7 +109,7 @@ Die Journey dient als Grundlage für:
 | Einstieg     | Website öffnen, Kurzbeschreibung lesen | Transparente Erklärung, Datenschutz-Hinweis    |
 | Gebäudewahl  | Adresse eingeben oder Karte nutzen     | Treffer anzeigen, Daten vorbefüllen            |
 | Gebäudedaten | Daten prüfen und ergänzen              | Plausibilitätschecks, Herkunftskennzeichnung   |
-| Varianten    | Maßnahmen auswählen                    | Sofortige Vorher/Nachher-Vergleiche            |
+| Varianten    | Maßnahmen auswählen                    | Vorher-/Nachher-Werte und Delta-Darstellungen  |
 | Bewertung    | Ergebnisse sichten                     | Zusammenfassung, Förderinfos, nächste Schritte |
 | Export       | PDF herunterladen                      | Report inkl. Gebäudedaten und Links            |
 
@@ -149,7 +149,7 @@ Alle Eingaben sind als „automatisch“, „manuell“ oder „geschätzt“ zu
 Die vereinfachten UX-Schritte sind keine technische Tracking-Nummerierung. Für Funnel-Auswertungen gelten die stabilen semantischen Schritt-IDs und Abschlusskriterien aus dem [Matomo-Trackingkonzept](06-matomo-trackingkonzept.md#funnel-schritte). Dadurch können mehrere fachliche Abschnitte in einem Screen zusammengefasst oder Screens umgestaltet werden, ohne historische Auswertungen durch geänderte Schrittzahlen zu verfälschen.
 
 > ⚠️ **Hinweis MVP:** Solarthermie ist derzeit nicht Teil des vorgesehenen Rechenwegs im Berechnungskern. Offen sind damit aktuell vor allem die zwei PV-Darstellungen und die Geothermie-Bewertung.
-> Hinweis Datenstand Geothermie: Aktuell sind die Geothermie-Daten noch nicht durch den Auftraggeber freigegeben. Eine optionale Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie ist nur nach fachlicher Beauftragung und Datenklärung vorzusehen.
+> Hinweis Datenstand Geothermie: Die Daten wurden durch den Auftraggeber bereitgestellt und sollen verwendet werden; die Implementierung befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback zur Berechnung flurstücksbezogener Potenziale nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ### User Stories (Private Gebäudenutzer)
 
@@ -209,6 +209,7 @@ Alle Eingabedomänen laufen in einem zentralen Datenobjekt zusammen und speisen 
 - Live-Ergebnisse: Heizwärmebedarf, Endenergie, Primärenergie, Energieeffizienz, CO₂-Emissionen sowie verbrauchs- und kostenbezogene Kennzahlen.
 - Sanierungsvorschlag als zusammenfassende Empfehlung auf Basis der Eingaben.
 - Fördermittel-Block zur Einordnung verfügbarer Förderoptionen.
+- Der grafische Darstellungsumfang besteht aus Energieklassenbalken und Delta-Darstellungen für relevante Vorher-/Nachher-Werte. Weitere quantitative Diagrammtypen sind nicht vorgesehen.
 
 ### Datenquellen & Kennzeichnung
 
@@ -239,9 +240,9 @@ Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst 
 
 Für den internen Client sind drei Rollen vorgesehen:
 
-- `Verwalter`: Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
-- `Systempfleger`: Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
-- `Administrator`: voller Zugriff auf den internen Client.
+- `manager` (Verwalter): Zugriff auf eingereichte Gebäudedaten und deren Bearbeitung; kein Zugriff auf Systempflege.
+- `maintainer` (Systempfleger): Zugriff auf Systempflege; kein Zugriff auf eingereichte Gebäudedaten.
+- `admin` (Administrator): voller Zugriff auf den internen Client.
 
 ### Ausgangslage / Datenproblem
 
@@ -281,7 +282,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | ------------ | ------------------ | ----------------------------- |
 | Login        | Zugang sichern     | Zugriff auf Admin-Funktionen  |
 | Übersicht    | Überblick gewinnen | Liste und Karte der Eingaben  |
-| Prüfung      | Qualität sichern   | Vergleich & Plausibilisierung |
+| Prüfung      | Qualität sichern   | Gruppierte Navigation & Plausibilisierung |
 | Freigabe     | Daten bestätigen   | Status „freigegeben“          |
 | Systempflege | Grundlagen pflegen | Kataloge aktuell halten       |
 | Auswertung   | Analyse            | Aggregierte Erkenntnisse      |
@@ -291,12 +292,13 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Schritt           | Aktion                       | Systemantwort                    |
 | ----------------- | ---------------------------- | -------------------------------- |
 | Login             | Admin-Seite öffnen, anmelden | Rollenprüfung, Admin-Bereich     |
-| Übersicht         | Liste/Karte der Eingaben     | Filter, Sortierung, Status       |
-| Detail            | Gebäudedatensätze öffnen     | Vergleich mehrerer Eingaben      |
+| Übersicht         | Liste/Karte der Eingaben     | Filter nach Adresse, Status und Prüfperson; Sortierung und Pagination |
+| Detail            | Gebäudegruppe öffnen         | Navigation zwischen Geschwistereinreichungen |
 | Plausibilisierung | Datensatz prüfen             | Status „in Prüfung“, Notizen     |
 | Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log |
-| Ablehnung      | Unplausiblen Datensatz verwerfen | Status „abgelehnt“ + Audit-Log |
-| Löschung       | Datensatz fachlich löschen       | Status „gelöscht“ + Audit-Log |
+| Ablehnung         | Datensatz fachlich verwerfen  | Status „abgelehnt“ + Audit-Log |
+| Physische Löschung | Einzelne Einreichung gezielt löschen | Separate Löschoperation; kein Triage-Status |
+| Gebündelte Löschung | Alle Einreichungen einer Gebäude-ID löschen | Nur möglich, wenn alle Einreichungen der Gebäudegruppe abgelehnt sind |
 | Systempflege      | Kataloge bearbeiten          | Versionierung, Validierung       |
 | Auswertung        | Kennzahlen prüfen            | Aggregierte Ansicht              |
 
@@ -317,8 +319,11 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 - Klar definierte Rollen und Berechtigungen.
 - Gruppierung „alle Eingaben zu einem Gebäude“.
-- Statuskennzeichnung: neu / in Prüfung / freigegeben / abgelehnt / gelöscht.
-- Unplausible oder automatisch abgelehnte Datensätze werden fachlich als abgelehnt markiert; fachlich gelöschte Datensätze erhalten den Status gelöscht.
+- Vergleich durch Navigation zwischen den Geschwistereinreichungen einer Gebäudegruppe; keine Side-by-side- oder Delta-Ansicht der Einreichungen.
+- Technische Vollständigkeit als Dateninvariante der Admin-Triage; kein eigener Vollständigkeitsfilter. Datenqualität und Plausibilität werden weiterhin fachlich geprüft.
+- Statuskennzeichnung: neu / in Prüfung / freigegeben / abgelehnt.
+- Die Admin-Aktion „Datensatz abgelehnt“ setzt den Endstatus „abgelehnt“ (im Code `DECLINED`). Die physische Löschung ist davon klar getrennt und wird nicht als Status dargestellt.
+- Einzelne Einreichungen können im Triage-Prozess gezielt physisch gelöscht werden. Die gebündelte Löschaktion einer Gebäudegruppe ist nur verfügbar, wenn alle Einreichungen zu ihrer Gebäude-ID den Status „abgelehnt“ besitzen.
 - Audit-Log: Wer hat wann freigegeben?
 - Aggregierte, filterbare Auswertungen (z. B. Stadtteil, Effizienzklasse).
 
@@ -326,9 +331,11 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 - Als Stadtverwalter/in möchte ich mich im internen Bereich anmelden können, damit ich Zugriff auf Verwaltungsfunktionen habe.
 - Als Stadtverwalter/in möchte ich eine Übersicht aller Nutzereingaben sehen, damit ich erkenne, was geprüft werden muss.
-- Als Stadtverwalter/in möchte ich mehrere Eingaben zu einem Gebäude vergleichen, um Unterschiede zu erkennen.
+- Als Stadtverwalter/in möchte ich innerhalb einer Gebäudegruppe zwischen Geschwistereinreichungen navigieren, um die Datensätze nacheinander zu prüfen; eine parallele Side-by-side- oder Delta-Ansicht benötige ich dafür nicht.
 - Als Stadtverwalter/in möchte ich Datensätze als plausibel markieren und freigeben können, damit sie als übermittelte Daten intern weiterverarbeitet werden.
 - Als Stadtverwalter/in möchte ich unplausible oder automatisch abgelehnte Datensätze als abgelehnt markieren können, damit sie nicht weiterverwendet werden und dennoch nachvollziehbar bleiben.
+- Als Stadtverwalter/in möchte ich eine einzelne Einreichung gezielt löschen können, ohne andere Einreichungen derselben Gebäude-ID zu entfernen.
+- Als Stadtverwalter/in möchte ich alle Einreichungen einer Gebäude-ID gebündelt löschen können, wenn sie ausnahmslos abgelehnt wurden, damit nicht versehentlich noch relevante Einreichungen entfernt werden.
 - Als Stadtverwalter/in möchte ich Energieeffizienzklassen, Gebäudetypen und Heizarten pflegen, damit Eingaben konsistent bleiben.
 - Als Stadtverwalter/in möchte ich angebundene Datenquellen pflegen und aktualisieren können, damit Berechnungen und Nutzereingaben stets auf einer konsistenten und aktuellen Datengrundlage basieren.
 
@@ -508,14 +515,15 @@ Die Ergebnisseite aggregiert alle relevanten Kennzahlen:
 - Jährliche Kosten
 - CO₂-Emissionen
 - Vergleich mit Gebäudebestand
-- Vorher-/Nachher-Darstellung
-- Histogramm-Einordnung im Stadtbestand
-- Zugang zu Detailvergleich
+- Energieklassenbalken
+- Delta-Darstellungen für relevante Vorher-/Nachher-Werte
+
+Weitergehende quantitative Diagramme, insbesondere zusätzliche Histogramme oder Chart-Typen, sind im abgenommenen Konzept und in der aktuellen Planung nicht vorgesehen.
 
 **UX-Prinzip:**
 
 - Fokus auf Entscheidungsfähigkeit
-- Visuelle Einordnung im städtischen Kontext
+- Visuelle Einordnung über Energieklassenbalken und Delta-Darstellungen
 - Transparenz von Wirkung, Kosten und Emission
 
 ## UX-Leitprinzipien des Systems
@@ -526,6 +534,6 @@ Das Interface folgt folgenden Grundprinzipien:
 2.  **Transparenz über Modellannahmen**
 3.  **Live-Aktualisierung zentraler Kennwerte**
 4.  **Vergleichbarkeit von Maßnahmen**
-5.  **Entscheidungsunterstützung durch Visualisierung**
+5.  **Entscheidungsunterstützung durch Energieklassenbalken und Delta-Darstellungen**
 6.  **Niederschwelliger Zugang ohne Fachkenntnisse**
 

@@ -23,9 +23,10 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 <a id="verantwortlichkeiten"></a>
 ## Verantwortlichkeiten
 
-- Fachliche Autorisierung auf Basis der von APISIX geprüften Claims/Rollen (`Verwalter`, `Systempfleger`, `Administrator`).
+- Produktive Validierung von Access Tokens per RS256/JWKS und fachliche Autorisierung anhand der Rollen `manager`, `maintainer` und `admin`.
 - Verwaltung, Versionierung und Veröffentlichung von Berechnungskonfigurationen.
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
+- Durchsetzung der Löschregeln in der Admin-Triage: gezielte Einzellöschung sowie atomare gebündelte Löschung nur bei ausschließlich abgelehnten Einreichungen zu einer Gebäude-ID.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
 - Optionale serverseitige Berechnung über den Berechnungskern.
 
@@ -36,13 +37,13 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 
 - Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen) über APISIX.
 - Administrative API (Konfiguration, Triage, Reporting) über APISIX.
-- OpenAPI-3.0-Spezifikation als Vertragsquelle für Frontend-Client-Generierung.
+- Spezifikation nach OpenAPI 3.0 oder höher als Vertragsquelle für die Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.
 - Keycloak (OIDC) wird für Benutzer-/Client-Authentifizierung gegenüber APISIX genutzt; nach erfolgreichem Login setzt Keycloak ein verschlüsseltes JWT-Token als Browser-Cookie.
-- APISIX prüft dieses JWT-Cookie und schützt die Routen.
-- Relationale Datenbank mit räumlicher Erweiterung.
+- APISIX schützt die Routen und übernimmt die vorgelagerte OIDC-Prüfung. Das Backend vertraut dieser Prüfung nicht allein, sondern validiert das weitergeleitete Access Token unabhängig gegen die konfigurierte Keycloak-JWKS-Quelle und setzt Rollen und Berechtigungen selbst durch.
+- PostgreSQL-Datenbank für dynamische und administrative Daten.
 - Berechnungskern als eingebettetes Modul für Re-Berechnungen.
-- Externer Datendienst (z.B. S3) und optionales Tiles Gateway für statische 3D Tiles (nur konsumiert, nicht erzeugt); externer Zugriff erfolgt über APISIX.
+- Externer Tiles-Dienst für statische 3D Tiles. Das Backend leitet `GET /api/public/tiles/*` per Redirect an die über `TILES_URL` konfigurierte externe Ziel-URL weiter.
 
 ---
 
@@ -58,7 +59,7 @@ Quelle: `raw/backend-architecture.puml`
 <a id="datenhaltung"></a>
 ## Datenhaltung
 
-- Relationale Datenbank für dynamische und administrative Daten.
+- PostgreSQL-Datenbank für dynamische und administrative Daten; Zugriff über ZenStack ORM mit PostgreSQL-Dialect.
 - Keine Speicherung statischer Potenzialdaten oder 3D Tiles.
 - Konfigurations-Snapshots als exportierte Dateien.
 
@@ -67,7 +68,7 @@ Quelle: `raw/backend-architecture.puml`
 <a id="api-vertrag"></a>
 ## API-Vertrag
 
-- OpenAPI 3.0 wird im Backend über Fastify-toab/Fastify-Swagger bereitgestellt.
+- OpenAPI 3.0 oder höher wird im Backend über Fastify-toab/Fastify-Swagger bereitgestellt; die aktuelle Implementierung erzeugt OpenAPI 3.1.0.
 - Diese Spezifikation ist die Source of Truth für die Generierung des Frontend-API-Clients.
 - Das Frontend fragt die OpenAPI-Spezifikation ab und generiert daraus den API-Client mit Orval.
 - Eine zusätzliche Versionierung als `openapi/openapi.json` wird bewusst ausgeklammert, da die Anzahl angebundener Clients gering bleibt.
@@ -83,14 +84,14 @@ Quelle: `raw/backend-architecture.puml`
   - `"/api/admin/*"`: per Default **protected**.
   - `"/api/public/*"`: per Default **public**.
 - Für `"/api/admin/*"` gilt:
-  - APISIX muss JWT/OIDC-Validierung, Signaturprüfung und AuthN/AuthZ erzwingen (z.B. OIDC-Plugin).
-  - Grundlage ist das von Keycloak nach Login gesetzte verschlüsselte JWT-Cookie im Browser.
-  - Backend-Endpunkte verwenden `authMiddleware` nur zur Auswertung der vom Gateway durchgereichten Claims/Rollen.
-  - Gebäudedaten-/Triage-Endpunkte sind für `Verwalter` und `Administrator` vorgesehen; Systempflege-Endpunkte für `Systempfleger` und `Administrator`.
-  - Eine eigene JWT-Signaturprüfung im Backend ist nicht vorgesehen.
+  - APISIX muss den externen Routenschutz und die vorgelagerte OIDC-Prüfung entsprechend der Deployment-Policy erzwingen.
+  - Das Backend nimmt das Access Token aus `X-Access-Token` oder `Authorization: Bearer` entgegen.
+  - In produktiven Umgebungen validiert die `authMiddleware` das Token unabhängig von der Gateway-Prüfung. Signatur und zeitliche Gültigkeit werden mit RS256 gegen `KEYCLOAK_JWKS_URI` geprüft.
+  - Die Rollen werden anschließend aus `resource_access` für den über `AUTH_RESOURCE_ACCESS_CLIENT_ID` konfigurierten Client gelesen; verwendet werden `manager`, `maintainer` und `admin`.
+  - Das Backend erzwingt die daraus abgeleiteten Berechtigungen selbst. Eine erfolgreiche APISIX-Prüfung ohne erfolgreiche Backend-Prüfung führt nicht zum Zugriff.
 - Für `"/api/public/*"` gilt:
   - Keine Auth-Middleware als Default.
-  - Schutz gegen Missbrauch erfolgt über APISIX-Policies für Altcha und Rate Limiting.
+  - Schutz gegen Missbrauch erfolgt über die globale APISIX-Policy der externen Deployment-Plattform für Altcha und Rate Limiting; deren Bereitstellung und Betriebsnachweis liegen außerhalb der DEZ-Repositories.
   - Das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
 - Diese Konvention stellt sicher, dass die Trennung aus APISIX-Routing und fastify-toab-Namespace konsistent und prüfbar bleibt.
 
@@ -100,8 +101,8 @@ Quelle: `raw/backend-architecture.puml`
 ## Sicherheits- und Betriebsprinzipien
 
 - Strikte Trennung von Public- und Admin-Endpunkten.
-- APISIX ist der verbindliche Enforcement-Point für JWT/OIDC und Routenschutz.
-- APISIX-Policies für Rate Limiting und Altcha-Challenges bei öffentlichen Schreibzugriffen.
+- APISIX ist der verbindliche externe Enforcement-Point für Routenschutz und vorgelagerte OIDC-Prüfung; die unabhängige Token-, Claim- und Rollenprüfung im Backend bildet eine zweite, für administrative APIs zwingende Enforcement-Schicht.
+- Von der externen Deployment-Plattform betriebene globale APISIX-Policy für Rate Limiting und Altcha-Challenges bei öffentlichen Schreibzugriffen; das Backend setzt diese vorgelagerte Schutzschicht voraus und ergänzt sie durch eigene Fachvalidierung und Recompute-Verifikation.
 - Statelesses Backend, containerisierbar, mit Observability (Logs, Metriken, Tracing).
 - Als **CIVITAS/CORE-fähiges Add-on** ausgelegt: läuft als eigener Container und ist von außen orchestrierbar.
 - Security by Design: Least Privilege, Secure Defaults, Defense in Depth.
@@ -120,9 +121,7 @@ Quelle: `raw/backend-architecture.puml`
 - Nicht-root Benutzer und minimale Rechte (keine unnötigen Capabilities).
 - Read-only Root-Filesystem, wenn möglich; schreibbare Pfade explizit definieren.
 - Sauberes Signal-Handling (z.B. `SIGTERM`) für Graceful Shutdown.
-- Health-Endpoints für Readiness und Liveness:
-  - `GET /healthz/live` (Liveness)
-  - `GET /healthz/ready` (Readiness)
+- Gemeinsamer Health-Endpunkt `GET /health`, bereitgestellt über Fastify Under Pressure. Die Deployment-Plattform verwendet ihn für Liveness- und Readiness-Prüfungen.
 - Ressourcenangaben für CPU/Memory (Requests/Limits) sind vorgesehen.
 - Keine lokale Persistenz: Zustand liegt in externen Diensten.
 - Fällt der Container im Regelbetrieb aufgrund fehlgeschlagener Health-Checks aus, erfolgt der Neustart standardmäßig über Kubernetes.
@@ -132,6 +131,6 @@ Quelle: `raw/backend-architecture.puml`
 <a id="abgrenzung"></a>
 ## Abgrenzung
 
-- Keine Auslieferung großer statischer Datenmengen (3D Tiles).
+- Keine Übertragung großer statischer Datenmengen durch das Backend; für 3D Tiles wird nur der konfigurationsbasierte Redirect bereitgestellt.
 - Keine Laufzeit-Berechnung von Potenzialen.
 - Keine Orchestrierung der Offline-Datenpipeline; diese läuft in CIVITAS/CORE über Airflow als separater Container.

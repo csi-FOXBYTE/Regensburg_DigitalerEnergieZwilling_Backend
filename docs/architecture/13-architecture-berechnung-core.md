@@ -95,7 +95,7 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 
 - Hülle: `Dach-Fenster`, `OGD`, `AW-Fenster`, `UGD` mit HT-Teilbilanzen (`HT = F * U * A`).
 - Wärmebrücken: pauschaler Zuschlag über `dUWB * Ages`.
-- Lüftung: Luftdichtheit und Luftwechsel als referenzierte Katalogwerte, nicht als direkte Nutzereingabe.
+- Lüftung: globaler Lüftungsfaktor im abgestimmten Rechenkern, nicht als direkte Nutzereingabe und ohne zusätzliche Baualtersdifferenzierung.
 - Heizung: Systemart, Energieträger, Erzeugerart, Zusatzheizung, Heizflächenart, Heizkreistemperatur, Raumtemperaturregelung und optionale Sanierungsrandbedingungen.
 - Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. 2 Heizung` (Aufwandszahlen, Heizflächenzuschläge, Primärenergiefaktoren, CO₂-Faktoren, Heizwerte und Preismodelle).
 - Rechenkette (`Berechnungen`/`Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Warmwasser, Jahres-Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten.
@@ -106,7 +106,8 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 ## Defaultannahmen (konfigurierbar)
 
 - Fensteranteil am Fassadenbereich: Standardannahme (z.B. 40%), wenn nicht bekannt.
-- Lüftungswärmeverlust (Bestand ohne Detailkenntnis): pauschaler Ansatz (z.B. 0,05 W/m²K).
+- Lüftungswärmeverlust: globaler Faktor gemäß implementiertem und am 06.02.2026 fachlich bestätigtem Umfang.
+- Warmwasserbedarf: flächenbezogener Pauschalwert gemäß implementiertem und am 06.02.2026 fachlich bestätigtem Umfang; keine zusätzliche personenbezogene Vertiefung.
 - Wärmebrücken: pauschaler Zuschlag auf U-Werte, eingabeabhängig.
 - Beispiel- und Templatewerte aus der Referenzarbeitsmappe sind keine normativen Produktdefaults; produktive Defaults müssen konfigurierbar und kommunenprofilfähig bleiben.
 
@@ -115,8 +116,7 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 <a id="lueftung-parameterbeispiele"></a>
 ## Lüftung (Parameterbeispiele)
 
-- Luftdichtheit wird als referenzierter Parameter aus Katalogwerten und Baualter modelliert (keine direkte Nutzereingabe).
-- Für die Berechnung können interne Ausprägungen wie eher zugig / normal / sehr dicht verwendet werden.
+- Der Lüftungswärmeverlust wird über einen globalen Faktor modelliert; Luftdichtheitsklassen und eine Baualtersabhängigkeit sind nicht Bestandteil des abgestimmten Umfangs.
 
 ---
 

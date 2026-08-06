@@ -21,9 +21,10 @@ These rules define how to extend and maintain the project documentation in `docs
 
 ## Requirements Documents
 
-- **Fachliche Anforderungen**: Use `FA-XX` with strictly sequential numbering.
-- **Technische Anforderungen**: Use `TA-XX` with strictly sequential numbering.
-- When adding requirements, update numbering only forward (no gaps, no renumber of existing IDs).
+- **Fachliche Anforderungen**: Use stable `FA-XX` identifiers.
+- **Technische Anforderungen**: Use stable `TA-XX` identifiers.
+- Never renumber an existing requirement. If a requirement is removed, its identifier remains unused as an intentional gap and must not be reassigned.
+- Add new requirements only with a new identifier after the highest identifier already used in the respective document.
 
 ## Architecture Documents
 

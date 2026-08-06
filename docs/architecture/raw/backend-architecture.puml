@@ -7,30 +7,35 @@ skinparam rectangle {
 
 title Backend-Architektur
 
-rectangle "CIVITAS/CORE Platform" as civitas {
+rectangle "CIVITAS/CORE-Plattform" as civitas {
   rectangle "Orchestrierung" as orchestrator
-  rectangle "APISIX Policies\n(Altcha + Rate Limiting)" as protect
+  rectangle "APISIX-Regeln\n(Routenschutz, Altcha + Ratenbegrenzung)" as protect
 
   rectangle "Backend Add-on\n(Container)" as backend {
-    rectangle "Public API" as public_api
-    rectangle "Admin API" as admin_api
-    rectangle "Auth Middleware\n(Claims/Roles)" as auth
-    rectangle "Configuration Service" as config
-    rectangle "User Data Service" as user_data
-    rectangle "Triage/Reporting" as triage
+    rectangle "Öffentliche API" as public_api
+    rectangle "Admin-API" as admin_api
+    rectangle "Authentifizierungs-Middleware\n(RS256/JWKS + Rollen)" as auth
+    rectangle "Konfigurationsdienst" as config
+    rectangle "Nutzerdatendienst" as user_data
+    rectangle "Triage-/Berichtsdienst" as triage
     rectangle "Berechnungsservice" as calc
-    rectangle "Config Snapshot\nExporter" as export
+    rectangle "Export des Konfigurations-Snapshots" as export
+    rectangle "Kachelweiterleitung\n/api/public/tiles/* → TILES_URL" as tiles_redirect
   }
 
-  rectangle "SQLite + SpatiaLite" as db
+  database "PostgreSQL" as db
   rectangle "Keycloak (OIDC)" as keycloak
 }
+
+rectangle "Externer Kacheldienst" as tiles
 
 orchestrator ..> backend : orchestriert
 
 protect --> public_api
 public_api --> user_data
 public_api --> calc
+public_api --> tiles_redirect
+tiles_redirect --> tiles : HTTP-Weiterleitung
 admin_api --> auth
 auth --> config
 auth --> triage
@@ -40,21 +45,21 @@ config --> db
 user_data --> db
 triage --> db
 calc --> config
-keycloak --> orchestrator : via APISIX OIDC/JWT
+auth -right-> keycloak : JWKS / RS256
 
 note right of protect
-Public write protection:
-Altcha + rate limiting in APISIX
+Schutz öffentlicher Schreibzugriffe:
+Altcha + Ratenbegrenzung in APISIX
 end note
 
 note right of auth
-APISIX validates Keycloak JWT cookie.
-Backend enforces roles from claims.
+Das Backend validiert Zugriffstoken über RS256/JWKS
+und erzwingt die Rollen manager/maintainer/admin.
 end note
 
 note right of db
-No public access.
-Writes only via backend services.
+PostgreSQL ist nicht öffentlich erreichbar.
+Schreibzugriffe erfolgen nur über Backend-Dienste.
 end note
 
 @enduml

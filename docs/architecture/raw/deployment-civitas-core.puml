@@ -5,35 +5,35 @@ skinparam rectangle {
   BorderColor #444444
 }
 
-title Deployment - CIVITAS/CORE
+title Bereitstellung - CIVITAS/CORE
 
-rectangle "CIVITAS/CORE Platform" as civitas {
-  rectangle "APISIX\n(Web/API Gateway)" as gateway
+rectangle "CIVITAS/CORE-Plattform" as civitas {
+  rectangle "APISIX\n(Web-/API-Gateway)" as gateway
   rectangle "Backend Add-on\n(Container)" as backend
-  rectangle "Airflow Orchestrator" as airflow
+  rectangle "Airflow-Orchestrierung" as airflow
   rectangle "Konvertierungs-Container" as convert
   rectangle "Anreicherungs-Container" as enrich
-  rectangle "Public Static Delivery" as static
-  rectangle "Tiles Gateway\n(optional)" as tiles
-  rectangle "SQLite + SpatiaLite" as db
+  rectangle "Öffentliches Frontend\n(Astro/nginx)" as public_frontend
+  rectangle "Admin-Frontend\n(Astro/nginx)" as admin_frontend
+  database "PostgreSQL" as db
   rectangle "Keycloak (OIDC)" as keycloak
 }
 
-rectangle "Externer Datendienst\n(S3-kompatibel / 3D Tiles Storage)" as s3
+rectangle "Externer Kacheldienst\n(TILES_URL)" as tiles
+rectangle "Externer Datendienst\n(S3-kompatibel / Artefakte)" as s3
 
-gateway --> static
+gateway --> public_frontend
+gateway --> admin_frontend
 gateway --> backend
-gateway --> tiles : optional mode
-gateway --> s3 : direct mode
+backend --> tiles : Weiterleitung /api/public/tiles/*
 
 backend --> db
-backend --> keycloak
-
-tiles --> s3
+backend --> keycloak : JWKS
+tiles --> s3 : liest veröffentlichte Kacheln
 
 airflow ..> convert : orchestriert
 airflow ..> enrich : orchestriert
-convert --> s3 : read/write
-enrich --> s3 : read/write
+convert --> s3 : Lesen/Schreiben
+enrich --> s3 : Lesen/Schreiben
 
 @enduml

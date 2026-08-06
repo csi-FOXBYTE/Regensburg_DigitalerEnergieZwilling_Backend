@@ -1,79 +1,63 @@
 @startuml
 !includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+HIDE_STEREOTYPE()
 
-title Digitaler Energie Zwilling (DEZ) - C4 Component Diagram (Backend)
+title Digitaler Energie Zwilling (DEZ) - C4-Komponentendiagramm (Backend)
 
-Person(admin, "City Administration / Staff")
+Person(admin, "Stadtverwaltung/Fachpersonal")
 
-System_Boundary(civitas, "CIVITAS/CORE Platform") {
-  System_Boundary(detAddon, "digital-energy-twin_addon (DEZ)") {
-    Container(gateway, "APISIX Web/API Gateway", "API Gateway and Reverse Proxy", "Single public entrypoint")
+System_Boundary(civitas, "CIVITAS/CORE-Plattform") {
+  Container(gateway, "APISIX-Web-/API-Gateway", "API-Gateway und Reverse-Proxy", "Externer Routenschutz")
 
-    Container_Boundary(backend, "Backend API", "Node and Fastify") {
-      Component(publicStatic, "Public Static Delivery", "Fastify Static", "Serves public HTML assets and published config file")
-      Component(htmlGateway, "Protected Admin HTML Gateway", "Fastify", "Serves admin HTML only for authenticated users")
-      Component(apiControllers, "OpenAPI Controllers", "fastify-toab", "Public and admin REST endpoints")
-      Component(auth, "Auth Middleware", "APISIX-validated claims", "Evaluates forwarded claims and enforces roles")
-      Component(configService, "Configuration Service", "TypeScript JavaScript", "Manages configuration in DB and publishes versioned config files")
-      Component(userData, "User Data Service", "TypeScript JavaScript", "Persists user inputs and results and supports triage workflows")
-      Component(calcService, "Berechnungsservice", "TypeScript JavaScript", "Optionale serverseitige Berechnungsausfuehrung fuer Admin oder Fallback")
-      Component(geoService, "Geo Query Service", "TypeScript JavaScript", "Spatial queries for admin and data views")
-      Component(telemetry, "Observability", "OpenTelemetry", "Tracing metrics and logging")
-    }
-
-    Container(calcCore, "Berechnungskern-Modul", "JavaScript Module Package", "Shared module, runs in browser and in Node")
-    SystemDb(db, "DEZ Database", "SQLite + SpatiaLite", "Stores user inputs, triage state and configuration source of truth")
+  Container_Boundary(backend, "Backend-API", "Node.js und Fastify") {
+    Component(apiControllers, "OpenAPI-Controller", "fastify-toab", "Öffentliche und administrative REST-Endpunkte; OpenAPI 3.0 oder höher")
+    Component(auth, "Authentifizierungsdienst und Middleware", "jose + Keycloak JWKS", "Validiert RS256-Token und wertet die Rollen manager/maintainer/admin aus")
+    Component(configService, "Konfigurationsdienst", "TypeScript", "Validiert und verwaltet Berechnungskonfigurationen")
+    Component(submissions, "Einreichungsdienst", "TypeScript", "Persistiert, prüft, weist zu, akzeptiert, lehnt ab und löscht Einreichungen")
+    Component(calcCore, "Berechnungskern-Integration", "JavaScript-Modulpaket", "Validiert Konfigurationen und berechnet eingereichte Ergebnisse neu")
+    Component(tilesRedirect, "Controller für Kachelweiterleitungen", "Fastify", "Leitet /api/public/tiles/* zu TILES_URL weiter")
+    Component(databaseService, "Datenbankdienst", "ZenStack ORM + pg", "Stellt die Verbindung zu PostgreSQL her")
+    Component(telemetry, "Beobachtbarkeit", "OpenTelemetry + Pino", "Tracing und strukturierte Protokollierung")
   }
 
-  Container(idp, "Keycloak (CIVITAS/CORE)", "OIDC identity provider")
-  ContainerDb(sqliteStorage, "SQLite Storage", "SQLite file/storage volume", "DEZ-owned database storage")
+  ContainerDb(db, "DEZ-Datenbank", "PostgreSQL", "Speichert Benutzer, Gebäude, Einreichungen, Historie und Konfiguration")
+  Container(idp, "Keycloak", "OIDC-Identitätsanbieter", "Stellt Zugriffstoken und JWKS bereit")
 }
 
-Container_Ext(frontendPublic, "Public Frontend", "Astro Static Site", "Public client")
-Container_Ext(frontendAdmin, "Admin Frontend", "Astro Static Site", "Admin client")
+Container_Ext(frontendPublic, "Öffentliches Frontend", "Separate Astro/nginx-Bereitstellung", "Öffentlicher Client")
+Container_Ext(frontendAdmin, "Admin-Frontend", "Separate Astro/nginx-Bereitstellung", "Admin-Client")
+System_Ext(tilesService, "Externer Kacheldienst", "Bei der Bereitstellung vorgegebene, als TILES_URL konfigurierte URL")
 
-Rel(admin, gateway, "uses", "HTTPS")
-Rel(gateway, publicStatic, "routes public site and config", "GET / and GET /config")
-Rel(gateway, htmlGateway, "routes admin site", "GET /admin")
-Rel(gateway, apiControllers, "routes API", "GET/POST /api")
-Rel(gateway, idp, "obtains and validates tokens", "OIDC/JWT")
+Rel(admin, gateway, "nutzt", "HTTPS")
+Rel(gateway, apiControllers, "leitet die API weiter", "GET/POST /api")
+Rel(frontendPublic, apiControllers, "lädt die Konfiguration und sendet optionale Einreichungen", "REST über APISIX")
+Rel(frontendAdmin, apiControllers, "triagiert Einreichungen und verwaltet die Konfiguration", "REST über APISIX")
 
-Rel(htmlGateway, auth, "enforces authentication")
-Rel(auth, gateway, "trusts APISIX-validated claims")
+Rel(apiControllers, auth, "authentifiziert Admin-Anfragen")
+Rel(auth, idp, "lädt Prüfschlüssel", "JWKS")
+Rel(apiControllers, submissions, "delegiert Einreichungsabläufe")
+Rel(apiControllers, configService, "delegiert Konfigurationsabläufe")
+Rel(apiControllers, tilesRedirect, "delegiert Kachelanfragen")
+Rel(submissions, calcCore, "validiert und berechnet neu")
+Rel(configService, calcCore, "validiert Konfigurationen")
+Rel(submissions, databaseService, "liest und schreibt")
+Rel(configService, databaseService, "liest und schreibt")
+Rel(auth, databaseService, "legt authentifizierte Benutzer an oder aktualisiert sie")
+Rel(databaseService, db, "SQL")
+Rel(tilesRedirect, tilesService, "Ziel der HTTP-Weiterleitung")
 
-Rel(frontendPublic, apiControllers, "sends user inputs for persistence", "REST optional")
-Rel(frontendAdmin, apiControllers, "triages user inputs and manages config", "REST")
-
-Rel(apiControllers, auth, "uses")
-Rel(apiControllers, userData, "delegates user data persistence and triage")
-Rel(apiControllers, configService, "delegates config management and publishing")
-Rel(apiControllers, geoService, "delegates spatial queries")
-Rel(apiControllers, calcService, "delegates serverseitige Berechnung", "optional")
-
-Rel(calcService, calcCore, "imports and runs in Node", "optional admin or fallback execution")
-
-Rel(userData, db, "reads and writes user inputs and triage state")
-Rel(configService, db, "reads and writes configuration")
-Rel(configService, publicStatic, "publishes versioned config file")
-Rel(geoService, db, "reads spatial data")
-Rel(db, sqliteStorage, "stored on", "persistent volume")
-
-Rel(telemetry, apiControllers, "instruments")
-Rel(telemetry, userData, "instruments")
-Rel(telemetry, configService, "instruments")
-Rel(telemetry, geoService, "instruments")
-Rel(telemetry, calcService, "instruments")
+Rel(telemetry, apiControllers, "instrumentiert")
+Rel(telemetry, submissions, "instrumentiert")
+Rel(telemetry, configService, "instrumentiert")
 
 note right of auth
-Evaluates APISIX-validated claims
-and enforces role-based access control.
+Produktion: RS256-Prüfung über KEYCLOAK_JWKS_URI.
+Tokenquelle: X-Access-Token oder Authorization Bearer.
 end note
 
-note right of apiControllers
-Public write path:
-APISIX checks Altcha/rate limit;
-backend validates input,
-server recompute and reject paths.
+note right of tilesRedirect
+Das Backend überträgt keine Kachelinhalte.
+Es antwortet mit einer Weiterleitung zur konfigurierten externen URL.
 end note
 
 @enduml
