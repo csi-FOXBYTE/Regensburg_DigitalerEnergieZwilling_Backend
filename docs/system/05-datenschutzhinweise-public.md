@@ -1,6 +1,6 @@
 # Datenschutzhinweise für das öffentliche Sanierungstool
 
-> **Status:** Entwurf, Stand 24. Juli 2026  
+> **Status:** Entwurf, Stand 6. August 2026  
 > **Geltungsbereich:** Öffentlicher/bürgerseitiger Teil des Digitalen Energie Zwillings (DEZ)  
 > **Freigabe:** Vor Veröffentlichung durch Betreiber, zuständige Dienststelle und behördlichen Datenschutzbeauftragten zu prüfen. Eckige Klammern kennzeichnen noch zu ergänzende oder verbindlich festzulegende Angaben.
 
@@ -190,16 +190,29 @@ Es werden im Bürgerbereich kein Name, kein Benutzerkonto und keine E-Mail-Adres
 
 ### Zwecke der freiwilligen Bereitstellung
 
-> **Ergänzungshinweis:** Die konkreten Zwecke der freiwilligen Datenbereitstellung sind von der Stadt Regensburg noch nicht abschließend definiert und freigegeben. Die folgende Aufzählung ist ein Arbeitsentwurf und muss vor Veröffentlichung durch die fachlich zuständige Stelle sowie den behördlichen Datenschutzbeauftragten bestätigt oder ersetzt werden.
+**Nutzung von Gebäudedaten außerhalb des Sanierungstools**
 
-Als mögliche Zwecke sind derzeit vorgesehen:
+Gebäudedaten sind wertvolle Daten – nicht für das einzelne Gebäude, sondern vor allem in aggregierter Form. Der größte Nutzen liegt im Aufbau eines immer genaueren Abbilds von Gebäudebestand und seiner Sanierungspotenziale.
 
-- Plausibilitätsprüfung und Qualitätssicherung,
-- Verbesserung der Datengrundlage für Klimaschutz und kommunale Wärmeplanung,
-- gebäude- und quartierbezogene interne Auswertungen,
-- Weiterentwicklung der Berechnungsgrundlagen und des Sanierungstools.
+| Anwendungsfall | Genutzte Daten | Mehrwert |
+| --- | --- | --- |
+| Wärmebedarfsanalyse | Bauliche, energetische und versorgungstechnische Gebäudeparameter<br>(z.B. Alter, Sanierungszustand, Versorgungsart, …) | Abschätzung des heutigen Wärmebedarfs – realistischere Annahmen ggü. Standardannahmen |
+| Potenzialanalyse | Bauliche, energetische und versorgungstechnische Gebäudeparameter | Ermittlung der technisch erreichbaren Energieeinsparung |
+| Wärmenetzplanung | Versorgungstechnische Gebäudeparameter | Identifikation geeigneter Gebiete für Wärmenetze<br>Interesse an Netzanschluss ermitteln |
+| Transformationsplanung | Anlagenalter der wärmeerzeugenden Komponenten | Abschätzung, wann viele Heizungen ohnehin ersetzt werden müssen.<br>Aufbau eines Sanierungspfads |
+| Planung von Förder- und Beratungsprogramme | Bauliche und energetische und versorgungstechnische Gebäudeparameter | Zielgerichtete Förder- und Beratungsangebote |
+| Klimaschutzcontrolling | Bauliche und energetische und versorgungstechnische Gebäudeparameter | Abschätzung der CO₂-Minderung durch Maßnahmen |
 
-Nur hierzu berechtigte Beschäftigte der Stadtverwaltung beziehungsweise entsprechend verpflichtete Auftragsverarbeiter erhalten Zugriff. Eingaben, Triage-Status und bürgerseitige Berechnungsergebnisse werden nach der Projektarchitektur nicht an den NGSI-LD-Broker Stellio exportiert.
+**Verzeichnis möglicher Verarbeitungstätiger:**
+
+- Stadt Regensburg
+- Von der Stadt Regensburg beauftragte Dienstleister/ Projektpartner zur
+  - Durchführung von Analysen und Planungen im Rahmen der kommunalen Wärmeplanung.
+  - Erstellung integrierter Quartierskonzepte zur Entwicklung nachhaltiger Energie- und Wärmeversorgungssysteme.
+  - Erarbeitung von Machbarkeitsstudien einschließlich technischer, wirtschaftlicher und ökologischer Bewertungen
+- Wissenschaftliche Institutionen im Rahmen von (Forschungs-)Projekten
+- Fördermittelgeber auf Kommunaler, Landes und Bundesebene (in aggregierter Form; zur Auslegung von Förderprogrammen)
+- Prüfstellen auf Kommunaler, Landes und Bundesebene, die mit der Einhaltung von Klima- und Energiegesetzen betraut sind oder werden.
 
 ### Rechtsgrundlage, Freiwilligkeit und Widerruf
 
@@ -341,4 +354,4 @@ Trotz technischer und organisatorischer Schutzmaßnahmen kann eine Datenübertra
 
 Diese Datenschutzhinweise werden angepasst, wenn sich Funktionen, Datenflüsse, Empfänger oder Rechtsgrundlagen ändern.
 
-Stand: 28. Juli 2026
+Stand: 6. August 2026
