@@ -5,7 +5,7 @@ import {
   validateInput,
   type DETConfig,
 } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
-import { type ConfigService, getDatabaseService, getConfigService } from "../@internals/index.js";
+import { getConfigService, getDatabaseService, type ConfigService } from "../@internals/index.js";
 import { DEFAULT_VERSION } from "../config/config.service.js";
 import { AppError } from "../errors/app-error.js";
 import { SubmissionStatus } from "../zenstack/models.js";
@@ -233,7 +233,7 @@ const list = async (
   return { data, total };
 };
 
-const getById = async (db: DB, submissionId: string) => {
+const getById = async (db: DB, configService: ConfigService, submissionId: string) => {
   const submission = await db.submission.findUnique({
     where: { id: submissionId },
     include: {
@@ -253,8 +253,12 @@ const getById = async (db: DB, submissionId: string) => {
 
   const { address, longitude, latitude } = resolveAddress(submission, submission.building);
 
+  const usedConfig =
+    submission.usedConfig ?? (await configService.getConfig(DEFAULT_VERSION));
+
   return {
     ...submission,
+    usedConfig,
     address,
     longitude,
     latitude,
@@ -352,7 +356,7 @@ const submissionsService = createService("submissions", async ({ services }) => 
     unAssign: (submissionId: string, userId: string, roles: Roles) =>
       unAssign(db, submissionId, userId, roles),
     list: (params: Parameters<typeof list>[1]) => list(db, params),
-    getById: (submissionId: string) => getById(db, submissionId),
+    getById: (submissionId: string) => getById(db, configService, submissionId),
     accept: (submissionId: string, userId: string, roles: Roles) => accept(db, submissionId, userId, roles),
     decline: (submissionId: string, userId: string, roles: Roles) => decline(db, submissionId, userId, roles),
   };

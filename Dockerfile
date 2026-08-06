@@ -51,6 +51,9 @@ RUN pnpm prune --prod
 #-------------------------------------------------------------------------------
 FROM node:23-slim AS production
 
+LABEL org.opencontainers.image.licenses="LGPL-3.0-or-later" \
+      org.opencontainers.image.source="https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Backend"
+
 # Install only runtime OS dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -75,6 +78,7 @@ COPY --from=build --chown=node:node /app/node_modules ./node_modules
 # Copy the built application code
 COPY --from=build --chown=node:node /app/.build ./.build
 COPY --from=build --chown=node:node /app/package.json ./
+COPY --from=build --chown=node:node /app/LICENSE /app/COPYING /app/COPYING.LESSER /app/NOTICE ./
 
 # Copy zenstack schema and migrations needed for zen migrate deploy
 COPY --from=build --chown=node:node /app/src/zenstack/schema.zmodel ./src/zenstack/schema.zmodel
