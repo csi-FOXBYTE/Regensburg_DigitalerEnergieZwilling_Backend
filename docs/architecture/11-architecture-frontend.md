@@ -35,6 +35,9 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Übernahme der freigegebenen LOD2- und Anreicherungsattribute als
   Berechnungsvorbelegung gemäß
   [LOD2-zu-Frontend-Eingabefeld-Mapping](17-lod2-frontend-input-mapping.md).
+- Die Vorrangregeln zwischen Nutzereingaben, LOD2-/Anreicherungsdaten und Defaults sind in der
+  [Testdokumentation der energetischen Berechnung](18-energy-calculation-test-documentation.md)
+  beschrieben und geprüft.
 - Visualisierung von Solarpotenzialen (PV) nach Datenfreigabe und Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten.
 - Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; keine flächendeckende Einfärbung nach Energieeffizienzklassen.
 - Abbildung von zwei PV-Darstellungen in der UI erst nach Datenfreigabe:

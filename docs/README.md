@@ -55,11 +55,12 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **10** [Offline-Datenpipeline](architecture/10-architecture-offline-data-pipeline.md)
 - **11** [Frontend](architecture/11-architecture-frontend.md)
 - **12** [Backend](architecture/12-architecture-backend.md)
-- **13** [Berechnungskern](architecture/13-architecture-berechnung-core.md)
+- **13** [Berechnungskern](architecture/13-architecture-energy-calculation-core.md)
 - **14** [Deployment (CIVITAS/CORE)](architecture/14-architecture-deployment.md)
 - **15** [Manuelles Deployment ohne Kubernetes/Cluster (nicht empfohlen)](architecture/15-architecture-deployment-standalone.md)
 - **16** [Datenquellenkatalog und Piveau-Anbindung](architecture/16-data-sources-dcat-piveau.md)
 - **17** [LOD2-zu-Frontend-Eingabefeld-Mapping](architecture/17-lod2-frontend-input-mapping.md)
+- **18** [Testdokumentation der energetischen Berechnung](architecture/18-energy-calculation-test-documentation.md)
 
 <a id="anleitungen"></a>
 

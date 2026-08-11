@@ -14,8 +14,9 @@
 10. [Wärmebrücken (Hinweis)](#waermebruecken-hinweis)
 11. [Offene Modellierungsfragen aus dem Grobkonzept](#offene-modellierungsfragen-aus-dem-grobkonzept)
 12. [Diagramm](#diagramm)
-13. [Versionierung und Nachvollziehbarkeit](#versionierung-und-nachvollziehbarkeit)
-14. [Abgrenzung](#abgrenzung)
+13. [Tests und Gegenprüfung](#tests-und-gegenpruefung)
+14. [Versionierung und Nachvollziehbarkeit](#versionierung-und-nachvollziehbarkeit)
+15. [Abgrenzung](#abgrenzung)
 
 <a id="ziel-dieser-sicht"></a>
 ## Ziel dieser Sicht
@@ -155,6 +156,17 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 ![berechnung-core-architecture.png](./attachments/berechnung-core-architecture.png)
 
 Quelle: `raw/berechnung-core-architecture.puml`
+
+---
+
+<a id="tests-und-gegenpruefung"></a>
+## Tests und Gegenprüfung
+
+Die [Testdokumentation der energetischen Berechnung](18-energy-calculation-test-documentation.md)
+beschreibt die Gegenprüfung anhand zweier Testgebäudepaare, den Vergleich mit professionellen
+Referenzwerten sowie die automatisierten Tests der Vorrangregeln und Berechnungspfade. Die Tests
+sichern die implementierten Pfade und aktuelle absolute Ergebnisse gegen Regressionen ab. Die
+fachliche Bewertung der Modellabweichungen und geeigneter Toleranzen steht noch aus.
 
 ---
 
