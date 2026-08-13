@@ -12,33 +12,33 @@ skinparam rectangle {
 }
 skinparam ArrowColor #1F2937
 
-rectangle "Release 1%n()02.03.2026 - 15.03.2026%n()---%n()Plattformaufbau%n()CIVITAS/CORE-Basis%n()Dienste%n()Datenpipeline + Vorverarbeitung%n()MasterPortal-Verlinkung" as R1 #DCEBFF
+rectangle "Release 1\n02.03.2026 - 15.03.2026\n---\nPlattformaufbau\nCIVITAS/CORE-Basis\nDienste\nDatenpipeline + Vorverarbeitung\nMasterPortal-Verlinkung" as R1 #DCEBFF
 
-rectangle "Release 2%n()16.03.2026 - 12.04.2026%n()---%n()Hauptzielgruppe%n()Öffentlicher 3D-Client%n()Gebäudeauswahl + Berechnung%n()Ist-Zustand + Plausibilitätsprüfung%n()Backend-CRUD" as R2 #DFF7E2
+rectangle "Release 2\n16.03.2026 - 12.04.2026\n---\nHauptzielgruppe\nÖffentlicher 3D-Client\nGebäudeauswahl + Berechnung\nIst-Zustand + Plausibilitätsprüfung\nBackend-CRUD" as R2 #DFF7E2
 
-rectangle "Release 3%n()13.04.2026 - 10.05.2026%n()---%n()Ist-Stand%n()Rechen-/Energiekern%n()Sanierungslogik%n()Ergebnis + PDF/Export%n()Admin/Systempflege%n()UX-Texte + Testvorbereitung" as R3 #FFEFD6
+rectangle "Release 3\n13.04.2026 - 10.05.2026\n---\nIst-Stand\nRechen-/Energiekern\nSanierungslogik\nErgebnis + PDF/Export\nAdmin/Systempflege\nUX-Texte + Testvorbereitung" as R3 #FFEFD6
 
-rectangle "Release 4%n()11.05.2026 - 18.06.2026%n()---%n()Ist-Stand%n()Integration + Stabilisierung%n()Admin-Backend/Authentifizierung%n()Datenpipeline + Anreicherung%n()Förderprogramm-Anbindung%n()Tests + Fragebögen" as R4 #F3F4F6
+rectangle "Release 4\n11.05.2026 - 18.06.2026\n---\nIst-Stand\nIntegration + Stabilisierung\nAdmin-Backend/Authentifizierung\nDatenpipeline + Anreicherung\nFörderprogramm-Anbindung\nTests + Fragebögen" as R4 #F3F4F6
 
-rectangle "Release 5%n()Sprint 13 + Sprint 14%n()Abschluss 06.07.2026%n()---%n()Ist-Stand%n()Anreicherung aktualisieren + Fehlerbehebung%n()Frontend aktualisieren + Fehlerbehebung%n()Systempflege aktualisieren + Fehlerbehebung%n()Sprint 14: Nutzertests" as R5 #EDE9FE
+rectangle "Release 5\nSprint 13 + Sprint 14\nAbschluss 06.07.2026\n---\nIst-Stand\nAnreicherung aktualisieren + Fehlerbehebung\nFrontend aktualisieren + Fehlerbehebung\nSystempflege aktualisieren + Fehlerbehebung\nSprint 14: Nutzertests" as R5 #EDE9FE
 
-rectangle "Release 6%n()Sprint 15 + Sprint 16%n()07.07.2026 - 03.08.2026%n()---%n()Plan%n()Nutzertests auswerten%n()Arbeitspakete bewerten%n()Priorisierte Punkte umsetzen%n()Matomo frühestens Sprint 15%n()BKI-Zugang weiter offen" as R6 #FFF4BF
+rectangle "Release 6\nSprint 15 + Sprint 16\n07.07.2026 - 03.08.2026\n---\nPlan\nEntwicklung fortführen\nSystemübergreifend stabilisieren\nRegression + Konsistenz prüfen\nMatomo frühestens Sprint 15\nBKI-Zugang weiter offen" as R6 #FFF4BF
 
-rectangle "Sprint 17%n()04.08.2026 - 17.08.2026%n()---%n()Plan%n()Entwicklung abschließen%n()Priorisierte Änderungen integrieren%n()Regressionstests%n()CIVITAS/CORE-Staging-Bereitstellung%n()Inbetriebnahmekandidat stabilisieren" as S17 #E5E7EB
+rectangle "Release 7\nSprint 17\n04.08.2026 - 17.08.2026\n---\nAktueller Stand\nNutzertests auswerten\nArbeitspakete bewerten + bearbeiten\nEntwicklung abschließen\nRegressionstests\nCIVITAS/CORE-Staging-Bereitstellung" as R7 #E5E7EB
 
-rectangle "Inbetriebnahme%n()Sprint 18 + Sprint 19%n()18.08.2026 - 14.09.2026%n()---%n()Plan%n()Produktionsnahe Konfiguration%n()Inbetriebnahme + Abnahmeunterstützung%n()Kritische Fehler beheben%n()Übergabe + Betriebsdokumentation" as IB #DFF7E2
+rectangle "Inbetriebnahme\nSprint 18 + Sprint 19\n18.08.2026 - 14.09.2026\n---\nPlan\nProduktionsnahe Konfiguration\nInbetriebnahme + Abnahmeunterstützung\nKritische Fehler beheben\nÜbergabe + Betriebsdokumentation" as IB #DFF7E2
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
 R3 --> R4 : erweitert
 R4 --> R5 : plant weiter
-R5 --> R6 : wird ausgewertet
-R6 --> S17 : abschließen
-S17 --> IB : führt zur Inbetriebnahme
+R5 --> R6 : wird fortgeführt
+R6 --> R7 : führt zur Auswertung
+R7 --> IB : führt zur Inbetriebnahme
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-07-27
+  Stand: 2026-08-13
 endlegend
 
 @enduml

@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-08-03** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-08-13** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -17,26 +17,26 @@ Letzte Änderung: **2026-08-03** (siehe [Roadmap-Pflege und Änderungsverlauf](#
 7. [Release 3 - Umsetzung Bürger-Abschlussfunktionen, Rechenkern und Verwaltungsbereich](#release-3)
 8. [Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung](#release-4)
 9. [Release 5 - Aktualisierung, Bugfixing und Usertesting](#release-5)
-10. [Release 6 - Usertesting-Auswertung und priorisierte Weiterentwicklung](#release-6)
-11. [Sprint 17 - Abschluss der Entwicklung, Stabilisierung und Staging-Deployment](#sprint-17)
+10. [Release 6 - Fortführung der Entwicklung und Stabilisierung](#release-6)
+11. [Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Entwicklungsabschluss](#release-7)
 12. [Inbetriebnahme - Sprint 18 und Sprint 19](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
 
 ## Zielbild MVP
 
-Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Zwei aufeinanderfolgende Entwicklungssprints bilden semantisch einen Release. Insgesamt sind 17 Entwicklungssprints und anschließend zwei Inbetriebnahme-Sprints vorgesehen. Die Arbeit wird ohne Sommerpause in zweiwöchigen Sprints bis voraussichtlich 14. September 2026 fortgeführt.
+Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Bis einschließlich Release 6 bilden jeweils zwei aufeinanderfolgende Entwicklungssprints semantisch einen Release. Release 7 besteht als abschließende Ausnahme aus Sprint 17. Insgesamt sind 17 Entwicklungssprints und anschließend zwei Inbetriebnahme-Sprints vorgesehen. Die Arbeit wird ohne Sommerpause in zweiwöchigen Sprints bis voraussichtlich 14. September 2026 fortgeführt.
 
 1. **Release 1 (02.03.2026 bis 15.03.2026):** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
 2. **Release 2 (16.03.2026 bis 12.04.2026):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
 3. **Release 3 (13.04.2026 bis 10.05.2026):** Bürger-Abschlussfunktionen, Rechenkern, Sanierungslogik, Export, Verwaltungsbereich und Testvorbereitung
 4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
 5. **Release 5 (Sprint 13 und Sprint 14, Abschluss am 06.07.2026):** Aktualisierung und Bugfixing der Anreicherung, des Bürger-Frontends und der Systempflege; Schwerpunkt von Sprint 14 war zusätzlich die Durchführung des Usertestings
-6. **Release 6 (Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung der daraus abgeleiteten Arbeitspakete sowie Umsetzung priorisierter Punkte; die Matomo-Umsetzung kann frühestens in Sprint 15 beginnen
-7. **Sprint 17 (voraussichtlich 04.08.2026 bis 17.08.2026):** Abschluss der Entwicklungsphase, Integration priorisierter Änderungen, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg; Sprint 17 bildet keinen eigenständigen semantischen Release, sondern schließt die Entwicklung vor der Inbetriebnahme ab
+6. **Release 6 (Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026):** Fortführung der Entwicklung, Stabilisierung und Vorbereitung des abschließenden Entwicklungsrelease; die Matomo-Umsetzung kann frühestens in Sprint 15 beginnen
+7. **Release 7 (Sprint 17, voraussichtlich 04.08.2026 bis 17.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung sowie Bearbeitung der daraus abgeleiteten Arbeitspakete, Abschluss der Entwicklungsphase, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg
 8. **Inbetriebnahme-Sprints 18 und 19 (voraussichtlich 18.08.2026 bis 14.09.2026):** Produktionsnahe Konfiguration, Inbetriebnahme, Abnahmeunterstützung, Behebung kritischer Fehler und Übergabe
 
-Die Kalenderdaten ab Sprint 15 sind Planungsdaten. Der Umfang der aus dem Usertesting abgeleiteten Arbeiten hängt von der noch ausstehenden Priorisierung durch den Auftraggeber sowie von erforderlichen Daten, Inhalten und fachlichen Freigaben ab.
+Die Kalenderdaten ab Sprint 15 sind Planungsdaten. Die Priorisierung der aus dem Usertesting abgeleiteten Arbeitspakete liegt mit Stand 12.08.2026 vor. Der tatsächlich umsetzbare Umfang hängt weiterhin vom geklärten Status der einzelnen Pakete, von erforderlichen Daten, Inhalten und fachlichen Freigaben sowie von der verfügbaren Sprintkapazität ab.
 
 ---
 
@@ -69,11 +69,33 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-08-13 | Release-Zuordnung der Usertesting-Arbeitspakete | Auswertung, Bewertung und Bearbeitung der Arbeitspakete waren Release 6 beziehungsweise teilweise nur Sprint 17 zugeordnet | Auswertung, Bewertung und Bearbeitung der Arbeitspakete werden vollständig Release 7 zugeordnet; Release 7 besteht aus Sprint 17 |
+| 2026-08-13 | AP-20 – PDF-Bericht und Web/PDF-Konsistenz | PDF-Inhalte, Links, Einheiten, Layouttests und Web-/PDF-Abgleich waren gemeinsam mit 1 Tag Aufwand geführt | Der abgestimmte PDF-Umfang ist umgesetzt; offen bleibt ausschließlich die finale Synchronisation der Inhalte zwischen Web und PDF mit 0,5 Tagen Restaufwand |
+| 2026-08-13 | AP-19 – Datenspende und Einwilligung | Transparenz des Payloads, Trennung vom Bericht, technische Abhängigkeiten und Anonymisierungsbehauptung waren gemeinsam mit 1 Tag Aufwand geführt | Die Datenspende ist als separater Schritt mit technischer Abhängigkeit zum PDF-Download gekennzeichnet; die dargestellte JSON-Struktur entspricht der tatsächlichen Einreichung. Für Dokumentation und Korrektur der Anonymisierungsbehauptung verbleiben 0,5 Tage |
+| 2026-08-13 | AP-18 – Ergebnisabschluss, Bericht und Energieberatung | Ablauf, Gewichtung, Erläuterungen und Maßnahmenzusammenfassung waren gemeinsam mit 1,5 Tagen Aufwand geführt | Bis auf die Maßnahmenzusammenfassung auf der Ergebnisseite ist AP-18 umgesetzt. Dieser offene Punkt ist identisch mit AP-12 und wird dort einmalig mit 0,5 Tagen geführt; für AP-18 entsteht kein zusätzlicher Restaufwand |
+| 2026-08-13 | AP-17 – Förderprogramme | Reale Förderdaten, Link-/Detaildarstellung, Hinweise, Klassifikation und kompakte Web-/PDF-Darstellung waren mit 2 Tagen Aufwand geführt | Der abgestimmte kurzfristige Umfang ist vollständig umgesetzt; weitergehende Förderautomatisierungen bleiben bewusst zurückgestellt, der Restaufwand beträgt 0 Tage |
+| 2026-08-13 | AP-16 – PV, Speicher, E-Mobilität und Geothermie | Das Gesamtpaket war als daten- und fachkonzeptabhängige Erweiterung beziehungsweise zurückgestellter Umfang geführt | Der Detailgrad der Umsetzung befindet sich in Klärung. Teilfunktionen, Systemgrenzen und fachlicher Umfang müssen vor einer belastbaren Schätzung festgelegt werden; die separat laufende Geothermie-Datenintegration ist nicht mit der vollständigen AP-16-Umsetzung gleichzusetzen |
+| 2026-08-13 | AP-15 – Gesetzliche und lokale Hinweise | Gebietsdaten, Rechtstexte, lokale Regeln und Pflegeverantwortung waren gemeinsam als externe Blocker geführt | Die Gebietshinweise sind umgesetzt; für den verbleibenden Umfang fehlen freigegebene Rechtstexte beziehungsweise ein fachlich aufbereitetes Regelwerk. AP-15 bleibt insoweit extern blockiert und der Restaufwand ist nicht einschätzbar |
+| 2026-08-13 | AP-14 – Fernwärme und kommunale Wärmeplanung | Texte, Geodaten und fachliche Regeln waren als offene externe Voraussetzungen geführt | Die Rückmeldung von Stadt Regensburg beziehungsweise REWAG steht weiterhin aus; AP-14 bleibt extern blockiert und der Restaufwand ist ohne diese Grundlage nicht einschätzbar |
+| 2026-08-13 | AP-13 – Investitionskosten, Amortisation, Budget und Maßnahmenbündel | Umsetzung und Schätzung waren von Kostendaten, Lizenz und Berechnungsmodell abhängig | Die BKI-Freigabe liegt weiterhin nicht vor; AP-13 bleibt extern blockiert und der Restaufwand ist ohne Datenzugang und geklärte Nutzungsbedingungen nicht einschätzbar |
+| 2026-08-13 | AP-12 – Bedienung und Darstellung der Maßnahmen | Darstellungs-, Sortier-, Bestands- und Zusammenfassungsfunktionen sowie fixierte Tabellenüberschriften waren gemeinsam mit 1,5 Tagen Aufwand geführt | Bis auf ausgewählte Maßnahmen auf der Ergebnisseite ist der Umfang umgesetzt. Fixierte Tabellenüberschriften werden wegen der technischen Kollision mit dem Sticky der Live-Ergebnisse abgegrenzt; für die Ergebnisdarstellung verbleiben 0,5 Tage |
+| 2026-08-13 | AP-11 – Empfehlungs- und Maßnahmenlogik | Empfehlungsregeln, Filterung und fachliche Referenzfallprüfung waren noch gemeinsam mit 1 Tag Restaufwand geführt | Die Logik ist umgesetzt; offen bleibt ausschließlich die finale Validierung der Maßnahmeneffekte und Effizienzsprünge anhand der Referenzfälle mit 0,5 Tagen Restaufwand |
+| 2026-08-13 | AP-10 – Energiepreise, Einheiten und Preisannahmen | Trennung der Preisbestandteile, Strom-Grundpreiseinheit, sichtbare Zeiteinheiten, alternative Eingabeeinheiten, Normalisierung und Preis-Metadaten waren gemeinsam als offener Umfang geführt | Grund- und Arbeitspreis bleiben korrekt getrennt, die Strom-Grundpreiseinheit ist korrigiert und `Jahr` wird durchgängig ausgeschrieben; für alternative Einheiten und Zeiträume, Normalisierung, Preis-Metadaten und aktualisierte Defaultpreise verbleiben 1,5 Tage |
+| 2026-08-13 | AP-09 – Bauteil-, Fenster- und Anlagenkataloge | Fachliche Entscheidungen der Energieberatung waren als externer Blocker geführt | Die fachliche Rückmeldung vom 20.07.2026 liegt vor. Begriffe und Implementierungen ohne empfohlenen Änderungsbedarf sind fachlich geprüft und bereits korrekt. Offen bleiben die Vermeidung unwirtschaftlicher Sanierungsempfehlungen für bereits gute Bestandsfenster sowie nicht behandelte Default- und Lüftungsthemen; der Restaufwand ist noch zu bestätigen |
+| 2026-08-13 | AP-08 – Bauteil- und Anlagenvisualisierungen | Darstellungsumfang, Varianten und Assets waren noch als technisch zu klärender Umfang mit einer Aufwandsschätzung von 2 Tagen geführt | Die Umsetzung befindet sich in Arbeit; für Asset-Erstellung und Frontend-Integration verbleiben 1,5 Tage |
+| 2026-08-13 | AP-07 – Eingabevalidierung, Gebäudekontext und Standardwerte | Jahres-, Zahlen- und Flächenvalidierungen, abhängige Felder sowie Default- und Reset-Zustände waren noch mit 1,5 Tagen Restaufwand geführt | Der abgestimmte Umfang ist vollständig umgesetzt; gestrichene und zurückgestellte Sonderfälle bleiben abgegrenzt, der Restaufwand beträgt 0 Tage |
+| 2026-08-13 | AP-06 – Adresse, Karte und Gebäudeauswahl | Enter-Verhalten, Trefferlimit, Top-down-Perspektive, Gebäudehervorhebung und Gebäudefilter waren noch offen; die ursprüngliche Aufwandsschätzung betrug 1 Tag | Der abgestimmte Umfang ist vollständig umgesetzt; Luft-/Satellitenbilder bleiben als separate Erweiterung abgegrenzt, der Restaufwand beträgt 0 Tage |
+| 2026-08-13 | AP-05 – Prozessnavigation und Walkthrough | Prozessnavigation, Abschnittsnavigation, kurze Beschriftungen und ein separater Walkthrough waren als offener Umfang geführt; die ursprüngliche Aufwandsschätzung betrug 2 Tage | Prozess- und Abschnittsnavigation sind umgesetzt, kurze Beschriftungen sind in Arbeit; die globale Hinweisseite deckt nach aktuellem Vorschlag die Walkthrough-Inhalte ab, der Restaufwand ist nahezu 0 Tage |
+| 2026-08-13 | AP-04 – Responsivität und visuelle Hierarchie | Viewport-Tests, Schaltflächenzustände, Hinweisgestaltung und Tabellenhierarchie waren noch als offener Prüf- und Revisionsumfang geführt; die ursprüngliche Aufwandsschätzung betrug 2 Tage | Die Tests decken die festgelegten Auflösungen ab, Schaltflächenzustände und Tabellenhierarchie sind korrigiert und durchgängige Hinweisvorlagen sind eingearbeitet; AP-04 ist erledigt und wird als Standard in zukünftigen Tests berücksichtigt |
+| 2026-08-13 | AP-03 – Energetische Ersteinschätzung | Anzeige, Schwellen, Umschaltpunkt und fachliche Bezeichnung waren noch als technisch zu klärender Umfang geführt; die ursprüngliche Aufwandsschätzung betrug 3 Tage | Alle Punkte sind bis auf den Hinweis zu einer möglichen zwischenzeitlichen umfangreichen Sanierung umgesetzt; der Restaufwand ist nahezu 0 Tage |
+| 2026-08-13 | AP-02 – Landingpage und Einstieg | Bearbeitungsdauer, wechselnde Einstiegsfragen und Textanpassungen waren als gemeinsamer offener Umfang geführt | Bearbeitungsdauer und wechselnde Einstiegsfragen sind umgesetzt; die Textanpassungen bleiben bei einem unveränderten Restaufwand von 0,5 Tagen offen |
+| 2026-08-13 | AP-01 – Datenquellen, Annahmen und Modellgrenzen | Eine dauerhaft erreichbare globale Hinweisseite und die Web-/PDF-Verknüpfung waren noch offen; die ursprüngliche Aufwandsschätzung betrug 2 Tage | Die globale Hinweisseite ist implementiert und kombiniert Nutzungshinweise mit Informationen zur Datenherkunft; für die Finalisierung und Freigabe der Platzhaltertexte, die Verlinkung aus dem generierten PDF-Report und die abschließende Prüfung verbleibt 1 Tag Aufwand |
+| 2026-08-13 | Usertesting-Arbeitspakete und Auftraggeberpriorisierung | Die Arbeitsgrundlage vom 17.07.2026 bündelte die Rückmeldungen in AP-01 bis AP-20; die Priorisierung durch den Auftraggeber stand noch aus | Die Priorisierung der Stadt Regensburg vom 12.08.2026 ist mit den Stufen `hoch`, `mittel` und `niedrig` aufgenommen; sie beschreibt den fachlichen Stellenwert, ersetzt aber weder Statusklärung noch Machbarkeitsbewertung, Backlog-Zuordnung oder Sprintplanung |
 | 2026-08-03 | Usertesting-Hervorhebung und Geothermie | Flächendeckende Effizienzklassen-Einfärbung war gefordert; Geothermie blieb von Datenbereitstellung abhängig | Ausgewähltes Gebäude wird statisch hervorgehoben; Geothermiedaten wurden durch den Auftraggeber bereitgestellt und werden integriert, Metadaten sind noch zu klären |
 | 2026-07-27 | Sprint 17 | Abschluss der Entwicklung und Stabilisierung eines Inbetriebnahmekandidaten | Zusätzlich Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg |
 | 2026-07-24 | Laufzeit und Sprintmodell | Inbetriebnahme vor einer Sommerpause, danach 3 bis 4 Nachlauf-Sprints | Durchgehende zweiwöchige Sprints bis voraussichtlich 14.09.2026; insgesamt 17 Entwicklungssprints und zwei Inbetriebnahme-Sprints |
-| 2026-07-24 | Release-Takt | Release-Zuordnung ab Sprint 15 war von Enddatum und Ansprechpartnerverfügbarkeit abhängig | Zwei Entwicklungssprints bilden semantisch einen Release; Sprint 17 schließt die Entwicklungsphase ab, Sprint 18 und Sprint 19 dienen der Inbetriebnahme |
-| 2026-07-24 | Usertesting | Laufende Testphase ohne konkrete Zuordnung des Schwerpunkts und der Auswertung | Schwerpunkt von Sprint 14 war das Usertesting; die Auswertung und Bündelung der Rückmeldungen startete in Sprint 15; die Priorisierung der daraus abgeleiteten Arbeitspakete durch den Auftraggeber steht aus |
+| 2026-07-24 | Release-Takt | Release-Zuordnung ab Sprint 15 war von Enddatum und Ansprechpartnerverfügbarkeit abhängig | Bis einschließlich Release 6 bilden jeweils zwei Entwicklungssprints einen Release; Release 7 besteht als abschließende Ausnahme aus Sprint 17, Sprint 18 und Sprint 19 dienen der Inbetriebnahme |
+| 2026-07-24 | Usertesting | Laufende Testphase ohne konkrete Zuordnung des Schwerpunkts und der Auswertung | Schwerpunkt von Sprint 14 war das Usertesting; Auswertung, Bündelung und Bearbeitung der daraus abgeleiteten Arbeitspakete erfolgen in Release 7 (Sprint 17) |
 | 2026-07-24 | Matomo | Fachlich festgelegt, technische Integration zeitlich noch nicht zugeordnet | Technische Umsetzung frühestens ab Sprint 15, weiterhin abhängig von Consent-Management, Betriebsparametern und Priorisierung |
 | 2026-07-24 | Kostendaten | Alternativer Kostenkatalog anstelle der ursprünglich vorgesehenen BKI-Daten | Umsetzung wieder auf BKI-Basis vorgesehen; Stand 24.07.2026 fehlen weiterhin Zugang zu BKI-Daten und ein abgesicherter Zeitplan für deren Verfügbarkeit |
 | 2026-06-18 | Roadmap-Charakter | Planungsstand für vier Releases und anschließende Inbetriebnahmephase | Kombinierter Ist-Stand und Planungsstand: Release 3/4 werden als bearbeitet/umgesetzt gekennzeichnet; Release 5/6 und Nachlauf nach der Sommerpause werden ergänzt |
@@ -262,7 +284,7 @@ Bearbeitet / umgesetzt:
 
 Hinweis:
 
-- Die Auswertung der Rückmeldungen und ihre Überführung in belastbare Arbeitspakete starteten in Sprint 15.
+- Die Auswertung der Rückmeldungen und ihre Überführung in belastbare Arbeitspakete erfolgten in Release 7 (Sprint 17).
 - Einzelne Rückmeldungen entsprechen nicht automatisch einzelnen Entwicklungstasks. Mehrere Rückmeldungen können durch eine gemeinsame Änderung erledigt werden; andere Punkte sind bereits umgesetzt, nur zu verifizieren, fachlich zu klären oder durch fehlende Daten und Entscheidungen blockiert.
 
 Ergebnis:
@@ -273,13 +295,34 @@ Ergebnis:
 
 <a id="release-6"></a>
 
-## Release 6 - Usertesting-Auswertung und priorisierte Weiterentwicklung
+## Release 6 - Fortführung der Entwicklung und Stabilisierung
 
 **Planungszeitraum:** Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026
 
-Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln und nach Freigabe durch den Auftraggeber priorisierte Punkte umsetzen.
+Ziel: Den Entwicklungsstand fortführen und stabilisieren sowie die technischen und organisatorischen Grundlagen für den abschließenden Entwicklungsrelease schaffen.
 
 Geplanter Umfang:
+
+- Fortführung der Entwicklung und systemübergreifenden Stabilisierung von Webanwendung, Berechnungskern, Backend, Administration und PDF-Bericht.
+- Regressionstests und Konsistenzprüfungen der bestehenden Funktionen und Datenflüsse.
+- Technische Matomo-Umsetzung frühestens ab Sprint 15 und nur auf Grundlage des freigegebenen Trackingkonzepts, Consent-Managements und der noch festzulegenden Betriebsparameter.
+- Vorbereitung der BKI-basierten Kostenumsetzung ausschließlich soweit ohne Datenzugang möglich; eine belastbare Implementierung oder Aufwandsschätzung setzt Einsicht in die BKI-Daten und geklärte Nutzungsbedingungen voraus.
+
+Ergebnis:
+
+- Fortgeführter und stabilisierter Entwicklungsstand als Grundlage für Release 7 und die anschließende Inbetriebnahme.
+
+---
+
+<a id="release-7"></a>
+
+## Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Entwicklungsabschluss
+
+**Planungszeitraum:** Sprint 17, voraussichtlich 04.08.2026 bis 17.08.2026
+
+Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln, die priorisierten Punkte bearbeiten und die Entwicklungsphase abschließen.
+
+Bearbeiteter und verbleibender Umfang:
 
 - Auswertung der konsolidierten Usertesting-Rückmeldungen und Bündelung in fachlich und technisch zusammenhängende Arbeitspakete.
 - Trennung direkt umsetzbarer Punkte von technisch zu klärenden, extern blockierten, bereits erledigten, nur zu verifizierenden und zurückgestellten Themen.
@@ -287,29 +330,57 @@ Geplanter Umfang:
 - Ableitung umsetzbarer Tasks erst nach fachlicher Bestätigung und Priorisierung.
 - Umsetzung der durch den Auftraggeber priorisierten Punkte, soweit Voraussetzungen und Sprintkapazität dies zulassen.
 - Fortführung von Stabilisierung, Regressionstests und Konsistenzprüfungen zwischen Webanwendung, Berechnungskern, Backend, Administration und PDF-Bericht.
-- Technische Matomo-Umsetzung frühestens ab Sprint 15 und nur auf Grundlage des freigegebenen Trackingkonzepts, Consent-Managements und der noch festzulegenden Betriebsparameter.
-- Vorbereitung der BKI-basierten Kostenumsetzung ausschließlich soweit ohne Datenzugang möglich; eine belastbare Implementierung oder Aufwandsschätzung setzt Einsicht in die BKI-Daten und geklärte Nutzungsbedingungen voraus.
+- Abschluss der Entwicklungsphase, Stabilisierung und Vorbereitung des Inbetriebnahmekandidaten.
 
 Die Usertesting-Auswertung umfasst insbesondere Transparenz und Einstieg, Nutzerführung und Responsivität, Gebäudeauswahl und Eingabevalidierung, Maßnahmen- und Empfehlungslogik, Kosten und Amortisation, Fernwärme und lokale Hinweise, PV/Geothermie, Förderung, Ergebnisabschluss, Datenspende und PDF-Konsistenz.
 
-Planungsstand 24.07.2026:
+Planungsstand 13.08.2026:
 
-- Die Priorisierung der aus dem Usertesting abgeleiteten Arbeitspakete durch den Auftraggeber steht noch aus.
-- Ein Teil der Punkte ist direkt schätzbar; weitere Punkte benötigen technische Klärung, fachliche Zuarbeit, Daten, Texte oder Freigaben.
-- Die Bündelung dient als Arbeits- und Entscheidungsgrundlage und ist noch keine verbindliche Backlog- oder Sprint-Zuordnung.
-- Für BKI-Daten bestehen weiterhin weder ein Zugang noch ein abgesicherter Zeitplan.
+- Die Arbeitsgrundlage vom 17.07.2026 bündelt die Rückmeldungen in 20 fachlich und technisch zusammenhängende Arbeitspakete (AP-01 bis AP-20) und trennt schätzbare, technisch zu klärende, extern blockierte, zu verifizierende und zurückgestellte Themen.
+- Die Priorisierung der Stadt Regensburg vom 12.08.2026 ordnet allen 20 Arbeitspaketen einen fachlichen Stellenwert zu:
+  - **hoch:** AP-01, AP-02, AP-03, AP-06, AP-07, AP-11 und AP-18;
+  - **mittel:** AP-04, AP-05, AP-08, AP-09, AP-10, AP-12, AP-13, AP-14, AP-17, AP-19 und AP-20;
+  - **niedrig:** AP-15 und AP-16.
+- Die Prioritätsstufe ist keine Aussage über Bearbeitungs- oder Umsetzungsstatus, Machbarkeit, Schätzreife oder bereits bestehende Tasks. Sie bewirkt auch keine automatische Backlog-, Release- oder Sprint-Zuordnung.
+- Der aktuelle Status, der verbleibende Umfang und die nächsten Schritte werden deshalb für jedes Arbeitspaket einzeln geklärt und anschließend in Roadmap und Arbeitsgrundlage nachgeführt.
+- Für BKI-Daten bestehen nach dem zuletzt dokumentierten Stand weiterhin weder ein Zugang noch ein abgesicherter Zeitplan; AP-13 ist trotz mittlerer Priorität nicht ohne Daten- und Lizenzklärung belastbar planbar.
+
+### Fortlaufend geklärter Paketstatus
+
+Statussymbole analog zum Compliance-Runbook: **✅** erledigt, **⚠️** teilweise umgesetzt, in Arbeit oder noch zu klären, **❌** extern blockiert.
+
+| Paket | Priorität | Status | Umgesetzt | Offen | Restaufwand |
+| --- | --- | --- | --- | --- | --- |
+| AP-01 – Datenquellen, Annahmen und Modellgrenzen | hoch | ⚠️ Teilweise umgesetzt | Globale Hinweisseite mit kombinierten Hinweisen zur Nutzung des Tools und zur Herkunft der Daten | Ausdrücklich markierte Platzhaltertexte finalisieren und freigeben; Hinweisseite zusätzlich aus dem generierten PDF-Report verlinken | 1 Tag |
+| AP-02 – Landingpage und Einstieg | hoch | ⚠️ Teilweise umgesetzt | Bearbeitungsdauer und wechselnde Einstiegsfragen | Abgestimmte Textanpassungen der Landingpage | 0,5 Tage (unverändert) |
+| AP-03 – Energetische Ersteinschätzung | hoch | ⚠️ Weitgehend umgesetzt | Qualitative frühe Einordnung, späterer Wechsel auf numerische Ergebnisse, angemessene Rundung und statische Gebäudehervorhebung | Kurzen Hinweis ergänzen, dass die Baujahreinordnung nur ohne zwischenzeitliche umfangreiche Sanierung gilt | nahezu 0 Tage |
+| AP-04 – Responsivität und visuelle Hierarchie | mittel | ✅ Erledigt | Erweiterte Auflösungstests, korrigierte Schaltflächenzustände, durchgängige Hinweisvorlagen und korrigierte Tabellenhierarchie | Kein Umsetzungsrest; Festlegungen in zukünftigen Regressionstests und Änderungen berücksichtigen | 0 Tage |
+| AP-05 – Prozessnavigation und Walkthrough | mittel | ⚠️ Weitgehend umgesetzt | Prozessnavigation, Abschnittsnavigation und durchgängige Hinweisvorlagen | Kurze Beschriftungen abschließen; bestätigen, dass die globale Hinweisseite den separaten Walkthrough ersetzt | nahezu 0 Tage |
+| AP-06 – Adresse, Karte und Gebäudeauswahl | hoch | ✅ Erledigt | Enter-Verhalten, erhöhtes Trefferlimit, Top-down-Perspektive, Gebäudehervorhebung und Behandlung ungeeigneter Gebäude | Kein Umsetzungsrest; Luft-/Satellitenbilder bleiben separate Erweiterung | 0 Tage |
+| AP-07 – Eingabevalidierung, Gebäudekontext und Standardwerte | hoch | ✅ Erledigt | Jahres-, Zahlen- und Flächenvalidierungen, abhängige Bauteilfelder sowie erkennbare Default-, Eingabe- und Reset-Zustände | Kein Umsetzungsrest; gestrichene und zurückgestellte Sonderfälle bleiben außerhalb des Pakets | 0 Tage |
+| AP-08 – Bauteil- und Anlagenvisualisierungen | mittel | ⚠️ In Arbeit | Umsetzung begonnen; genauer Teilabschluss noch nicht differenziert | Abgestimmten Visualisierungsumfang einschließlich Assets und Frontend-Integration abschließen | 1,5 Tage |
+| AP-09 – Bauteil-, Fenster- und Anlagenkataloge | mittel | ⚠️ Weitgehend fachlich bestätigt | Bestehende Begriffe, Verzicht auf zusätzliche Verglasungsarten, Heizungsaufstellort und seltene Heizsysteme sowie der Effizienzklassensprung bei Wärmepumpen sind geprüft und korrekt | Unwirtschaftliche Sanierungsempfehlung für bereits gute Bestandsfenster vermeiden; Defaultwerte und Lüftungsart separat klären | noch zu bestätigen; bisher 1 Tag geschätzt |
+| AP-10 – Energiepreise, Einheiten und Preisannahmen | mittel | ⚠️ Teilweise umgesetzt | Getrennte Erfassung von Grund- und Arbeitspreis, korrigierte Strom-Grundpreiseinheit und durchgängig ausgeschriebenes `Jahr` | Alternative Einheiten und Zeiträume, interne Normalisierung, Preis-Metadaten und aktualisierte Defaultpreise | 1,5 Tage |
+| AP-11 – Empfehlungs- und Maßnahmenlogik | hoch | ⚠️ Weitgehend umgesetzt | Bereinigte und widerspruchsfreie Empfehlungslogik einschließlich Filterung identischer, doppelter, unpassender und nicht positiv wirkender Maßnahmen | Maßnahmeneffekte und Effizienzsprünge anhand der Referenzfälle final validieren | 0,5 Tage |
+| AP-12 – Bedienung und Darstellung der Maßnahmen | mittel | ⚠️ Weitgehend umgesetzt | Handlungsaufforderung, Auswahl- und Empfehlungsdarstellung, `kWh/Jahr`, Bestandsanzeige, Erklärungen, Sortierung und weitere Bedienfunktionen | Ausgewählte Maßnahmen auf der Ergebnisseite anzeigen; fixierte Tabellenüberschriften bleiben wegen technischer Kollision mit dem Live-Ergebnis-Sticky abgegrenzt | 0,5 Tage |
+| AP-13 – Investitionskosten, Amortisation, Budget und Maßnahmenbündel | mittel | ❌ Extern blockiert | Keine Umsetzung ohne freigegebene Kostendaten | BKI-Freigabe, Datenzugang und Nutzungsbedingungen klären; anschließend Modell und Umfang bestimmen | nicht einschätzbar |
+| AP-14 – Fernwärme und kommunale Wärmeplanung | mittel | ❌ Extern blockiert | Fernwärme als Energieträger und Maßnahme vorhanden | Rückmeldung von Stadt Regensburg/REWAG zu Texten, Verfügbarkeit, Wärmeplanung und Daten-/Gebietsregeln | nicht einschätzbar |
+| AP-15 – Gesetzliche und lokale Hinweise | niedrig | ❌ Teilweise umgesetzt; extern blockiert | Gebietshinweise | Freigegebene Rechtstexte oder fachlich aufbereitetes Regelwerk bereitstellen; darauf aufbauend gesetzliche und lokale Hinweise ergänzen | nicht einschätzbar |
+| AP-16 – PV, Speicher, E-Mobilität und Geothermie | niedrig | ⚠️ Umfang in Klärung | Separate Geothermie-Datenintegration läuft; keine vollständige Umsetzung des Arbeitspakets | Detailgrad, einbezogene Teilfunktionen und Systemgrenzen festlegen | nicht einschätzbar; bisher grob etwa 10 Tage |
+| AP-17 – Förderprogramme | mittel | ✅ Erledigt | Reale Förderdaten, Link-/Detaildarstellung, abgestimmte Hinweise, Klassifikationsbewertung und kompakte Web-/PDF-Darstellung | Kein Umsetzungsrest; weitergehende Förderautomatisierungen bleiben zurückgestellt | 0 Tage |
+| AP-18 – Ergebnisabschluss, Bericht und Energieberatung | hoch | ⚠️ Weitgehend umgesetzt | Gemeinsamer Abschlussablauf für Bericht, optionale Dateneinreichung und Energieberatung einschließlich Gewichtung und Erläuterungen | Maßnahmenzusammenfassung auf der Ergebnisseite über AP-12 umsetzen | 0 Tage zusätzlich; 0,5 Tage einmalig in AP-12 |
+| AP-19 – Datenspende und Einwilligung | mittel | ⚠️ Weitgehend umgesetzt | Separater Schritt mit gekennzeichneter technischer Abhängigkeit zum PDF-Download; dargestellte JSON-Struktur entspricht der tatsächlichen Einreichung | Dokumentation und Einwilligungs-/Datenschutztext anpassen; Anonymisierungsbehauptung entfernen beziehungsweise korrigieren | 0,5 Tage |
+| AP-20 – PDF-Bericht und Web/PDF-Konsistenz | mittel | ⚠️ Weitgehend umgesetzt | PDF-Inhalte, Kennzahlen, Einheiten, Links, Förderhinweise, Layout und Tests | Inhalte zwischen Webanwendung und PDF-Bericht final synchronisieren und prüfen | 0,5 Tage |
 
 Ergebnis:
 
-- Priorisierte und technisch bewertete Arbeitspakete, umgesetzte freigegebene Verbesserungen sowie ein aktualisierter Restumfang für Sprint 17 und die Inbetriebnahme.
+- Priorisierte und technisch bewertete Arbeitspakete, umgesetzte freigegebene Verbesserungen sowie ein aktualisierter Restumfang für die Inbetriebnahme.
 
 ---
 
 <a id="sprint-17"></a>
 
-## Sprint 17 - Abschluss der Entwicklung, Stabilisierung und Staging-Deployment
-
-**Planungszeitraum:** voraussichtlich 04.08.2026 bis 17.08.2026
+### Abschluss, Stabilisierung und Staging-Deployment
 
 Ziel: Die Entwicklungsphase abschließen, priorisierte Änderungen integrieren, einen stabilen Kandidaten für die Inbetriebnahme bereitstellen und eine Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg deployen.
 
@@ -326,9 +397,10 @@ Geplanter Umfang:
 
 Hinweis:
 
-- Sprint 17 ist der letzte Entwicklungssprint vor der Inbetriebnahme und bildet wegen der ungeraden Gesamtzahl von 17 Entwicklungssprints keinen eigenständigen semantischen Zwei-Sprint-Release.
-- Nicht priorisierte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend in Sprint 17 aufgenommen.
-- Quartiersanalyse sowie Solar/PV bleiben von belastbaren Datensätzen, fachlicher Freigabe und konkreter Priorisierung abhängig. Die vom Auftraggeber bereitgestellten Geothermiedaten werden integriert; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
+- Release 7 besteht als abschließende Ausnahme aus dem einzelnen Sprint 17 und ist der letzte Entwicklungsrelease vor der Inbetriebnahme.
+- Ein Prioritätslabel allein begründet keine Aufnahme in Sprint 17. Maßgeblich sind zusätzlich der geklärte Bearbeitungsstand, ein ausreichend bestimmter Restumfang, erfüllte Voraussetzungen und verfügbare Kapazität.
+- Nicht für Sprint 17 bestätigte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend aufgenommen.
+- Quartiersanalyse sowie Solar/PV bleiben von belastbaren Datensätzen und fachlicher Freigabe abhängig; Solar/PV ist über AP-16 derzeit niedrig priorisiert. Die bereits laufende Integration der vom Auftraggeber bereitgestellten Geothermiedaten wird davon getrennt betrachtet; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
 
 Ergebnis:
 
