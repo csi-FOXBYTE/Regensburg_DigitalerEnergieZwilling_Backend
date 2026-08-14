@@ -204,6 +204,8 @@ Für die fachliche Modellierung bedeutet das:
 | UGD                         | Fläche aus LOD-Grundfläche, U-Wert aus Baujahr/Baualtersklasse, Standardkonstruktion | Manuelle Flächen/U-Werte und Konstruktionsdetails (z.B. Decke/Boden gegen Erdreich)             | UGD-Dämmung (Richtwert U=0,25)                                                         |
 | Heizung/Anlage              | Standardannahmen aus Baujahr, Energieträger- und Erzeuger-Katalog                    | Detaileingaben zu Systemart, Erzeugerart, Heizflächenart, Heizkreistemperatur, Regelung, Zusatzheizung sowie Brennstofflager-/Umbaukontext und Preisen/Faktoren | Austausch-/Modernisierungsempfehlungen je Erzeugerart (inkl. erneuerbarer Optionen)    |
 
+Die im ursprünglichen LB-Wortlaut beispielhaft genannte Rohrdämmung ist im vom Auftraggeber freigegebenen Berechnungskonzept nicht als Eingabe- oder Rechenparameter vorgesehen und stellt keine offene Anforderung dar.
+
 ### Explizite offene Punkte aus dem Grobkonzept
 
 Die folgenden Inhalte sind im aktuellen Tabellenstand als Platzhalter oder unklar definiert und müssen vor finaler Fachfreigabe konkretisiert werden:
@@ -666,7 +668,7 @@ Das System muss jährliche und monatliche Kosten für Wärme- und Stromversorgun
 
 **FA-77**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Sofern belastbare PV-Daten bereitgestellt und freigegeben werden, muss das System mehrere PV-Ausprägungen sowie einen optionalen Energiespeicher berücksichtigen und den Einfluss auf Eigenverbrauch und Kosten darstellen. Für Energiespeicher sind Dimensionierungen für Haushalte mit und ohne Wärmepumpe vorzusehen; Obergrenzen nach DGS (−20%) sind zu berücksichtigen. Für PV/Speicher liegt aktuell noch keine Datenfreigabe durch den Auftraggeber vor; aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt.
+Die PV-Datenfreigabe durch den Auftraggeber liegt vor. Der in der LB beschriebene Detailgrad mit mehreren PV-Ausprägungen, Speicher-Dimensionierungen für Haushalte mit und ohne Wärmepumpe sowie DGS-Obergrenzen wurde inzwischen von Auftraggeber und Auftragnehmer als deutlich zu hoch eingestuft. Ein vom Auftragnehmer präsentierter reduzierter Umsetzungsvorschlag wurde vom Auftraggeber nicht angenommen. Der verbindliche funktionale PV-/Speicher-Umfang muss daher noch gemeinsam festgelegt werden; die ursprünglichen Detailpfade sind bis dahin keine einzelnen Abnahmekriterien.
 
 Die vom Auftraggeber bereitgestellten Geothermiedaten sind für die vorgesehenen Geothermie-Ausprägungen zu verwenden. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind vor der produktiven Veröffentlichung noch zu klären.
 
@@ -818,20 +820,19 @@ Vor einer möglichen Umsetzung von Solarthermie müssen fachlicher Rechenweg, Ei
 
 **FA-102**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Sofern belastbare PV-Potenzialdaten bereitgestellt werden, muss PV in zwei Darstellungen in der Sanierungsempfehlung unterstützt werden:  
-Darstellung 1 dimensioniert PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
+Die PV-Potenzialdaten sind freigegeben. Ob und in welcher Tiefe PV-Anlage und Speicher für den Betrieb einer Wärmepumpe einschließlich energetischer und finanzieller Effekte dargestellt werden, ist Bestandteil der noch offenen Scope-Abstimmung mit dem Auftraggeber.
 
 <a id="fa-103"></a>
 
 **FA-103**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbilden und das Potenzial für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche kommunizieren. Ohne belastbare PV-Datenbereitstellung bleibt diese Einbindung für den MVP optional.
+Die ursprünglich vorgesehene maximale Flächenausnutzung und Potenzialkommunikation für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche gehört zur inzwischen von Auftraggeber und Auftragnehmer als deutlich zu hoch eingestuften LB-Detailstufe. Der vom Auftragnehmer präsentierte reduzierte Umsetzungsvorschlag wurde vom Auftraggeber nicht angenommen; ein verbindlicher Ersatzumfang steht noch aus.
 
 <a id="fa-104"></a>
 
 **FA-104**  
 *Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
-Die vom Auftraggeber bereitgestellten Geothermiedaten müssen für die gebäudebezogene Einschätzung des Geothermiepotenzials verwendet werden. Die technische Datenanreicherung wurde nach der Datenfreigabe in Sprint 17 umgesetzt. Die Auswertung erfolgt in der Reihenfolge Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind vor der produktiven Veröffentlichung noch zu klären.
+Die vom Auftraggeber bereitgestellten Geothermiedaten sind die verbindliche Grundlage für die gebäudebezogene Einschätzung des Geothermiepotenzials. Die technische Datenanreicherung wurde nach der Datenfreigabe in Sprint 17 umgesetzt. Kollektor und Sonde werden im bereitgestellten Datensatz nicht geführt und müssen daher nicht als eigene Eignungsvarianten ausgewertet werden. Eine Luft-Wärmepumpe ist grundsätzlich verfügbar und benötigt keine gesonderte standortbezogene Prüfung. Eine Erd-Wärmepumpe wird nach fachlicher Einschätzung des Energieberaters nicht empfohlen beziehungsweise als vernachlässigbar eingestuft und ist kein eigener Auswertungspfad. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind vor der produktiven Veröffentlichung noch zu klären.
 
 <a id="fa-105"></a>
 

@@ -52,7 +52,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles und NGSI-LD, offlin
 - **Warmwasser & Nutzung**: pauschal, personenbasiert oder verbrauchsbezogen.
 - **Anlagentechnik**: Energieträger, Erzeugerart, Heizflächenart, Anlagenalter, Heizkreistemperatur, Regelung, Zusatzheizung und Sanierungsrandbedingungen.
 - **Kosten/Preise & Faktoren**: Jahresverbrauch, Arbeitspreis, Grundpreis, Heizwert, Primärenergiefaktor und CO₂-Faktor.
-- **Erneuerbare**: PV (zwei Darstellungen), Geothermie, Energiespeicher (optional). PV/Speicher wird erst nach Datenfreigabe des Auftraggebers umgesetzt; aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt. Solarthermie ist als spätere Erweiterung denkbar, derzeit aber nicht im Berechnungskern vorgesehen.
+- **Erneuerbare**: PV, Geothermie, Energiespeicher (optional). Die PV-Datenfreigabe liegt vor; die ursprünglich vorgesehenen zwei PV-Darstellungen wurden von AG und AN als deutlich zu detailliert eingestuft, und der reduzierte AN-Vorschlag wurde vom AG nicht angenommen. Der verbindliche Ersatzumfang ist noch festzulegen. Solarthermie ist als spätere Erweiterung denkbar, derzeit aber nicht im Berechnungskern vorgesehen.
 
 ### Eingabespektrum-Enden (Grobkonzept-Arbeitsmappe)
 
@@ -132,7 +132,7 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
-- **Geothermiepotenziale** werden aus den vom Auftraggeber bereitgestellten Daten über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
+- **Geothermiepotenziale** werden aus den tatsächlich vom Auftraggeber bereitgestellten Datensatzmerkmalen ermittelt und als statische Attribute ergänzt; nicht geführte Varianten wie Kollektor und Sonde werden nicht hergeleitet.
 - **Datenstand Solar/Geothermie**: Umfang und Detailgrad der Solarpotenzial-/PV-/Speicher-Verarbeitung sind noch in Klärung; eine Umsetzung in Sprint 18/19 ist fraglich. Die Geothermie-Daten wurden nach der Datenfreigabe in Sprint 17 technisch integriert; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 

@@ -134,8 +134,8 @@ Der 3D Tiles Storage beziehungsweise Tiles-Dienst ist extern angebunden und **ke
 
 Eigenschaften:
 - Statische Datenhaltung
-- Enthält Gebäudestrukturen und Adressen aus LOD2; Solarpotenzial-Attribute inkl. Textur werden erst nach Datenfreigabe des Auftraggebers übernommen
-- Geothermiepotenziale werden aus den vom Auftraggeber bereitgestellten Daten ergänzt; die Auswertung erfolgt priorisiert über Grundwasser, Erdreich und Luft, während die Metadaten noch zu klären sind
+- Enthält Gebäudestrukturen und Adressen aus LOD2; die PV-Datenfreigabe liegt vor, Solarpotenzial-Attribute inklusive Textur werden nach Festlegung des verbindlichen Detailumfangs übernommen
+- Geothermiepotenziale werden ausschließlich anhand der tatsächlich vom Auftraggeber bereitgestellten Datensatzmerkmale ergänzt; nicht gelieferte Varianten werden nicht hergeleitet, während die Metadaten noch zu klären sind
 - Keine Laufzeitänderungen
 
 Die Daten im Storage werden ausschließlich durch die Offline-Datenpipeline erzeugt.
@@ -164,7 +164,7 @@ Die Offline Datenpipeline läuft in CIVITAS/CORE, wird jedoch **nicht** durch da
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- konditionale Integration von Solarpotenzialen (PV) nach Datenfreigabe sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
+- konditionale Integration der freigegebenen Solarpotenziale (PV) nach Festlegung des Detailumfangs sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
 - Übergabe der NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE

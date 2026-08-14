@@ -74,10 +74,10 @@ Der Public Client ist die zentrale Benutzeroberfläche für Bürger (Eigentümer
 
 Aufgaben:
 - Darstellung des 3D-Stadtmodells
-- Anzeige von Solarpotenzialen (PV) nach Datenfreigabe und Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten
+- Anzeige der freigegebenen Solarpotenziale (PV) nach Festlegung des verbindlichen Detailumfangs und der Geothermiepotenziale aus den vom Auftraggeber bereitgestellten Daten
 - Durchführung der energetischen Berechnung
 - Darstellung der Berechnungsergebnisse
-> ⚠️ **Hinweis:** Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt. Die Solarpotenzial-Textur wird erst nach Datenfreigabe durch den Auftraggeber übernommen.
+> ⚠️ **Hinweis:** Vegetationsobjekte (Bäume) werden für die visuelle Orientierung genutzt. Die PV-Datenfreigabe liegt vor; die Solarpotenzial-Textur wird nach Festlegung des verbindlichen Darstellungsumfangs übernommen.
 
 Die Berechnung wird standardmäßig vollständig im Browser ausgeführt.
 
@@ -221,7 +221,7 @@ Die Offline-Datenpipeline ist als eigenständiger Verarbeitungspfad in CIVITAS/C
 
 Aufgaben:
 - Verarbeitung von CityGML-Daten
-- konditionale Integration von Solarpotenzialen (PV) nach Datenfreigabe sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
+- konditionale Integration der freigegebenen Solarpotenziale (PV) nach Festlegung des Detailumfangs sowie Integration der vom Auftraggeber bereitgestellten Geothermiedaten
 - Anreicherung der Gebäudedaten
 - Erzeugung der finalen 3D Tiles, CityGML-Ausgaben und NGSI-LD-Entities
 - Übergabe freigegebener NGSI-LD-Entities an Stellio innerhalb von CIVITAS/CORE

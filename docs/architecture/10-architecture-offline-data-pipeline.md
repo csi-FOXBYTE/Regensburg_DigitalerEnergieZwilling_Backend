@@ -38,7 +38,7 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **DGM1-Geländemodell** (amtliche GeoTIFF-Kacheln für die dokumentierte Regensburger Polygonauswahl; Terrain-Bereitstellung noch zu konfigurieren)
 - **TopPlusOpen-Light-Terrain-Textur** (externer Tile-Dienst über `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; fachlich und lizenzrechtlich vom DGM1 getrennte Darstellungsquelle; BKG-Quellenvermerk gemäß `dl-de/by-2-0` verwenden; Proxy-Betreiber und Jahr des letzten Datenbezugs noch zu bestätigen)
 - **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
-- **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; nach verzögerter Datenfreigabe in Sprint 17 technisch integriert; Auswertung in Reihenfolge Grundwasser, Erdreich, Luft; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
+- **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; nach verzögerter Datenfreigabe in Sprint 17 technisch integriert; Auswertung ausschließlich anhand der tatsächlich gelieferten Merkmale; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
 - **Solarpotenziale** (separat bereitgestellte Lieferung; Umfang und Detailgrad noch in Klärung, aktuell nicht integriert; eine Umsetzung in Sprint 18 oder 19 ist fraglich; 3D Tiles mit Attributen und Textur sind als Zielbild vorgesehen)
 - **Kostendaten** (noch nicht vorliegend)
 - **Postleitzahl-Referenz** (noch nicht vorliegend; Adressobjekte aus LoD2/CityJSON sind davon zu unterscheiden)
@@ -67,7 +67,7 @@ Hinweis: Solarthermie ist aktuell nicht Teil des vorgesehenen Rechenwegs im Bere
 
 Beispiele für Datenherkünfte und Referenzen:
 
-- Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, Solarpotenzialdaten nach Datenfreigabe)
+- Städtische Daten (Stadtpläne/Basiskarten, Orthofotos, freigegebene Solarpotenzialdaten; Detailumfang noch in Abstimmung)
 - Open Data (LOD2)
 - Behördenspezifische Lizenzen (oberflächennahe Geothermie)
 - Externe Quellen für Referenzwerte/Typologien (IWU/TABULA, BKI, co2online, DIN/VDI)
@@ -153,8 +153,9 @@ Beispiele für Datenherkünfte und Referenzen:
    Solarpotenziale werden erst nach Daten- und Metadatenfreigabe als 3D Tiles mit
    Attributen und Textur in einem separaten Verarbeitungsschritt mit den
    CityJSON-Gebäuden zusammengeführt. Die vom Auftraggeber bereitgestellten
-   Geothermiepotenziale werden über eine priorisierte Datensatzabfrage ergänzt:
-   Grundwasser → Erdreich → Luft.
+   Geothermiepotenziale werden ausschließlich anhand der im gelieferten Datensatz
+   vorhandenen Merkmale ergänzt. Kollektor und Sonde sind dort nicht geführt und
+   werden nicht ersatzweise hergeleitet.
    Die erforderlichen Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
    Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie ist gemäß Projektentscheidung nicht vorgesehen.
    Optional werden abgeleitete Kennwerte (z.B. Hüllfläche, Dachfläche, Volumen) ergänzt.
@@ -267,7 +268,7 @@ Task-Reihenfolge je `job_id`:
 ### Eingaben
 
 - Ein Ordner mit **CityGML-Dateien** (LOD2, inkl. Adressen; Dateistruktur innerhalb des Ordners ist beliebig).
-- Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche Eingabe nach Datenfreigabe durch den Auftraggeber.
+- Solarpotenzial-**3D Tiles** (Attribute + Textur) als zusätzliche, freigegebene Eingabe; Import- und Mappingumfang sind noch mit dem Auftraggeber festzulegen.
 - Vegetationsdaten (Bäume) als eigener Layer (3D Tiles oder vergleichbares Format).
 - Optional ZIP-Container als Eingabeformat (muss in `extract_inputs` entpackbar sein).
 - **EPSG-Code** muss explizit übergeben werden (Coordinate Reference System kann nicht zuverlässig ausgelesen werden).
@@ -453,7 +454,7 @@ DockerOperator(
 
 - Aktuell: Berechnung abgeleiteter Gebäude- und Nachbarschaftskennwerte,
   Adressextraktion sowie optionale Zuordnung von Baualtersklassen.
-- Vorgesehen: Ergänzung von CityJSON um Solarpotenziale (PV) nach Datenfreigabe
+- Vorgesehen: Ergänzung von CityJSON um die freigegebenen Solarpotenziale (PV) nach Festlegung des verbindlichen Detailumfangs
   sowie um die vom Auftraggeber bereitgestellten Geothermiepotenziale; deren
   Metadaten sind noch zu klären.
 
@@ -462,8 +463,9 @@ DockerOperator(
 - Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
 - Optional Baualtersklassen als GeoPackage in EPSG:25832, Tabelle
   `gebiete__baualtersklasse`, Feld `Dominant_Baualtersklasse`.
-- Bereitgestellte Geothermiepotenziale über Datensatzabfrage (Priorität:
-  Grundwasser, Erdreich, Luft; EPSG wird für die Abfrage verwendet).
+- Bereitgestellte Geothermiepotenziale über Datensatzabfrage; ausgewertet werden
+  die tatsächlich gelieferten Merkmale, wobei EPSG für die räumliche Abfrage
+  verwendet wird.
 - Zukünftig Solarpotenzial-3D Tiles (Attribute + Textur) als Eingabe für das
   Attribut-Mapping.
 - Konfigurationsparameter für Mapping und Einheiten (siehe Schema).
@@ -484,8 +486,8 @@ DockerOperator(
   Aus `Dominant_Baualtersklasse` wird die am Anfang stehende vierstellige
   Untergrenze als `constructionYear` übernommen; ohne parsebaren Wert oder
   räumlichen Treffer bleibt das Attribut aus.
-- **Solarpotenziale** werden nach Datenfreigabe aus den gelieferten Attributen in 3D Tiles übernommen; eine Aufsummierung je Gebäude ist optional. Ohne Freigabe findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
-- **Geothermiepotenziale** werden aus den vom Auftraggeber bereitgestellten Daten über die Gebäudegrundfläche ermittelt; die Abfrage folgt der Reihenfolge Grundwasser → Erdreich → Luft. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Eine zusätzliche Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
+- **Solarpotenziale**: Die Datenfreigabe liegt vor. Welche gelieferten Attribute in 3D Tiles übernommen, je Gebäude aggregiert oder im Frontend dargestellt werden, ist noch mit dem Auftraggeber festzulegen. Die ursprüngliche LB-Detailstufe wurde von AG und AN als deutlich zu hoch bewertet; der reduzierte AN-Vorschlag wurde vom AG nicht angenommen.
+- **Geothermiepotenziale** werden aus den tatsächlich vom Auftraggeber bereitgestellten Datensatzmerkmalen über die Gebäudegrundfläche ermittelt. Kollektor und Sonde werden im Datensatz nicht geführt und deshalb nicht hergeleitet. Falls keine Abdeckung vorliegt, wird der Wert als `null` gesetzt. Luft-WP ist grundsätzlich verfügbar und benötigt keine standortbezogene Eignungsprüfung; Erd-WP ist nach Einschätzung des Energieberaters nicht empfohlen beziehungsweise vernachlässigbar. Eine zusätzliche Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
 - **Adresse** wird aus den CityGML-Adressobjekten übernommen; wenn nur ein Freitext vorhanden ist, wird dieser als `address_full` gesetzt. Die Ausgabe der Adresse aus LOD2 ist zwingend sicherzustellen (Fehler im bisherigen Wandler beheben).
 - **Nebengebäude** werden nicht mit Hauptgebäuden zusammengeführt; jedes CityGML-Gebäude wird separat verarbeitet.
 

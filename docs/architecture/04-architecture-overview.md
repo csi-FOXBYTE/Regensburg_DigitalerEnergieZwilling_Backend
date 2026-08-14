@@ -140,7 +140,7 @@ Das Backend ist **nicht** für die Auslieferung großer statischer Datenmengen z
 - mit allen relevanten Potenzialattributen angereichert
 - vom Public Frontend über `GET /api/public/tiles/*` angefordert; das Backend antwortet mit einem Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL
 
-Die Tiles enthalten zusätzlich Adressen aus LOD2 und Vegetationsobjekte (Bäume) für die 3D-Darstellung. Optionale Texturen zur Solarpotenzial-Visualisierung werden erst nach Datenfreigabe des Auftraggebers übernommen.
+Die Tiles enthalten zusätzlich Adressen aus LOD2 und Vegetationsobjekte (Bäume) für die 3D-Darstellung. Die PV-Datenfreigabe liegt vor; optionale Texturen zur Solarpotenzial-Visualisierung werden nach Festlegung des verbindlichen Darstellungsumfangs übernommen.
 
 Der externe Tiles-Dienst wird durch die Deployment-Plattform bereitgestellt und ist nicht Bestandteil des `digital-energy-twin_addon`. Das Backend überträgt keine Tile-Inhalte, sondern stellt ausschließlich den konfigurationsbasierten Redirect bereit.
 

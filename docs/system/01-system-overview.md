@@ -45,9 +45,9 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 ### Bürger (Eigentümer/Vermieter)
 - Zugriff ohne Authentifizierung
 - Interaktive 3D-Visualisierung des Stadtmodells mit Gebäudeauswahl
-- Anzeige von Solarpotenzialen (PV) nach belastbarer Datenfreigabe sowie von Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten
+- Anzeige von Solarpotenzialen (PV) nach Festlegung des verbindlichen Umsetzungsdetailgrads sowie von Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten
 - Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; die Energieeffizienzklasse wird in der energetischen Bewertung ausgewiesen
-- Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien erst nach belastbarer Datenfreigabe; Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
+- Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien erst nach Einigung auf einen verbindlichen Ersatzumfang; die Datenfreigabe liegt vor, der AN-Vorschlag wurde vom AG nicht angenommen. Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
 - Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
 - Datensparsame Eingabe (z.B. Personenanzahl als Klassen 1–5 bzw. >5); eine freiwillige Einreichung ist wegen vollständiger Gebäudeadresse und Koordinaten nicht anonym
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
@@ -133,7 +133,7 @@ Warum der DEZ als separate Applikation verlinkt wird:
 ## Datenhaltung und Datenfluss
 
 - Statische, allgemein gültige Potenziale liegen ausschließlich in den 3D Tiles.
-- 3D Tiles enthalten Gebäudegeometrie, Adressen aus LOD2 sowie Vegetationsobjekte (Bäume). Solarpotenzial-Attribute inkl. Textur werden erst nach Datenfreigabe durch den Auftraggeber übernommen.
+- 3D Tiles enthalten Gebäudegeometrie, Adressen aus LOD2 sowie Vegetationsobjekte (Bäume). Die PV-Datenfreigabe liegt vor; Solarpotenzial-Attribute inklusive Textur werden nach Festlegung des verbindlichen Import- und Darstellungsumfangs übernommen.
 - Dynamische, nutzerspezifische Daten liegen in der Datenbank.
 - Konfigurationen werden versioniert und als veröffentlichte JSON-Snapshots für den Client bereitgestellt.
 - Es gibt keine doppelte Datenhaltung statischer Potenziale im Backend.
@@ -145,11 +145,11 @@ Warum der DEZ als separate Applikation verlinkt wird:
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
 - **Solarthermie**: aktuell nicht Teil des vorgesehenen Rechenwegs im Berechnungskern; eine spätere Erweiterung erfordert zuerst fachliche und technische Klärung.
-- **PV/Speicher**: zwei Darstellungen fachlich vorgesehen, aber aktuell nicht vorbereitend implementiert, da noch keine Datenfreigabe durch den Auftraggeber vorliegt und die Datenlage unklar ist.
+- **PV/Speicher**: Die Datenfreigabe liegt vor. Die ursprüngliche LB-Detailstufe wurde von AG und AN als deutlich zu hoch bewertet; der reduzierte AN-Vorschlag wurde vom AG nicht angenommen. Der verbindliche Ersatzumfang ist noch festzulegen.
   1) Dimensionierung von PV + Speicher für den Wärmepumpenbetrieb inkl. energetischer/finanzieller Effekte.  
   2) Maximale Ausnutzung geeigneter PV-Flächen zur Kommunikation von Potenzialen für Haushaltsstrom, KFZ-Ladung und ähnliche Verbräuche.
 - **Solar-Anreicherung**: Solarpotenzialdaten sind aktuell noch nicht durch den Auftraggeber freigegeben. Daher findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
-- **Geothermie**: Die vom Auftraggeber bereitgestellten Daten sollen verwendet werden; die Implementierung der Auswertung in der Reihenfolge Grundwasser → Erdreich → Luft befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
+- **Geothermie**: Die vom Auftraggeber bereitgestellten Daten werden anhand der tatsächlich gelieferten Merkmale ausgewertet. Kollektor und Sonde sind im Datensatz nicht geführt. Luft-WP ist grundsätzlich verfügbar und wird nicht standortbezogen geprüft; Erd-WP ist nach Einschätzung des Energieberaters nicht empfohlen beziehungsweise vernachlässigbar. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ---
 

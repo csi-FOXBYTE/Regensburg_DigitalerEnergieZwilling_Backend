@@ -768,6 +768,8 @@ Technische Konsequenzen:
 | Fenster/Türen    | Standardflächenanteile und U-Werte aus Baualter/Katalog                | Flächen, Rahmen-/Verglasungsparameter, U-Werte                         |
 | Heizung/Anlage   | Vorbelegung aus Baujahr, Energieträger- und Erzeugerkatalog            | Systemart, Erzeugerart, Heizflächenart, Heizkreistemperatur, Regelung, Zusatzheizung, Brennstofflager-/Umbaukontext, Preis- und Faktorparameter |
 
+Rohrdämmung ist gemäß dem vom Auftraggeber freigegebenen Berechnungskonzept kein eigener Eingabe-, Konfigurations- oder Rechenparameter. Die Nennung im ursprünglichen LB-Wortlaut begründet daher keine technische Umsetzungslücke.
+
 Die aktualisierte Arbeitsmappe präzisiert zusätzlich die technische Breite der Anlageneingaben sowie die zu persistierenden Ergebnisdimensionen. Neben Heizwärmebedarf sind Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten als getrennte Ergebnisfelder vorzusehen.
 
 ### Offene technische Klärungspunkte aus dem Grobkonzept
@@ -887,24 +889,19 @@ Vor einer möglichen Umsetzung von Solarthermie müssen Rechenweg, Datenmodell, 
 
 **TA-99**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Sofern belastbare PV-Potenzialdaten bereitgestellt und durch den Auftraggeber freigegeben werden, müssen für PV zwei getrennte Berechnungspfade unterstützt werden:
-
-- Darstellung 1: Dimensionierung von PV-Anlage und Speicher für den Betrieb einer Wärmepumpe inkl. energetischer und finanzieller Effekte.
-- Darstellung 2: Maximale Ausnutzung der für PV geeigneten Flächen inkl. Kommunikation der Potenziale für Haushaltsstrom, KFZ-Ladung oder vergleichbare Verbräuche.
-
-Aktuell liegt für PV/Speicher keine Datenfreigabe durch den Auftraggeber vor. Aufgrund der unklaren Datenlage wird keine vorbereitende Implementierung vorgesehen.
+Die PV-Potenzialdaten sind durch den Auftraggeber freigegeben. Die ursprünglich vorgesehenen getrennten Berechnungspfade für PV-/Speicher-Dimensionierung mit Wärmepumpe sowie maximale Flächenausnutzung wurden inzwischen von Auftraggeber und Auftragnehmer als deutlich zu detailliert eingestuft. Der vom Auftragnehmer präsentierte reduzierte Umsetzungsvorschlag wurde vom Auftraggeber nicht angenommen. Rechenpfade, Ergebniskennzahlen, Speicherumfang und DGS-Anwendung dürfen deshalb erst nach gemeinsamer Festlegung eines verbindlichen Ersatzumfangs implementiert und abgenommen werden.
 
 <a id="ta-100"></a>
 
 **TA-100**  
 *Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
-Die vom Auftraggeber bereitgestellten Geothermiedaten müssen technisch in einer festen Prioritätsreihenfolge ausgewertet werden: Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten müssen vor der produktiven Veröffentlichung ergänzt werden. Eine Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
+Die vom Auftraggeber bereitgestellten Geothermiedaten müssen anhand der tatsächlich gelieferten Merkmale gebäudebezogen ausgewertet werden. Nicht im Datensatz geführte Varianten wie Kollektor und Sonde dürfen nicht technisch hergeleitet oder als fehlende Auswertung behandelt werden. Für die grundsätzlich verfügbare Luft-Wärmepumpe ist keine standortbezogene Eignungsprüfung erforderlich. Eine Erd-Wärmepumpe ist nach fachlicher Einschätzung des Energieberaters nicht empfohlen beziehungsweise vernachlässigbar und benötigt keinen eigenen technischen Auswertungspfad. Herkunfts-, Lizenz-, Turnus- und Schemametadaten müssen vor der produktiven Veröffentlichung ergänzt werden. Eine Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
 
 <a id="ta-101"></a>
 
 **TA-101**  
 *Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
-Umfang und Detailgrad der Solardatenverarbeitung sind noch zu klären; eine Umsetzung in Sprint 18 oder 19 ist derzeit nicht belastbar zugesagt. Die Geothermiedaten konnten wegen der verzögerten Datenfreigabe erst in Sprint 17 technisch integriert werden. Solange Herkunfts-, Lizenz-, Turnus- und Schemametadaten nicht vollständig geklärt sind, muss die Geothermie-Bewertung als vorläufig gekennzeichnet werden. Ein zusätzlicher Fallback nach LfU-/TUM-Vorbild wird nicht benötigt.
+Umfang und Detailgrad der Solardatenverarbeitung sind noch zu klären; eine Umsetzung in Sprint 18 oder 19 ist derzeit nicht belastbar zugesagt. Die Geothermiedaten konnten wegen der verzögerten Datenfreigabe erst in Sprint 17 technisch integriert werden. Die Auswertung bleibt auf die tatsächlich gelieferten Datensatzmerkmale beschränkt. Solange Herkunfts-, Lizenz-, Turnus- und Schemametadaten nicht vollständig geklärt sind, muss die Geothermie-Bewertung als vorläufig gekennzeichnet werden. Ein zusätzlicher Fallback nach LfU-/TUM-Vorbild wird nicht benötigt.
 
 ---
 

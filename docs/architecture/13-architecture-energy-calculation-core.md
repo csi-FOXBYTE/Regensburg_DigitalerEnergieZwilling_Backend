@@ -98,6 +98,7 @@ Die Arbeitsmappe ist damit Referenz für die fachliche Herleitung, nicht jedoch 
 - Wärmebrücken: pauschaler Zuschlag über `dUWB * Ages`.
 - Lüftung: globaler Lüftungsfaktor im abgestimmten Rechenkern, nicht als direkte Nutzereingabe und ohne zusätzliche Baualtersdifferenzierung.
 - Heizung: Systemart, Energieträger, Erzeugerart, Zusatzheizung, Heizflächenart, Heizkreistemperatur, Raumtemperaturregelung und optionale Sanierungsrandbedingungen.
+- Rohrdämmung wird gemäß dem vom Auftraggeber freigegebenen Berechnungskonzept nicht als eigener Eingabe- oder Rechenparameter modelliert.
 - Kataloge: `Kat. 1 U-Wert` (Baualtersklassen/U-Werte), `Kat. 2 Heizung` (Aufwandszahlen, Heizflächenzuschläge, Primärenergiefaktoren, CO₂-Faktoren, Heizwerte und Preismodelle).
 - Rechenkette (`Berechnungen`/`Formeln`): Transmissionswärmeverlust, Lüftungswärmeverlust, interne/solare Gewinne, Warmwasser, Jahres-Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch und Brennstoffkosten.
 
@@ -142,7 +143,7 @@ Typische Bereiche: Balkonanschlüsse, Deckenauflager auf Außenwänden, Fenstera
 ## Offene Modellierungsfragen aus dem Grobkonzept
 
 - Kostenfelder sind in mehreren Hüllen-Blättern nur als Platzhalter vorhanden; ein konsistentes Kostenmodell fehlt. Wirtschaftlichkeit und Amortisation sollen wieder auf BKI-Kostendaten ausgerichtet werden. Stand 24.07.2026 fehlen Datenzugang und abgesicherter Verfügbarkeitszeitplan; ohne Dateneinsicht und fachlich freigegebenes Kostenmodell ist keine belastbare Implementierung im Berechnungskern möglich.
-- PV/Speicher kann aktuell nicht umgesetzt werden, weil die Datenfreigabe durch den Auftraggeber noch fehlt. Aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung im Berechnungskern statt.
+- Die PV-Datenfreigabe liegt vor. Der Umsetzungsdetailgrad für PV/Speicher ist jedoch noch nicht vereinbart: Die ursprüngliche LB-Detailstufe wurde von AG und AN als deutlich zu hoch bewertet, und der reduzierte AN-Vorschlag wurde vom AG nicht angenommen. Eine Implementierung im Berechnungskern erfolgt erst nach Festlegung des verbindlichen Ersatzumfangs.
 - Korrekturfaktor `F` ist nicht für alle Bauteile in gleicher Tiefe fachlich definiert.
 - Das Heizungsblatt enthält nun erste beispielhafte Maßnahmenzuordnungen; diese sind jedoch noch nicht als vollständige, deterministische Entscheidungslogik formalisiert.
 - Beispiel- und Templatewerte in `Grobkonzept` und `Berechnungen` sind nicht konsistent genug für eine direkte Normierung von Produktdefaults und müssen fachlich geklärt werden.

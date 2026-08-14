@@ -44,7 +44,7 @@ Quelle: `raw/c4-context.puml`
 - **MasterPortal**: Externer Einstiegspunkt mit Link-Out auf den öffentlichen DEZ-Client.
 - **City Geo Services**: liefert Basemaps via WMS/WMTS.
 - **CityGML LoD2 Source**: verpflichtende Gebäudedaten einschließlich Adressen für jeden Pipeline-Lauf.
-- **Solar Potential Source**: optionale Potenzialdaten nach Datenfreigabe.
+- **Solar Potential Source**: freigegebene Potenzialdaten; verbindlicher Import- und Darstellungsumfang noch in Abstimmung mit dem Auftraggeber.
 - **Geothermal Source**: vom Auftraggeber bereitgestellte und zur Verwendung vorgesehene Daten; Metadaten noch offen.
 - **External Tiles Service**: durch die Deployment-Plattform bereitgestellte Ziel-URL für den Backend-Redirect.
 

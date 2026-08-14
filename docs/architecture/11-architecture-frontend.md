@@ -38,13 +38,11 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - Die Vorrangregeln zwischen Nutzereingaben, LOD2-/Anreicherungsdaten und Defaults sind in der
   [Testdokumentation der energetischen Berechnung](18-energy-calculation-test-documentation.md)
   beschrieben und geprüft.
-- Visualisierung von Solarpotenzialen (PV) nach Datenfreigabe und Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten.
+- Visualisierung von Solarpotenzialen (PV) nach Festlegung des verbindlichen Umsetzungsdetailgrads und von Geothermiepotenzialen aus den vom Auftraggeber bereitgestellten Daten.
 - Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; keine flächendeckende Einfärbung nach Energieeffizienzklassen.
-- Abbildung von zwei PV-Darstellungen in der UI erst nach Datenfreigabe:
-  - PV + Speicher für Wärmepumpenbetrieb (energetische und finanzielle Effekte)
-  - maximale Ausnutzung geeigneter PV-Flächen (Potenzialkommunikation für Haushaltsstrom/KFZ-Ladung)
+- Die ursprünglich vorgesehenen zwei PV-Darstellungen in der UI wurden von AG und AN als deutlich zu detailliert eingestuft. Die Datenfreigabe liegt vor, der reduzierte AN-Vorschlag wurde vom AG jedoch nicht angenommen; der verbindliche UI-Umfang ist noch festzulegen.
 - Solarthermie ist aktuell nicht als auswählbare Maßnahme vorzusehen, da im Berechnungskern noch kein Rechenweg dafür besteht.
-- Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise erst nach Datenfreigabe durch den Auftraggeber.
+- Nutzung der Solarpotenzial-Textur (z.B. Dachausrichtung) für visuelle Hinweise nach Festlegung des verbindlichen Darstellungsumfangs.
 - Darstellung von Vegetationsobjekten (Bäume) zur besseren räumlichen Orientierung.
 - Durchführung der Berechnung im Browser über den Berechnungskern.
 - Darstellung der Ergebnisse und Hinweise für Bürger (Eigentümer/Vermieter).
@@ -105,8 +103,7 @@ Eventkatalog, Funnel-IDs, KPI-Definitionen und Abnahmekriterien sind im [Matomo-
 ## MVP-Klärungsbedarf (erneuerbare Maßnahmen)
 
 - Solarthermie ist derzeit nicht Bestandteil des vorgesehenen Berechnungskern-Umfangs; eine spätere Erweiterung erfordert zuerst einen fachlich definierten Rechenweg.
-- Für PV/Speicher liegt aktuell noch keine Datenfreigabe durch den Auftraggeber vor; aufgrund der unklaren Datenlage findet keine vorbereitende Implementierung statt.
-- Für die Solar-Anreicherung liegt aktuell ebenfalls keine Datenfreigabe durch den Auftraggeber vor; daher findet keine vorbereitende Anreicherungs- oder Mapping-Implementierung statt.
+- Für PV/Speicher und Solar-Anreicherung liegt die Datenfreigabe vor. Der Umsetzungsdetailgrad ist noch mit dem AG festzulegen; die ursprüngliche LB-Detailstufe wurde gemeinsam als deutlich zu hoch bewertet, und der reduzierte AN-Vorschlag wurde vom AG nicht angenommen. Bis zur Einigung besteht kein verbindlicher Detailumfang für UI, Anreicherung oder Mapping.
 - Die Geothermie-Daten wurden durch den Auftraggeber bereitgestellt und sollen verwendet werden; die Implementierung befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ---
