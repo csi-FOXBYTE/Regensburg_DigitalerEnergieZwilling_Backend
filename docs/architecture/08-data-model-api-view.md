@@ -133,10 +133,12 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
   `globalRadMonths_1..12`, `directRadMonths_1..12`, `diffuseRadMonths_1..12`.
 - **Einheiten** werden aus der Datenquelle übernommen; es erfolgt keine DB-Normalisierung.
 - **Geothermiepotenziale** werden aus den vom Auftraggeber bereitgestellten Daten über eine priorisierte Datensatzabfrage ermittelt (Grundwasser, dann Erdreich, dann Luft) und als statische Attribute ergänzt.
-- **Datenstand Solar/Geothermie**: Für Solarpotenzial/PV/Speicher liegt aktuell keine Datenfreigabe durch den Auftraggeber vor. Die Geothermie-Daten liegen vor, sollen verwendet werden und befinden sich in technischer Integration; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
+- **Datenstand Solar/Geothermie**: Umfang und Detailgrad der Solarpotenzial-/PV-/Speicher-Verarbeitung sind noch in Klärung; eine Umsetzung in Sprint 18/19 ist fraglich. Die Geothermie-Daten wurden nach der Datenfreigabe in Sprint 17 technisch integriert; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 - **Vegetation (Bäume)** wird als eigener 3D Tiles Layer für die Visualisierung ausgeliefert.
 
 ### NGSI-LD-Export nach Stellio
+
+> **Umsetzungsstand:** Mapping und Exportpfad sind vorbereitet. Die konkrete Schnittstelle und Übergabekonfiguration in der Kundeninstanz sind noch nicht geklärt; die folgenden Festlegungen beschreiben den Sollzustand.
 
 - Der NGSI-LD-Export wird aus dem kanonischen Mapping-Profil abgeleitet und ist fachlich an dieselben freigegebenen statischen Attribute gebunden wie die 3D-Tiles-Ausgabe.
 - Smart Data Models werden verwendet, soweit passende Entity-Typen und Attribute vorhanden sind.

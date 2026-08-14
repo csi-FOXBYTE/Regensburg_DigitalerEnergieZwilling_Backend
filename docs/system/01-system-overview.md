@@ -49,7 +49,7 @@ Der DEZ richtet sich nicht an Energieberater oder Förderstellen und liefert kei
 - Gut sichtbare statische Hervorhebung des ausgewählten Gebäudes im 3D-Client; die Energieeffizienzklasse wird in der energetischen Bewertung ausgewiesen
 - Auswahl erneuerbarer Maßnahmen inkl. PV-Szenarien erst nach belastbarer Datenfreigabe; Solarthermie ist aktuell nicht Teil des vorgesehenen Berechnungskern-Umfangs
 - Einfache Berechnungen für Sanierungsmaßnahmen mit variabler Eingabetiefe (kontinuierliches Spektrum)
-- Anonymisierte Datenerfassung (z.B. Personenanzahl als Klassen 1–5 bzw. >5)
+- Datensparsame Eingabe (z.B. Personenanzahl als Klassen 1–5 bzw. >5); eine freiwillige Einreichung ist wegen vollständiger Gebäudeadresse und Koordinaten nicht anonym
 - Eingabetiefe-Spektrum von "keine Nutzereingabe" bis "vollständig durch Nutzer definiert" (von reinen Basisannahmen bis vollständig manuell angepassten Angaben)
 - Keine Registrierung; Bearbeitungszustand wird über lokale Browser-Speicherung (Local Storage) persistiert, optionale Wiederherstellung vom Server bei expliziter Speicherung
 - Nutzung ohne verpflichtende Datenübermittlung; Export nur auf Wunsch

@@ -61,7 +61,7 @@ Dieses Kapitel beschreibt Aufbau, Verantwortlichkeiten und Schnittstellen des Fr
 - 3D Tiles über `GET /api/public/tiles/*`; das Backend leitet per Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL weiter.
 - Konfigurations-Snapshots (versionierte JSON) vom Backend.
 - Öffentliche und administrative Backend-APIs.
-- Generierter, typsicherer API-Client aus OpenAPI 3.0 oder höher mit Orval.
+- Generierter, typsicherer API-Client aus OpenAPI 3.0 oder höher; Werkzeug und verbindliche Konventionen sind noch zu klären.
 - Basemap-Dienste (WMS/WMTS) für Kartenhintergründe.
 
 ---
@@ -86,6 +86,8 @@ Quelle: `raw/frontend-architecture.puml`
 
 <a id="consent-und-matomo-tracking"></a>
 ## Consent und Matomo-Tracking
+
+> **Umsetzungsstand:** Dieser Abschnitt beschreibt das Zielbild. Matomo ist noch nicht aktiviert und aktuell niedrig priorisiert. Da keine zugängliche Kundeninstanz vorhanden ist, müssen eine eigene Instanz sowie Betrieb und Zuständigkeiten abgestimmt werden; eine Umsetzung in Sprint 18 oder 19 ist offen.
 
 - Das Public-Frontend verwaltet den Consent-Status für Webanalyse unabhängig von technisch notwendiger lokaler Speicherung und der gesonderten Einwilligung zur Gebäudedatenspende.
 - Matomo-Ressourcen und der zentrale Tracking-Adapter werden erst nach gültigem Opt-in aktiviert.
@@ -114,7 +116,7 @@ Eventkatalog, Funnel-IDs, KPI-Definitionen und Abnahmekriterien sind im [Matomo-
 
 - Public Frontend und Admin Frontend sind eigenständige statische Webanwendungen in getrennten Repositories.
 - Jede Anwendung besitzt einen eigenen Astro-Build, ein eigenes Container-Image und ein separates nginx-Deployment.
-- API-Client und Query-/Mutation-Anbindungen werden aus einer Spezifikation nach OpenAPI 3.0 oder höher mit Orval generiert.
+- API-Client und Query-/Mutation-Anbindungen sollen aus einer Spezifikation nach OpenAPI 3.0 oder höher generiert werden. Die verbindliche Werkzeugwahl ist noch offen.
 - Administrative API-Aktionen werden durch APISIX und die Token-/Rollenprüfung des Backends geschützt; die statische Auslieferung des Admin Frontends enthält keine fachliche Autorisierungslogik.
 - Statische Assets sind cachefähig, dynamische Daten kommen über APIs.
 - Die Laufzeit-Auslieferung erfolgt über nginx; Logging wird über den nginx-Standard-Logger auf `stdout`/`stderr` ausgegeben.
@@ -127,10 +129,12 @@ Innerhalb beider Astro-Anwendungen können interaktive Islands eingesetzt werden
 <a id="konventionen-api-client-frontend-repo"></a>
 ## Konventionen API-Client (Frontend-Repo)
 
-- Konfigurationsdatei: zentrale Orval-Konfiguration im Frontend-Repository.
+> **Klärungsbedarf:** Hey API ist derzeit für die öffentliche Anwendung, Orval für die administrative Anwendung vorgesehen. Ob diese Trennung bestehen bleibt sowie Ablagepfade, Skriptnamen, CI-Prüfung und Hook-Konventionen sind noch nicht verbindlich entschieden. Die folgenden Punkte sind daher Zielvorschläge und keine bereits freigegebene Konvention.
+
+- Konfigurationsdatei: zentrale Konfiguration des gewählten Generators im jeweiligen Frontend-Repository.
 - OpenAPI-Eingabe: vom Backend bereitgestellte OpenAPI-Spezifikation.
 - Eine zusätzliche Versionierung als `openapi/openapi.json` ist bewusst nicht vorgesehen.
 - Generierter Code: `src/shared/api/generated/`.
-- Generierungsskript: `pnpm openapi:generate`.
-- Konsistenzprüfung in CI: `pnpm openapi:check` (Build schlägt fehl bei ungeprüftem Diff).
+- Generierungsskript: noch zu klären (Vorschlag: `pnpm openapi:generate`).
+- Konsistenzprüfung in CI: noch zu klären (Vorschlag: `pnpm openapi:check`; Build schlägt fehl bei ungeprüftem Diff).
 - Nutzung in der UI: API-Zugriffe über generierte React-Query-Hooks statt ad-hoc-HTTP-Calls.

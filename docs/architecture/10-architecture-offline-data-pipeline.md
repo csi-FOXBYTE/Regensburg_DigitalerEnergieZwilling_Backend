@@ -38,8 +38,8 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **DGM1-Geländemodell** (amtliche GeoTIFF-Kacheln für die dokumentierte Regensburger Polygonauswahl; Terrain-Bereitstellung noch zu konfigurieren)
 - **TopPlusOpen-Light-Terrain-Textur** (externer Tile-Dienst über `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; fachlich und lizenzrechtlich vom DGM1 getrennte Darstellungsquelle; BKG-Quellenvermerk gemäß `dl-de/by-2-0` verwenden; Proxy-Betreiber und Jahr des letzten Datenbezugs noch zu bestätigen)
 - **Baualtersklassen** (GeoPackage, optional; Integration im Anreicherungswerkzeug implementiert)
-- **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; Integration in Arbeit; Auswertung in Reihenfolge Grundwasser, Erdreich, Luft; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
-- **Solarpotenziale** (separat bereitgestellte Lieferung; aktuell nicht integriert; 3D Tiles mit Attributen und Textur vorgesehen)
+- **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; nach verzögerter Datenfreigabe in Sprint 17 technisch integriert; Auswertung in Reihenfolge Grundwasser, Erdreich, Luft; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
+- **Solarpotenziale** (separat bereitgestellte Lieferung; Umfang und Detailgrad noch in Klärung, aktuell nicht integriert; eine Umsetzung in Sprint 18 oder 19 ist fraglich; 3D Tiles mit Attributen und Textur sind als Zielbild vorgesehen)
 - **Kostendaten** (noch nicht vorliegend)
 - **Postleitzahl-Referenz** (noch nicht vorliegend; Adressobjekte aus LoD2/CityJSON sind davon zu unterscheiden)
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
@@ -90,6 +90,8 @@ Beispiele für Datenherkünfte und Referenzen:
 <a id="betriebs-und-orchestrierungsmodell"></a>
 
 ## Betriebs- und Orchestrierungsmodell
+
+> **Umsetzungsstand:** Die Geothermie-Anreicherung wurde nach der erst spät möglichen Datenfreigabe in Sprint 17 implementiert; die zugehörigen Metadaten bleiben offen. Umfang und Detailgrad der Solarverarbeitung sind noch zu klären, sodass eine Umsetzung in Sprint 18 oder 19 derzeit nicht belastbar geplant ist. Der NGSI-LD-Pfad ist technisch vorbereitet, die konkrete Schnittstelle zur Kundeninstanz jedoch noch nicht geklärt. Aussagen zu Solar und produktiver Stellio-Übergabe in diesem Kapitel beschreiben daher das Zielbild.
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
 - Die **Orchestrierung erfolgt in CIVITAS/CORE über Airflow** als **kombinierter DAG**.
@@ -521,9 +523,11 @@ Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverä
 
 > ⚠️ **Hinweis:** Einheiten und Skalierungen stammen aus der Datenlieferung; es erfolgt keine automatische Normalisierung.
 
-> ⚠️ **Hinweis MVP:** Die Geothermie-Daten wurden durch den Auftraggeber bereitgestellt und sollen verwendet werden; die Implementierung befindet sich in Arbeit. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sowie die endgültigen Ausgabefelder bleiben bis zur Klärung offen. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
+> ⚠️ **Hinweis MVP:** Die Geothermie-Daten wurden nach der Datenfreigabe in Sprint 17 technisch integriert. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sowie die endgültigen Ausgabefelder bleiben bis zur Klärung offen. Ein zusätzlicher Fallback nach dem Vorbild der LfU-/TUM-Studie wird nicht benötigt.
 
 ### NGSI-LD-Mapping und Stellio-Übergabe
+
+> **Umsetzungsstand:** Export und Mapping sind vorbereitet. Die produktive Schnittstelle und die Übergabekonfiguration in der Kundeninstanz sind noch offen; die folgenden Punkte beschreiben den Sollzustand.
 
 - Der NGSI-LD-Export nutzt dasselbe kanonische Mapping-Profil wie die 3D-Tiles- und CityGML-Ausgaben.
 - Gebäude werden als NGSI-LD-Entities mit stabiler ID aus `municipality_profile`, Quell-Datensatzversion und `gml:id` erzeugt.
@@ -548,7 +552,7 @@ Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverä
 
 Das Diagramm zeigt die dateibasierten Kernschritte der Verarbeitung; Orchestrierung, Datenaustausch und der zusätzliche NGSI-LD/Stellio-Publish-Pfad sind im Abschnitt oben beschrieben.
 
-> ⚠️ **Hinweis:** Die Solar-Anreicherung ist aktuell fachlich blockiert, da die Solarpotenzialdaten noch nicht durch den Auftraggeber freigegeben sind.
+> ⚠️ **Hinweis:** Umfang und Detailgrad der Solar-Anreicherung sind aktuell noch in Klärung. Eine Umsetzung in Sprint 18 oder 19 ist deshalb nicht belastbar zugesagt.
 
 ![offline-data-pipeline.png](./attachments/offline-data-pipeline.png)
 

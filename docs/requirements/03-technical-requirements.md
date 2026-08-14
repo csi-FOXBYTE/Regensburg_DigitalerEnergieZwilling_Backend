@@ -168,7 +168,7 @@ Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht 
 
 **TA-15**  
 *Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-3D-Tile-Anfragen müssen über APISIX an `GET /api/public/tiles/*` des Backends geleitet werden. Das Backend gibt einen Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL zurück; der Tiles-Dienst selbst wird nicht vom DEZ-Add-on bereitgestellt.
+3D-Tile-Anfragen müssen über APISIX an `GET /api/public/tiles/*` des Backends geleitet werden. Das Backend gibt einen Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL zurück; der Tiles-Dienst selbst wird nicht vom DEZ-Add-on bereitgestellt. Der aktuell im Public-Frontend fest codierte direkte S3-Endpunkt ist ausschließlich als Entwicklungsstand zu behandeln und muss vor dem Deployment durch diesen konfigurierten Zugriffspfad ersetzt werden.
 
 ---
 
@@ -185,13 +185,15 @@ Das System muss eine eigenständige Offline-Datenpipeline zur Verarbeitung von G
 <a id="ta-17"></a>
 
 **TA-17**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* Geothermie [Release 7](../roadmap/mvp-definition.md#release-7); Solar nicht im aktuellen Releaseplan zugeordnet.  
 Die Datenpipeline muss folgende Schritte abbilden können:
 
 - Konvertierung von CityGML zu CityJSON
 - Verarbeitung von Solar- und Geothermiedaten
 - Anreicherung der Gebäudedaten mit Potenzialattributen
 - Erzeugung von 3D Tiles
+
+Die Geothermieanreicherung wurde nach der Datenfreigabe in Sprint 17 umgesetzt. Umsetzung und Detailgrad der Solardatenverarbeitung befinden sich weiterhin in Klärung; eine Umsetzung in Sprint 18 oder 19 ist derzeit nicht verbindlich eingeplant.
 
 <a id="ta-18"></a>
 
@@ -461,8 +463,10 @@ Die Offline-Datenpipeline muss in CIVITAS/CORE über Airflow orchestriert werden
 <a id="ta-53"></a>
 
 **TA-53**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* Geothermie [Release 7](../roadmap/mvp-definition.md#release-7); Solar und produktive NGSI-LD-Anbindung nicht im aktuellen Releaseplan zugeordnet.  
 Die Konvertierung (CityGML → CityJSON), die Attributanreicherung (Solar/Geothermie) und die nachgelagerten Exportpfade (3D Tiles, CityGML, NGSI-LD) müssen als getrennte Verarbeitungsschritte in separaten Containern ausgeführt werden.
+
+Der NGSI-LD-Pfad ist konzeptionell und in den Datenmodellen vorbereitet. Die konkrete Schnittstelle zur Stellio-Instanz in der Kundenumgebung ist noch nicht abschließend geklärt und daher noch nicht produktiv angebunden.
 
 <a id="ta-54"></a>
 
@@ -609,6 +613,8 @@ Secure Development Lifecycle nach OWASP-Praktiken, Code-Reviews, Security-Scanni
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
 Die Integration in CIVITAS/CORE muss über standardisierte, dokumentierte Schnittstellen erfolgen; IAM erfolgt über Keycloak (OIDC) und API-Management über APISIX. Verbindlich sind offene APIs (z.B. OpenAPI 3.x, OGC API Features, REST/MQTT/OGC-Dienste). Zusätzlich muss NGSI-LD als Exportpfad unterstützt werden: Die Offline-Datenpipeline transformiert angereicherte Gebäudestammdaten und freigegebene statische Potenzialattribute aus dem kanonischen Mapping-Profil in NGSI-LD-Entities und übergibt diese innerhalb von CIVITAS/CORE an den Stellio Context Broker. Smart Data Models sind als Zielmodell zu verwenden, soweit passende Entitätstypen und Attribute vorliegen; projekt- oder kommunenspezifische Ergänzungen müssen versioniert, dokumentiert und provenance-fähig sein. City Energy ADE ist derzeit nicht vorgesehen (Kompatibilität zu CityGML 3.x aktuell nicht gegeben), und SensorThingsAPI wird in diesem Kontext nicht verwendet. Zusätzliche Datensenken außerhalb des Datendienstes und Stellio sind zu vermeiden.
 
+*Umsetzungsstand:* Der NGSI-LD-Export ist vorbereitet; die konkrete Stellio-Schnittstelle und deren Betriebsparameter in der Kundenumgebung sind noch abzustimmen. Bis dahin ist die produktive Übergabe offen.
+
 ---
 
 <a id="19-performance-skalierung"></a>
@@ -655,7 +661,7 @@ Wenn Nutzereingaben oder Ergebnisse gespeichert wurden, muss ein Löschprozess b
 
 **TA-77**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Der Löschprozess muss eine einfache, zweistufige Verifikation unterstützen (z.B. Adressabgleich + zusätzlicher Bestätigungsschritt), um ungewollte Löschungen zu vermeiden.
+Der Löschprozess muss zwei aufeinanderfolgende Schritte verwenden: Der Nutzer öffnet den ausschließlich im PDF-Report bereitgestellten, zufällig generierten Löschlink und bestätigt die Löschung anschließend ausdrücklich in einem Bestätigungsdialog. Ein zusätzlicher Adressabgleich ist nicht vorgesehen.
 
 <a id="ta-78"></a>
 
@@ -782,52 +788,54 @@ Die folgenden Punkte sind vor produktiver Übernahme als technische Spezifikatio
 
 ## 24. Open Source & Förderkulisse
 
+*Planungsstand:* Die Herstellung der Open-Source- und OpenCoDE-Compliance ist für Sprint 18 innerhalb der Inbetriebnahmephase vorgesehen.
+
 <a id="ta-87"></a>
 
 **TA-87**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Die Lösung muss Open Source sein und als finales Release über OpenCoDE veröffentlicht werden; Zwischenstände oder Beta-Versionen dürfen dort nicht bereitgestellt werden.
 
 <a id="ta-88"></a>
 
 **TA-88**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Die für OpenCoDE geforderten Qualitätskriterien müssen erfüllt werden, einschließlich: werthaltige Projektbeschreibung, benannte verantwortliche Person, CVE-Management für Abhängigkeiten, automatisierte Tests, Bug- und Security-Kontaktstellen, SBOM sowie Release Notes.
 
 <a id="ta-89"></a>
 
 **TA-89**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Das Repository muss die für OpenCoDE erforderlichen Dateien enthalten (u.a. `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `LICENSE`, `README.md`, `SECURITY.md`, `publiccode.yml`). Jede Datei muss einen Urheberrechtsvermerk, eine Lizenzbezeichnung und einen SPDX-Identifier enthalten.
 
 <a id="ta-90"></a>
 
 **TA-90**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Die Open-Source-Lizenz ist in Abstimmung mit dem Auftraggeber auszuwählen (permissiv vs. Copyleft). Lizenz-Compliance ist sicherzustellen; die Nutzung von CLA und/oder DCO ist vorzusehen.
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
+Die Software wird unter `LGPL-3.0-or-later` veröffentlicht. Die Lizenz-Compliance ist sicherzustellen; die Nutzung von CLA und/oder DCO ist im Rahmen der Open-Source-Veröffentlichung festzulegen.
 
 <a id="ta-91"></a>
 
 **TA-91**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Die Dokumentation muss Wiederverwendbarkeit sicherstellen und mindestens Installationsanleitung, Schnittstellenbeschreibung sowie Benutzer- und Administrationshandbuch umfassen; die Open-Source-Guidelines der Förderkulisse sind einzuhalten.
 
 <a id="ta-92"></a>
 
 **TA-92**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Vendor-Lock-in ist zu vermeiden: Die Codebase muss portabel, frei von proprietären Geheimnissen und ohne nicht-offene Abhängigkeiten bereitgestellt werden.
 
 <a id="ta-93"></a>
 
 **TA-93**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Code mit Datentausch-Funktionalität muss öffentliche Standards für den Austausch verwenden; eine Liste aller verwendeten Standards ist innerhalb der Codebase zu pflegen.
 
 <a id="ta-94"></a>
 
 **TA-94**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Der Beitragungs- und Release-Prozess muss Security-Grundsätze berücksichtigen (z.B. Secret-Scanning, gesicherte Release-Pfade, Vieraugenprinzip).
 
 <a id="ta-95"></a>
@@ -889,14 +897,14 @@ Aktuell liegt für PV/Speicher keine Datenfreigabe durch den Auftraggeber vor. A
 <a id="ta-100"></a>
 
 **TA-100**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
 Die vom Auftraggeber bereitgestellten Geothermiedaten müssen technisch in einer festen Prioritätsreihenfolge ausgewertet werden: Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten müssen vor der produktiven Veröffentlichung ergänzt werden. Eine Ersatzberechnung nach LfU-/TUM-Vorbild ist nicht vorgesehen.
 
 <a id="ta-101"></a>
 
 **TA-101**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Bis zur Bereitstellung und Freigabe belastbarer Solarpotenzialdaten ist deren Einbindung im MVP optional; für Solarpotenzial/PV/Speicher erfolgt ohne Datenfreigabe keine vorbereitende Implementierung. Geothermiedaten wurden durch den Auftraggeber bereitgestellt, sollen verwendet werden und befinden sich in technischer Integration. Solange Herkunfts-, Lizenz-, Turnus- und Schemametadaten nicht vollständig geklärt sind, muss die Geothermie-Bewertung als vorläufig gekennzeichnet werden. Ein zusätzlicher Fallback nach LfU-/TUM-Vorbild wird nicht benötigt.
+*Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
+Umfang und Detailgrad der Solardatenverarbeitung sind noch zu klären; eine Umsetzung in Sprint 18 oder 19 ist derzeit nicht belastbar zugesagt. Die Geothermiedaten konnten wegen der verzögerten Datenfreigabe erst in Sprint 17 technisch integriert werden. Solange Herkunfts-, Lizenz-, Turnus- und Schemametadaten nicht vollständig geklärt sind, muss die Geothermie-Bewertung als vorläufig gekennzeichnet werden. Ein zusätzlicher Fallback nach LfU-/TUM-Vorbild wird nicht benötigt.
 
 ---
 
@@ -916,6 +924,8 @@ Alle externen Datenzugriffe (API, veröffentlichte Konfigurations-Snapshots, 3D 
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
 Der Verarbeitungspfad `CityGML → CityJSON → 3D Tiles/CityGML/NGSI-LD` muss als eigenständiges, CIVITAS/CORE-fähiges Add-on bereitgestellt werden.
 
+*Umsetzungsstand:* Konvertierung, Geothermieanreicherung und dateibasierte Ausgaben sind vorhanden. Der NGSI-LD-Pfad ist vorbereitet, seine produktive Anbindung an die Kundenschnittstelle ist noch offen.
+
 <a id="ta-104"></a>
 
 **TA-104**  
@@ -926,7 +936,7 @@ Add-ons müssen die konfigurationsbasierte Aktivierung und Deaktivierung einzeln
 
 **TA-105**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Das Backend muss unter `GET /api/public/tiles/*` auf die entsprechend konfigurierte externe Tiles-URL weiterleiten. Das Ziel wird über `TILES_URL` aus der Deployment-Konfiguration vorgegeben. Der DEZ setzt damit einen extern bereitgestellten Tiles-Dienst voraus und stellt selbst kein Tiles Gateway bereit.
+Das Backend muss unter `GET /api/public/tiles/*` auf die entsprechend konfigurierte externe Tiles-URL weiterleiten. Das Ziel wird über `TILES_URL` aus der Deployment-Konfiguration vorgegeben. Der DEZ setzt damit einen extern bereitgestellten Tiles-Dienst voraus und stellt selbst kein Tiles Gateway bereit. Public-Frontend und APISIX müssen denselben öffentlichen Zugriffspfad verwenden; ein fest codierter direkter S3-Zugriff ist nur im Entwicklungsstand zulässig und muss vor dem Deployment entfernt werden.
 
 <a id="ta-106"></a>
 
@@ -948,47 +958,49 @@ Das im öffentlichen 3D-Client ausgewählte Gebäude muss unabhängig von seiner
 
 ## 28. API-Client-Generierung
 
+*Klärungsstand:* Die Anforderungen dieses Abschnitts werden überprüft. Zu entscheiden sind insbesondere das Zielwerkzeug je Frontend (derzeit Hey API im Public-Frontend und Orval im Admin-Frontend), die Ablagepfade des generierten Codes sowie einheitliche Generierungs- und Konsistenzprüfungen. Bis zu dieser Entscheidung sind TA-108 bis TA-115 keinem verbindlichen Release zugeordnet.
+
 <a id="ta-108"></a>
 
 **TA-108**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Das Backend muss eine Spezifikation nach OpenAPI 3.0 oder höher als Source of Truth bereitstellen; die Spezifikation wird über die bestehenden Fastify-toab/OpenAPI-Mechanismen erzeugt.
 
 <a id="ta-109"></a>
 
 **TA-109**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der Frontend-API-Client muss aus der vom Backend bereitgestellten Spezifikation nach OpenAPI 3.0 oder höher generiert werden; hierfür wird Orval eingesetzt.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Der Frontend-API-Client muss aus der vom Backend bereitgestellten Spezifikation nach OpenAPI 3.0 oder höher generiert werden. Die verbindliche Werkzeugwahl ist noch zu klären; aktueller Arbeitsstand ist Hey API für das Public-Frontend und Orval für das Admin-Frontend.
 
 <a id="ta-110"></a>
 
 **TA-110**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Für den generierten Frontend-API-Client müssen typsichere API-Funktionen bzw. Query-/Mutation-Anbindungen über die Orval-Konfiguration bereitgestellt werden.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Für den generierten Frontend-API-Client müssen typsichere API-Funktionen beziehungsweise Query-/Mutation-Anbindungen über die Konfiguration des jeweils freigegebenen Generators bereitgestellt werden.
 
 <a id="ta-111"></a>
 
 **TA-111**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Im Frontend-Repository muss die Generator-Konfiguration zentral in der Orval-Konfiguration gepflegt werden.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Im jeweiligen Frontend-Repository muss die Konfiguration des noch festzulegenden Generators zentral gepflegt werden.
 
 <a id="ta-112"></a>
 
 **TA-112**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Als Eingabe für die Client-Generierung wird die vom Backend bereitgestellte OpenAPI-Spezifikation abgefragt. Eine zusätzliche Versionierung als `openapi/openapi.json` wird bewusst ausgeklammert, da nur wenige Clients angebunden sind und der API-Vertrag über die Backend-OpenAPI-Konfiguration nachvollziehbar bleibt.
 
 <a id="ta-113"></a>
 
 **TA-113**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Der generierte API-Client-Code muss im Pfad `src/shared/api/generated/` abgelegt werden; manuelle Änderungen in generierten Dateien sind unzulässig.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Der generierte API-Client-Code muss in einem je Frontend verbindlich festzulegenden Pfad abgelegt werden; `src/shared/api/generated/` ist der aktuelle Vorschlag. Manuelle Änderungen in generierten Dateien sind unzulässig.
 
 <a id="ta-114"></a>
 
 **TA-114**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bereitgestellt werden:
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Für die Generierung und Konsistenzprüfung müssen nach Abschluss der Klärung standardisierte Skripte bereitgestellt werden. Aktuelle Vorschläge sind:
 
 - `openapi:generate` zur Neugenerierung
 - `openapi:check` zur Prüfung, dass kein ungeprüfter Generierungs-Diff vorliegt
@@ -996,7 +1008,7 @@ Für die Generierung und Konsistenzprüfung müssen standardisierte Skripte bere
 <a id="ta-115"></a>
 
 **TA-115**  
-*Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-Layer erfolgen; direkte, untypisierte HTTP-Aufrufe für API-Endpunkte sind zu vermeiden.
 
 ---
@@ -1041,52 +1053,54 @@ Für die Nachnutzung durch andere Kommunen muss die Pipeline so konfigurierbar s
 
 ## 30. Nachnutzung und White-Labeling
 
+*Planungsstand:* Die technische Umsetzung der White-Labeling-Anforderungen ist für Sprint 18 innerhalb der Inbetriebnahmephase vorgesehen.
+
 <a id="ta-121"></a>
 
 **TA-121**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Das System muss ein konfigurierbares Kommunenprofil unterstützen, in dem mindestens Branding, Basemap-Quellen, Datenquellen-Endpunkte, Default-Parameter und Textbausteine kommunenspezifisch gepflegt werden können.
 
 <a id="ta-122"></a>
 
 **TA-122**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Regensburg-spezifische Inhalte dürfen nicht hartcodiert in Kernkomponenten liegen, sondern müssen über das Kommunenprofil oder über austauschbare Konfigurationspakete gekapselt sein.
 
 <a id="ta-123"></a>
 
 **TA-123**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Für die Offline-Datenpipeline muss ein kanonisches Zielschema für Gebäude-, Potenzial- und Adressattribute definiert werden, auf das kommunenspezifische Quellschemata gemappt werden.
 
 <a id="ta-124"></a>
 
 **TA-124**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Für jede angebundene Kommune muss ein versioniertes Mapping-Profil (Quelle -> kanonisches Schema) vorliegen, inklusive Feldzuordnung, Einheiten, Transformationsregeln und Fallback-Strategien.
 
 <a id="ta-125"></a>
 
 **TA-125**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 CityGML Energy ADE wird im aktuellen Stand nicht als Eingabestandard unterstützt. Version 1.0 ist nicht mit CityGML 3.0-Dateien kompatibel und daher für die Umsetzung im DEZ derzeit nicht geeignet.
 
 <a id="ta-126"></a>
 
 **TA-126**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Das System muss ohne CityGML Energy ADE über definierte Fallback-Pfade (z.B. LOD2-Basisattribute, externe Potenzialdaten, Konfigurationswerte) vollständig lauffähig sein.
 
 <a id="ta-127"></a>
 
 **TA-127**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Mapping-Ergebnisse müssen pro Attribut eine Herkunftskennzeichnung (Quelle, Transformationsregel, Mapping-Version) bereitstellen, damit Nachvollziehbarkeit und kommunenübergreifende Vergleichbarkeit sichergestellt sind.
 
 <a id="ta-128"></a>
 
 **TA-128**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Mapping-Profile und Kommunenprofile müssen unabhängig voneinander versioniert, getestet und ausgerollt werden können, ohne die Kernlogik des Berechnungskerns zu ändern.
 
 ---
@@ -1095,28 +1109,30 @@ Mapping-Profile und Kommunenprofile müssen unabhängig voneinander versioniert,
 
 ## 31. Festlegung: Nutzungsdaten und Tracking
 
+*Planungsstand:* Matomo bleibt die vorgesehene Analytics-Lösung, ist technisch jedoch niedrig priorisiert und aktuell keinem verbindlichen Sprint zugeordnet. Entgegen der ursprünglichen Annahme steht in der Kundenumgebung keine bereits nutzbare Matomo-Instanz zur Verfügung. Aufbau, Betrieb und Integration einer eigenen Instanz müssen zunächst abgestimmt werden; eine Umsetzung in Sprint 18 oder 19 ist derzeit unsicher.
+
 <a id="ta-129"></a>
 
 **TA-129**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Für Nutzungsanalysen ist Matomo verbindlich als Analytics-Lösung einzusetzen.
 
 <a id="ta-130"></a>
 
 **TA-130**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Analytics-Skripte und Tracking-Endpunkte dürfen erst nach gültigem Opt-in aktiviert werden.
 
 <a id="ta-131"></a>
 
 **TA-131**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Vor produktiver Aktivierung von Analytics müssen Eventkatalog, Zweckbindung, Aufbewahrungsfristen, Anonymisierungsregeln, Löschkonzept und Rollen-/Rechtekonzept verbindlich dokumentiert und freigegeben sein. Eventkatalog, KPI-Definitionen und Abnahmekriterien werden im [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md) geführt.
 
 <a id="ta-132"></a>
 
 **TA-132**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Tracking-Funktionen müssen ohne gültiges Opt-in standardmäßig deaktiviert bleiben.
 
 ---
@@ -1200,8 +1216,8 @@ Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der dist
 <a id="ta-142"></a>
 
 **TA-142**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt. Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung. Automatisierte Tests bleiben Bestandteil der technischen Qualitätssicherung; normative Golden Tests und eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Ansprechpartner verbindlich benannt. Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung; der Abnahmetermin mit dem Energieberater ist für Sprint 19 abgestimmt. Automatisierte Tests bleiben Bestandteil der technischen Qualitätssicherung; normative Golden Tests und eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
 
 ---
 
@@ -1209,52 +1225,54 @@ Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und
 
 ## 35. Konkretisierung: Matomo-Tracking
 
+*Planungsstand:* Die folgenden Anforderungen bleiben der verbindliche technische Zielzustand für eine spätere Matomo-Aktivierung. Wegen der noch ausstehenden Bereitstellung und Betriebsabstimmung einer eigenen Instanz sind sie aktuell keinem verbindlichen Sprint zugeordnet.
+
 <a id="ta-143"></a>
 
 **TA-143**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Der gesamte öffentliche Sanierungscheck muss je Laufzeitumgebung über genau eine zentral konfigurierte Matomo-Site-ID erfasst werden. Produktiv-, Test- und Entwicklungsdaten dürfen nicht in derselben Matomo-Site zusammengeführt werden.
 
 <a id="ta-144"></a>
 
 **TA-144**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Das Public-Frontend muss sämtliche Analyseereignisse über einen zentralen Tracking-Adapter senden. Direkte Matomo-Aufrufe aus einzelnen UI-Komponenten sind unzulässig; Eventcodes, Parameter und Werte müssen vor dem Versand gegen versionierte Allow-Lists validiert werden.
 
 <a id="ta-145"></a>
 
 **TA-145**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Vor gültigem Opt-in dürfen keine Matomo-Skripte oder sonstigen Matomo-Ressourcen geladen, keine Matomo-Endpunkte aufgerufen und keine Ereignisse für eine spätere Übermittlung gepuffert werden. Vor der Einwilligung entstandene Ereignisse dürfen nachträglich nicht versendet werden.
 
 <a id="ta-146"></a>
 
 **TA-146**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Tracking-Payloads müssen von Zustands- und Übertragungsobjekten der Gebäudedatenspende getrennt erzeugt werden. Gebäude-, Adress-, Personen-, Verbrauchs-, Kosten-, Berechnungs-, Einreichungs- und Löschdaten sowie daraus gebildete Hashes oder Pseudonyme dürfen nicht an Matomo übergeben werden.
 
 <a id="ta-147"></a>
 
 **TA-147**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 An Matomo übermittelte Seitenadressen, Seitentitel, Referrer und benutzerdefinierte Dimensionen müssen vor dem Versand von sensiblen Queryparametern, URL-Fragmenten, Tokens und Objektkennungen bereinigt werden.
 
 <a id="ta-148"></a>
 
 **TA-148**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Ein verwendeter Sitzungsbezug muss zufällig erzeugt, auf den freigegebenen Sitzungszeitraum begrenzt und unabhängig von Gebäude-, Einreichungs- oder Nutzerdaten sein. Ohne gesonderte Freigabe darf keine dauerhafte Besucher- oder kommunenübergreifende Nutzerkennung erzeugt werden.
 
 <a id="ta-149"></a>
 
 **TA-149**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Nach Widerruf der Tracking-Einwilligung muss der Tracking-Adapter weitere Matomo-Aufrufe sofort unterbinden und lokal gespeicherte Matomo-Kennungen entsprechend der freigegebenen Konfiguration entfernen. Die technisch notwendige lokale Speicherung des Bearbeitungsstands und die Einwilligung zur Gebäudedatenspende müssen davon unabhängig bleiben.
 
 <a id="ta-150"></a>
 
 **TA-150**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Consent-Gating, Allow-List-Validierung, Ausschluss sensibler Felder und URLs, Eventtrigger, Schutz vor unbeabsichtigter Mehrfacherfassung sowie KPI-Berechnungen müssen automatisiert getestet werden. Vor Produktivbetrieb müssen außerdem Site-ID, Speichertechniken, Sitzungs-Timeout, IP-Anonymisierung, Aufbewahrungsfristen, Rollen, Berichtsempfänger und Mindestfallzahl für Maßnahmenkombinationen dokumentiert und freigegeben sein.
 
 ---

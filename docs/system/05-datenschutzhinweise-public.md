@@ -127,16 +127,16 @@ Datenquellen. Die Angaben orientieren sich in einem begrenzten Mindestumfang an
 DCAT-AP.de. Die vollständige fachlich-technische Spezifikation einschließlich
 stabiler Piveau-Kennungen und offener Abnahmepunkte enthält der
 [Datenquellenkatalog](../architecture/16-data-sources-dcat-piveau.md). Bei
-Abweichungen ist dessen releasebezogener Quellenstand maßgeblich.
+Abweichungen ist dessen dokumentierter Quellenstand maßgeblich.
 
 | Datenquelle (`dct:title`) und abgeleitete Bereitstellung | Beschreibung (`dct:description`) und Zweck | Herausgeber (`dct:publisher`) und Lizenz (`dct:license`) | Aktualisierung (`dct:accrualPeriodicity`/`dct:modified`) und Status | Bezug beziehungsweise `dcat:distribution` |
 | --- | --- | --- | --- | --- |
-| 3D-Gebäudemodelle (LoD2) – Stadt Regensburg; daraus 3D Tiles und Adressdatenbank | Amtliche LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit Gebäude-IDs, 3D-Geometrie, Attributen und Adressen soweit vorhanden; intern nach CityJSON, 3D Tiles und in die Adressdatenbank überführt | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellturnus wöchentlich; tatsächlicher DEZ-Übernahmestand releasebezogen; Pflichtquelle, aktuell verwendet | Quelle: [Gemeinde-Metalink](https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4); intern: [CityJSON-Objektpfad], 3D Tiles über [Backend-Route `/api/public/tiles/*`, externe Tiles-URL und S3-Objektpfad ergänzen] sowie [Datenbankformat und öffentliche Route der Adressdatenbank ergänzen] |
+| 3D-Gebäudemodelle (LoD2) – Stadt Regensburg; daraus 3D Tiles und Adressdatenbank | Amtliche LoD2-Gebäude der Gemeinde Regensburg (`09362000`) mit Gebäude-IDs, 3D-Geometrie, Attributen und Adressen soweit vorhanden; intern nach CityJSON, 3D Tiles und in die Adressdatenbank überführt | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellturnus wöchentlich; tatsächlicher DEZ-Übernahmestand je bereitgestelltem Datenstand; Pflichtquelle, aktuell verwendet | Quelle: [Gemeinde-Metalink](https://geodaten.bayern.de/odd/a/lod2/citygml/meta/metalink/09362000.meta4); intern: [CityJSON-Objektpfad], 3D Tiles über [Backend-Route `/api/public/tiles/*`, externe Tiles-URL und S3-Objektpfad ergänzen] sowie [Datenbankformat und öffentliche Route der Adressdatenbank ergänzen] |
 | Digitales Geländemodell 1 m (DGM1) – Auswahl Regensburg | Erdoberfläche ohne Vegetation und Bebauung als Raster mit 1 m Gitterweite für die Terrain-Darstellung; Polygonauswahl ist im Datenquellenkatalog dokumentiert | Landesamt für Digitalisierung, Breitband und Vermessung (LDBV; Bayerische Vermessungsverwaltung); [CC BY 4.0](http://dcat-ap.de/def/licenses/cc-by/4.0) mit vorgeschriebener Namensnennung | Quellaktualisierung losweise; referenzierte Polygonauswahl am 28.07.2026 geprüft; tatsächlichen fachlichen Datenstand ergänzen; produktive Terrain-Aufbereitung noch offen | [DGM1-Produktseite](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1); ausgewählte GeoTIFF-Kacheln in EPSG:25832 über [öffentliche APISIX-/Terrain-Route und S3-Objektpfad ergänzen] |
 | TopPlusOpen Light – Terrain-Textur für Regensburg | Gekachelte topografische Hintergrundkarte in EPSG:3857 als Textur des DGM1-Terrains; fachlich vom Höhenmodell getrennt | Bundesamt für Kartographie und Geodäsie (BKG); [Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0); Quellenvermerk: „Kartendarstellung: © [BKG](https://www.bkg.bund.de) (`{JAHR_DES_LETZTEN_DATENBEZUGS}`) [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0), [Datenquellen](https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_topplusopen.html)“ | Offizieller Quellturnus jährlich; tatsächlichen Datenbezugsstand des Proxy-Dienstes ergänzen; aktuell für die Terrain-Darstellung verwendet | Externer Tile-Endpunkt `https://intergeo38.bayernwolke.de/betty/g_topopluslight/{z}/{x}/{y}`; die Anwendung übermittelt dabei technisch bedingt Verbindungsdaten an den Betreiber von `intergeo38.bayernwolke.de` |
 | Baualtersklassen | Polygonale Baualtersklassen im GeoPackage zur optionalen Ableitung eines Baujahrs | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; optionale technische Integration vorhanden | Separat gelieferter Link beziehungsweise Archiv; dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
-| Geothermiepotenzial | Vom Auftraggeber bereitgestellte Potenzialdaten für Grundwasser, Erdreich und Luft; Schema und Einheiten sind noch zu bestätigen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, Integration in Arbeit | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
-| Solarpotenzial (PV) | Vorgesehene Solarattribute und Textur für Dachflächen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; vorliegend, aktuell nicht integriert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
+| Geothermiepotenzial | Vom Auftraggeber bereitgestellte Potenzialdaten für Grundwasser, Erdreich und Luft; Schema und Einheiten sind noch zu bestätigen | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; technische Integration vorhanden | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
+| Solarpotenzial (PV) | Vorgesehene Solarattribute und Textur für Dachflächen; Umfang und Detailgrad noch in Klärung | [Originalherausgeber und Nutzungsrecht ergänzen] | [Turnus und Datenstand ergänzen]; noch nicht implementiert | Separat gelieferter Link beziehungsweise Archiv; Format, dauerhafte Bezugs-URL und internen Objektpfad ergänzen |
 | Kostendaten | Vorgesehene Referenzwerte für Investitionskosten und Wirtschaftlichkeit | [Konkreten Datensatz, Herausgeber und Lizenz ergänzen] | Turnus offen; noch nicht vorliegend | Keine Distribution vorhanden |
 | Postleitzahl-Referenz | Vorgesehene Referenz zur Prüfung oder Ergänzung von Postleitzahlen; von den bereits in LoD2/CityJSON enthaltenen Adressobjekten zu unterscheiden | [Konkreten Datensatz, Herausgeber und Lizenz ergänzen] | Turnus offen; noch nicht vorliegend | Keine Distribution vorhanden |
 | DEZ-Berechnungskonfiguration | Versionierte Kataloge, Grenzwerte, Faktoren und Regeln für die energetische Berechnung | Stadt Regensburg; [Lizenz beziehungsweise Nutzungsbedingungen ergänzen] | Bei fachlicher Freigabe einer neuen Version | JSON über `GET /api/public/config/active` |
@@ -226,7 +226,7 @@ Einreichungen werden bis [fachlich und rechtlich freigegebene Regelfrist ergänz
 
 ## 9. Löschung einer freiwilligen Einreichung
 
-Für jede gespeicherte Einreichung erzeugt das Backend einen zufälligen Lösch-Token. Der PDF-Bericht enthält einen Link zur Löschseite. Vor der Löschung werden der Token, [zusätzliches Abgleichsmerkmal, zum Beispiel Gebäudeadresse] und Ihre ausdrückliche Bestätigung geprüft.
+Für jede gespeicherte Einreichung erzeugt das Backend einen zufälligen Lösch-Token. Der PDF-Bericht enthält den daraus erzeugten Link zur Löschseite. Die Löschung erfolgt zweistufig: Zuerst wird der zufällige Löschlink aufgerufen, anschließend muss die Löschung in einem Bestätigungsdialog ausdrücklich bestätigt werden.
 
 Nach erfolgreicher Prüfung werden der Einreichungsdatensatz und daraus abgeleitete personenbezogene Gebäudedaten aus der Produktivdatenbank gelöscht. Zugehörige Sicherungskopien werden nach Ablauf des regulären Backupzyklus von [Frist ergänzen] überschrieben beziehungsweise gelöscht.
 
@@ -254,7 +254,9 @@ Dabei werden insbesondere IP-Adresse, Zeitpunkt, Challenge-Daten, Prüfergebnis 
 
 ## 12. Webanalyse mit Matomo
 
-Wir verwenden Matomo zur statistischen Auswertung der Nutzung des Sanierungstools. Die Matomo-Instanz wird unter [interne Matomo-URL ergänzen] in der CIVITAS/CORE-Umgebung der Stadt Regensburg betrieben. Zuständig ist [zuständige Stelle der Stadt Regensburg oder beauftragter Betreiber ergänzen]. Eine Übermittlung der Analysedaten an Matomo Cloud findet nicht statt.
+> **Noch nicht implementiert:** Die Webanalyse mit Matomo ist derzeit nicht aktiv. Es werden deshalb keine Matomo-Skripte geladen und keine Analyseereignisse an Matomo übermittelt. Vor einer künftigen Aktivierung müssen eine eigene Instanz bereitgestellt und Betrieb, Zuständigkeit sowie Datenschutzparameter festgelegt werden.
+
+Falls Matomo künftig gesondert aktiviert wird, verwenden wir es zur statistischen Auswertung der Nutzung des Sanierungstools. Die dafür noch bereitzustellende Matomo-Instanz wird unter [interne Matomo-URL ergänzen] in der CIVITAS/CORE-Umgebung der Stadt Regensburg betrieben. Zuständig ist [zuständige Stelle der Stadt Regensburg oder beauftragter Betreiber ergänzen]. Eine Übermittlung der Analysedaten an Matomo Cloud findet nicht statt.
 
 Matomo wird erst nach Ihrer vorherigen Einwilligung aktiviert. Ohne Einwilligung werden keine Matomo-Tracking-Skripte geladen und keine Analyseereignisse übermittelt. Sie können Ihre Entscheidung jederzeit über „Cookie-Einstellungen“ ändern.
 
@@ -284,11 +286,13 @@ Die für das Sanierungstool benötigten Schriftarten werden innerhalb der CIVITA
 
 ## 14. Feedback
 
-Wenn Sie die Feedback-Funktion nutzen, verarbeiten wir die von Ihnen ausgewählte Kategorie, Ihre Nachricht und – nur wenn Sie eine Rückmeldung wünschen – Ihre freiwillig angegebene E-Mail-Adresse. Hinzu kommen Zeitpunkt und technisch erforderliche Verbindungsdaten.
+> **Noch nicht vollständig implementiert:** Die Übermittlung von Feedback an das Zielsystem ist derzeit nicht aktiv. Vor der Aktivierung müssen Zielsystem, Empfänger, Übertragungsweg, Betriebsverantwortung und Löschfrist festgelegt werden.
+
+Sobald die Feedback-Funktion vollständig verfügbar ist und Sie sie nutzen, verarbeiten wir die von Ihnen ausgewählte Kategorie, Ihre Nachricht und – nur wenn Sie eine Rückmeldung wünschen – Ihre freiwillig angegebene E-Mail-Adresse. Hinzu kommen Zeitpunkt und technisch erforderliche Verbindungsdaten.
 
 Die Daten werden ausschließlich zur Bearbeitung des Feedbacks und zur Verbesserung des Sanierungstools verwendet. Rechtsgrundlage ist Art. 6 Abs. 1 Buchst. e DSGVO in Verbindung mit Art. 4 Abs. 1 BayDSG; soweit die Bearbeitung ausschließlich auf Ihrer freiwilligen Kontaktaufnahme beruht, Art. 6 Abs. 1 Buchst. a DSGVO.
 
-Empfänger ist [zuständige Stelle beziehungsweise Ticketsystem in CIVITAS/CORE ergänzen]. Feedbackdaten werden nach Abschluss der Bearbeitung, spätestens nach [Löschfrist ergänzen], gelöscht. Die optionale E-Mail-Adresse wird nur für die gewünschte Rückmeldung verwendet.
+Nach der Aktivierung ist Empfänger [zuständige Stelle beziehungsweise Ticketsystem in CIVITAS/CORE ergänzen]. Feedbackdaten werden nach Abschluss der Bearbeitung, spätestens nach [Löschfrist ergänzen], gelöscht. Die optionale E-Mail-Adresse wird nur für die gewünschte Rückmeldung verwendet.
 
 ## 15. Empfänger und Auftragsverarbeiter
 

@@ -22,11 +22,11 @@ rectangle "Release 4\n11.05.2026 - 18.06.2026\n---\nIst-Stand\nIntegration + Sta
 
 rectangle "Release 5\nSprint 13 + Sprint 14\nAbschluss 06.07.2026\n---\nIst-Stand\nAnreicherung aktualisieren + Fehlerbehebung\nFrontend aktualisieren + Fehlerbehebung\nSystempflege aktualisieren + Fehlerbehebung\nSprint 14: Nutzertests" as R5 #EDE9FE
 
-rectangle "Release 6\nSprint 15 + Sprint 16\n07.07.2026 - 03.08.2026\n---\nPlan\nEntwicklung fortführen\nSystemübergreifend stabilisieren\nRegression + Konsistenz prüfen\nMatomo frühestens Sprint 15\nBKI-Zugang weiter offen" as R6 #FFF4BF
+rectangle "Release 6\nSprint 15 + Sprint 16\n07.07.2026 - 03.08.2026\n---\nIst-Stand\nEntwicklung fortgeführt\nSystemübergreifend stabilisiert\nRegression + Konsistenz geprüft\nMatomo nicht umgesetzt\nBKI-Zugang weiter offen" as R6 #FFF4BF
 
-rectangle "Release 7\nSprint 17\n04.08.2026 - 17.08.2026\n---\nAktueller Stand\nNutzertests auswerten\nArbeitspakete bewerten + bearbeiten\nEntwicklung abschließen\nRegressionstests\nCIVITAS/CORE-Staging-Bereitstellung" as R7 #E5E7EB
+rectangle "Release 7\nSprint 17\n04.08.2026 - 17.08.2026\n---\nAktueller Stand\nNutzertests auswerten\nArbeitspakete bewerten + bearbeiten\nGeothermie integriert\nEntwicklung abschließen\nCIVITAS/CORE-Staging-Bereitstellung" as R7 #E5E7EB
 
-rectangle "Inbetriebnahme\nSprint 18 + Sprint 19\n18.08.2026 - 14.09.2026\n---\nPlan\nProduktionsnahe Konfiguration\nInbetriebnahme + Abnahmeunterstützung\nKritische Fehler beheben\nÜbergabe + Betriebsdokumentation" as IB #DFF7E2
+rectangle "Inbetriebnahme\nSprint 18 + Sprint 19\n18.08.2026 - 14.09.2026\n---\nPlan\nSprint 18: White-Label + Open Source\nProduktionsnahe Konfiguration\nSprint 19: Rechenkernabnahme\nKritische Fehler beheben\nÜbergabe + Betriebsdokumentation" as IB #DFF7E2
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
@@ -38,7 +38,7 @@ R7 --> IB : führt zur Inbetriebnahme
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-08-13
+  Stand: 2026-08-14
 endlegend
 
 @enduml

@@ -83,8 +83,8 @@ Wenn belastbare Solarpotenzialdaten rechtzeitig bereitgestellt werden, muss das 
 <a id="fa-05"></a>
 
 **FA-05**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die vom Auftraggeber bereitgestellten Geothermiedaten müssen für eine gebäudebezogene Anzeige des Geothermiepotenzials verwendet werden. Die für Veröffentlichung und Nachnutzung erforderlichen Metadaten sind noch zu klären.
+*Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
+Die vom Auftraggeber bereitgestellten Geothermiedaten müssen für eine gebäudebezogene Anzeige des Geothermiepotenzials verwendet werden. Die technische Datenanreicherung wurde nach der Datenfreigabe in Sprint 17 umgesetzt. Die für Veröffentlichung und Nachnutzung erforderlichen Metadaten sind noch zu klären.
 
 <a id="fa-06"></a>
 
@@ -370,7 +370,7 @@ Das System muss eine klare Zusammenfassung der Ergebnisse bereitstellen.
 
 **FA-38**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Nutzer müssen einen PDF-Report der Ergebnisse exportieren können; zusätzlich muss eine JSON-Datei des Reports angeboten werden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-74.
+Nutzer müssen einen PDF-Report der Ergebnisse exportieren können. Bei einer freiwilligen Einreichung muss zusätzlich ein JSON-Export angeboten werden, der bewusst auf den in der Einreichung enthaltenen Datenumfang reduziert ist. Zusätzliche Hinweise und Informationen, die nur für Bürger nützlich sind und nicht für die Einreichung oder die kommunale Wärmeplanung benötigt werden, verbleiben ausschließlich im PDF-Report. Diese Trennung dient der Datensparsamkeit und Transparenz: Bürger können anhand des JSON-Exports genau nachvollziehen, welche Daten an die Stadt übermittelt wurden. Eine Datei wird nur bei explizitem Export erzeugt. Details zu Inhalten siehe FA-74.
 
 <a id="fa-39"></a>
 
@@ -594,7 +594,7 @@ Das System liefert keine rechtsverbindlichen Aussagen.
 
 **FA-68**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Das System muss eine anonymisierte Datenerfassung unterstützen; personenbezogene Eingaben sind auf das notwendige Minimum zu begrenzen (z.B. Personenanzahl als Klassen 1–5 bzw. >5).
+Bei einer freiwilligen Einreichung dürfen nur die für den vorgesehenen fachlichen und technischen Zweck notwendigen Daten übermittelt werden. Dazu gehören insbesondere die vollständige Gebäudeadresse, die Gebäude-ID und die Koordinaten sowie die freigegebenen Eingabe- und Berechnungsdaten. Die Einreichung ist daher nicht als anonym zu bezeichnen. Personenbezogene Angaben sind auf das notwendige Minimum zu begrenzen; soweit möglich, sind klassifizierte Angaben zu verwenden (z.B. Personenanzahl als Klassen 1–5 bzw. >5).
 
 <a id="fa-69"></a>
 
@@ -611,8 +611,8 @@ Der Bürgerbereich muss ohne Registrierung nutzbar sein; der aktuelle Bearbeitun
 <a id="fa-71"></a>
 
 **FA-71**  
-*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)  
-Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten werden; zusätzlich soll ein Feedback-Button jederzeit verfügbar sein.
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
+Nach Abschluss einer Berechnung soll ein Feedback-Formular automatisch angeboten werden; zusätzlich soll ein Feedback-Button jederzeit verfügbar sein. Die Funktion befindet sich noch in Arbeit. Die Zieldatenbank beziehungsweise das Zielsystem in der Kundenumgebung ist noch nicht abschließend geklärt; bis zu dieser Klärung darf die Oberfläche keine erfolgreiche Übermittlung bestätigen.
 
 <a id="fa-72"></a>
 
@@ -630,7 +630,7 @@ Die Benutzeroberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und v
 
 **FA-74**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Das System muss eine Reporting-Funktion bereitstellen: PDF-Report (max. 5 Seiten, CI/CD-konform) und JSON-Export für maschinelle Weiterverarbeitung.
+Das System muss eine Reporting-Funktion bereitstellen: einen PDF-Report (max. 5 Seiten, CI/CD-konform) sowie bei einer freiwilligen Einreichung einen JSON-Export des tatsächlich eingereichten Datenumfangs für die maschinelle Weiterverarbeitung.
 Der Report muss mindestens enthalten:
 
 - Projektinfo (Gebäudename/Projektname/Adresse)
@@ -645,6 +645,8 @@ Der Report muss mindestens enthalten:
 - Zusätzlich fünf Kennwerte, die im Projektverlauf definiert werden
 - Konkrete nächste Schritte
 - Wenn Daten gespeichert wurden: Link/QR zur Löschanfrage
+
+Der PDF-Report darf zusätzliche Hinweise, Erläuterungen und Kontaktinformationen für Bürger enthalten. Diese Inhalte werden nicht in den JSON-Export übernommen, wenn sie für die Einreichung oder die kommunale Wärmeplanung nicht benötigt werden. Der JSON-Export ist aus Gründen der Datensparsamkeit und Transparenz bewusst kein vollständiges Abbild des PDF-Reports. Er bildet genau den übermittelten Datenumfang ab, sodass Bürger nachvollziehen können, welche Daten an die Stadt übermittelt wurden.
 
 Kosten-, Budget-, Förder- sowie PV-/Geothermie-bezogene Reportinhalte sind erst nach Abschluss der fachlichen und technischen Klärung und der anschließenden Umsetzung in späteren Releases verpflichtend. Wirtschaftlichkeits- und Amortisationsaussagen sollen auf BKI-Kostendaten aufbauen. Stand 24.07.2026 fehlen weiterhin der Datenzugang und ein abgesicherter Zeitplan für die Verfügbarkeit; eine belastbare Umsetzung und Release-Zuordnung sind deshalb noch nicht möglich.
 
@@ -707,8 +709,8 @@ Das System soll einen klaren Einstieg („So funktioniert’s“) mit Hinweis au
 <a id="fa-84"></a>
 
 **FA-84**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Das System soll eine Übersicht der Maßnahmen mit relativem Einsparpotenzial und Kostenniveau bieten und eine Empfehlung für „beste Maßnahme bei Budget X“ ableiten können.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Das System soll eine Übersicht der Maßnahmen mit relativem Einsparpotenzial und Kostenniveau bieten und eine Empfehlung für „beste Maßnahme bei Budget X“ ableiten können. Die Kosten- und Budgetaspekte sind blockiert, solange die vorgesehenen BKI-Daten, ihre Nutzungsbedingungen und das fachliche Kostenmodell nicht vorliegen.
 
 <a id="fa-85"></a>
 
@@ -767,8 +769,8 @@ Bei hoher manueller Eingabetiefe sollen Unsicherheiten sichtbar gemacht und Eing
 <a id="fa-95"></a>
 
 **FA-95**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung möglich sein.
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+Am oberen Ende des Spektrums sollen Variantenvergleiche (Energiebedarf, Kostenband, CO₂-Reduktion) und eine Empfehlung möglich sein. Der energetische Vergleich und die CO₂-Bewertung sind davon unabhängig; Kostenband und kostenbezogene Empfehlungen bleiben bis zur Bereitstellung und fachlichen Freigabe der BKI-Daten blockiert.
 
 <a id="fa-96"></a>
 
@@ -828,8 +830,8 @@ Darstellung 2 muss die maximale Ausnutzung der für PV geeigneten Flächen abbil
 <a id="fa-104"></a>
 
 **FA-104**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Die vom Auftraggeber bereitgestellten Geothermiedaten müssen für die gebäudebezogene Einschätzung des Geothermiepotenzials verwendet werden. Die Auswertung erfolgt in der Reihenfolge Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind vor der produktiven Veröffentlichung noch zu klären.
+*Release-Zuordnung:* [Release 7](../roadmap/mvp-definition.md#release-7)  
+Die vom Auftraggeber bereitgestellten Geothermiedaten müssen für die gebäudebezogene Einschätzung des Geothermiepotenzials verwendet werden. Die technische Datenanreicherung wurde nach der Datenfreigabe in Sprint 17 umgesetzt. Die Auswertung erfolgt in der Reihenfolge Grundwasser, Erdreich, Luft. Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind vor der produktiven Veröffentlichung noch zu klären.
 
 <a id="fa-105"></a>
 
@@ -845,58 +847,60 @@ Das System muss aus dem MasterPortal heraus über einen verpflichtenden Einstieg
 
 ## Nachnutzung und White-Labeling
 
+*Planungsstand:* Die Umsetzung der White-Labeling-Anforderungen ist für Sprint 18 innerhalb der Inbetriebnahmephase vorgesehen.
+
 <a id="fa-106"></a>
 
 **FA-106**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Das System muss fachlich so nutzbar sein, dass neben Regensburg auch weitere Kommunen mit eigenen Datenbeständen betrieben werden können.
 
 <a id="fa-107"></a>
 
 **FA-107**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Für jede Kommune muss ein eigenes Profil nutzbar sein, das mindestens Name, Branding, Texte, Basiskartenbezug und lokale Datenquellen beschreibt.
 
 <a id="fa-108"></a>
 
 **FA-108**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Regensburg-spezifische Inhalte (z.B. Vergleiche gegen den lokalen Gebäudebestand, lokale Begriffe, lokale Förderbezüge) müssen als kommunenspezifischer Profilinhalt austauschbar sein.
 
 <a id="fa-109"></a>
 
 **FA-109**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Die Nutzerführung und Kernfunktionen (Gebäudeauswahl, Berechnung, Maßnahmenvergleich, Ergebnisdarstellung) müssen über alle Kommunen hinweg fachlich gleichartig bleiben.
 
 <a id="fa-110"></a>
 
 **FA-110**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Für den Datenimport neuer Kommunen muss eine fachlich nachvollziehbare Zuordnung auf ein einheitliches Zielmodell möglich sein, damit die gleichen Ergebniskategorien bereitgestellt werden können.
 
 <a id="fa-111"></a>
 
 **FA-111**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Wenn erweiterte Fachdaten in einem für DEZ geeigneten und kompatiblen Format vorliegen, sollen diese fachlich vorrangig genutzt werden; fehlen sie, muss die Anwendung weiterhin mit den Basisdaten arbeitsfähig bleiben. CityGML Energy ADE ist im aktuellen Stand dafür nicht geeignet, da Version 1.0 nicht mit CityGML 3.0-Dateien kompatibel ist.
 
 <a id="fa-112"></a>
 
 **FA-112**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Für automatisch übernommene oder transformierte Werte muss die Herkunft für Fachpersonal nachvollziehbar sein (Quelle der Kommune, verwendetes Profil, ggf. Fallback).
 
 <a id="fa-113"></a>
 
 **FA-113**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Die Einführbarkeit in weiteren Kommunen soll ohne fachliche Neudefinition der Kernlogik möglich sein; kommunenspezifische Unterschiede sollen primär über Profile und Konfigurationen abgebildet werden.
 
 <a id="fa-114"></a>
 
 **FA-114**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
 Eine DEZ-Instanz soll fachlich immer genau eine Kommune abbilden; die Nachnutzung für weitere Kommunen erfolgt über getrennte Deployments und nicht über eine gleichzeitige Mehrkommunen-Nutzung in derselben Instanz.
 
 ---
@@ -905,22 +909,24 @@ Eine DEZ-Instanz soll fachlich immer genau eine Kommune abbilden; die Nachnutzun
 
 ## Festlegung: Nutzungsdaten und Tracking
 
+*Planungsstand:* Matomo bleibt die fachlich vorgesehene Analytics-Lösung, die technische Umsetzung ist aktuell jedoch niedrig priorisiert und keinem verbindlichen Sprint zugeordnet. Entgegen der ursprünglichen Annahme steht in der Kundenumgebung keine bereits nutzbare Matomo-Instanz zur Verfügung. Eine eigene Instanz und deren Betrieb müssen zunächst mit dem Auftraggeber abgestimmt werden; eine Umsetzung in Sprint 18 oder 19 ist derzeit unsicher.
+
 <a id="fa-115"></a>
 
 **FA-115**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Für Nutzungsanalysen wird Matomo verbindlich eingesetzt.
 
 <a id="fa-116"></a>
 
 **FA-116**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Nutzungsdatenanalysen dürfen fachlich nur nach expliziter Einwilligung (Opt-in) erfolgen.
 
 <a id="fa-117"></a>
 
 **FA-117**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Der konkrete fachliche Umfang für Tracking, einschließlich Metriken, Auswertungszielen, Eventkatalog und Berichtskreisen, muss vor produktiver Aktivierung verbindlich festgelegt sein. Der aktuelle fachliche Zielstand ist im [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md) dokumentiert.
 
 ---
@@ -932,8 +938,8 @@ Der konkrete fachliche Umfang für Tracking, einschließlich Metriken, Auswertun
 <a id="fa-118"></a>
 
 **FA-118**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
-Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Projektleiter als Ansprechpartner benannt. Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung. Automatisierte Tests dienen der technischen Regression; normative Golden Tests oder eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
+*Release-Zuordnung:* [Inbetriebnahme](../roadmap/mvp-definition.md#inbetriebnahme)  
+Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und ein technischer Projektleiter als Ansprechpartner benannt. Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung; der Abnahmetermin mit dem Energieberater ist für Sprint 19 abgestimmt. Automatisierte Tests dienen der technischen Regression; normative Golden Tests oder eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
 
 ---
 
@@ -941,40 +947,42 @@ Für den Abnahmeprozess sind bei der Stadt Regensburg jeweils ein fachlicher und
 
 ## Konkretisierung: Matomo-Auswertungsumfang
 
+*Planungsstand:* Die folgenden Anforderungen beschreiben weiterhin den fachlichen Zielumfang, sind wegen der noch ausstehenden Bereitstellung und Betriebsabstimmung einer eigenen Matomo-Instanz jedoch aktuell keinem verbindlichen Sprint zugeordnet.
+
 <a id="fa-119"></a>
 
 **FA-119**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Der gesamte öffentliche Sanierungscheck einschließlich des gesonderten Prozesses zur freiwilligen Gebäudedatenspende muss fachlich über genau eine Matomo-Site ausgewertet werden. Die eigentlichen Daten der Gebäudedatenspende sind davon ausgenommen.
 
 <a id="fa-120"></a>
 
 **FA-120**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Die Webanalyse muss begonnene und abgeschlossene Sanierungschecks, PDF-Exporte, Beratungskontakte, begonnene und abgeschlossene Datenspenden sowie Abbruchabschnitte und Abbruchquote auswerten können. Definitionen und Nenner der Kennzahlen müssen dem [Matomo-Trackingkonzept](../system/06-matomo-trackingkonzept.md#kennzahlen) entsprechen.
 
 <a id="fa-121"></a>
 
 **FA-121**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Gebäudetypen und ausgewählte Sanierungsmaßnahmen dürfen für aggregierte Auswertungen als fachlich freigegebene Kategorieschlüssel erfasst werden. Wertebereiche und Bezeichnungen müssen versioniert und auf die im Sanierungstool tatsächlich auswählbaren Optionen beschränkt sein.
 
 <a id="fa-122"></a>
 
 **FA-122**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Matomo darf keine Gebäude-ID, Adresse, Koordinaten, Einreichungs- oder Löschkennung, Kontaktdaten, Freitexte, exakten Verbrauchs- oder Kostenwerte und keine vollständigen Eingabe-, Ergebnis- oder Einreichungsdaten erhalten. Die fachliche Gebäudedatenspende muss einen von Matomo getrennten Datenstrom verwenden.
 
 <a id="fa-123"></a>
 
 **FA-123**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Tracking darf nur für ausdrücklich eingewilligte Sitzungen erfolgen. Ohne freigegebene dauerhafte Besucherkennung müssen Berichte und Kennzahlen Sitzungen beziehungsweise Besuche ausweisen und dürfen diese nicht als eindeutig identifizierte Personen bezeichnen.
 
 <a id="fa-124"></a>
 
 **FA-124**  
-*Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
+*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
 Dashboards müssen die verbindlichen KPI-Definitionen verwenden und aggregierte Ergebnisse bereitstellen. Für die Auswertung von Maßnahmenkombinationen ist vor Produktivbetrieb eine fachlich und datenschutzrechtlich freigegebene Mindestfallzahl festzulegen.
 
 ---

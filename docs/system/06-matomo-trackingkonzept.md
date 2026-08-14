@@ -1,7 +1,7 @@
 # Matomo-Trackingkonzept und Eventkatalog
 
-> **Status:** Verbindlicher fachlicher Zielstand, Stand 24. Juli 2026  
-> **Umsetzungsstand:** Matomo und Consent-Management sind im Public-Frontend noch nicht produktiv aktiviert.  
+> **Status:** Fachlicher Zielstand, Stand 14. August 2026  
+> **Umsetzungsstand:** Matomo und Consent-Management sind im Public-Frontend noch nicht produktiv aktiviert und aktuell niedrig priorisiert. Entgegen der früheren Annahme steht keine zugängliche Matomo-Instanz des Auftraggebers bereit. Eine eigene Instanz sowie Betrieb und Zuständigkeiten müssen abgestimmt werden; die Umsetzung in Sprint 18 oder 19 ist nicht verbindlich zugesagt.  
 > **Geltungsbereich:** Öffentlicher Teil des Sanierungstools des Digitalen Energie Zwillings (DEZ)
 
 ## Inhaltsverzeichnis
@@ -54,7 +54,7 @@ Das Konzept einschließlich der aggregierten Erfassung von Gebäudetypen und San
 
 | Datenstrom | Zweck | Inhalt | Übertragungsweg |
 | --- | --- | --- | --- |
-| Matomo-Webanalyse | Nutzungs-, Funnel- und Conversion-Auswertung | Freigegebene Ereignisse, semantische Schritt-ID, fachlich freigegebene Kategorieschlüssel und zufälliger Sitzungsbezug | Zentraler Tracking-Adapter des Public-Frontends zur städtisch betriebenen Matomo-Instanz |
+| Matomo-Webanalyse | Nutzungs-, Funnel- und Conversion-Auswertung | Freigegebene Ereignisse, semantische Schritt-ID, fachlich freigegebene Kategorieschlüssel und zufälliger Sitzungsbezug | Zentraler Tracking-Adapter des Public-Frontends zur noch bereitzustellenden und betrieblich abzustimmenden eigenen Matomo-Instanz |
 | Freiwillige Gebäudedatenspende | Fachliche Nutzung ausdrücklich bereitgestellter Gebäude- und Berechnungsdaten | Separat eingewilligte Einreichungsdaten gemäß Datenschutzhinweisen und Backend-Schema | Public-Frontend über die öffentliche API zum Backend |
 
 `donation_started` und `donation_completed` bilden in Matomo nur Beginn und Abschluss des Einreichungsprozesses ab. Sie enthalten weder die Einreichung selbst noch eine Einreichungs-, Gebäude- oder Löschkennung.

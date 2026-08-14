@@ -24,8 +24,8 @@ angebunden werden.
 - Der Web-Zugang erfolgt über APISIX als Web/API-Gateway.
 - Public Frontend und Admin Frontend werden aus getrennten Repositories gebaut und als separate nginx-Container ausgeliefert; veröffentlichte Konfigurationsdaten werden davon getrennt bereitgestellt.
 - Container sind für den Kubernetes-Regelbetrieb ausgelegt: Health-Checks steuern den automatischen Wiederanlauf, Logs gehen auf `stdout`/`stderr`. Das Backend stellt dafür `GET /health` bereit.
-- 3D Tiles liegen hinter einem durch die Deployment-Plattform bereitgestellten externen Tiles-Dienst. Der Public Client ruft `/api/public/tiles/*` auf; das Backend leitet per Redirect auf die über `TILES_URL` konfigurierte Ziel-URL weiter.
-- Stellio läuft als CIVITAS/CORE-Kontextdienst und nimmt NGSI-LD-Entities aus der Offline-Pipeline entgegen.
+- 3D Tiles liegen hinter einem durch die Deployment-Plattform bereitgestellten externen Tiles-Dienst. Der Public Client und APISIX verwenden identisch `/api/public/tiles/*`; das Backend leitet per Redirect auf die über `TILES_URL` konfigurierte Ziel-URL weiter. Ein im Frontend fest codierter S3-Endpunkt ist ausschließlich Entwicklungsstand und muss vor jedem Kundendeployment ersetzt werden.
+- Der NGSI-LD-Publish-Pfad ist vorbereitet. Stellio ist als CIVITAS/CORE-Kontextdienst vorgesehen; die konkrete Schnittstelle und Anbindung in der Kundeninstanz sind noch nicht geklärt.
 - Piveau wird als CIVITAS/CORE-Datenkatalog für die DCAT-AP.de-Metadaten der
   externen Basis- und Fachdaten aktiviert. Die Binärdaten verbleiben an der Quelle
   beziehungsweise im S3-kompatiblen Datendienst.
@@ -40,7 +40,7 @@ angebunden werden.
 
 - Airflow-orchestrierte Pipeline-Container (Konvertierung/Anreicherung) greifen direkt auf den Datendienst zu.
 - Der Zugriff erfolgt technisch über Service-Credentials aus dem Secrets-Management und mit minimalen Rechten pro Prefix/Bucket.
-- Der NGSI-LD-Exporter der Pipeline veröffentlicht intern gegen Stellio; Zugriff und Credentials werden ebenfalls über CIVITAS/CORE-Betriebsmechanismen verwaltet.
+- Der vorbereitete NGSI-LD-Exporter soll nach Klärung der Kundenschnittstelle intern gegen Stellio veröffentlichen; Zugriff und Credentials werden dann über CIVITAS/CORE-Betriebsmechanismen verwaltet.
 - Der externe Tiles-Dienst greift auf veröffentlichte Artefakte zu und wird nicht durch das `digital-energy-twin_addon` ausgerollt.
 - Jeder Pipeline-Lauf verarbeitet einen aktualisierten LoD2-GML-Datensatz vollständig. Zusatzquellen werden konditional verarbeitet; ein `update_scope`, isolierte Teilupdates und die Wiederverwendung von Attributen aus früheren angereicherten Ergebnisdatensätzen sind nicht vorgesehen.
 

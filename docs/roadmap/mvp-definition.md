@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-08-13** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-08-14** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -32,7 +32,7 @@ Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Bis einschließlich 
 3. **Release 3 (13.04.2026 bis 10.05.2026):** Bürger-Abschlussfunktionen, Rechenkern, Sanierungslogik, Export, Verwaltungsbereich und Testvorbereitung
 4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
 5. **Release 5 (Sprint 13 und Sprint 14, Abschluss am 06.07.2026):** Aktualisierung und Bugfixing der Anreicherung, des Bürger-Frontends und der Systempflege; Schwerpunkt von Sprint 14 war zusätzlich die Durchführung des Usertestings
-6. **Release 6 (Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026):** Fortführung der Entwicklung, Stabilisierung und Vorbereitung des abschließenden Entwicklungsrelease; die Matomo-Umsetzung kann frühestens in Sprint 15 beginnen
+6. **Release 6 (Sprint 15 und Sprint 16, 07.07.2026 bis 03.08.2026):** Fortführung der Entwicklung, Stabilisierung und Vorbereitung des abschließenden Entwicklungsrelease; Matomo wurde wegen fehlender Kundeninstanz und niedriger Priorität nicht umgesetzt
 7. **Release 7 (Sprint 17, voraussichtlich 04.08.2026 bis 17.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung sowie Bearbeitung der daraus abgeleiteten Arbeitspakete, Abschluss der Entwicklungsphase, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg
 8. **Inbetriebnahme-Sprints 18 und 19 (voraussichtlich 18.08.2026 bis 14.09.2026):** Produktionsnahe Konfiguration, Inbetriebnahme, Abnahmeunterstützung, Behebung kritischer Fehler und Übergabe
 
@@ -69,6 +69,11 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-08-14 | Matomo | Es wurde von einer vorhandenen, zugänglichen Kundeninstanz und einer möglichen Umsetzung ab Sprint 15 ausgegangen | Eine eigene Instanz muss aufgesetzt und betrieblich abgestimmt werden; Matomo ist niedrig priorisiert und für Sprint 18/19 nicht verbindlich eingeplant |
+| 2026-08-14 | White-Labeling und Open Source | Anforderungen waren früheren Releases zugeordnet | Umsetzung in Sprint 18 vorgesehen; TA-90 ist auf `LGPL-3.0-or-later` festgelegt |
+| 2026-08-14 | Datenpipeline | Geothermieintegration lief; Solar und produktive NGSI-LD-Übergabe waren teilweise als verfügbar beschrieben | Geothermie wurde nach Datenfreigabe in Sprint 17 technisch integriert; Solardetailgrad und Sprintzuordnung sind offen; NGSI-LD ist vorbereitet, die Kundenschnittstelle aber ungeklärt |
+| 2026-08-14 | Feedback, Tiles, API-Clients und Rechenkernabnahme | Zielsysteme, Zugriffspfad, Clientkonventionen und Abnahmetermin waren nicht einheitlich dokumentiert | Feedback-Zielsystem und API-Client-Konventionen bleiben in Klärung; Tiles laufen produktiv über `/api/public/tiles/*`; Rechenkernabnahme ist für Sprint 19 terminiert |
+| 2026-08-14 | Datenspende, Export und Löschung | Einreichung wurde teilweise als anonym bezeichnet; PDF und JSON waren inhaltlich nicht klar abgegrenzt; zusätzliches Lösch-Abgleichsmerkmal war offen | Notwendige Gebäudeadresse und Koordinaten werden transparent benannt; JSON ist bewusst auf den Einreichungsumfang reduziert; Löschung erfolgt über zufälligen PDF-Link und Bestätigungsdialog ohne Adressabgleich |
 | 2026-08-13 | Release-Zuordnung der Usertesting-Arbeitspakete | Auswertung, Bewertung und Bearbeitung der Arbeitspakete waren Release 6 beziehungsweise teilweise nur Sprint 17 zugeordnet | Auswertung, Bewertung und Bearbeitung der Arbeitspakete werden vollständig Release 7 zugeordnet; Release 7 besteht aus Sprint 17 |
 | 2026-08-13 | AP-20 – PDF-Bericht und Web/PDF-Konsistenz | PDF-Inhalte, Links, Einheiten, Layouttests und Web-/PDF-Abgleich waren gemeinsam mit 1 Tag Aufwand geführt | Der abgestimmte PDF-Umfang ist umgesetzt; offen bleibt ausschließlich die finale Synchronisation der Inhalte zwischen Web und PDF mit 0,5 Tagen Restaufwand |
 | 2026-08-13 | AP-19 – Datenspende und Einwilligung | Transparenz des Payloads, Trennung vom Bericht, technische Abhängigkeiten und Anonymisierungsbehauptung waren gemeinsam mit 1 Tag Aufwand geführt | Die Datenspende ist als separater Schritt mit technischer Abhängigkeit zum PDF-Download gekennzeichnet; die dargestellte JSON-Struktur entspricht der tatsächlichen Einreichung. Für Dokumentation und Korrektur der Anonymisierungsbehauptung verbleiben 0,5 Tage |
@@ -153,6 +158,8 @@ Ergebnis:
 
 Zugeordnete Anforderungen:
 
+> **Aktuelle Abweichung von der historischen Release-Zuordnung:** Pipeline-Sollumfang (TA-17/TA-53), Open-Source-Veröffentlichung (TA-87 bis TA-94) und API-Client-Generierung (TA-108 bis TA-115) sind nicht als in Release 1 abgeschlossen zu verstehen. Maßgeblich sind die aktualisierten Zuordnungen und Statushinweise in den Anforderungsdokumenten.
+
 - Fachliche Anforderungen: [FA-70](../requirements/02-functional-requirements.md#fa-70)
 - Technische Anforderungen: [TA-01](../requirements/03-technical-requirements.md#ta-01), [TA-02](../requirements/03-technical-requirements.md#ta-02), [TA-03](../requirements/03-technical-requirements.md#ta-03), [TA-04](../requirements/03-technical-requirements.md#ta-04), [TA-05](../requirements/03-technical-requirements.md#ta-05), [TA-06](../requirements/03-technical-requirements.md#ta-06), [TA-07](../requirements/03-technical-requirements.md#ta-07), [TA-08](../requirements/03-technical-requirements.md#ta-08), [TA-09](../requirements/03-technical-requirements.md#ta-09), [TA-10](../requirements/03-technical-requirements.md#ta-10), [TA-11](../requirements/03-technical-requirements.md#ta-11), [TA-14](../requirements/03-technical-requirements.md#ta-14), [TA-16](../requirements/03-technical-requirements.md#ta-16), [TA-17](../requirements/03-technical-requirements.md#ta-17), [TA-18](../requirements/03-technical-requirements.md#ta-18), [TA-19](../requirements/03-technical-requirements.md#ta-19), [TA-20](../requirements/03-technical-requirements.md#ta-20), [TA-21](../requirements/03-technical-requirements.md#ta-21), [TA-22](../requirements/03-technical-requirements.md#ta-22), [TA-23](../requirements/03-technical-requirements.md#ta-23), [TA-24](../requirements/03-technical-requirements.md#ta-24), [TA-25](../requirements/03-technical-requirements.md#ta-25), [TA-26](../requirements/03-technical-requirements.md#ta-26), [TA-27](../requirements/03-technical-requirements.md#ta-27), [TA-28](../requirements/03-technical-requirements.md#ta-28), [TA-29](../requirements/03-technical-requirements.md#ta-29), [TA-30](../requirements/03-technical-requirements.md#ta-30), [TA-31](../requirements/03-technical-requirements.md#ta-31), [TA-35](../requirements/03-technical-requirements.md#ta-35), [TA-37](../requirements/03-technical-requirements.md#ta-37), [TA-38](../requirements/03-technical-requirements.md#ta-38), [TA-40](../requirements/03-technical-requirements.md#ta-40), [TA-41](../requirements/03-technical-requirements.md#ta-41), [TA-42](../requirements/03-technical-requirements.md#ta-42), [TA-45](../requirements/03-technical-requirements.md#ta-45), [TA-52](../requirements/03-technical-requirements.md#ta-52), [TA-53](../requirements/03-technical-requirements.md#ta-53), [TA-54](../requirements/03-technical-requirements.md#ta-54), [TA-55](../requirements/03-technical-requirements.md#ta-55), [TA-56](../requirements/03-technical-requirements.md#ta-56), [TA-57](../requirements/03-technical-requirements.md#ta-57), [TA-58](../requirements/03-technical-requirements.md#ta-58), [TA-59](../requirements/03-technical-requirements.md#ta-59), [TA-60](../requirements/03-technical-requirements.md#ta-60), [TA-61](../requirements/03-technical-requirements.md#ta-61), [TA-63](../requirements/03-technical-requirements.md#ta-63), [TA-64](../requirements/03-technical-requirements.md#ta-64), [TA-72](../requirements/03-technical-requirements.md#ta-72), [TA-73](../requirements/03-technical-requirements.md#ta-73), [TA-87](../requirements/03-technical-requirements.md#ta-87), [TA-88](../requirements/03-technical-requirements.md#ta-88), [TA-89](../requirements/03-technical-requirements.md#ta-89), [TA-90](../requirements/03-technical-requirements.md#ta-90), [TA-91](../requirements/03-technical-requirements.md#ta-91), [TA-92](../requirements/03-technical-requirements.md#ta-92), [TA-93](../requirements/03-technical-requirements.md#ta-93), [TA-94](../requirements/03-technical-requirements.md#ta-94), [TA-95](../requirements/03-technical-requirements.md#ta-95), [TA-96](../requirements/03-technical-requirements.md#ta-96), [TA-102](../requirements/03-technical-requirements.md#ta-102), [TA-103](../requirements/03-technical-requirements.md#ta-103), [TA-104](../requirements/03-technical-requirements.md#ta-104), [TA-105](../requirements/03-technical-requirements.md#ta-105), [TA-108](../requirements/03-technical-requirements.md#ta-108), [TA-109](../requirements/03-technical-requirements.md#ta-109), [TA-110](../requirements/03-technical-requirements.md#ta-110), [TA-111](../requirements/03-technical-requirements.md#ta-111), [TA-112](../requirements/03-technical-requirements.md#ta-112), [TA-113](../requirements/03-technical-requirements.md#ta-113), [TA-114](../requirements/03-technical-requirements.md#ta-114), [TA-115](../requirements/03-technical-requirements.md#ta-115)
 ---
@@ -187,6 +194,8 @@ Ergebnis:
 
 
 Zugeordnete Anforderungen:
+
+> **Aktuelle Abweichung von der historischen Release-Zuordnung:** FA-84 und FA-95 sind wegen fehlender BKI-Daten keinem Sprint zugeordnet. White-Labeling (FA-106 bis FA-114, TA-121 bis TA-128) ist für Sprint 18 vorgesehen. Matomo (FA-115 bis FA-117, TA-129 bis TA-132) ist niedrig priorisiert und aktuell keinem verbindlichen Sprint zugeordnet.
 
 - Fachliche Anforderungen: [FA-01](../requirements/02-functional-requirements.md#fa-01), [FA-02](../requirements/02-functional-requirements.md#fa-02), [FA-03](../requirements/02-functional-requirements.md#fa-03), [FA-07](../requirements/02-functional-requirements.md#fa-07), [FA-08](../requirements/02-functional-requirements.md#fa-08), [FA-09](../requirements/02-functional-requirements.md#fa-09), [FA-10](../requirements/02-functional-requirements.md#fa-10), [FA-11](../requirements/02-functional-requirements.md#fa-11), [FA-12](../requirements/02-functional-requirements.md#fa-12), [FA-13](../requirements/02-functional-requirements.md#fa-13), [FA-14](../requirements/02-functional-requirements.md#fa-14), [FA-15](../requirements/02-functional-requirements.md#fa-15), [FA-16](../requirements/02-functional-requirements.md#fa-16), [FA-17](../requirements/02-functional-requirements.md#fa-17), [FA-18](../requirements/02-functional-requirements.md#fa-18), [FA-19](../requirements/02-functional-requirements.md#fa-19), [FA-20](../requirements/02-functional-requirements.md#fa-20), [FA-21](../requirements/02-functional-requirements.md#fa-21), [FA-22](../requirements/02-functional-requirements.md#fa-22), [FA-23](../requirements/02-functional-requirements.md#fa-23), [FA-24](../requirements/02-functional-requirements.md#fa-24), [FA-25](../requirements/02-functional-requirements.md#fa-25), [FA-26](../requirements/02-functional-requirements.md#fa-26), [FA-27](../requirements/02-functional-requirements.md#fa-27), [FA-28](../requirements/02-functional-requirements.md#fa-28), [FA-29](../requirements/02-functional-requirements.md#fa-29), [FA-30](../requirements/02-functional-requirements.md#fa-30), [FA-39](../requirements/02-functional-requirements.md#fa-39), [FA-40](../requirements/02-functional-requirements.md#fa-40), [FA-41](../requirements/02-functional-requirements.md#fa-41), [FA-65](../requirements/02-functional-requirements.md#fa-65), [FA-66](../requirements/02-functional-requirements.md#fa-66), [FA-67](../requirements/02-functional-requirements.md#fa-67), [FA-73](../requirements/02-functional-requirements.md#fa-73), [FA-78](../requirements/02-functional-requirements.md#fa-78), [FA-79](../requirements/02-functional-requirements.md#fa-79), [FA-80](../requirements/02-functional-requirements.md#fa-80), [FA-81](../requirements/02-functional-requirements.md#fa-81), [FA-83](../requirements/02-functional-requirements.md#fa-83), [FA-84](../requirements/02-functional-requirements.md#fa-84), [FA-91](../requirements/02-functional-requirements.md#fa-91), [FA-92](../requirements/02-functional-requirements.md#fa-92), [FA-93](../requirements/02-functional-requirements.md#fa-93), [FA-94](../requirements/02-functional-requirements.md#fa-94), [FA-95](../requirements/02-functional-requirements.md#fa-95), [FA-96](../requirements/02-functional-requirements.md#fa-96), [FA-97](../requirements/02-functional-requirements.md#fa-97), [FA-98](../requirements/02-functional-requirements.md#fa-98), [FA-99](../requirements/02-functional-requirements.md#fa-99), [FA-105](../requirements/02-functional-requirements.md#fa-105), [FA-106](../requirements/02-functional-requirements.md#fa-106), [FA-107](../requirements/02-functional-requirements.md#fa-107), [FA-108](../requirements/02-functional-requirements.md#fa-108), [FA-109](../requirements/02-functional-requirements.md#fa-109), [FA-110](../requirements/02-functional-requirements.md#fa-110), [FA-111](../requirements/02-functional-requirements.md#fa-111), [FA-112](../requirements/02-functional-requirements.md#fa-112), [FA-113](../requirements/02-functional-requirements.md#fa-113), [FA-114](../requirements/02-functional-requirements.md#fa-114), [FA-115](../requirements/02-functional-requirements.md#fa-115), [FA-116](../requirements/02-functional-requirements.md#fa-116), [FA-117](../requirements/02-functional-requirements.md#fa-117)
 - Technische Anforderungen: [TA-65](../requirements/03-technical-requirements.md#ta-65), [TA-66](../requirements/03-technical-requirements.md#ta-66), [TA-67](../requirements/03-technical-requirements.md#ta-67), [TA-68](../requirements/03-technical-requirements.md#ta-68), [TA-69](../requirements/03-technical-requirements.md#ta-69), [TA-70](../requirements/03-technical-requirements.md#ta-70), [TA-74](../requirements/03-technical-requirements.md#ta-74), [TA-75](../requirements/03-technical-requirements.md#ta-75), [TA-84](../requirements/03-technical-requirements.md#ta-84), [TA-86](../requirements/03-technical-requirements.md#ta-86), [TA-106](../requirements/03-technical-requirements.md#ta-106), [TA-107](../requirements/03-technical-requirements.md#ta-107), [TA-121](../requirements/03-technical-requirements.md#ta-121), [TA-122](../requirements/03-technical-requirements.md#ta-122), [TA-123](../requirements/03-technical-requirements.md#ta-123), [TA-124](../requirements/03-technical-requirements.md#ta-124), [TA-125](../requirements/03-technical-requirements.md#ta-125), [TA-126](../requirements/03-technical-requirements.md#ta-126), [TA-127](../requirements/03-technical-requirements.md#ta-127), [TA-128](../requirements/03-technical-requirements.md#ta-128), [TA-129](../requirements/03-technical-requirements.md#ta-129), [TA-130](../requirements/03-technical-requirements.md#ta-130), [TA-131](../requirements/03-technical-requirements.md#ta-131), [TA-132](../requirements/03-technical-requirements.md#ta-132)
@@ -249,7 +258,7 @@ Bearbeitet / umgesetzt:
 - Förderprogramm-Anbindung über Nanostores vorbereitet und mit Backend, Datenbank, Admin-Frontend und Bürger-Frontend angebunden.
 - CIVITAS/CORE-, Staging-, RustFS-/S3- und Deployment-Themen bearbeitet.
 - Fragebögen, Testing mit Expert:innen und Bürger:innen sowie Auswertung erster Rückmeldungen vorbereitet und begleitet.
-- Matomo als verbindliche Analytics-Lösung festgelegt; Event- und KPI-Umfang einschließlich aggregierter Gebäudetypen und Sanierungsmaßnahmen mit den zuständigen ISB-/DSB-Kollegen ohne geäußerte Bedenken besprochen. Consent-Management, technische Integration und produktive Betriebsparameter sind noch umzusetzen beziehungsweise freizugeben; die Umsetzung ist frühestens ab Sprint 15 vorgesehen.
+- Matomo als fachliches Ziel für Analytics festgelegt; Event- und KPI-Umfang einschließlich aggregierter Gebäudetypen und Sanierungsmaßnahmen mit den zuständigen ISB-/DSB-Kollegen ohne geäußerte Bedenken besprochen. Eine ursprünglich angenommene Kundeninstanz steht nicht zur Verfügung. Eine eigene Instanz, Consent-Management und Betriebsparameter müssen abgestimmt werden; die Umsetzung ist niedrig priorisiert und für Sprint 18/19 nicht verbindlich geplant.
 
 Hinweis:
 
@@ -297,7 +306,7 @@ Ergebnis:
 
 ## Release 6 - Fortführung der Entwicklung und Stabilisierung
 
-**Planungszeitraum:** Sprint 15 und Sprint 16, voraussichtlich 07.07.2026 bis 03.08.2026
+**Planungszeitraum:** Sprint 15 und Sprint 16, 07.07.2026 bis 03.08.2026
 
 Ziel: Den Entwicklungsstand fortführen und stabilisieren sowie die technischen und organisatorischen Grundlagen für den abschließenden Entwicklungsrelease schaffen.
 
@@ -305,7 +314,7 @@ Geplanter Umfang:
 
 - Fortführung der Entwicklung und systemübergreifenden Stabilisierung von Webanwendung, Berechnungskern, Backend, Administration und PDF-Bericht.
 - Regressionstests und Konsistenzprüfungen der bestehenden Funktionen und Datenflüsse.
-- Technische Matomo-Umsetzung frühestens ab Sprint 15 und nur auf Grundlage des freigegebenen Trackingkonzepts, Consent-Managements und der noch festzulegenden Betriebsparameter.
+- Matomo bleibt fachliches Ziel, wurde aber nicht umgesetzt: Eine eigene Instanz, Consent-Management und Betriebsparameter müssen erst abgestimmt werden; wegen niedriger Priorität besteht keine verbindliche Zuordnung zu Sprint 18 oder 19.
 - Vorbereitung der BKI-basierten Kostenumsetzung ausschließlich soweit ohne Datenzugang möglich; eine belastbare Implementierung oder Aufwandsschätzung setzt Einsicht in die BKI-Daten und geklärte Nutzungsbedingungen voraus.
 
 Ergebnis:
@@ -318,7 +327,7 @@ Ergebnis:
 
 ## Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Entwicklungsabschluss
 
-**Planungszeitraum:** Sprint 17, voraussichtlich 04.08.2026 bis 17.08.2026
+**Planungszeitraum:** Sprint 17, 04.08.2026 bis 17.08.2026
 
 Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln, die priorisierten Punkte bearbeiten und die Entwicklungsphase abschließen.
 
@@ -366,11 +375,11 @@ Statussymbole analog zum Compliance-Runbook: **✅** erledigt, **⚠️** teilwe
 | AP-13 – Investitionskosten, Amortisation, Budget und Maßnahmenbündel | mittel | ❌ Extern blockiert | Keine Umsetzung ohne freigegebene Kostendaten | BKI-Freigabe, Datenzugang und Nutzungsbedingungen klären; anschließend Modell und Umfang bestimmen | nicht einschätzbar |
 | AP-14 – Fernwärme und kommunale Wärmeplanung | mittel | ❌ Extern blockiert | Fernwärme als Energieträger und Maßnahme vorhanden | Rückmeldung von Stadt Regensburg/REWAG zu Texten, Verfügbarkeit, Wärmeplanung und Daten-/Gebietsregeln | nicht einschätzbar |
 | AP-15 – Gesetzliche und lokale Hinweise | niedrig | ❌ Teilweise umgesetzt; extern blockiert | Gebietshinweise | Freigegebene Rechtstexte oder fachlich aufbereitetes Regelwerk bereitstellen; darauf aufbauend gesetzliche und lokale Hinweise ergänzen | nicht einschätzbar |
-| AP-16 – PV, Speicher, E-Mobilität und Geothermie | niedrig | ⚠️ Umfang in Klärung | Separate Geothermie-Datenintegration läuft; keine vollständige Umsetzung des Arbeitspakets | Detailgrad, einbezogene Teilfunktionen und Systemgrenzen festlegen | nicht einschätzbar; bisher grob etwa 10 Tage |
+| AP-16 – PV, Speicher, E-Mobilität und Geothermie | niedrig | ⚠️ Teilweise umgesetzt; Umfang in Klärung | Geothermie-Datenintegration nach Freigabe in Sprint 17 technisch umgesetzt; keine vollständige Umsetzung des Arbeitspakets | Detailgrad der Solar-, PV-, Speicher- und E-Mobilitätsfunktionen sowie Systemgrenzen festlegen; Umsetzung in Sprint 18/19 fraglich | nicht einschätzbar; bisher grob etwa 10 Tage |
 | AP-17 – Förderprogramme | mittel | ✅ Erledigt | Reale Förderdaten, Link-/Detaildarstellung, abgestimmte Hinweise, Klassifikationsbewertung und kompakte Web-/PDF-Darstellung | Kein Umsetzungsrest; weitergehende Förderautomatisierungen bleiben zurückgestellt | 0 Tage |
 | AP-18 – Ergebnisabschluss, Bericht und Energieberatung | hoch | ⚠️ Weitgehend umgesetzt | Gemeinsamer Abschlussablauf für Bericht, optionale Dateneinreichung und Energieberatung einschließlich Gewichtung und Erläuterungen | Maßnahmenzusammenfassung auf der Ergebnisseite über AP-12 umsetzen | 0 Tage zusätzlich; 0,5 Tage einmalig in AP-12 |
-| AP-19 – Datenspende und Einwilligung | mittel | ⚠️ Weitgehend umgesetzt | Separater Schritt mit gekennzeichneter technischer Abhängigkeit zum PDF-Download; dargestellte JSON-Struktur entspricht der tatsächlichen Einreichung | Dokumentation und Einwilligungs-/Datenschutztext anpassen; Anonymisierungsbehauptung entfernen beziehungsweise korrigieren | 0,5 Tage |
-| AP-20 – PDF-Bericht und Web/PDF-Konsistenz | mittel | ⚠️ Weitgehend umgesetzt | PDF-Inhalte, Kennzahlen, Einheiten, Links, Förderhinweise, Layout und Tests | Inhalte zwischen Webanwendung und PDF-Bericht final synchronisieren und prüfen | 0,5 Tage |
+| AP-19 – Datenspende und Einwilligung | mittel | ✅ Erledigt | Technisch notwendiger Payload einschließlich vollständiger Adresse und Koordinaten transparent benannt; Anonymisierungsbehauptung entfernt; JSON auf den Einreichungsumfang reduziert | Kein Umsetzungsrest | 0 Tage |
+| AP-20 – PDF-Bericht und Web/PDF-Konsistenz | mittel | ⚠️ Weitgehend umgesetzt | PDF-Inhalte, Kennzahlen, Einheiten, Links, Förderhinweise, Layout und Tests; bürgerbezogene Zusatzinformationen bleiben bewusst im PDF, JSON enthält nur den Einreichungsumfang | Inhalte zwischen Webanwendung und PDF-Bericht final synchronisieren und prüfen | 0,5 Tage |
 
 Ergebnis:
 
@@ -400,7 +409,7 @@ Hinweis:
 - Release 7 besteht als abschließende Ausnahme aus dem einzelnen Sprint 17 und ist der letzte Entwicklungsrelease vor der Inbetriebnahme.
 - Ein Prioritätslabel allein begründet keine Aufnahme in Sprint 17. Maßgeblich sind zusätzlich der geklärte Bearbeitungsstand, ein ausreichend bestimmter Restumfang, erfüllte Voraussetzungen und verfügbare Kapazität.
 - Nicht für Sprint 17 bestätigte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend aufgenommen.
-- Quartiersanalyse sowie Solar/PV bleiben von belastbaren Datensätzen und fachlicher Freigabe abhängig; Solar/PV ist über AP-16 derzeit niedrig priorisiert. Die bereits laufende Integration der vom Auftraggeber bereitgestellten Geothermiedaten wird davon getrennt betrachtet; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären.
+- Quartiersanalyse sowie Solar/PV bleiben von fachlicher Klärung und Freigabe abhängig; Detailgrad und Umsetzung in Sprint 18/19 sind offen. Die Geothermieintegration wurde nach der Datenfreigabe in Sprint 17 technisch umgesetzt; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Der NGSI-LD-Pfad ist vorbereitet, die konkrete Schnittstelle der Kundeninstanz jedoch nicht geklärt.
 
 Ergebnis:
 
@@ -412,13 +421,17 @@ Ergebnis:
 
 ## Inbetriebnahme - Sprint 18 und Sprint 19
 
-**Planungszeitraum:** voraussichtlich 18.08.2026 bis 14.09.2026
+**Planungszeitraum:** 18.08.2026 bis 14.09.2026
 
 Ziel: Den abgestimmten Entwicklungsstand produktionsnah konfigurieren, in Betrieb nehmen und in einen nutzbaren Betriebszustand überführen.
 
 Geplanter Umfang:
 
 - Finales Deployment und produktionsnahe Konfiguration.
+- White-Labeling und Open-Source-/Open-Code-Veröffentlichung sind für Sprint 18 vorgesehen (FA-106 bis FA-114, TA-87 bis TA-94 und TA-121 bis TA-128).
+- Der im Entwicklungsstand fest codierte S3-Tile-Endpunkt muss vor dem Deployment durch den einheitlichen APISIX-Zugriffspfad `/api/public/tiles/*` ersetzt beziehungsweise konfiguriert werden.
+- Zielsystem und Übertragungsweg der Feedback-Funktion (FA-71) sowie die produktive NGSI-LD-Schnittstelle zur Kundeninstanz sind zu klären.
+- Die fachliche Abnahme des Rechenkerns mit dem Energieberater ist für Sprint 19 terminiert (FA-118/TA-142).
 - Stabilisierung der Betriebsumgebung und relevanter Schnittstellen.
 - Prüfung der Kernprozesse für Bürger-Frontend, Verwaltungsbereich, Datenpipeline und Export-/Datenübermittlungswege.
 - Abnahmeunterstützung und Behebung kritischer Fehler aus Inbetriebnahmeprüfung und Regressionstests.
@@ -430,7 +443,8 @@ Planungsannahmen:
 
 - Die Entwicklung läuft ohne Sommerpause bis einschließlich Sprint 17 weiter.
 - Sprint 18 und Sprint 19 sind vollständig für Inbetriebnahme, Abnahmeunterstützung und kritische Korrekturen vorgesehen.
-- Neue fachliche Erweiterungen werden während der Inbetriebnahme nur aufgenommen, wenn sie für einen sicheren oder funktionsfähigen Betrieb zwingend erforderlich sind.
+- Über die für Sprint 18 bereits vorgesehenen White-Labeling- und Open-Source-Arbeiten hinaus werden neue fachliche Erweiterungen während der Inbetriebnahme nur aufgenommen, wenn sie für einen sicheren oder funktionsfähigen Betrieb zwingend erforderlich sind.
+- Matomo ist niedrig priorisiert und wegen der noch aufzubauenden eigenen Instanz keinem verbindlichen Sprint 18/19 zugeordnet. Auch die Solarumsetzung ist wegen des offenen Detailgrads nicht belastbar eingeplant.
 
 Ergebnis:
 

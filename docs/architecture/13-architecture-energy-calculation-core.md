@@ -166,7 +166,8 @@ Die [Testdokumentation der energetischen Berechnung](18-energy-calculation-test-
 beschreibt die Gegenprüfung anhand zweier Testgebäudepaare, den Vergleich mit professionellen
 Referenzwerten sowie die automatisierten Tests der Vorrangregeln und Berechnungspfade. Die Tests
 sichern die implementierten Pfade und aktuelle absolute Ergebnisse gegen Regressionen ab. Die
-fachliche Bewertung der Modellabweichungen und geeigneter Toleranzen steht noch aus.
+fachliche Bewertung der Modellabweichungen und geeigneter Toleranzen steht noch aus. Die fachliche
+Abnahme des Rechenkerns ist für Sprint 19 mit dem Energieberater terminiert.
 
 ---
 
