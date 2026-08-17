@@ -3,6 +3,7 @@ import { Type } from "@sinclair/typebox";
 import { getSubmissionsService } from "../@internals/index.js";
 import type { AccessToken } from "../auth/auth.dto.js";
 import { authMiddleware } from "../auth/auth.middleware.js";
+import { requirePermission } from "../config/config.middleware.js";
 import { AppError } from "../errors/app-error.js";
 import {
   AssignInputDto,
@@ -67,6 +68,7 @@ const SubmissionIdParams = Type.Object({ submissionId: Type.String() });
 
 submissionsAdminController
   .addRoute("GET", "/")
+  .use(requirePermission("submissions:read"))
   .querystring(ListQueryDto)
   .output(ListOutputDto)
   .handler(async ({ services, querystring: query }) => {
@@ -92,6 +94,7 @@ submissionsAdminController
 
 submissionsAdminController
   .addRoute("GET", "/:submissionId")
+  .use(requirePermission("submissions:read"))
   .params(SubmissionIdParams)
   .output(GetByIdOutputDto)
   .handler(async ({ services, params }) => {

@@ -15,6 +15,7 @@ import auth_auth$controller from "../auth/auth.controller.js";
 import config_config$controller from "../config/config.controller.js";
 import submissionsAdmin_submissionsAdmin$controller from "../submissionsAdmin/submissionsAdmin.controller.js";
 import submissionsPublic_submissionsPublic$controller from "../submissionsPublic/submissionsPublic.controller.js";
+import terrain_terrain$controller from "../terrain/terrain.controller.js";
 import test_test$controller from "../test/test.controller.js";
 import tiles_tiles$controller from "../tiles/tiles.controller.js";
 
@@ -49,6 +50,7 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   controllerRegistry.register(config_config$controller);
   controllerRegistry.register(submissionsAdmin_submissionsAdmin$controller);
   controllerRegistry.register(submissionsPublic_submissionsPublic$controller);
+  controllerRegistry.register(terrain_terrain$controller);
   controllerRegistry.register(test_test$controller);
   controllerRegistry.register(tiles_tiles$controller);
 
