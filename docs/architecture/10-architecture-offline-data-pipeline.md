@@ -91,14 +91,14 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ## Betriebs- und Orchestrierungsmodell
 
-> **Umsetzungsstand:** Die Geothermie-Anreicherung wurde nach der erst spät möglichen Datenfreigabe in Sprint 17 implementiert; die zugehörigen Metadaten bleiben offen. Umfang und Detailgrad der Solarverarbeitung sind noch zu klären, sodass eine Umsetzung in Sprint 18 oder 19 derzeit nicht belastbar geplant ist. Der NGSI-LD-Pfad ist technisch vorbereitet, die konkrete Schnittstelle zur Kundeninstanz jedoch noch nicht geklärt. Aussagen zu Solar und produktiver Stellio-Übergabe in diesem Kapitel beschreiben daher das Zielbild.
+> **Umsetzungsstand:** Die Geothermie-Anreicherung wurde nach der erst spät möglichen Datenfreigabe in Sprint 17 implementiert; die zugehörigen Metadaten bleiben offen. Umfang und Detailgrad der Solarverarbeitung sind noch zu klären, sodass eine Umsetzung in Sprint 18 oder 19 derzeit nicht belastbar geplant ist. Der NGSI-LD-Pfad ist technisch vorbereitet, die konkrete Schnittstelle zur Kundeninstanz jedoch noch nicht geklärt. Aussagen zu Solar und produktiver Stellio-Übergabe in diesem Kapitel beschreiben daher das Zielbild. Laufbezogene Artefakte und Nachweise werden nicht in einem dedizierten S3-Job-Ordner veröffentlicht; der Job-Arbeitsbereich liegt lokal unter `${CITYJSON_WORK_DIR}/jobs/{job_id}`.
 
 - Die Offline-Datenpipeline (Wandlungspipeline) läuft als **separater Docker-Container**.
 - Die **Orchestrierung erfolgt in CIVITAS/CORE über Airflow** als **kombinierter DAG**.
-- Ein **externer Datendienst** (z.B. S3) dient als Quelle und Ziel für Rohdaten und erzeugte 3D Tiles.
-- **Stellio** dient innerhalb von CIVITAS/CORE als NGSI-LD Context Broker für den zusätzlichen Publish-Pfad.
+- Ein **externer Datendienst** (z.B. S3) dient als Quelle für Rohdaten und als Ziel für die vorgesehenen Ausgaben, insbesondere 3D Tiles und CityGML.
+- **Stellio** ist innerhalb von CIVITAS/CORE als Ziel für eine künftig abgestimmte NGSI-LD-Übergabe vorgesehen.
 - Die Verarbeitung erfolgt als Schrittkette mit optionalem Rechenkern:
-  **Download → ZIP-Extraktion → CityGML→CityJSON → Enrichment auf CityJSON → (Calculation Core) → paralleler Export nach 3D Tiles, CityGML und NGSI-LD → Upload/Publish**.
+  **Download → ZIP-Extraktion → CityGML→CityJSON → Enrichment auf CityJSON → (Calculation Core) → paralleler Export nach 3D Tiles, CityGML und NGSI-LD → Übertragung der vorgesehenen Zielausgaben**.
 - Nach dem Enrichment wird in drei Pfade verzweigt: **CityJSON→3D Tiles**, **CityJSON→CityGML** und **CityJSON→NGSI-LD→Stellio** (parallel).
 - Der Schritt **CityGML → CityJSON** wird als eigenständiges, CIVITAS/CORE-fähiges Add-on betrieben.
 - Teilschritte werden innerhalb desselben DAG-Runs orchestriert und **nicht** separat manuell gestartet.
@@ -113,24 +113,24 @@ Beispiele für Datenherkünfte und Referenzen:
 
 ### Interner Zugriff (innerhalb UDP/CIVITAS/CORE)
 
-- Die beteiligten Pipeline-Container (Extraktion, Konvertierung, Enrichment, Export) greifen direkt auf den S3-kompatiblen Datendienst zu (Download/Upload je `job_id`).
-- Der NGSI-LD-Exporter veröffentlicht die freigegebenen statischen Gebäudedaten über die interne Stellio-API in CIVITAS/CORE.
-- Der durch die Deployment-Plattform bereitgestellte externe Tiles-Dienst greift auf die veröffentlichten Artefakte zu; er ist kein Container dieses Add-ons.
-- Die Authentifizierung erfolgt mit technischen Service-Credentials aus dem Secrets-Management (keine statischen Credentials im Code oder in Container-Images).
-- Berechtigungen sind strikt auf Bucket/Prefix-Ebene zu begrenzen (Least Privilege), mindestens:
-  - Lesen: `jobs/{job_id}/input/`
-  - Schreiben: `jobs/{job_id}/cityjson/`, `jobs/{job_id}/cityjson_enriched/`, `jobs/{job_id}/tiles/`, `jobs/{job_id}/citygml/`, `jobs/{job_id}/ngsild/`, `jobs/{job_id}/logs/`, `jobs/{job_id}/manifest.json`
+- Airflow lädt die konfigurierten Eingaben aus dem S3-kompatiblen Datendienst in den lokalen Job-Arbeitsbereich `${CITYJSON_WORK_DIR}/jobs/{job_id}`.
+- Die beteiligten Pipeline-Container arbeiten über einen gemeinsamen Mount ausschließlich in diesem lokalen Job-Arbeitsbereich.
+- Nach erfolgreicher Verarbeitung werden nur die vorgesehenen Zielausgaben in die jeweils konfigurierten Output-Buckets übertragen. Die Objektpfade der Zielausgaben sind nicht an ein Präfix `jobs/{job_id}` gebunden.
+- Manifest, Zwischenstände, Laufzeit-Logs und Nachweise einer späteren NGSI-LD-Übergabe werden nicht zusätzlich in einem S3-Job-Ordner abgelegt oder veröffentlicht.
+- Die künftig abzustimmende NGSI-LD-Übergabe erfolgt direkt über die interne Stellio-API; dafür ist keine parallele Veröffentlichung eines Übergabenachweises im Datendienst vorgesehen.
+- Die Authentifizierung gegenüber Datendienst und Stellio erfolgt mit technischen Service-Credentials aus dem Secrets-Management (keine statischen Credentials im Code oder in Container-Images).
+- Berechtigungen sind nach dem Least-Privilege-Prinzip auf die konfigurierten Eingabe- und Ziel-Buckets beziehungsweise erforderlichen Objektpräfixe zu begrenzen.
 
 ### Externer Zugriff (außerhalb UDP/CIVITAS/CORE)
 
 - Direkter externer Zugriff auf den Datendienst ist nicht vorgesehen.
 - Der Public Client ruft 3D Tiles über `GET /api/public/tiles/*` auf. APISIX leitet die Anfrage an das Backend; das Backend antwortet mit einem Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL.
-- Externe Zugriffe sind auf veröffentlichte Read-Pfade zu begrenzen; Schreibzugriffe auf den Datendienst bleiben interne Betriebsfunktionen.
+- Externe Zugriffe sind auf die für die Auslieferung vorgesehenen Read-Pfade zu begrenzen; Schreibzugriffe auf den Datendienst bleiben interne Betriebsfunktionen.
 
 ### Keycloak-Bezug für Authentifizierung
 
 - Keycloak (OIDC) ist der Standard für Benutzer- und Client-Authentifizierung auf API-/Admin-Ebene. APISIX prüft JWT/OIDC vorgelagert und schützt die Routen; für administrative Backend-Endpunkte wird das weitergeleitete Access Token zusätzlich und unabhängig im Backend per RS256/JWKS validiert. Claims, Rollen und Berechtigungen werden dort erneut ausgewertet.
-- Für direkte S3-Protokollzugriffe der Pipeline-Container werden technische Datendienst-Credentials verwendet; OIDC-Tokens werden dort nicht direkt als S3-Schreibberechtigung genutzt.
+- Für die S3-Zugriffe der Airflow-Tasks werden technische Datendienst-Credentials verwendet; OIDC-Tokens werden dort nicht direkt als S3-Schreibberechtigung genutzt.
 - Falls der Datendienst OIDC-Föderation/STS unterstützt, kann Keycloak optional zur Ausgabe kurzlebiger Datendienst-Credentials eingebunden werden.
 
 ---
@@ -191,7 +191,7 @@ Beispiele für Datenherkünfte und Referenzen:
    - CityJSON → 3D Tiles
    - CityJSON → CityGML
    - CityJSON → NGSI-LD
-7. **Upload/Publish** der erzeugten Artefakte in den externen Datendienst und nach Stellio.
+7. **Übertragung** der vorgesehenen Zielausgaben in die konfigurierten Output-Buckets; eine spätere NGSI-LD-Übergabe erfolgt nach gesonderter Abstimmung direkt an Stellio.
 
 ---
 
@@ -227,7 +227,7 @@ Beispiele für Datenherkünfte und Referenzen:
 Task-Reihenfolge je `job_id`:
 
 1. `init_job` – erstellt `manifest.json`, Status `running`.
-2. `download_inputs` – lädt `jobs/{job_id}/input/` in ein Staging-Verzeichnis.
+2. `download_inputs` – lädt die konfigurierten Eingabeobjekte in den lokalen Job-Arbeitsbereich.
 3. `extract_inputs` – entpackt ZIP-Dateien in das Job-Staging-Verzeichnis.
 4. `convert_citygml_to_cityjson` – Konvertierung CityGML → CityJSON.
 5. `enrich_cityjson` – Anreicherungs-Container (Solar/Geothermie + optionale Kennwerte).
@@ -235,34 +235,22 @@ Task-Reihenfolge je `job_id`:
 7. `convert_cityjson_to_tiles` – Exportpfad 1: CityJSON → 3D Tiles.
 8. `convert_cityjson_to_citygml` – Exportpfad 2: CityJSON → CityGML.
 9. `convert_cityjson_to_ngsild` – Exportpfad 3: CityJSON → NGSI-LD.
-10. `publish_ngsild_to_stellio` – übergibt die NGSI-LD-Entities an Stellio.
-11. `upload_outputs` – lädt `jobs/{job_id}/tiles/`, `jobs/{job_id}/citygml/` und `jobs/{job_id}/ngsild/` in den Datendienst.
+10. `transfer_ngsild_to_stellio` *(Zielbild nach Schnittstellenklärung)* – übergibt die NGSI-LD-Entities direkt an Stellio.
+11. `upload_outputs` – überträgt die vorgesehenen 3D-Tiles- und CityGML-Ausgaben in die konfigurierten Ziel-Buckets; Job-Nachweise werden nicht mit hochgeladen.
 12. `finalize_job` – aktualisiert `manifest.json` (Status, Zeiten, Exit-Code).
 
-### Storage-Layout (S3-kompatibel)
+### Lokaler Job-Arbeitsbereich und Ziel-Buckets
 
-- `jobs/{job_id}/input/`  
-  Eingabedaten (CityGML-Dateien, freigegebene Solarpotenzial-3D Tiles, Vegetationsdaten; Struktur beliebig).
-- `jobs/{job_id}/cityjson/`  
-  Ausgabe der Konvertierung (CityJSON vor Anreicherung).
-- `jobs/{job_id}/cityjson_enriched/`  
-  Ausgabe nach Anreicherung und optionalem Calculation-Core-Schritt.
-- `jobs/{job_id}/tiles/`  
-  Ausgabe des Exportpfads CityJSON → 3D Tiles.
-- `jobs/{job_id}/citygml/`  
-  Ausgabe des Exportpfads CityJSON → CityGML.
-- `jobs/{job_id}/ngsild/`
-  Staging-Ausgabe des Exportpfads CityJSON → NGSI-LD und Nachweis der an Stellio übergebenen Entity-Batches.
-- `jobs/{job_id}/logs/`  
-  Laufzeit-Logs (inkl. Fortschritt).
-- `jobs/{job_id}/manifest.json`  
-  Metadaten zum Lauf (Status, Zeitstempel, Eingabeparameter).
-- `releases/{municipality_profile}/active.json`  
-  Veröffentlichtes Release-Manifest mit Referenzen auf die aktive Quell-Datensatzversion, `mapping_profile_version` und die auszuliefernden Artefaktpfade.
+Der Laufkontext liegt unter `${CITYJSON_WORK_DIR}/jobs/{job_id}` und wird den jeweiligen Verarbeitungscontainern als `/work` eingehängt. Er enthält die heruntergeladenen Eingaben, Zwischenstände, erzeugten Ausgaben und das lokale `manifest.json`. Erfolgreiche Läufe werden entsprechend der Airflow-Konfiguration bereinigt; für Diagnosezwecke kann der Arbeitsbereich mit `skip_cleanup` erhalten bleiben. Fehlerhafte Läufe bleiben zur Analyse erhalten.
 
-> ⚠️ **Hinweis:** Es gibt **keine Versionierung** im Datendienst; alte Daten müssen manuell entfernt werden.
-> Persistenz wird in der Datenbank umgesetzt; der Datendienst dient als Artefaktablage.
-> Backup/Restore von Datenbank und Datendienst erfolgt durch den Betreiber der DEZ-Plattform.
+Die vorgesehenen Zielausgaben werden getrennt vom Job-Arbeitsbereich in die konfigurierten Output-Buckets übertragen:
+
+- 3D Tiles und die Adressdatenbank in den `tiles_output_bucket`,
+- CityGML in den `gml_output_bucket`,
+- NGSI-LD nach Schnittstellenklärung direkt an Stellio.
+
+Es gibt keinen dedizierten S3-Ordner `jobs/{job_id}` für Zwischenstände oder Nachweise. Insbesondere werden `manifest.json`, Logs und Nachweise der NGSI-LD-Übergabe nicht als separate Artefakte im Datendienst veröffentlicht.
+
 > Sicherheitsprinzip: Zugriff auf den Datendienst erfolgt ausschließlich über Secrets-Management; keine Tokens im Code oder in Logs.
 
 ### Eingaben
@@ -286,10 +274,10 @@ Hinweis zu konditionalen Zusatzdaten:
 ### Ausgaben
 
 - **3D Tiles**, **CityGML** und **NGSI-LD** werden als getrennte Ausgaben erzeugt.
-- 3D Tiles und CityGML werden in den dedizierten Bucket hochgeladen.
-- NGSI-LD wird als Entity-Batches erzeugt, im Job-Ordner nachgewiesen und innerhalb von CIVITAS/CORE an Stellio übergeben.
-- Zwischenstände (`cityjson/`, `cityjson_enriched/`) liegen getrennt von den finalen Exportpfaden.
-  > ⚠️ **Hinweis:** Der Ziel-Bucket ist der dedizierte **3D Tiles Storage** im externen Datendienst.
+- 3D Tiles und CityGML werden in die jeweils konfigurierten Output-Buckets übertragen.
+- NGSI-LD wird als Entity-Batches erzeugt und nach Schnittstellenklärung innerhalb von CIVITAS/CORE direkt an Stellio übergeben. Eine zusätzliche Veröffentlichung von Übergabenachweisen im Datendienst ist nicht vorgesehen.
+- Die lokalen Zwischenstände (`json/`, `enriched_json/`) liegen getrennt von den finalen Exportpfaden.
+  > ⚠️ **Hinweis:** Die finalen 3D Tiles werden in den dafür konfigurierten Output-Bucket des externen Datendienstes übertragen.
 
 ### Exit-Codes
 
@@ -302,7 +290,7 @@ Hinweis zu konditionalen Zusatzdaten:
 
 ### Fortschritt & Logging
 
-- Logs werden **ausschließlich** über `stdout`/`stderr` ausgegeben und zusätzlich unter `jobs/{job_id}/logs/` persistiert.
+- Logs werden über `stdout`/`stderr` ausgegeben. Eine zusätzliche Veröffentlichung oder Persistierung unter einem S3-Pfad `jobs/{job_id}/logs/` ist nicht vorgesehen.
 - Logs dürfen **keine Zugangsdaten** oder Secrets enthalten.
 - Fortschritt wird als JSON-Lines geloggt, z.B.:
 
@@ -315,7 +303,7 @@ Hinweis zu konditionalen Zusatzdaten:
 }
 ```
 
-- Stufen (mindestens): `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `export_ngsild`, `publish_stellio`, `upload`.
+- Stufen (mindestens): `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `export_ngsild`, `transfer_stellio`, `upload`.
 
 ### Fehlerbehandlung & Wiederanlauf
 
@@ -348,7 +336,7 @@ Pflichtfelder: `job_id`, `status`, `stage`, `epsg`, `appearance`,
 `hasAlphaChannel`, `municipality_profile`, `mapping_profile_version`,
 `source_datasets`, `created_at`, `output_prefix`.
 Statuswerte: `pending`, `running`, `failed`, `succeeded`.
-Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `export_ngsild`, `publish_stellio`, `upload`.
+Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calculation_core`, `export_tiles`, `export_citygml`, `export_ngsild`, `transfer_stellio`, `upload`.
 
 ```json
 {
@@ -397,7 +385,7 @@ Stage-Werte: `download`, `extract`, `convert_cityjson`, `enrich_cityjson`, `calc
 ### Parameter-Mapping (Environment)
 
 - `JOB_ID` (String) – von Airflow vorgegeben.
-- `JOB_DIR` (Pfad) – gemounteter Job-Ordner (z.B. `/job`).
+- `JOB_DIR` (Pfad) – gemounteter Job-Ordner (z.B. `/work`).
 - `EPSG` (String) – z.B. `EPSG:25832`.
 - `APPEARANCE` (String) – gewünschtes Theme/Texture-Set in CityGML.
 - `HAS_ALPHA_CHANNEL` (Boolean, `true|false`).
@@ -426,15 +414,15 @@ DockerOperator(
     user="{{ var.value.pipeline_container_uid }}:{{ var.value.pipeline_container_gid }}",
     environment={
         "JOB_ID": "{{ dag_run.conf['job_id'] }}",
-        "JOB_DIR": "/job",
+        "JOB_DIR": "/work",
         "EPSG": "{{ dag_run.conf['epsg'] }}",
         "APPEARANCE": "{{ dag_run.conf['appearance'] }}",
         "HAS_ALPHA_CHANNEL": "{{ dag_run.conf['hasAlphaChannel'] }}"
     },
     mounts=[
         Mount(
-            source="/mnt/jobs/{{ dag_run.conf['job_id'] }}",
-            target="/job",
+            source="{{ var.value.cityjson_work_dir }}/jobs/{{ dag_run.conf['job_id'] }}",
+            target="/work",
             type="bind"
         )
     ]
@@ -460,7 +448,7 @@ DockerOperator(
 
 ### Erwartete Eingaben
 
-- Pfad zu konvertiertem CityJSON (`jobs/{job_id}/cityjson/`).
+- Pfad zum konvertierten CityJSON im lokalen Container-Arbeitsbereich (`/work/json/`).
 - Optional Baualtersklassen als GeoPackage in EPSG:25832, Tabelle
   `gebiete__baualtersklasse`, Feld `Dominant_Baualtersklasse`.
 - Bereitgestellte Geothermiepotenziale über Datensatzabfrage; ausgewertet werden
@@ -472,8 +460,8 @@ DockerOperator(
 
 ### Erwartete Ausgaben
 
-- Angereichertes CityJSON (`jobs/{job_id}/cityjson_enriched/`).
-- Laufprotokolle und Fortschrittslogs (`jobs/{job_id}/logs/`).
+- Angereichertes CityJSON im lokalen Container-Arbeitsbereich (`/work/enriched_json/`).
+- Laufprotokolle und Fortschrittslogs über `stdout`/`stderr`.
 
 ### Mapping-Regeln
 
@@ -536,7 +524,7 @@ Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverä
 - Smart Data Models werden als Zielmodell genutzt, soweit passende Entity-Typen und Attribute vorliegen.
 - Projekt- oder kommunenspezifische Attribute werden nur mit dokumentierter Namensgebung, Einheit und Herkunft übernommen.
 - Jede Entity muss Provenance-Attribute für Quellversion, `mapping_profile_version`, Transformationszeitpunkt und Pipeline-`job_id` enthalten.
-- Die Übergabe an Stellio erfolgt als interner Publish-Schritt innerhalb von CIVITAS/CORE; der Job gilt erst nach erfolgreicher Stellio-Übergabe und Upload der übrigen Artefakte als `succeeded`.
+- Die Übergabe an Stellio erfolgt nach Klärung der Kundenschnittstelle direkt innerhalb von CIVITAS/CORE. Der Job gilt dann erst nach erfolgreicher Stellio-Übergabe und Übertragung der übrigen Zielausgaben als `succeeded`; ein separater S3-Nachweis wird nicht veröffentlicht.
 
 ### Validierungsregeln
 
@@ -552,7 +540,7 @@ Zusätzliche Rohattribute aus den freigegebenen Solarpotenzial-3D Tiles (unverä
 
 ## Pipeline-Diagramm
 
-Das Diagramm zeigt die dateibasierten Kernschritte der Verarbeitung; Orchestrierung, Datenaustausch und der zusätzliche NGSI-LD/Stellio-Publish-Pfad sind im Abschnitt oben beschrieben.
+Das Diagramm zeigt die dateibasierten Kernschritte der Verarbeitung; Orchestrierung, Datenaustausch und der zusätzliche NGSI-LD/Stellio-Übergabepfad sind im Abschnitt oben beschrieben.
 
 > ⚠️ **Hinweis:** Umfang und Detailgrad der Solar-Anreicherung sind aktuell noch in Klärung. Eine Umsetzung in Sprint 18 oder 19 ist deshalb nicht belastbar zugesagt.
 

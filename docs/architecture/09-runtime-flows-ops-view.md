@@ -52,9 +52,9 @@ Quelle: `raw/runtime-flow-admin-triage.puml`
 **Datenpipeline-Flow**  
 Ein Airflow-Run wird manuell als **ein kombinierter DAG-Lauf** gestartet und verarbeitet stets einen aktualisierten LoD2-GML-Datensatz vollständig. Zusätzliche Eingaben werden konditional einbezogen; Adressen stammen aus LoD2 und sind immer enthalten. Rohdaten werden geladen und entpackt, CityGML nach CityJSON konvertiert, CityJSON mit den im Lauf bereitgestellten Zusatzdaten angereichert, optional durch den Calculation Core ergänzt und danach parallel in 3D Tiles, CityGML und NGSI-LD exportiert. 3D Tiles und CityGML werden in den Datendienst hochgeladen, NGSI-LD-Entities werden innerhalb von CIVITAS/CORE an Stellio übergeben und alles wird im Manifest dokumentiert. Separate Teilupdates sowie die Übernahme von Attributen aus einem bereits angereicherten Ergebnisdatensatz sind nicht vorgesehen.
 Beteiligte Komponenten: CIVITAS/CORE (Airflow), Datendienst (S3), Stellio Context Broker, Extract-Container, Konvertierungs-Container, Anreicherungs-Container, Calculation Core (optional), Export-Container (3D Tiles/CityGML/NGSI-LD).
-Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Stellio-Publish-Fehler, Abbruch → Laufstatus `failed` und kompletter Neustart.
+Fehlerpfade: fehlende Eingaben, Extraktions-/Konvertierungs-/Enrichment-/Exportfehler, S3-Fehler, Fehler bei der Stellio-Übergabe, Abbruch → Laufstatus `failed` und kompletter Neustart.
 
-Das Diagramm zeigt die dateibasierten Kernschritte der Pipeline; der zusätzliche NGSI-LD/Stellio-Publish-Pfad ist im Text und im Pipeline-Vertrag beschrieben.
+Das Diagramm zeigt die dateibasierten Kernschritte der Pipeline; der zusätzliche NGSI-LD/Stellio-Übergabepfad ist im Text und im Pipeline-Vertrag beschrieben.
 
 ![runtime-flow-pipeline.png](./attachments/runtime-flow-pipeline.png)
 
@@ -87,7 +87,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 - **Public Flow**: Die externe Deployment-Plattform betreibt die globale APISIX-Policy zur Prüfung von Challenge-Token und Rate Limiting; das Backend führt Eingabevalidierung und Recompute-Verifikation vor Persistenz aus.
 - **Admin Flow**: APISIX schützt die administrativen Routen und prüft OIDC vorgelagert; das Backend validiert das weitergeleitete Access Token unabhängig per RS256/JWKS und setzt die Rollen `manager`, `maintainer` und `admin` selbst für fachliche Zugriffsentscheidungen ein.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; die Aktion „Datensatz abgelehnt“ endet im fachlichen Status `abgelehnt`. Die physische Löschung ist eine separate Operation und kein Statusübergang. Einzelne Einreichungen werden gezielt gelöscht; vor einer gebündelten Löschung prüft das Backend atomar, dass alle Einreichungen der Gebäude-ID abgelehnt sind.
-- **Pipeline Flow**: Getrennte Offline-Ausführung, kontrollierte Artefakt- und Publish-Pfade je `job_id`, kein partieller Erfolgsstatus bei Teilfehlern.
+- **Pipeline Flow**: Getrennte Offline-Ausführung mit lokalem Arbeitsbereich je `job_id` und kontrollierter Übertragung der Zielausgaben; keine Veröffentlichung laufbezogener Nachweise und kein partieller Erfolgsstatus bei Teilfehlern.
 - **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
 
 Übergreifende Invariante: Jeder Flow besitzt einen klaren Reject-Pfad mit nachvollziehbarer Protokollierung.
@@ -99,10 +99,13 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 
 - **Observability**: strukturierte Logs, Metriken und verteilte Traces.  
   Pflichtmetriken: Request-Rate, Fehlerquote, Latenzen (p50/p95/p99), Queue-Längen, Pipeline-Stage-Dauer, Erfolgsrate je `job_id`.
+- **Betriebsmonitoring**: Die CIVITAS/CORE-Plattform erfasst im produktiven Betrieb insbesondere Lade- und Antwortzeiten sowie CPU-, Speicher- und I/O-Auslastung. Kapazität und Performance werden in der Post-Deployment-Phase beobachtet und bei Bedarf über Ressourcen- oder Replikakonfiguration angepasst.
+- **Lastprofil**: Eine belastbare Nutzerzahl ist derzeit nicht vorgegeben; tausende gleichzeitige Aufrufe werden im vorgesehenen kommunalen Nutzungskontext nicht erwartet. Für den Final-Release-Lasttest wird deshalb ein realistisches Lastprofil zwischen Auftraggeber und Auftragnehmer abgestimmt.
 - **Log-Erfassung**: Container schreiben standardmäßig auf `stdout`/`stderr`; Promtail oder Grafana Alloy können diese Streams direkt von der Kubernetes-Plattform einsammeln.
+- **Log-Level-Steuerung**: Die dynamische Anpassung der wirksamen Log-Level zur Laufzeit ist eine Betriebsfunktion der CIVITAS/CORE-Plattform und wird durch den Plattformbetreiber vorgenommen.
 - **Backup/Recovery**:  
   Datenbank-Backup täglich, Aufbewahrung 30 Tage.  
-  Konfigurations-Snapshots im Objekt-Storage versioniert durch Pfad/Job-Ordner.  
+  Konfigurations-Snapshots im Objekt-Storage versioniert durch Konfigurations- und Versionspfad.
   3D Tiles werden im Datendienst gesichert, Lifecycle-Regeln nach Speicherbedarf.
 - **Runbooks**:  
   API-Ausfall, Auth/OIDC-Probleme, Pipeline-Fehler, Datenkorruption, Rollback einer Konfigurationsversion, Wiederanlauf nach Teilfehlern.
@@ -124,10 +127,10 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 <a id="daten-governance"></a>
 ## Daten-Governance
 
-- Aufbewahrung der Job-Ordner erfolgt nach Bedarf; Löschung erfolgt manuell durch Betrieb.
-- Logs und `manifest.json` gehören zum Job-Ordner und werden gemeinsam gelöscht.
-- Zugriff auf Job-Ordner ist auf Betrieb und Pipeline-Container beschränkt.
-- Veröffentlichung von 3D Tiles erfolgt erst nach erfolgreicher Pipeline und Validierung.
+- Laufbezogene Arbeitsbereiche liegen lokal unter `${CITYJSON_WORK_DIR}/jobs/{job_id}`. Erfolgreiche Läufe werden standardmäßig bereinigt; mit `skip_cleanup` können sie für Diagnosezwecke erhalten bleiben. Fehlerhafte Läufe bleiben zur Analyse erhalten.
+- Das lokale `manifest.json` gehört zum Arbeitsbereich. Logs werden über `stdout`/`stderr` ausgegeben und nicht zusätzlich in einem S3-Jobordner veröffentlicht.
+- Zugriff auf die lokalen Arbeitsbereiche ist auf Betrieb, Airflow und Pipeline-Container beschränkt.
+- 3D Tiles werden erst nach erfolgreicher Pipeline und Validierung in den konfigurierten Ziel-Bucket übertragen.
 
 ---
 
@@ -144,7 +147,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 ## Zuständigkeiten und Betriebsprozesse
 
 - Betrieb und Orchestrierung liegen beim CIVITAS/CORE-Betriebsteam.  
-  Verantwortung: Airflow, Datendienstzugriff, Deployments, Monitoring.
+  Verantwortung: Airflow, Datendienstzugriff, Deployments, Betriebsmonitoring, bedarfsgerechte Skalierung und dynamische Log-Level-Steuerung.
 - Fachlicher Betrieb (Konfiguration/Triage) liegt bei Stadtverwaltung / Fachpersonal.
 - Notfallprozess: Incident-Owner wird benannt, Runbooks definieren Wiederanlauf und Kommunikationswege.
 - Wartungsprozess: geplante Wartungsfenster, Rollbacks über vorherige Konfigurationsversionen.

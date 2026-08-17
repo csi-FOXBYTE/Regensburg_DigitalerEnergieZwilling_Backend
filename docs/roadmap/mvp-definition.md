@@ -433,6 +433,7 @@ Geplanter Umfang:
 - Zielsystem und Übertragungsweg der Feedback-Funktion (FA-71) sowie die produktive NGSI-LD-Schnittstelle zur Kundeninstanz sind zu klären.
 - Die fachliche Abnahme des Rechenkerns mit dem Energieberater ist für Sprint 19 terminiert (FA-118/TA-142).
 - Stabilisierung der Betriebsumgebung und relevanter Schnittstellen.
+- Abstimmung und Durchführung eines realistischen Lasttests als Final-Release-Nachweis. Das produktive Betriebsmonitoring und die bedarfsgerechte Skalierung erfolgen anschließend über die CIVITAS/CORE-Plattform.
 - Prüfung der Kernprozesse für Bürger-Frontend, Verwaltungsbereich, Datenpipeline und Export-/Datenübermittlungswege.
 - Abnahmeunterstützung und Behebung kritischer Fehler aus Inbetriebnahmeprüfung und Regressionstests.
 - Abstimmung mit den Ansprechpartnern beim Auftraggeber.

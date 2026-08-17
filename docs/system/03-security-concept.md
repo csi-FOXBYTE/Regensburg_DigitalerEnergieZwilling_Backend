@@ -10,15 +10,16 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 2. [Geltungsbereich](#geltungsbereich)
 3. [BSI-Grundschutz-Bezug (Auswahl)](#bsi-grundschutz-bezug-auswahl)
 4. [Mapping: Baustein DEZ-Maßnahmen (Kurzfassung)](#mapping-baustein-dez-massnahmen-kurzfassung)
-5. [Sicherheitsprinzipien](#sicherheitsprinzipien)
-6. [Identität, Zugriff und Rollen](#identitaet-zugriff-und-rollen)
-7. [Daten- und Datenschutzkonzept](#daten-und-datenschutzkonzept)
-8. [Netzwerk- und Plattformschutz](#netzwerk-und-plattformschutz)
-9. [Systemhärtung](#systemhaertung)
-10. [Logging, Monitoring und Nachvollziehbarkeit](#logging-monitoring-und-nachvollziehbarkeit)
-11. [Lieferkette und Open Source](#lieferkette-und-open-source)
-12. [Prüfungen und Tests](#pruefungen-und-tests)
-13. [Betrieb und Incident-Handling](#betrieb-und-incident-handling)
+5. [OWASP Secure Coding Practices: Soll-Ist-Mapping](#owasp-secure-coding-practices-soll-ist-mapping)
+6. [Sicherheitsprinzipien](#sicherheitsprinzipien)
+7. [Identität, Zugriff und Rollen](#identitaet-zugriff-und-rollen)
+8. [Daten- und Datenschutzkonzept](#daten-und-datenschutzkonzept)
+9. [Netzwerk- und Plattformschutz](#netzwerk-und-plattformschutz)
+10. [Systemhärtung](#systemhaertung)
+11. [Logging, Monitoring und Nachvollziehbarkeit](#logging-monitoring-und-nachvollziehbarkeit)
+12. [Lieferkette und Open Source](#lieferkette-und-open-source)
+13. [Prüfungen und Tests](#pruefungen-und-tests)
+14. [Betrieb und Incident-Handling](#betrieb-und-incident-handling)
 
 <a id="ziele"></a>
 
@@ -69,6 +70,35 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - **NET.3.1 Netzkomponenten**: Standardisierte Schnittstellen, klare Netzgrenzen, Monitoring der Schnittstellen.
 - **OPS.1.1.3 Patch- und Änderungsmanagement**: Regelmäßige Updates, dokumentierte Änderungen, Rollback-Strategien.
 - **CON.8 Software-Entwicklung**: SDLC nach OWASP, Code-Reviews, Security-Scanning, Penetrationstest vor Go-Live.
+
+---
+
+<a id="owasp-secure-coding-practices-soll-ist-mapping"></a>
+
+## OWASP Secure Coding Practices: Soll-Ist-Mapping
+
+Das Mapping verwendet die Kategorien der [OWASP Secure Coding Practices – Quick Reference Guide v2.1](https://owasp.org/www-project-secure-coding-practices-quick-reference-guide/assets/docs/OWASP_SCP_Quick_Reference_Guide_v21.pdf). Es bewertet den dokumentierten und im Quellcode nachvollziehbaren Stand der DEZ-Komponenten. Kontrollen der CIVITAS/CORE-Plattform werden getrennt ausgewiesen, wenn APISIX, Keycloak, Kubernetes oder zentrale Betriebsdienste den Nachweis erbringen müssen.
+
+Bewertungsstand: 17.08.2026.
+
+| OWASP-Bereich | Soll | Ist / Nachweis | Status und offener Punkt |
+|---|---|---|---|
+| Eingabevalidierung | Nicht vertrauenswürdige Eingaben werden serverseitig typ-, format-, längen- und wertebereichsbezogen validiert; ungültige Eingaben werden abgelehnt. | Fastify-Routen verwenden TypeBox-Schemata. Berechnungseingaben werden im Backend erneut mit der Core-Validierung geprüft und serverseitig berechnet. Die Trennung der Eingabe- und Vertrauensgrenzen ist in der [Daten- und API-Sicht](../architecture/08-data-model-api-view.md#security-by-design-im-daten-und-api-vertrag) dokumentiert. | ⚠️ Teilweise nachgewiesen. Ein komponentenübergreifender Negativtest für Query-, Path-, Header-, Body- und Pipeline-Eingaben sowie Größen- und Komplexitätsgrenzen fehlt. |
+| Ausgabekodierung | Nicht vertrauenswürdige Inhalte werden kontextbezogen für HTML, JSON, URL und nachgelagerte Systeme kodiert oder bereinigt. | React übernimmt die standardmäßige HTML-Escapierung; API-Antworten werden als typisierte JSON-Antworten erzeugt. Datenbankzugriffe erfolgen über den ORM-Layer. | ⚠️ Teilweise nachgewiesen. Automatisierte XSS- und Encoding-Tests für Konfigurations-, Markdown-, Fehler- und Exportinhalte fehlen. |
+| Authentisierung und Passwortmanagement | Geschützte Funktionen verwenden eine zentrale, bewährte Authentisierung; Prüfungen schlagen bei Fehlern sicher fehl; Zugangsdaten werden nicht in der Anwendung verwaltet oder offengelegt. | Administrative Zugriffe verwenden Keycloak/OIDC. APISIX prüft vorgelagert, das Backend validiert Access Tokens zusätzlich per RS256/JWKS. Das DEZ verwaltet keinen eigenen Passwortspeicher; Details stehen unter [Identität, Zugriff und Rollen](#identitaet-zugriff-und-rollen). | ⚠️ DEZ-seitig weitgehend umgesetzt. Passwort-, MFA-, Sperr- und Recovery-Regeln sowie deren Betriebsnachweis liegen bei Keycloak beziehungsweise dem Plattformbetreiber und sind noch zuzuordnen. |
+| Sessionmanagement | Sitzungen und Tokens besitzen sichere Cookies, definierte Laufzeiten und einen wirksamen Logout; Sitzungskennungen erscheinen nicht in URLs, Antworten oder Logs. | Der OIDC-Flow und die geschützte Browser-Sitzung werden durch APISIX und Keycloak bereitgestellt; das Backend akzeptiert ausschließlich das weitergeleitete beziehungsweise als Bearer übermittelte Access Token. | ⚠️ Plattformnachweis offen. Cookie-Attribute, Ablaufzeiten, Token-Erneuerung, Logout und Sitzungsbeendigung müssen in der produktiven APISIX-/Keycloak-Konfiguration geprüft werden. |
+| Zugriffskontrolle | Autorisierung wird für jede geschützte Anfrage serverseitig und nach dem Least-Privilege-Prinzip erzwungen; direkte Objektzugriffe und privilegierte Funktionen sind rollenbezogen geschützt. | Öffentliche und administrative Routen sind getrennt. APISIX und Backend bilden zwei Enforcement-Schichten; das Backend prüft die Rollen `manager`, `maintainer` und `admin` fachlich. Die Kontrollpunkte sind in der [Komponentensicht](../architecture/07-architecture-c4-components.md#security-kontrollpunkte) dokumentiert. | ⚠️ Teilweise nachgewiesen. Eine vollständige Positiv-/Negativmatrix aller Admin-Endpunkte, Rollen und Objektzugriffe fehlt. |
+| Kryptografische Verfahren und Schlüssel | Kryptografie verwendet etablierte Bibliotheken und sichere Zufallsquellen; Schlüssel und Secrets werden geschützt und kontrolliert verwaltet. | JWT-Signaturen werden mit `jose` und RS256/JWKS geprüft. Lösch- und Wiederherstellungskennungen werden nicht als Passwörter verwaltet. Deployment-Secrets werden über Kubernetes-/Plattformmechanismen injiziert. | ⚠️ Teilweise nachgewiesen. Schlüsselrotation, Secret-Lebenszyklus, Zufallsquellen der fachlichen Tokens und produktive Secret-Berechtigungen müssen explizit geprüft werden. |
+| Fehlerbehandlung und Logging | Fehler schlagen sicher fehl und legen keine Interna offen; sicherheitsrelevante Erfolge und Fehlschläge werden strukturiert, manipulationssicher und ohne sensible Inhalte protokolliert. | Das Backend verwendet zentrale Fehlerobjekte und Pino; Admin-Statusänderungen besitzen eine fachliche Änderungshistorie. Vorgaben stehen in [Fehlerbehandlung](04-error-handling.md) und [Logging, Monitoring und Nachvollziehbarkeit](#logging-monitoring-und-nachvollziehbarkeit). | ⚠️ Teilweise nachgewiesen. Vollständige Ereignismatrix, Prüfung auf Token-/Personendaten in Logs, Log-Injection-Schutz, zentrale Auswertung, Zugriffsschutz und Aufbewahrung sind offen. |
+| Datenschutz und Schutz gespeicherter Daten | Sensible Daten werden minimiert, zugriffsgeschützt, nicht unnötig zwischengespeichert und fristgerecht gelöscht. | Der Bürgerbereich verlangt keine personenbezogene Anmeldung. Serverübermittlung ist freiwillig; ein tokenbasierter Löschpfad ist vorgesehen. Zweckbindung und Datenflüsse sind im [Datenschutzkonzept](#daten-und-datenschutzkonzept) beschrieben. | ⚠️ Teilweise nachgewiesen. Produktive Aufbewahrungsfristen, Backup-Löschung, Schutz temporärer Artefakte und Berechtigungen der Datenspeicher müssen bestätigt werden. |
+| Kommunikationssicherheit | Sensible und authentisierte Kommunikation verwendet TLS ohne unsicheren Fallback; CORS, erlaubte Methoden und externe Vertrauensgrenzen sind restriktiv konfiguriert. | Externe Zugriffe laufen über APISIX; interne Dienste sollen nicht direkt öffentlich erreichbar sein. CORS, Security-Header und TLS-Routing werden im Deployment-Add-on konfiguriert; siehe [Netzwerk- und Plattformschutz](#netzwerk-und-plattformschutz). | ⚠️ Konfiguration vorhanden, produktiver Betriebsnachweis offen. TLS-Versionen und Cipher, Zertifikatskette, direkter Dienstzugriff, CORS und Header müssen gegen die bereitgestellte Instanz geprüft werden. |
+| Systemkonfiguration und Härtung | Produktionssysteme laufen mit minimaler Angriffsfläche, aktuellen Komponenten, sicheren Defaults und geringstmöglichen Rechten; Entwicklungsfunktionen sind deaktiviert. | Die Deployment-Templates erzwingen Non-Root-Ausführung und reduzierte Containerrechte. Öffentliche und administrative Komponenten sind getrennt; Images werden digestbasiert referenziert. | ⚠️ Teilweise nachgewiesen. Read-only-Dateisystem, Capabilities, Ressourcenlimits, Netzwerkregeln, Debug-/Testendpunkte und Versionspreisgabe sind vor Produktivsetzung vollständig zu prüfen. |
+| Datenbanksicherheit | Datenbankzugriffe sind parametrisiert und typisiert; Anwendungskonten besitzen minimale Rechte; Verbindungsdaten liegen nicht im Quellcode; die Datenbank ist nicht öffentlich erreichbar. | Der Backendzugriff erfolgt über ZenStack/PostgreSQL und eine injizierte `DATABASE_URL`; Clients besitzen keinen direkten Datenbankzugriff. | ⚠️ Teilweise nachgewiesen. Ein dedizierter Least-Privilege-Datenbankbenutzer, konkrete Schema-/Tabellenrechte, Backup-Schutz und produktive Netzisolation sind noch nachzuweisen. |
+| Datei- und Artefaktmanagement | Dateipfade, Dateitypen, Größen und Inhalte werden begrenzt und validiert; Upload- und Arbeitsverzeichnisse sind nicht ausführbar; temporäre Daten werden sicher behandelt. | Die Offline-Pipeline verarbeitet definierte CityGML-, CityJSON- und Geodatenformate in getrennten Containern. Die Vertrauensgrenzen sind in der [Pipeline-Architektur](../architecture/10-architecture-offline-data-pipeline.md#security-by-design-pipeline) beschrieben. | ⚠️ Teilweise nachgewiesen. Negativtests für Pfadmanipulation, Symlinks, unerwartete Dateitypen, Größen-/Komplexitätsgrenzen und Dekompressionsbomben fehlen. |
+| Speicherverwaltung | Bei nativer Speicherverwaltung werden Grenzen geprüft, Ressourcen sicher freigegeben und unsichere Funktionen vermieden. | Der anwendungseigene Code verwendet überwiegend speichersichere Laufzeiten (TypeScript/JavaScript und Python) und implementiert keine eigene native Speicherverwaltung. | ➖ Für den Anwendungscode nicht direkt anwendbar. Native Laufzeiten und Bibliotheken werden über Lieferketten- und Schwachstellenprüfungen abgedeckt. |
+| Allgemeine sichere Codierung | Standardbibliotheken werden bevorzugt; dynamische Code- und Betriebssystemausführung wird vermieden; Nebenläufigkeit, Integrität, Abhängigkeiten und Änderungen werden kontrolliert. | Typisierte Codebasen, Lockfiles, automatisierte Fachtests, getrennte Komponenten und versionierte Konfigurationen sind vorhanden. | ⚠️ Teilweise nachgewiesen. Repoübergreifende verpflichtende Review-/Test-Gates sowie SAST-, Secret-, Dependency-, Container- und IaC-Scans sind nicht durchgängig belegt. |
+
+Ein Status `⚠️` bezeichnet eine vorhandene Umsetzung mit noch fehlendem vollständigem Prüf- oder Betriebsnachweis. `➖` bezeichnet einen begründet nicht direkt anwendbaren Kontrollbereich. Der Abgleich ersetzt weder den separat geforderten Penetrationstest noch Patch-, CVE- und Incident-Management. Festgestellte Abweichungen sind mit Schweregrad, Maßnahme, Verantwortlichem und Termin in der Arbeitsplanung nachzuführen.
 
 ---
 
@@ -156,6 +186,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Protokollierung von Nutzeraktionen, Systemprozessen und Fehlerereignissen.
 - Maschinenlesbare Logs mit Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL).
 - Container schreiben Logs standardmäßig auf `stdout`/`stderr`; die zentrale Aggregation erfolgt über die Kubernetes-Plattform.
+- Die dynamische Anpassung der wirksamen Log-Level zur Laufzeit ist der CIVITAS/CORE-Plattform zugeordnet und wird durch den Plattformbetreiber gesteuert.
 - Das Backend nutzt Pino als strukturierten Standard-Logger von Fastify.
 - Die statischen Frontends nutzen den Standard-Logger von nginx; Requests auf nicht-HTML-Assets werden dabei nicht protokolliert.
 - Audit-Logs für Admin-Aktionen inkl. Zeitstempel und Benutzerkennung.
@@ -179,6 +210,8 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Secure Development Lifecycle nach OWASP.
 - Code-Reviews und automatisierte Tests als Standard.
 - Penetrationstest vor Go-Live.
+- Die konkreten Testfälle, Prioritäten, Ausführungsorte und Nachweisanforderungen sind in der [Security-Testspezifikation](07-security-test-specification.md) festgelegt.
+- Tatsächliche Läufe und Befunde werden in datierten Prüfprotokollen dokumentiert; Ausgangspunkt ist das [Security-Prüfprotokoll vom 17.08.2026](08-security-test-report-2026-08-17.md).
 
 ---
 

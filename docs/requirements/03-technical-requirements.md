@@ -472,7 +472,9 @@ Der NGSI-LD-Pfad ist konzeptionell und in den Datenmodellen vorbereitet. Die kon
 
 **TA-54**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden und alle dateibasierten Artefakte sowie Nachweise der NGSI-LD-Übergabe unter einem dedizierten Job-Ordner im S3-kompatiblen Datendienst ablegen.
+Jeder Pipeline-Lauf muss eine von Airflow vorgegebene `job_id` verwenden. Der laufbezogene Arbeitsbereich wird unter `${CITYJSON_WORK_DIR}/jobs/{job_id}` angelegt und den beteiligten Containern als gemeinsames Arbeitsverzeichnis bereitgestellt. Nur die vorgesehenen Zielausgaben werden in die dafür konfigurierten Ziel-Buckets übertragen. Eine zusätzliche Ablage oder Veröffentlichung von Zwischenständen, Manifesten, Logs oder Nachweisen einer NGSI-LD-Übergabe unter einem dedizierten S3-Job-Ordner ist nicht vorgesehen.
+
+Diese Festlegung ist eine technische Scope-Entscheidung für den Pipeline-Betrieb und keine eigenständige Vorgabe der Leistungsbeschreibung.
 
 <a id="ta-55"></a>
 
@@ -587,7 +589,7 @@ Die Oberfläche muss barrierefrei gemäß § 4 BGG konzipiert sein und die Anfor
 
 **TA-70**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
-Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempeln protokollieren, maschinenlesbar sein und Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL) verwenden; Log-Level müssen zur Laufzeit dynamisch anpassbar sein. Containerisierte Komponenten schreiben standardmäßig auf `stdout`/`stderr`, sodass die zentrale Einsammlung über Kubernetes-Log-Pipelines (z.B. Promtail oder Grafana Alloy) erfolgen kann.
+Logs müssen Nutzeraktionen, Systemprozesse und Fehlerereignisse mit Zeitstempeln protokollieren, maschinenlesbar sein und Standard-Log-Levels (DEBUG, INFO, WARN, ERROR, FATAL) verwenden. Containerisierte Komponenten schreiben standardmäßig auf `stdout`/`stderr`, sodass die zentrale Einsammlung über Kubernetes-Log-Pipelines (z.B. Promtail oder Grafana Alloy) erfolgen kann. Die dynamische Anpassung der wirksamen Log-Level zur Laufzeit ist als Betriebsfunktion der CIVITAS/CORE-Plattform zugeordnet und wird durch den Plattformbetreiber gesteuert; sie ist keine separate Bedienfunktion der DEZ-Anwendung.
 
 ---
 
@@ -625,7 +627,9 @@ Die Integration in CIVITAS/CORE muss über standardisierte, dokumentierte Schnit
 
 **TA-73**  
 *Release-Zuordnung:* [Release 1](../roadmap/mvp-definition.md#release-1-plattformaufbau)  
-Das System muss Caching für häufig genutzte Daten/Visualisierungen unterstützen und für horizontale sowie vertikale Skalierung vorbereitet sein; Monitoring umfasst Ladezeiten, CPU, RAM und I/O.
+Das System muss Caching für häufig genutzte Daten und Visualisierungen unterstützen und für horizontale sowie vertikale Skalierung vorbereitet sein. Das Betriebsmonitoring für Lade- und Antwortzeiten sowie CPU-, RAM- und I/O-Auslastung wird durch die CIVITAS/CORE-Plattform bereitgestellt. Kapazität und Performance werden in der Post-Deployment-Phase beobachtet und bei Bedarf durch Plattformkonfiguration oder Skalierung angepasst.
+
+Eine belastbare erwartete Nutzerzahl ist derzeit nicht vorgegeben; eine Nutzung mit tausenden gleichzeitigen Aufrufen wird für den vorgesehenen kommunalen Einsatz nicht erwartet. Der für das Final Release geforderte Lasttest verwendet deshalb ein zwischen Auftraggeber und Auftragnehmer abgestimmtes, realistisches Lastprofil. Der phasengebundene Lasttest ist ein Abnahmenachweis und keine Voraussetzung für die Bewertung der grundsätzlich skalierbaren Architektur.
 
 ---
 

@@ -45,6 +45,7 @@ Dieses Dokument fasst Planungs- und Backlog-Notizen aus dem UX/UI-Board zusammen
 - Unit-Tests werden dort umgesetzt, wo sie sinnvoll sind: im Backend, im Berechnungskern und in den Konvertern.
 - Für das Frontend sind keine Unit-Tests vorgesehen.
 - Integrationstests finden nachgelagert statt.
+- Vor dem Final Release wird ein Lasttest mit einem zwischen Auftraggeber und Auftragnehmer abgestimmten, realistischen Lastprofil durchgeführt. Eine belastbare erwartete Nutzerzahl ist derzeit nicht vorgegeben; tausende gleichzeitige Aufrufe werden für den vorgesehenen kommunalen Einsatz nicht erwartet.
 - Die fachliche Bewertung und Abnahme des Rechenkerns erfolgt durch qualifizierte Energieberatung.
 - Automatisierte Tests dienen der technischen Regression. Normative Golden Tests und eine projektweit verbindliche Coverage-Schwelle sind keine zusätzlichen fachlichen Abnahmekriterien.
 

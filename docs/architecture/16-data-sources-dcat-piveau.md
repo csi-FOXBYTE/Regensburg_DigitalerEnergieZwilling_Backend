@@ -109,7 +109,7 @@ jedem Bezug erneut aus der Metalink-Datei ermittelt. Für den Piveau-Eintrag gil
   protokolliert und
 - die interne CityJSON-Fassung wird als abgeleitete Distribution desselben
   Datensatzes nur dann ergänzt, wenn eine stabile, zugriffsgeregelte Release-URL
-  außerhalb flüchtiger `jobs/{job_id}`-Pfade existiert.
+  unabhängig vom lokalen, flüchtigen Job-Arbeitsbereich existiert.
 
 Die Quellaktualisierung ist nicht mit dem DEZ-Importzyklus gleichzusetzen. Wie oft
 die Stadt Regensburg einen neuen Stand übernimmt, wird im Betriebsplan separat

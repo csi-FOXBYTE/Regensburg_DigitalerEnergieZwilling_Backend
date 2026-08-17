@@ -168,6 +168,9 @@ Komplexe Geodaten werden außerhalb des Laufzeitsystems verarbeitet, um Performa
 ### Leichtgewichtiges Backend
 Das Backend stellt ausschließlich Konfiguration, Authentifizierung und Persistenz bereit und liefert keine großen Datenmengen aus.
 
+### Skalierung und Betriebsmonitoring
+Die containerisierte, weitgehend zustandslose Bereitstellung unterstützt horizontale und vertikale Skalierung. Eine belastbare erwartete Nutzerzahl ist derzeit nicht vorgegeben; tausende gleichzeitige Aufrufe werden im vorgesehenen kommunalen Nutzungskontext nicht erwartet. Betriebsmonitoring, bedarfsgerechte Skalierung und dynamische Log-Level-Steuerung werden durch die CIVITAS/CORE-Plattform abgedeckt. Kapazität und Performance werden in der Post-Deployment-Phase beobachtet und bei Bedarf angepasst. Für den Final Release wird unabhängig davon ein realistisches Lastprofil zwischen Auftraggeber und Auftragnehmer abgestimmt und getestet.
+
 ---
 
 <a id="dokumentstruktur"></a>

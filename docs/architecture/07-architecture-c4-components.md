@@ -231,7 +231,7 @@ Vegetationsdaten werden nicht durch die Pipeline verarbeitet, sondern im Public 
 
 ### Offline Pipeline View
 
-Das Diagramm zeigt die dateibasierten Kernschritte der Offline-Pipeline; der zusätzliche NGSI-LD/Stellio-Publish-Pfad ist im Text und im Pipeline-Vertrag beschrieben.
+Das Diagramm zeigt die dateibasierten Kernschritte der Offline-Pipeline; der zusätzliche NGSI-LD/Stellio-Übergabepfad ist im Text und im Pipeline-Vertrag beschrieben.
 
 ![c4-components-pipeline.png](./attachments/c4-components-pipeline.png)
 
