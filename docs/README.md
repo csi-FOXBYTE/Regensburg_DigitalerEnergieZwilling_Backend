@@ -35,6 +35,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **05** [Datenschutzhinweise für das öffentliche Sanierungstool (Entwurf)](system/05-datenschutzhinweise-public.md)
 - **06** [Matomo-Trackingkonzept und Eventkatalog](system/06-matomo-trackingkonzept.md)
 - **07** [Security-Testspezifikation](system/07-security-test-specification.md)
+- **08** [Sicherheitsrisikomatrix](system/08-security-risk-matrix.md)
 
 <a id="anforderungen"></a>
 

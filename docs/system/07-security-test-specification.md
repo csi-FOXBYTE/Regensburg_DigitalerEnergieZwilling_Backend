@@ -2,10 +2,11 @@
 
 ## Zweck und Geltungsbereich
 
-Diese Spezifikation operationalisiert die offenen Prüfpunkte aus dem [Sicherheitskonzept](03-security-concept.md), insbesondere dem [OWASP-Soll-Ist-Mapping](03-security-concept.md#owasp-secure-coding-practices-soll-ist-mapping). Sie gilt für:
+Diese Spezifikation operationalisiert die offenen Prüfpunkte aus dem [Sicherheitskonzept](03-security-concept.md), insbesondere dem [OWASP-Soll-Ist-Mapping](03-security-concept.md#owasp-secure-coding-practices-soll-ist-mapping), und die Szenarien der [Sicherheitsrisikomatrix](08-security-risk-matrix.md). Sie gilt für:
 
 - öffentlichen Bürger-Client und administrativen Client,
 - Backend-API und Berechnungskern,
+- geplanten serverseitigen BKI-Kostendienst einschließlich Import, Speicherung, Berechnung, Ausgabe und Export,
 - Offline-Pipeline und Airflow-Orchestrierung,
 - Deployment-Add-on sowie die angebundene CIVITAS/CORE-Plattform,
 - Datenbank, Objektspeicher, Logging, Backups und Identitätsmanagement.
@@ -132,6 +133,21 @@ Sicherheitsrelevante Testdaten dürfen keine produktiven Geheimnisse oder person
 | REST-01 | P1 | Wiederherstellung von Datenbank, Objektspeicher und Konfiguration aus einem freigegebenen Backup testen. | Wiederherstellung erreicht dokumentierte RTO/RPO; Rechte, Integrität und Löschvorgaben bleiben erhalten. | Separate Recovery-/STAGING-Umgebung; vor Go-Live und mindestens jährlich |
 | PEN-01 | P0 | Unabhängiger Penetrationstest von Web, API, Authentisierung, Autorisierung, Plattformgrenzen und relevanter Pipeline-Angriffsfläche. | Keine offenen kritischen oder hohen Befunde vor Produktivfreigabe; Retest bestätigt Korrekturen. | EXTERN gegen freigegebene Vorproduktion; vor Go-Live und nach wesentlichen Änderungen |
 
+### Lizenzgeschützte BKI-Kostendaten
+
+Die Testfälle in diesem Abschnitt beschreiben den geplanten Zielzustand. Solange Originaldaten, Nutzungsbedingungen oder Schnittstelle fehlen, werden technisch mögliche Teile mit einem strukturell gleichwertigen synthetischen Katalog ausgeführt. Ein dadurch blockierter Lizenz- oder Originaldatentest gilt nicht als bestanden.
+
+| ID | Prio | Szenario und Methode | Erwartetes Ergebnis | Wo / wann |
+|---|---:|---|---|---|
+| BKI-01 | P0 | Zu RM-BKI-02: Frontend-Bundles, öffentliche Konfigurationen, Source Maps, Browser-Speicher, statische Artefakte und Repositories nach BKI-Rohdaten, Katalogschlüsseln und rekonstruierbaren Tabellen durchsuchen. | Weder Rohdaten noch eine massenhaft auswertbare Katalogrepräsentation werden an den Client oder in öffentliche Artefakte ausgeliefert. | LOKAL/CI und STAGING; ab erstem BKI-Prototyp und vor jedem Release mit Kostenfunktionen |
+| BKI-02 | P0 | Zu RM-BKI-01 und RM-BKI-03: Den öffentlichen Kostenpfad mit systematisch variierten Maßnahmen, Dimensionen, Regionalfaktoren, Rundungsgrenzen, Reihenfolgen und Parallelität abfragen und Antworten auf Rekonstruierbarkeit untersuchen. | API und Ergebnisgranularität erlauben keine wirtschaftlich verwertbare Rekonstruktion des Katalogs; Quoten, Rate Limits und Anomalieerkennung begrenzen automatisierte Extraktion. | INTEGRATION und abgestimmt auf STAGING; vor erster Produktivfreigabe und nach Änderungen am Kostenvertrag |
+| BKI-03 | P1 | Zu RM-BKI-04: PDF-, JSON-, CSV- und sonstige Exporte sowie Fehlermeldungen auf Einzelpositionen, interne Schlüssel, Zwischenwerte und unzulässige Provenienzangaben prüfen. | Jeder Ausgabeweg hält die freigegebene Granularität ein und legt keine zusätzlichen lizenzgeschützten Informationen offen. | INTEGRATION und STAGING; bei Änderungen an Kostenanzeige oder Export |
+| BKI-04 | P0 | Zu RM-BKI-05 und RM-BKI-07: Logs, Traces, Metriken, Caches, Support-Dumps und testweise Backups nach BKI-Werten und Zugangsdaten durchsuchen; Cache- und Diagnosefehler kontrolliert auslösen. | Rohwerte und Zugangsdaten werden redigiert; Zugriffe und Aufbewahrung entsprechen der Lizenz- und Betriebsfreigabe. | INTEGRATION sowie STAGING/BETRIEB mit freigegebenem Zugriff; vor Go-Live und nach Observability-Änderungen |
+| BKI-05 | P0 | Zu RM-BKI-06 und RM-BKI-07: Import und Aktivierung mit manipuliertem Artefakt, falscher Prüfsumme, nicht freigegebener Version, unzulässigem Preisstand sowie unberechtigten Rollen ausführen. | Nur integre, fachlich freigegebene und lizenzgültige Versionen werden aktiviert; Import, Freigabe und Nutzung sind getrennt und auditierbar. | INTEGRATION und STAGING; bei jeder Änderung an Import oder Freigabeprozess |
+| BKI-06 | P1 | Zu RM-BKI-06: Referenzfälle für Kostenposition, Einheit, Menge, Preisstand, Regionalisierung, Rundung und fachliche Zuordnung positiv und negativ prüfen. | Berechnung ist deterministisch, auf die aktive Version rückführbar und weist fachlich falsche oder unvollständige Zuordnungen ab. | LOKAL im Kostenmodell und INTEGRATION im Backend; bei jedem Kostenmodell-Release |
+| BKI-07 | P1 | Zu RM-BKI-08: Timeouts, hohe zulässige Parallelität, Cache-Ausfall, gesperrte Katalogversion und Lizenzende simulieren. | Der Dienst bleibt innerhalb der freigegebenen Kapazitätsgrenzen verfügbar oder schlägt kontrolliert fehl; kein Fallback liefert Rohdaten oder nicht freigegebene Altwerte aus. | INTEGRATION und abgestimmt auf STAGING; vor Go-Live und nach Betriebsänderungen |
+| BKI-08 | P0 | Zu RM-BKI-09: Lizenzfreigabe gegen tatsächliche Speicherung, Ableitung, API-Ausgabe, Export, Caching, Backups, Benutzerkreis und Nachnutzung abgleichen. | Alle technischen Datenflüsse sind von der dokumentierten Freigabe gedeckt; ungeklärte oder abweichende Verwendungen verhindern die Produktivfreigabe. | DESIGN-Review und STAGING-Abnahme; vor Implementierungsfreigabe erneut vor Go-Live |
+
 ## Repository-spezifische Startbefehle
 
 Die Befehle gelten aus dem Stammverzeichnis des jeweiligen Repositories. Sie beschreiben den derzeit vorhandenen Einstiegspunkt; fehlende Testskripte sind als Lücke zu behandeln.
@@ -148,4 +164,4 @@ Die Befehle gelten aus dem Stammverzeichnis des jeweiligen Repositories. Sie bes
 
 ## Freigaberegel
 
-Ein Release-Kandidat darf sicherheitsseitig nur freigegeben werden, wenn alle P0-Testfälle, die für den bereitgestellten Scope anwendbar sind, `BESTANDEN` sind, keine ungeklärten kritischen oder hohen Befunde bestehen und blockierte P0-Prüfungen vor der Produktivsetzung nachgeholt wurden. P1-/P2-Abweichungen benötigen Risiko, Maßnahme, Verantwortlichen und Termin. Das zugehörige datierte Prüfprotokoll verweist für jedes Ergebnis auf die Testfall-ID dieser Spezifikation.
+Ein Release-Kandidat darf sicherheitsseitig nur freigegeben werden, wenn alle P0-Testfälle, die für den bereitgestellten Scope anwendbar sind, `BESTANDEN` sind, keine ungeklärten kritischen oder hohen Befunde bestehen und blockierte P0-Prüfungen vor der Produktivsetzung nachgeholt wurden. P1-/P2-Abweichungen benötigen Risiko, Maßnahme, Verantwortlichen und Termin. Das zugehörige datierte Prüfprotokoll verweist für jedes Ergebnis auf die Testfall-ID dieser Spezifikation und die zugehörige ID der [Sicherheitsrisikomatrix](08-security-risk-matrix.md). BKI-basierte Funktionen dürfen zusätzlich erst freigegeben werden, wenn `BKI-08` bestanden ist und die übrigen für den bereitgestellten Kostenumfang anwendbaren BKI-P0-Testfälle bestanden sind.

@@ -38,6 +38,7 @@ Dieses Kapitel beschreibt das Sicherheitskonzept des Digitaler Energie Zwilling 
 - Öffentlicher Bürger-Client (statische Auslieferung).
 - Administrativer Client (geschützter Bereich).
 - Backend-API, Datenbank, Konfigurations-Publishing.
+- Geplanter serverseitiger BKI-Kostendienst mit lizenzgeschütztem Datenbestand.
 - Offline-Datenpipeline (Airflow, Container, externer Datendienst).
 - Backend-Redirect für 3D Tiles und extern bereitgestellter Tiles-Dienst.
 
@@ -140,6 +141,7 @@ Ein Status `⚠️` bezeichnet eine vorhandene Umsetzung mit noch fehlendem voll
 - Notwendige lokale Browser-Speicherung (Local Storage) für persistente Zustandswiederherstellung bei Wiederbesuchen, Consent für optionale serverseitige Speicherung und Matomo-Tracking.
 - Hinweise zu `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie zu den relevanten `dcat:distribution`-Angaben der verwendeten Datenquellen werden in den Datenschutzhinweisen der DEZ-Webseite ausgewiesen; Verantwortung für Bereitstellung und Pflege liegt beim jeweiligen Betreiber der DEZ-Plattform. Die Auswahl ist auf DCAT-AP.de gemappt, bildet den Standard jedoch nicht vollständig ab.
 - Löschprozess mit eindeutiger Identifikation (z.B. Link/QR im PDF).
+- Lizenzgeschützte BKI-Kostendaten werden nicht an Clients ausgeliefert. Zulässige Ableitungen, Granularität, Caching, Export und Aufbewahrung werden vor der Implementierung durch ein Lizenz-Gate festgelegt; das Schutzmodell steht in der [Sicherheitsrisikomatrix](08-security-risk-matrix.md#bki-schutzmodell-und-lizenz-gate).
 
 ### Tracking-Strategie (verbindliche Festlegung)
 
@@ -210,8 +212,9 @@ Ein Status `⚠️` bezeichnet eine vorhandene Umsetzung mit noch fehlendem voll
 - Secure Development Lifecycle nach OWASP.
 - Code-Reviews und automatisierte Tests als Standard.
 - Penetrationstest vor Go-Live.
+- Die [Sicherheitsrisikomatrix](08-security-risk-matrix.md) priorisiert die Angriffsszenarien und ist vor jedem Produktivrelease sowie bei wesentlichen Architekturänderungen zu aktualisieren.
 - Die konkreten Testfälle, Prioritäten, Ausführungsorte und Nachweisanforderungen sind in der [Security-Testspezifikation](07-security-test-specification.md) festgelegt.
-- Tatsächliche Läufe und Befunde werden in datierten Prüfprotokollen dokumentiert; Ausgangspunkt ist das [Security-Prüfprotokoll vom 17.08.2026](08-security-test-report-2026-08-17.md).
+- Tatsächliche Läufe und Befunde werden in datierten Prüfprotokollen dokumentiert und auf Risiken sowie Testfall-IDs zurückgeführt.
 
 ---
 
