@@ -77,8 +77,8 @@ Quelle: `raw/frontend-architecture.puml`
 ## Datenhaltung und Privacy
 
 - Der Bearbeitungszustand wird im Public Client über Local Storage für Wiederbesuche persistiert.
-- Nutzereingaben bleiben lokal, sofern keine explizite Übermittlung erfolgt; bei expliziter Speicherung kann der Zustand vom Server wiederhergestellt werden.
-- Exporte erzeugen Dateien nur auf ausdrücklichen Nutzerwunsch.
+- Nutzereingaben bleiben lokal, sofern keine explizite Übermittlung erfolgt. Portable Wiederherstellungslinks enthalten den serialisierten Zustand ausschließlich im URL-Fragment und werden nur im Browser ausgewertet; eine serverseitige Sitzungswiederherstellung ist nicht vorgesehen.
+- Exporte erzeugen Dateien nur auf ausdrücklichen Nutzerwunsch. Nach einer freiwilligen Einreichung lädt der Client den gespeicherten JSON-Export über den Capability-geschützten Backend-Endpunkt herunter.
 
 ---
 

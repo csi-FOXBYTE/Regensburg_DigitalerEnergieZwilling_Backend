@@ -172,6 +172,7 @@ dokumentiert.
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
+- **Public Capability API**: Nach dem Speichern erhält der Client ausschließlich einen zufälligen Lösch-Token. Derselbe Token schützt die nicht verändernde Verfügbarkeitsprüfung, den vom Backend erzeugten JSON-Download und die physische Löschung per HTTP `DELETE`. Fehlende, ungültige und bereits verwendete Tokens sind als `404` nicht unterscheidbar; die frühere mutierende `GET`-Route entfällt.
 - **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei oder lehnt sie ab. Eine tatsächliche Löschung erfolgt separat über die dafür vorgesehenen Delete-Endpunkte. Der Endpunkt für eine einzelne Einreichung löscht nur diese Einreichung; der Endpunkt für eine Gebäudegruppe prüft atomar, dass alle zugehörigen Einreichungen abgelehnt sind.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).
@@ -205,7 +206,7 @@ Quelle: `raw/public-write-flow.puml`
 - **Auth/Session**: OIDC für Admin; öffentlicher Bereich ohne Auth mit Local Storage für Zustandswiederherstellung und optionalem Schreibzugriff für Berechnungsergebnisse
 - **Validation**: Public Write prüft Eingaben (Range/Schema)
 - **Abuse-Schutz**: Öffentliche Schreibzugriffe sind durch die globale, von der externen Deployment-Plattform betriebene APISIX-Policy für Altcha-Challenges und Rate Limiting geschützt
-- **State-Restore**: Serverseitige Wiederherstellung ist nur für explizit gespeicherte Eingaben/Ergebnisse zulässig
+- **State-Restore**: Local Storage und portable, ausschließlich im Browser ausgewertete URL-Fragmente stellen Bearbeitungsstände wieder her; das Backend persistiert keine Frontend-Sitzung und bietet keinen Wiederherstellungsendpunkt
 - **Altcha kurz erklärt**: Altcha ist eine selbsthostbare, datenschutzfreundliche Challenge; der Client löst eine kleine Rechenaufgabe und sendet ein Token, das von der globalen APISIX-Policy der externen Deployment-Plattform geprüft wird.
 - **Enforcement**: Bereitstellung, Betrieb und Nachweis der Altcha- und Rate-Limit-Policy sind externe Plattformverantwortung und nicht Bestandteil der DEZ-Repositories. Das Backend übernimmt danach Schema-/Fachvalidierung und Recompute-Verifikation.
 - **Publish-Flow**: Admin veröffentlicht Konfiguration → JSON-Snapshot wird erzeugt → Public Client liest JSON
@@ -252,7 +253,7 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 
 - **Configuration Service**: Konfigurationen, Versionierung, Publishing (TA-27 bis TA-46).
 - **Config Snapshot Exporter**: Export der JSON-Snapshots (TA-44 bis TA-45).
-- **User Data Service**: Public Write, Persistenz der Eingaben und Ergebnisse (TA-33, TA-36).
+- **User Data Service**: Public Write, Persistenz der Eingaben und Ergebnisse sowie Capability-geschützte Status-, JSON-Download- und Löschoperationen (TA-33, TA-36, TA-76, TA-77).
 - **Triage/Reporting Service**: Triage, Freigabe, Reporting-Views sowie gezielte und bedingte gebündelte Löschoperationen (TA-34, TA-50, TA-151).
 - **Berechnungsservice**: Server-Recompute für Verifikation (TA-49).
 - **Geo Query Service**: räumliche Abfragen für Admin-Views (TA-37).
@@ -263,4 +264,3 @@ Diese Vertragsregeln entsprechen insbesondere TA-48 bis TA-50, TA-80 bis TA-83, 
 - Reports werden **nicht** als eigene dauerhafte Objekte gespeichert.
 - Reports werden in der Anwendung **dynamisch aus der Datenbank** aggregiert.
 - Bürgerseitige Report-Exporte sind optional und werden als **ReportExport** mit Metadaten (Zeitpunkt, Scope, Format) persistiert.
-

@@ -27,14 +27,28 @@ export const SubmitInputDto = Type.Object({
 export type SubmitInput = Static<typeof SubmitInputDto>;
 
 export const SubmitOutputDto = Type.Object({
-  id: Type.String(),
-  ngsiData: Type.Object({}, { additionalProperties: true }),
-  raw: Type.Object({}, { additionalProperties: true }),
-  deletionLink: Type.String(),
+  deletionToken: Type.String(),
 });
 export type SubmitOutput = Static<typeof SubmitOutputDto>;
 
-// --- Delete ---
+// --- Public capability routes ---
+
+export const PublicSubmissionStatusOutputDto = Type.Object({
+  available: Type.Literal(true),
+});
+
+export const PublicSubmissionDownloadOutputDto = Type.Object({
+  id: Type.String(),
+  buildingId: Type.String(),
+  address: Type.String(),
+  longitude: Type.Number(),
+  latitude: Type.Number(),
+  configName: Type.Optional(Type.String()),
+  createdAt: Type.String({ format: "date-time" }),
+  raw: Type.Object({}, { additionalProperties: true }),
+  ngsiData: Type.Object({}, { additionalProperties: true }),
+  deletionLink: Type.String(),
+});
 
 export const DeletePublicOutputDto = Type.Object({
   success: Type.Literal(true),

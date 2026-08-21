@@ -23,7 +23,7 @@ operative Aspekte wie Monitoring, Logging und Betrieb.
 ## Runtime-Flows
 
 **Bürger (Eigentümer/Vermieter)-Flow**  
-Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Tile-Anfragen laufen über `GET /api/public/tiles/*`; das Backend leitet sie per Redirect an die über `TILES_URL` konfigurierte externe Tiles-URL weiter. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional über APISIX an das Backend; Altcha und Rate Limiting werden dabei durch die globale Policy der externen Deployment-Plattform geprüft. Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt; bei expliziter Speicherung ist zusätzlich eine Wiederherstellung vom Server möglich.
+Der öffentliche Client lädt statische Inhalte, die veröffentlichte Konfiguration und 3D Tiles. Tile-Anfragen laufen über `GET /api/public/tiles/*`; das Backend leitet sie per Redirect an die über `TILES_URL` konfigurierte externe Tiles-URL weiter. Nutzer wählen ein Gebäude, führen Berechnungen clientseitig aus und übermitteln Ergebnisse optional über APISIX an das Backend; Altcha und Rate Limiting werden dabei durch die globale Policy der externen Deployment-Plattform geprüft. Der Bearbeitungszustand wird über Local Storage für Wiederbesuche wiederhergestellt. Portable Wiederherstellungslinks serialisieren den Zustand ausschließlich im clientseitig ausgewerteten URL-Fragment; das Backend stellt dafür keinen Sitzungsendpunkt bereit.
 Beteiligte Komponenten: APISIX (Web/API-Gateway), Public Client, externer Tiles-Dienst, Config Snapshot, Backend API.  
 Fehlerpfade: fehlende Tiles/Config, ungültige Eingaben, APISIX-Altcha-/Rate-Limit-Prüfung fehlgeschlagen, Server-Recompute abweichend.
 
@@ -68,10 +68,10 @@ Reduzierte Darstellung ohne zusätzliche Hinweise und Abhängigkeiten.
 Quelle: `raw/runtime-flow-pipeline-simple.puml`
 
 **Lösch-Flow (Public)**  
-Wenn ein Nutzer Ergebnisse gespeichert hat, kann er eine Löschung aus dem PDF (Link/QR) anstoßen.  
+Wenn ein Nutzer Ergebnisse freiwillig gespeichert hat, enthält das PDF einen Löschlink zur öffentlichen Client-Route sowie einen Link zum JSON-Download. Beide verwenden denselben zufälligen Capability-Token. Der Client prüft den Token mit einem nicht verändernden Statusabruf, zeigt bei Verfügbarkeit den Bestätigungsdialog und sendet erst nach ausdrücklicher Bestätigung die Löschung per HTTP `DELETE`. Das Backend liefert den JSON-Export als nicht cachebare Datei direkt aus den gespeicherten öffentlichen Einreichungsdaten.
 Beteiligte Komponenten: Public Client, Backend API, User Data Service, Datenbank.  
-Schritte: Löschlink öffnen → Adresse/Token prüfen → Bestätigung → Löschjob → Audit-Log.  
-Fehlerpfade: ungültiger Token, Adresse stimmt nicht, Datensatz nicht gefunden, Rate Limit.
+Schritte: Löschlink öffnen → `GET /api/public/submissions/{token}/status` → Bestätigungsdialog → `DELETE /api/public/submissions/{token}` → Erfolgsansicht. Der Download erfolgt über `GET /api/public/submissions/{token}/download`.
+Fehlerpfade: Fehlende, ungültige und bereits verwendete Tokens ergeben ohne Unterscheidung `404`; sonstige Backendfehler bleiben als wiederholbare Fehler erkennbar. Ein Adressabgleich findet nicht statt.
 
 ![runtime-flow-delete.png](./attachments/runtime-flow-delete.png)
 
@@ -88,7 +88,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 - **Admin Flow**: APISIX schützt die administrativen Routen und prüft OIDC vorgelagert; das Backend validiert das weitergeleitete Access Token unabhängig per RS256/JWKS und setzt die Rollen `manager`, `maintainer` und `admin` selbst für fachliche Zugriffsentscheidungen ein.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; die Aktion „Datensatz abgelehnt“ endet im fachlichen Status `abgelehnt`. Die physische Löschung ist eine separate Operation und kein Statusübergang. Einzelne Einreichungen werden gezielt gelöscht; vor einer gebündelten Löschung prüft das Backend atomar, dass alle Einreichungen der Gebäude-ID abgelehnt sind.
 - **Pipeline Flow**: Getrennte Offline-Ausführung mit lokalem Arbeitsbereich je `job_id` und kontrollierter Übertragung der Zielausgaben; keine Veröffentlichung laufbezogener Nachweise und kein partieller Erfolgsstatus bei Teilfehlern.
-- **Delete Flow**: Zweistufige Verifikation (Token + Bestätigung/Abgleich) vor Löschung.
+- **Delete Flow**: Capability-geschützte Verfügbarkeitsprüfung und ausdrückliche Bestätigung im Public Client vor der Löschung per HTTP `DELETE`; kein Adressabgleich und keine mutierende `GET`-Route.
 
 Übergreifende Invariante: Jeder Flow besitzt einen klaren Reject-Pfad mit nachvollziehbarer Protokollierung.
 

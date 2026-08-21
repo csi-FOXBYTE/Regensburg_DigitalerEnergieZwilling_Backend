@@ -1,5 +1,5 @@
 @startuml
-title Ablauf: Öffentliche Löschung
+title Ablauf: Öffentliche PDF-Datenlinks und Löschung
 
 actor Benutzer
 participant "Öffentlicher Client" as client
@@ -8,28 +8,50 @@ participant "Backend-API" as api
 participant "Nutzerdatendienst" as uds
 database "Datenbank" as db
 
-Benutzer -> client : Löschlink/QR-Code öffnen
-client -> gateway : GET /delete/{token}
-gateway -> api : Anfrage weiterleiten
-api -> uds : Token validieren
-uds -> db : Datensatz suchen
+Benutzer -> client : Löschlink/QR-Code aus PDF öffnen\nGET /delete/{token}
+client -> gateway : GET /api/public/submissions/{token}/status
+gateway -> api : Statusanfrage
+api -> uds : Verfügbarkeit prüfen
+uds -> db : Minimale Token-Suche
 db --> uds : Datensatz oder nicht gefunden
-uds --> api : Gültig/ungültig
-api --> gateway : Bestätigung oder Fehler anzeigen
-gateway --> client : Bestätigung oder Fehler anzeigen
 
-alt Bestätigt
-  client -> gateway : POST /delete/{token}\nAdressbestätigung
-  gateway -> api : Anfrage weiterleiten
-  api -> uds : Löschanfrage
-  uds -> db : Adresse prüfen\nund Datensatz löschen
-  db --> uds : Gelöscht
-  uds --> api : Erfolgreich
-  api --> gateway : Bestätigung
-  gateway --> client : Bestätigung
-else Ungültig
-  api --> gateway : Fehler (Token/Adresse)
-  gateway --> client : Fehler (Token/Adresse)
+alt Token verfügbar
+  uds --> api : Verfügbar
+  api --> gateway : 200 { available: true }
+  gateway --> client : Verfügbar
+  client --> Benutzer : Bestätigungsdialog anzeigen
+  alt Löschung bestätigt
+    Benutzer -> client : Löschen bestätigen
+    client -> gateway : DELETE /api/public/submissions/{token}
+    gateway -> api : Löschanfrage
+    api -> uds : Physisch löschen
+    uds -> db : Einreichung löschen
+    db --> uds : Gelöscht
+    uds --> api : Erfolgreich
+    api --> gateway : 200 { success: true }
+    gateway --> client : Erfolgreich
+    client --> Benutzer : Erfolgsansicht anzeigen
+  else Abgebrochen
+    Benutzer -> client : Dialog abbrechen
+    client --> Benutzer : Einreichung bleibt bestehen
+  end
+else Token fehlt, ist ungültig oder bereits verwendet
+  uds --> api : Nicht gefunden
+  api --> gateway : 404 NOT_FOUND
+  gateway --> client : Nicht verfügbar
+  client --> Benutzer : Neutrale Nicht-verfügbar-Ansicht
+end
+
+opt JSON-Link aus PDF öffnen
+  Benutzer -> client : JSON-Download anfordern
+  client -> gateway : GET /api/public/submissions/{token}/download
+  gateway -> api : Downloadanfrage
+  api -> uds : Öffentliche Exportdaten laden
+  uds -> db : Einreichung und optionale Konfiguration lesen
+  db --> uds : Exportdaten oder nicht gefunden
+  uds --> api : Exportdaten
+  api --> gateway : JSON-Anhang, Cache-Control: no-store
+  gateway --> Benutzer : Datei oder 404
 end
 
 @enduml
