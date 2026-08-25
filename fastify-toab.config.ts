@@ -15,6 +15,23 @@ export default defineConfig({
     KEYCLOAK_JWKS_URI: Type.String(),
   }),
   onRouteError: routeErrorHandler,
+  onReady: async (fastify) => {
+    if (!fastify.hasDecorator("swagger")) return;
+
+    // fastify-toab documents handlers without an output body as 204. Public
+    // feedback creation intentionally has no body but uses 201 instead.
+    const document = fastify.swagger() as {
+      paths?: Record<
+        string,
+        { post?: { responses?: Record<string, unknown> } }
+      >;
+    };
+    const responses = document.paths?.["/api/public/feedback"]?.post?.responses;
+    if (!responses) return;
+
+    delete responses["204"];
+    responses["201"] = { description: "Feedback created" };
+  },
   fastify: () => ({
     underPressure: {
       exposeStatusRoute: "/health",

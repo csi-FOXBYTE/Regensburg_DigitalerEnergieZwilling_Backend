@@ -10,9 +10,12 @@ import {
 import auth_auth$service from "../auth/auth.service.js";
 import config_config$service from "../config/config.service.js";
 import database_database$service from "../database/database.service.js";
+import feedback_feedback$service from "../feedback/feedback.service.js";
 import submissions_submissions$service from "../submissions/submissions.service.js";
 import auth_auth$controller from "../auth/auth.controller.js";
 import config_config$controller from "../config/config.controller.js";
+import feedbackAdmin_feedbackAdmin$controller from "../feedbackAdmin/feedbackAdmin.controller.js";
+import feedbackPublic_feedbackPublic$controller from "../feedbackPublic/feedbackPublic.controller.js";
 import submissionsAdmin_submissionsAdmin$controller from "../submissionsAdmin/submissionsAdmin.controller.js";
 import submissionsPublic_submissionsPublic$controller from "../submissionsPublic/submissionsPublic.controller.js";
 import terrain_terrain$controller from "../terrain/terrain.controller.js";
@@ -34,6 +37,7 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   serviceRegistry.register(auth_auth$service);
   serviceRegistry.register(config_config$service);
   serviceRegistry.register(database_database$service);
+  serviceRegistry.register(feedback_feedback$service);
   serviceRegistry.register(submissions_submissions$service);
 
   workerRegistry = new WorkerRegistry(serviceRegistry);
@@ -48,6 +52,8 @@ export async function getRegistries(dontInitializeWorkers?: boolean) {
   controllerRegistry = new ControllerRegistry(serviceRegistry);
   controllerRegistry.register(auth_auth$controller);
   controllerRegistry.register(config_config$controller);
+  controllerRegistry.register(feedbackAdmin_feedbackAdmin$controller);
+  controllerRegistry.register(feedbackPublic_feedbackPublic$controller);
   controllerRegistry.register(submissionsAdmin_submissionsAdmin$controller);
   controllerRegistry.register(submissionsPublic_submissionsPublic$controller);
   controllerRegistry.register(terrain_terrain$controller);

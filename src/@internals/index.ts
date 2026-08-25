@@ -7,11 +7,13 @@ import { InferService, ServiceContainer, WorkerContainer, QueueContainer } from 
 import authService from "../auth/auth.service.js";
 import configService from "../config/config.service.js";
 import databaseService from "../database/database.service.js";
+import feedbackService from "../feedback/feedback.service.js";
 import submissionsService from "../submissions/submissions.service.js";
 
 export type AuthService = InferService<typeof authService>;
 export type ConfigService = InferService<typeof configService>;
 export type DatabaseService = InferService<typeof databaseService>;
+export type FeedbackService = InferService<typeof feedbackService>;
 export type SubmissionsService = InferService<typeof submissionsService>;
 
 export function getAuthService(deps: ServiceContainer) {
@@ -22,6 +24,9 @@ export function getConfigService(deps: ServiceContainer) {
 }
 export function getDatabaseService(deps: ServiceContainer) {
     return deps.get<DatabaseService>(databaseService.name);
+}
+export function getFeedbackService(deps: ServiceContainer) {
+    return deps.get<FeedbackService>(feedbackService.name);
 }
 export function getSubmissionsService(deps: ServiceContainer) {
     return deps.get<SubmissionsService>(submissionsService.name);
