@@ -28,6 +28,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
 - Durchsetzung der Löschregeln in der Admin-Triage: gezielte Einzellöschung sowie atomare gebündelte Löschung nur bei ausschließlich abgelehnten Einreichungen zu einer Gebäude-ID.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
+- Capability-geschützte öffentliche Status-, JSON-Download- und Löschschnittstellen für freiwillige Einreichungen; nur HTTP `DELETE` verändert Daten.
 - Optionale serverseitige Berechnung über den Berechnungskern.
 
 ---
@@ -35,7 +36,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 <a id="schnittstellen"></a>
 ## Schnittstellen
 
-- Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen) über APISIX.
+- Öffentliche API (z.B. Konfiguration, optionale Speicherung von Ergebnissen sowie token-geschützte Status-, Download- und Löschoperationen) über APISIX.
 - Administrative API (Konfiguration, Triage, Reporting) über APISIX.
 - Spezifikation nach OpenAPI 3.0 oder höher als Vertragsquelle für die Frontend-Client-Generierung.
 - Identity Provider (Keycloak) für Admin-Login.

@@ -327,10 +327,39 @@ const decline = async (db: DB, submissionId: string, userId: string, roles: Role
   });
 };
 
-const deleteByToken = async (db: DB, deletionToken: string) => {
-  const submission = await db.submission.findUnique({ where: { deletionToken } });
-  if (!submission) throw new SubmissionNotFoundError(deletionToken);
-  return db.submission.delete({ where: { deletionToken } });
+export const assertAvailableByToken = async (db: DB, deletionToken: string) => {
+  const submission = await db.submission.findUnique({
+    where: { deletionToken },
+    select: { id: true },
+  });
+  if (!submission) throw new SubmissionNotFoundError();
+};
+
+export const getPublicDownloadByToken = async (db: DB, deletionToken: string) => {
+  const submission = await db.submission.findUnique({
+    where: { deletionToken },
+    select: {
+      id: true,
+      buildingId: true,
+      address: true,
+      longitude: true,
+      latitude: true,
+      createdAt: true,
+      rawInput: true,
+      ngsiData: true,
+      usedConfig: { select: { versionName: true } },
+    },
+  });
+  if (!submission) throw new SubmissionNotFoundError();
+  return submission;
+};
+
+export const deleteByToken = async (db: DB, deletionToken: string) => {
+  const result = await db.submission.deleteMany({
+    where: { deletionToken },
+  });
+  if (result.count === 0) throw new SubmissionNotFoundError();
+  return result;
 };
 
 const deleteById = async (db: DB, submissionId: string, userId: string, roles: Roles) => {
@@ -349,6 +378,10 @@ const submissionsService = createService("submissions", async ({ services }) => 
 
   return {
     submit: (params: Parameters<typeof submit>[3]) => submit(db, configService, ngsiLdContext, params),
+    assertAvailableByToken: (deletionToken: string) =>
+      assertAvailableByToken(db, deletionToken),
+    getPublicDownloadByToken: (deletionToken: string) =>
+      getPublicDownloadByToken(db, deletionToken),
     deleteByToken: (deletionToken: string) => deleteByToken(db, deletionToken),
     deleteById: (submissionId: string, userId: string, roles: Roles) => deleteById(db, submissionId, userId, roles),
     assign: (submissionId: string, userId: string, roles: Roles, targetUserId?: string) =>

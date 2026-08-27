@@ -51,6 +51,12 @@ enum SubmissionStatus {
   DECLINED
 }
 
+enum FeedbackCategory {
+  bug
+  feedback
+  suggestion
+}
+
 model Building with WithTimestamps {
   id          String             @id
   address     String?
@@ -96,4 +102,13 @@ model SubmissionChangeHistoryEntry with Base {
   submission   Submission       @relation(fields: [submissionId], references: [id])
 
   @@index([submissionId])
+}
+
+model Feedback with Base {
+  category     FeedbackCategory
+  message      String
+  emailAddress String?
+
+  @@index([createdAt, id])
+  @@index([category, id])
 }

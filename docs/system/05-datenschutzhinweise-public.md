@@ -228,13 +228,15 @@ Einreichungen werden bis [fachlich und rechtlich freigegebene Regelfrist ergänz
 
 Für jede gespeicherte Einreichung erzeugt das Backend einen zufälligen Lösch-Token. Der PDF-Bericht enthält den daraus erzeugten Link zur Löschseite. Die Löschung erfolgt zweistufig: Zuerst wird der zufällige Löschlink aufgerufen, anschließend muss die Löschung in einem Bestätigungsdialog ausdrücklich bestätigt werden.
 
+Die Löschseite wird vom Public-Frontend angezeigt. Sie prüft beim Backend ausschließlich, ob die Einreichung noch verfügbar ist, und zeigt erst dann den Bestätigungsdialog. Erst die ausdrückliche Bestätigung sendet eine Löschanfrage per HTTP `DELETE`; der vorherige Seiten- und Statusabruf verändert keine Daten. Fehlende, ungültige und bereits verwendete Tokens werden gleich behandelt. Ein zusätzlicher Adressabgleich findet nicht statt.
+
 Nach erfolgreicher Prüfung werden der Einreichungsdatensatz und daraus abgeleitete personenbezogene Gebäudedaten aus der Produktivdatenbank gelöscht. Zugehörige Sicherungskopien werden nach Ablauf des regulären Backupzyklus von [Frist ergänzen] überschrieben beziehungsweise gelöscht.
 
 Bewahren Sie den Löschlink geschützt auf. Der Lösch-Token ist nicht mit einem Benutzerkonto verknüpft und kann bei Verlust nicht ohne Weiteres ersetzt werden.
 
 ## 10. PDF- und JSON-Export sowie Wiederherstellungslinks
 
-Der PDF-Bericht wird mit `@react-pdf/renderer` in Ihrem Browser erzeugt und als Datei auf Ihr Endgerät heruntergeladen. Auch ein JSON-Export wird im Browser erzeugt. Ohne freiwillige Datenbereitstellung ist hierfür keine Übermittlung Ihrer Eingaben an das Backend erforderlich.
+Der PDF-Bericht wird mit `@react-pdf/renderer` in Ihrem Browser erzeugt und als Datei auf Ihr Endgerät heruntergeladen. Ohne freiwillige Datenbereitstellung ist hierfür keine Übermittlung Ihrer Eingaben an das Backend erforderlich. Nach einer freiwilligen Einreichung erzeugt das Backend den zugehörigen JSON-Export auf Anforderung aus den gespeicherten Eingabe-, Ergebnis- und Einreichungsdaten und liefert ihn als nicht cachebare Datei aus.
 
 Der PDF-Bericht kann folgende vertrauliche Verknüpfungen enthalten:
 
@@ -242,7 +244,9 @@ Der PDF-Bericht kann folgende vertrauliche Verknüpfungen enthalten:
 - bei freiwilliger Einreichung einen Löschlink,
 - bei freiwilliger Einreichung einen Link zum JSON-Export.
 
-Wiederherstellungs- und Löschlinks enthalten jeweils einen zufälligen, nicht erratbaren Zugriffstoken. Die eigentlichen Eingabe- und Ergebnisdaten werden nicht in der URL transportiert. Wer einen solchen Link erhält, kann abhängig von dessen Funktion auf den gespeicherten Bearbeitungsstand zugreifen oder eine Löschung anstoßen.
+Lösch- und JSON-Download-Link enthalten denselben zufälligen, nicht erratbaren Capability-Token. Wer einen solchen Link erhält, kann die gespeicherten öffentlichen Einreichungsdaten herunterladen beziehungsweise nach ausdrücklicher Bestätigung löschen. Der JSON-Export enthält deshalb zusätzlich einen neutralen Löschlink ohne Sprachparameter.
+
+Portable Wiederherstellungslinks arbeiten davon unabhängig: Sie enthalten den serialisierten Bearbeitungsstand im URL-Fragment. Dieses Fragment wird ausschließlich im Browser ausgewertet und bei einem normalen HTTP-Aufruf nicht an das Backend übertragen. Für die Wiederherstellung wird kein serverseitiger Sitzungsdatensatz und kein Backend-Token angelegt.
 
 Speichern Sie Bericht und Links daher geschützt und geben Sie sie nur an vertrauenswürdige Personen weiter.
 

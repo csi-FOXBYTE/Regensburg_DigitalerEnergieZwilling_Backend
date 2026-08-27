@@ -365,6 +365,51 @@ export class SchemaType implements SchemaDef {
             uniqueFields: {
                 id: { type: "String" }
             }
+        },
+        Feedback: {
+            name: "Feedback",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }, { name: "@default", args: [{ name: "value", value: ExpressionUtils.call("cuid") }] }],
+                    default: ExpressionUtils.call("cuid")
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                updatedAt: {
+                    name: "updatedAt",
+                    type: "DateTime",
+                    updatedAt: true,
+                    attributes: [{ name: "@updatedAt" }]
+                },
+                category: {
+                    name: "category",
+                    type: "FeedbackCategory"
+                },
+                message: {
+                    name: "message",
+                    type: "String"
+                },
+                emailAddress: {
+                    name: "emailAddress",
+                    type: "String",
+                    optional: true
+                }
+            },
+            attributes: [
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("DateTime", [ExpressionUtils.field("createdAt"), ExpressionUtils.field("id")]) }] },
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("FeedbackCategory", [ExpressionUtils.field("category"), ExpressionUtils.field("id")]) }] }
+            ],
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" }
+            }
         }
     } as const;
     typeDefs = {
@@ -425,6 +470,14 @@ export class SchemaType implements SchemaDef {
                 ASSIGNED: "ASSIGNED",
                 ACCEPTED: "ACCEPTED",
                 DECLINED: "DECLINED"
+            }
+        },
+        FeedbackCategory: {
+            name: "FeedbackCategory",
+            values: {
+                bug: "bug",
+                feedback: "feedback",
+                suggestion: "suggestion"
             }
         }
     } as const;

@@ -4,7 +4,7 @@ import type { AccessToken } from "../auth/auth.dto.js";
 import { AppError } from "../errors/app-error.js";
 
 export type Action = "read" | "update" | "create" | "delete";
-export type Area = "config" | "submissions";
+export type Area = "config" | "feedback" | "submissions";
 export type Permission = `${Area}:${Action}`;
 export type Role = "admin" | "manager" | "maintainer";
 
@@ -12,12 +12,14 @@ const rolePermissions: Record<Role, Permission[]> = {
   admin: [
     "submissions:read", "submissions:create", "submissions:update", "submissions:delete",
     "config:read", "config:create", "config:update", "config:delete",
+    "feedback:read", "feedback:delete",
   ],
   manager: [
     "submissions:read", "submissions:create", "submissions:update", "submissions:delete",
   ],
   maintainer: [
     "config:read", "config:create", "config:update", "config:delete",
+    "feedback:read", "feedback:delete",
   ],
 };
 

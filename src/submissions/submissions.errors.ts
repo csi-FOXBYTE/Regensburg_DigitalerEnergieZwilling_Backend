@@ -1,6 +1,6 @@
 export class SubmissionNotFoundError extends Error {
-  constructor(id: string) {
-    super(`Submission "${id}" not found`);
+  constructor(id?: string) {
+    super(id ? `Submission "${id}" not found` : "Submission not found");
     this.name = "SubmissionNotFoundError";
   }
 }
