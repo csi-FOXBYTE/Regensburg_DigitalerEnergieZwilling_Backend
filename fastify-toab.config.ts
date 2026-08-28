@@ -6,7 +6,8 @@ export default defineConfig({
   env: Type.Object({
     AUTH_RESOURCE_ACCESS_CLIENT_ID: Type.Optional(Type.String()),
     DATABASE_URL: Type.String(),
-    TILES_URL: Type.String(),
+    TILES_URL: Type.String({ minLength: 1 }),
+    TERRAIN_URL: Type.String({ minLength: 1 }),
     APP_BASE_URL: Type.String(),
     PUBLIC_CLIENT_BASE_URL: Type.String(),
     ADMIN_CLIENT_BASE_URL: Type.String(),

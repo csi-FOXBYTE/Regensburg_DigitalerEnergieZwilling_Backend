@@ -26,4 +26,9 @@ export const ActiveConfigOutputDto = Type.Object({
   publishedAt: Type.Any(),
 });
 
+export const MapResourcesOutputDto = Type.Object({
+  terrainBaseUrl: Type.String({ minLength: 1 }),
+  tilesBaseUrl: Type.String({ minLength: 1 }),
+});
+
 export type CreateConfigInput = Static<typeof CreateConfigInputDto>;

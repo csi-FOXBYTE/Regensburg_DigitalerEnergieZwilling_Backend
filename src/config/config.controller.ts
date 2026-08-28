@@ -1,10 +1,20 @@
 import { createController } from "@csi-foxbyte/fastify-toab";
 import { Type } from "@sinclair/typebox";
 import { getConfigService } from "../@internals/index.js";
-import { ActiveConfigOutputDto, ConfigDto, ConfigListOutputDto, CreateConfigInputDto } from "./config.dto.js";
+import {
+  ActiveConfigOutputDto,
+  ConfigDto,
+  ConfigListOutputDto,
+  CreateConfigInputDto,
+  MapResourcesOutputDto,
+} from "./config.dto.js";
 import { requirePermission } from "./config.middleware.js";
 
 const VersionNameParams = Type.Object({ versionName: Type.String() });
+
+function withTrailingSlash(url: string): string {
+  return `${url.replace(/\/+$/, "")}/`;
+}
 
 const configController = createController()
   .rootPath("/api");
@@ -65,6 +75,17 @@ configController
   .handler(async ({ services }) => {
     const configService = await getConfigService(services);
     return configService.getActiveConfig();
+  });
+
+configController
+  .addRoute("GET", "/public/map-resources")
+  .output(MapResourcesOutputDto)
+  .handler(async ({ reply }) => {
+    reply.header("cache-control", "public, max-age=300");
+    return {
+      terrainBaseUrl: withTrailingSlash(process.env.TERRAIN_URL!),
+      tilesBaseUrl: withTrailingSlash(process.env.TILES_URL!),
+    };
   });
 
 export default configController;
