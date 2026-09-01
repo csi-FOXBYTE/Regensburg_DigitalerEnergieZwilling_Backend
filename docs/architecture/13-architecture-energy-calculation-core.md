@@ -170,6 +170,11 @@ sichern die implementierten Pfade und aktuelle absolute Ergebnisse gegen Regress
 fachliche Bewertung der Modellabweichungen und geeigneter Toleranzen steht noch aus. Die fachliche
 Abnahme des Rechenkerns ist für Sprint 19 mit dem Energieberater terminiert.
 
+Der [Nachweis der Rechenmethoden](19-calculation-method-evidence.md) ordnet die in
+Core v0.19.0 ausgeführten Formeln und Katalogwerte den tatsächlich verwendeten,
+extern validierbaren Fundstellen zu. Konfigurierbare Projektfestlegungen sind dort
+getrennt von extern belegten Werten ausgewiesen.
+
 ---
 
 <a id="versionierung-und-nachvollziehbarkeit"></a>

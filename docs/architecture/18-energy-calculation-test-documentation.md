@@ -1,6 +1,6 @@
 # Testdokumentation der energetischen Berechnung
 
-Stand: 10.08.2026  
+Stand: 01.09.2026
 Status: technische Prüfung abgeschlossen; fachliche Bewertung durch den Energieberater ausstehend
 
 ## 1. Ziel
@@ -20,7 +20,7 @@ Ein zusätzlicher Vergleich realer LOD2-Gebäude mit dem professionellen Rechent
 
 ## 2. Berechnungsbasis und Abgrenzung
 
-Die Berechnungen wurden direkt mit dem im Bürger-Frontend installierten EnergyCalculationCore in Version 0.18.0 und dessen `DEFAULT_CONFIG` ausgeführt.
+Die Berechnungen wurden direkt mit dem im Bürger-Frontend installierten EnergyCalculationCore in Version 0.19.0 und dessen `DEFAULT_CONFIG` ausgeführt.
 
 Die `DEFAULT_CONFIG` wird aktuell in der Testumgebung verwendet. Die nachfolgenden Ergebnisse sind damit die verbindlichen Sollwerte für die Gegenprüfung in dieser Umgebung.
 
@@ -237,7 +237,7 @@ Die Tests belegen nicht, dass die absoluten Ergebnisgrößen fachlich richtig od
 |---|---|
 | Gezielter Golden-Master-Test der Berechnungspfade | 5 von 5 Testgruppen bestanden; 21 Varianten geprüft |
 | TypeScript-/Lint-Prüfung des Cores | bestanden |
-| Vollständige Core-Testsuite | 198 von 199 Tests bestanden; der einzige Fehlschlag ist ein bestehender CLI-Infrastrukturtest, der unter Windows wegen fehlender Berechtigung keinen symbolischen Link im Temp-Verzeichnis anlegen konnte (`EPERM`) |
+| Vollständige Core-Testsuite | 205 von 206 Tests bestanden; der einzige Fehlschlag ist ein bestehender CLI-Infrastrukturtest, der unter Windows wegen fehlender Berechtigung keinen symbolischen Link im Temp-Verzeichnis anlegen konnte (`EPERM`) |
 
 Der Fehlschlag der Gesamtsuite betrifft weder eine Berechnung noch den neuen Test. Die neue Testdatei selbst ist vollständig grün.
 
@@ -281,7 +281,9 @@ Der Core weist den Haushaltsstrom separat aus, bezieht ihn aber in mehrere UI-Ge
 | 5 | Sind die absoluten Größenänderungen der ausgewählten Dachraum-, Keller-, Sanierungs- und Energieträgervarianten fachlich plausibel? | Nicht den bereits getesteten Pfad, sondern die daraus resultierende Größenordnung fachlich beurteilen. |
 | 6 | Welche fachliche Toleranz gegenüber dem professionellen Rechentool empfiehlt der Energieberater für das vereinfachte Grobmodell? | Eine begründete Empfehlung als Entscheidungsgrundlage für den Kunden erhalten. |
 
-## 9. Quellen und technische Fundstellen
+## 9. Interne Testartefakte und technische Fundstellen
+
+- [Verwendete Rechenmethoden und validierte externe Quellen](19-calculation-method-evidence.md)
 
 Excel-Arbeitsmappen:
 

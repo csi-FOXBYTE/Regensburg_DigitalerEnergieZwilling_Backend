@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
 
-Letzte Änderung: **2026-08-27** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-09-01** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -69,6 +69,7 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-09-01 | TA-74/TA-75 - Rechenmethoden und Nachweise | Die verwendeten Formeln, externen Katalogwerte und Fundstellen waren nicht in einem einheitlichen, versionsgebundenen Nachweis zusammengeführt | Der implementierte Rechenumfang ist mit Core v0.19.0, konkreten Formeln, Codepfaden, Seiten-, Tabellen- und Zeilenbezügen dokumentiert; TA-75 und TA-74 sind insoweit abgeschlossen. Nur der nicht implementierte Teilumfang Sanierungsinvestitionen/Amortisation bleibt wegen des fehlenden BKI-Datenzugangs blockiert |
 | 2026-08-27 | AP-20 – PDF-Bericht und Web/PDF-Konsistenz | Der abgestimmte PDF-Umfang war umgesetzt; die finale Synchronisation und Prüfung der Inhalte zwischen Webanwendung und PDF-Bericht war noch offen | Die Web-/PDF-Synchronisation und abschließende Prüfung sind abgeschlossen; AP-20 ist vollständig erledigt und der Restaufwand beträgt 0 Tage |
 | 2026-08-27 | AP-12 – Bedienung und Darstellung der Maßnahmen | Ausgewählte Maßnahmen auf der Ergebnisseite waren noch umzusetzen; fixierte Tabellenüberschriften waren wegen der technischen Kollision mit dem Sticky der Live-Ergebnisse abgegrenzt | Die Ergebnisdarstellung ist umgesetzt und AP-12 vollständig erledigt. Nach ausdrücklicher Abstimmung mit dem Auftraggeber werden die Tabellenüberschriften nicht sichtbar gehalten beziehungsweise sticky gesetzt; dies ist eine bestätigte Scope-Entscheidung. Der Restaufwand beträgt 0 Tage |
 | 2026-08-27 | AP-18 – Ergebnisabschluss, Bericht und Energieberatung | Als einziger offener Punkt war die über AP-12 umzusetzende Maßnahmenzusammenfassung auf der Ergebnisseite ausgewiesen | Mit dem Abschluss von AP-12 ist auch dieser abhängige Punkt umgesetzt; AP-18 ist vollständig erledigt und der Restaufwand beträgt 0 Tage |

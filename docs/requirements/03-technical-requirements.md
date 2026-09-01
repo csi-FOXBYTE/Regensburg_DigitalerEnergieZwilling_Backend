@@ -643,11 +643,15 @@ Eine belastbare erwartete Nutzerzahl ist derzeit nicht vorgegeben; eine Nutzung 
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
 Berechnungen müssen auf anerkannten Normen, Richtlinien und Katalogen basieren (u.a. DIN 4108, DIN 4701, DIN V 18599, VDI 2067, VDI 3807, IWU-Gebäudetypologien). Kostenansätze für Sanierungsmaßnahmen sollen wieder auf BKI-Daten beziehungsweise dem BKI-Kostenplaner basieren. Stand 24.07.2026 bestehen jedoch weder ein Zugang zu den BKI-Daten noch ein abgesicherter Zeitplan für deren Verfügbarkeit; Nutzungsbedingungen, Datenmodell und Aktualisierungsprozess sind vor Implementierungsbeginn zu klären.
 
+*Nachweisstand 01.09.2026:* **Abgeschlossen für den implementierten Rechenumfang.** Die tatsächlich verwendeten und extern validierten Grundlagen sind im [Nachweis der Rechenmethoden](../architecture/19-calculation-method-evidence.md) dem Core-Stand v0.19.0 zugeordnet. Ausgenommen bleiben Sanierungsinvestitionen und Amortisation: Dieser nicht implementierte Teilumfang ist weiterhin durch den fehlenden BKI-Datenzugang blockiert.
+
 <a id="ta-75"></a>
 
 **TA-75**  
 *Release-Zuordnung:* [Release 2](../roadmap/mvp-definition.md#release-2)  
 In der Projektdokumentation sind konkrete Nachweise der verwendeten Rechenmethoden zu liefern (inkl. Seitenzahl, Tabellen-/Zeilennummern und spezifische Formelverweise).
+
+*Nachweisstand 01.09.2026:* **Abgeschlossen.** Formeln, Codepfade, Ausgaben, Seiten sowie Tabellen- und Zeilenbezüge sind im [Nachweis der Rechenmethoden](../architecture/19-calculation-method-evidence.md) dokumentiert.
 
 ---
 

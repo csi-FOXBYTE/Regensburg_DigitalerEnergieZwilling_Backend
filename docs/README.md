@@ -63,6 +63,7 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 - **16** [Datenquellenkatalog und Piveau-Anbindung](architecture/16-data-sources-dcat-piveau.md)
 - **17** [LOD2-zu-Frontend-Eingabefeld-Mapping](architecture/17-lod2-frontend-input-mapping.md)
 - **18** [Testdokumentation der energetischen Berechnung](architecture/18-energy-calculation-test-documentation.md)
+- **19** [Nachweis der Rechenmethoden](architecture/19-calculation-method-evidence.md)
 
 <a id="anleitungen"></a>
 
