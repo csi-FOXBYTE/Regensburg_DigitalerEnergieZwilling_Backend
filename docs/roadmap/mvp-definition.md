@@ -1,8 +1,8 @@
 # MVP-Definition und Release-Aufteilung
 
-Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung und Inbetriebnahme bis voraussichtlich 14. September 2026.
+Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung, das Bugfixing und die Inbetriebnahme bis voraussichtlich 21. September 2026.
 
-Letzte Änderung: **2026-09-01** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-09-02** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -18,14 +18,14 @@ Letzte Änderung: **2026-09-01** (siehe [Roadmap-Pflege und Änderungsverlauf](#
 8. [Release 4 - Integration, Stabilisierung, Datenpipeline und Testvorbereitung](#release-4)
 9. [Release 5 - Aktualisierung, Bugfixing und Usertesting](#release-5)
 10. [Release 6 - Fortführung der Entwicklung und Stabilisierung](#release-6)
-11. [Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Entwicklungsabschluss](#release-7)
-12. [Inbetriebnahme - Sprint 18 und Sprint 19](#inbetriebnahme)
+11. [Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Staging-Deployment](#release-7)
+12. [Entwicklung, Bugfixing und Inbetriebnahme - Sprint 18 und Sprint 19](#inbetriebnahme)
 
 <a id="zielbild-mvp"></a>
 
 ## Zielbild MVP
 
-Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Bis einschließlich Release 6 bilden jeweils zwei aufeinanderfolgende Entwicklungssprints semantisch einen Release. Release 7 besteht als abschließende Ausnahme aus Sprint 17. Insgesamt sind 17 Entwicklungssprints und anschließend zwei Inbetriebnahme-Sprints vorgesehen. Die Arbeit wird ohne Sommerpause in zweiwöchigen Sprints bis voraussichtlich 14. September 2026 fortgeführt.
+Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Bis einschließlich Release 6 bilden jeweils zwei aufeinanderfolgende Entwicklungssprints semantisch einen Release. Release 7 besteht als Ausnahme aus Sprint 17. Entgegen der ursprünglichen Planung wird die Entwicklung in Sprint 18 fortgeführt; Sprint 19 dient dem Bugfixing und der aufgrund laufender Plattform-Updates zeitlich verdichteten Inbetriebnahme. Sprint 19 wird tendenziell um eine Woche bis voraussichtlich 21. September 2026 verlängert. Diese zeitliche Verlängerung erweitert den geplanten Inhalt nicht.
 
 1. **Release 1 (02.03.2026 bis 15.03.2026):** Plattformaufbau (CIVITAS/CORE + Services + Datenpipeline)
 2. **Release 2 (16.03.2026 bis 12.04.2026):** Öffentlicher Client + Bürgerfunktionen + Backend-CRUD
@@ -33,8 +33,8 @@ Der MVP wird in aufeinander aufbauenden Releases umgesetzt. Bis einschließlich 
 4. **Release 4 (11.05.2026 bis 18.06.2026):** Integration, Stabilisierung, Backend-/Admin-Anbindung, Datenpipeline, Förderprogramm-Anbindung und Testvorbereitung
 5. **Release 5 (Sprint 13 und Sprint 14, Abschluss am 06.07.2026):** Aktualisierung und Bugfixing der Anreicherung, des Bürger-Frontends und der Systempflege; Schwerpunkt von Sprint 14 war zusätzlich die Durchführung des Usertestings
 6. **Release 6 (Sprint 15 und Sprint 16, 07.07.2026 bis 03.08.2026):** Fortführung der Entwicklung, Stabilisierung und Vorbereitung des abschließenden Entwicklungsrelease; Matomo wurde wegen fehlender Kundeninstanz und niedriger Priorität nicht umgesetzt
-7. **Release 7 (Sprint 17, voraussichtlich 04.08.2026 bis 17.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung sowie Bearbeitung der daraus abgeleiteten Arbeitspakete, Abschluss der Entwicklungsphase, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg
-8. **Inbetriebnahme-Sprints 18 und 19 (voraussichtlich 18.08.2026 bis 14.09.2026):** Produktionsnahe Konfiguration, Inbetriebnahme, Abnahmeunterstützung, Behebung kritischer Fehler und Übergabe
+7. **Release 7 (Sprint 17, 04.08.2026 bis 17.08.2026):** Auswertung des Usertestings, fachliche und technische Bewertung sowie Bearbeitung der daraus abgeleiteten Arbeitspakete, Stabilisierung und Deployment einer Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg
+8. **Sprint 18 und Sprint 19 (18.08.2026 bis voraussichtlich 21.09.2026):** Fortführung der Entwicklung in Sprint 18, Bugfixing in Sprint 19 sowie die aufgrund laufender Plattform-Updates in Sprint 19 verdichtete Inbetriebnahme einschließlich Abnahmeunterstützung und Übergabe; die tendenzielle Verlängerung von Sprint 19 um eine Woche ist rein zeitlich und erweitert den Inhalt nicht
 
 Die Kalenderdaten ab Sprint 15 sind Planungsdaten. Die Priorisierung der aus dem Usertesting abgeleiteten Arbeitspakete liegt mit Stand 12.08.2026 vor. Der tatsächlich umsetzbare Umfang hängt weiterhin vom geklärten Status der einzelnen Pakete, von erforderlichen Daten, Inhalten und fachlichen Freigaben sowie von der verfügbaren Sprintkapazität ab.
 
@@ -69,6 +69,7 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-09-02 | Sprint 18/19 und Inbetriebnahme | Sprint 18 und Sprint 19 waren vollständig für Inbetriebnahme, Abnahmeunterstützung und kritische Korrekturen bis 14.09.2026 vorgesehen | Sprint 18 wird noch für Entwicklung und Sprint 19 für Bugfixing genutzt. Aufgrund der laufenden Plattform-Updates verdichtet sich die Inbetriebnahme auf Sprint 19. Sprint 19 wird tendenziell bis 21.09.2026 verlängert; die zusätzliche Woche erweitert nur den Zeitraum, nicht den geplanten Inhalt |
 | 2026-09-01 | TA-74/TA-75 - Rechenmethoden und Nachweise | Die verwendeten Formeln, externen Katalogwerte und Fundstellen waren nicht in einem einheitlichen, versionsgebundenen Nachweis zusammengeführt | Der implementierte Rechenumfang ist mit Core v0.19.0, konkreten Formeln, Codepfaden, Seiten-, Tabellen- und Zeilenbezügen dokumentiert; TA-75 und TA-74 sind insoweit abgeschlossen. Nur der nicht implementierte Teilumfang Sanierungsinvestitionen/Amortisation bleibt wegen des fehlenden BKI-Datenzugangs blockiert |
 | 2026-08-27 | AP-20 – PDF-Bericht und Web/PDF-Konsistenz | Der abgestimmte PDF-Umfang war umgesetzt; die finale Synchronisation und Prüfung der Inhalte zwischen Webanwendung und PDF-Bericht war noch offen | Die Web-/PDF-Synchronisation und abschließende Prüfung sind abgeschlossen; AP-20 ist vollständig erledigt und der Restaufwand beträgt 0 Tage |
 | 2026-08-27 | AP-12 – Bedienung und Darstellung der Maßnahmen | Ausgewählte Maßnahmen auf der Ergebnisseite waren noch umzusetzen; fixierte Tabellenüberschriften waren wegen der technischen Kollision mit dem Sticky der Live-Ergebnisse abgegrenzt | Die Ergebnisdarstellung ist umgesetzt und AP-12 vollständig erledigt. Nach ausdrücklicher Abstimmung mit dem Auftraggeber werden die Tabellenüberschriften nicht sichtbar gehalten beziehungsweise sticky gesetzt; dies ist eine bestätigte Scope-Entscheidung. Der Restaufwand beträgt 0 Tage |
@@ -337,11 +338,11 @@ Ergebnis:
 
 <a id="release-7"></a>
 
-## Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Entwicklungsabschluss
+## Release 7 - Usertesting-Auswertung, Arbeitspaketbearbeitung und Staging-Deployment
 
 **Planungszeitraum:** Sprint 17, 04.08.2026 bis 17.08.2026
 
-Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln, die priorisierten Punkte bearbeiten und die Entwicklungsphase abschließen.
+Ziel: Die Rückmeldungen aus dem Usertesting fachlich und technisch bewerten, zu zusammenhängenden Arbeitspaketen bündeln, die priorisierten Punkte bearbeiten und die Staging-Bereitstellung durchführen.
 
 Bearbeiteter und verbleibender Umfang:
 
@@ -351,7 +352,7 @@ Bearbeiteter und verbleibender Umfang:
 - Ableitung umsetzbarer Tasks erst nach fachlicher Bestätigung und Priorisierung.
 - Umsetzung der durch den Auftraggeber priorisierten Punkte, soweit Voraussetzungen und Sprintkapazität dies zulassen.
 - Fortführung von Stabilisierung, Regressionstests und Konsistenzprüfungen zwischen Webanwendung, Berechnungskern, Backend, Administration und PDF-Bericht.
-- Abschluss der Entwicklungsphase, Stabilisierung und Vorbereitung des Inbetriebnahmekandidaten.
+- Stabilisierung und Vorbereitung eines Kandidaten für die weitere Entwicklung und anschließende Inbetriebnahme.
 
 Die Usertesting-Auswertung umfasst insbesondere Transparenz und Einstieg, Nutzerführung und Responsivität, Gebäudeauswahl und Eingabevalidierung, Maßnahmen- und Empfehlungslogik, Kosten und Amortisation, Fernwärme und lokale Hinweise, PV/Geothermie, Förderung, Ergebnisabschluss, Datenspende und PDF-Konsistenz.
 
@@ -403,7 +404,7 @@ Ergebnis:
 
 ### Abschluss, Stabilisierung und Staging-Deployment
 
-Ziel: Die Entwicklungsphase abschließen, priorisierte Änderungen integrieren, einen stabilen Kandidaten für die Inbetriebnahme bereitstellen und eine Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg deployen.
+Ziel: Priorisierte Änderungen integrieren, einen stabilen Kandidaten für die weitere Entwicklung und Inbetriebnahme bereitstellen und eine Version in der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg deployen.
 
 Geplanter Umfang:
 
@@ -418,28 +419,30 @@ Geplanter Umfang:
 
 Hinweis:
 
-- Release 7 besteht als abschließende Ausnahme aus dem einzelnen Sprint 17 und ist der letzte Entwicklungsrelease vor der Inbetriebnahme.
+- Release 7 besteht als Ausnahme aus dem einzelnen Sprint 17. Die ursprünglich für danach vorgesehene ausschließliche Inbetriebnahme wurde zugunsten weiterer Entwicklung in Sprint 18 und Bugfixing in Sprint 19 angepasst.
 - Ein Prioritätslabel allein begründet keine Aufnahme in Sprint 17. Maßgeblich sind zusätzlich der geklärte Bearbeitungsstand, ein ausreichend bestimmter Restumfang, erfüllte Voraussetzungen und verfügbare Kapazität.
 - Nicht für Sprint 17 bestätigte oder weiterhin extern blockierte Usertesting-Punkte werden nicht stillschweigend aufgenommen.
 - Quartiersanalyse bleibt von fachlicher Klärung und Freigabe abhängig. Für Solar/PV liegt die Datenfreigabe vor; Detailgrad und Umsetzung sind offen, weil die ursprüngliche LB-Tiefe von AG und AN als deutlich zu hoch bewertet und der reduzierte AN-Vorschlag vom AG nicht angenommen wurde. Die Geothermieintegration wurde nach der Datenfreigabe in Sprint 17 technisch umgesetzt; Herkunfts-, Lizenz-, Turnus- und Schemametadaten sind noch zu klären. Der NGSI-LD-Pfad ist vorbereitet, die konkrete Schnittstelle der Kundeninstanz jedoch nicht geklärt.
 
 Ergebnis:
 
-- In der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg bereitgestellter und geprüfter Inbetriebnahmekandidat mit dokumentiertem Funktionsumfang und abgegrenzten offenen Punkten.
+- In der CIVITAS/CORE-Staging-Umgebung der Stadt Regensburg bereitgestellter und geprüfter Kandidat für die weitere Entwicklung und Inbetriebnahme mit dokumentiertem Funktionsumfang und abgegrenzten offenen Punkten.
 
 ---
 
 <a id="inbetriebnahme"></a>
 
-## Inbetriebnahme - Sprint 18 und Sprint 19
+## Entwicklung, Bugfixing und Inbetriebnahme - Sprint 18 und Sprint 19
 
-**Planungszeitraum:** 18.08.2026 bis 14.09.2026
+**Planungszeitraum:** 18.08.2026 bis voraussichtlich 21.09.2026; Sprint 19 wird tendenziell um eine Woche verlängert
 
-Ziel: Den abgestimmten Entwicklungsstand produktionsnah konfigurieren, in Betrieb nehmen und in einen nutzbaren Betriebszustand überführen.
+Ziel: Den Entwicklungsstand in Sprint 18 fortführen, in Sprint 19 verbleibende Fehler beheben und den abgestimmten Stand produktionsnah konfigurieren, in Betrieb nehmen und in einen nutzbaren Betriebszustand überführen.
 
 Geplanter Umfang:
 
-- Finales Deployment und produktionsnahe Konfiguration.
+- Fortführung der Entwicklung in Sprint 18.
+- Bugfixing in Sprint 19.
+- Finales Deployment und produktionsnahe Konfiguration in der in Sprint 19 verdichteten Inbetriebnahme.
 - White-Labeling und Open-Source-/Open-Code-Veröffentlichung sind für Sprint 18 vorgesehen (FA-106 bis FA-114, TA-87 bis TA-94 und TA-121 bis TA-128).
 - Der im Entwicklungsstand fest codierte S3-Tile-Endpunkt muss vor dem Deployment durch den einheitlichen APISIX-Zugriffspfad `/api/public/tiles/*` ersetzt beziehungsweise konfiguriert werden.
 - Zielsystem und Übertragungsweg der Feedback-Funktion (FA-71) sowie die produktive NGSI-LD-Schnittstelle zur Kundeninstanz sind zu klären.
@@ -454,11 +457,12 @@ Geplanter Umfang:
 
 Planungsannahmen:
 
-- Die Entwicklung läuft ohne Sommerpause bis einschließlich Sprint 17 weiter.
-- Sprint 18 und Sprint 19 sind vollständig für Inbetriebnahme, Abnahmeunterstützung und kritische Korrekturen vorgesehen.
-- Über die für Sprint 18 bereits vorgesehenen White-Labeling- und Open-Source-Arbeiten hinaus werden neue fachliche Erweiterungen während der Inbetriebnahme nur aufgenommen, wenn sie für einen sicheren oder funktionsfähigen Betrieb zwingend erforderlich sind.
+- Die Entwicklung läuft ohne Sommerpause bis einschließlich Sprint 18 weiter; Sprint 19 dient dem Bugfixing und der Inbetriebnahme.
+- Aufgrund der laufenden Plattform-Updates verdichtet sich die Inbetriebnahme auf Sprint 19.
+- Sprint 19 wird tendenziell um eine Woche bis voraussichtlich 21.09.2026 verlängert. Die Verlängerung dient einer geordneten Inbetriebnahme und erweitert den geplanten Inhalt nicht.
+- Über die für Sprint 18 bereits vorgesehenen White-Labeling- und Open-Source-Arbeiten hinaus werden neue fachliche Erweiterungen nur aufgenommen, wenn sie für einen sicheren oder funktionsfähigen Betrieb zwingend erforderlich sind.
 - Matomo ist niedrig priorisiert und wegen der noch aufzubauenden eigenen Instanz keinem verbindlichen Sprint 18/19 zugeordnet. Auch die Solarumsetzung ist wegen des offenen Detailgrads nicht belastbar eingeplant.
 
 Ergebnis:
 
-- In Betrieb genommener MVP mit dokumentiertem Umfang, dokumentierten offenen Punkten und vorbereitetem Betrieb bis voraussichtlich 14.09.2026.
+- In Betrieb genommener MVP mit dokumentiertem Umfang, dokumentierten offenen Punkten und vorbereitetem Betrieb bis voraussichtlich 21.09.2026.

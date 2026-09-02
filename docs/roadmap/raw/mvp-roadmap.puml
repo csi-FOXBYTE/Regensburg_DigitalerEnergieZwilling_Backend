@@ -24,9 +24,9 @@ rectangle "Release 5\nSprint 13 + Sprint 14\nAbschluss 06.07.2026\n---\nIst-Stan
 
 rectangle "Release 6\nSprint 15 + Sprint 16\n07.07.2026 - 03.08.2026\n---\nIst-Stand\nEntwicklung fortgeführt\nSystemübergreifend stabilisiert\nRegression + Konsistenz geprüft\nMatomo nicht umgesetzt\nBKI-Zugang weiter offen" as R6 #FFF4BF
 
-rectangle "Release 7\nSprint 17\n04.08.2026 - 17.08.2026\n---\nAktueller Stand\nNutzertests auswerten\nArbeitspakete bewerten + bearbeiten\nGeothermie integriert\nEntwicklung abschließen\nCIVITAS/CORE-Staging-Bereitstellung" as R7 #E5E7EB
+rectangle "Release 7\nSprint 17\n04.08.2026 - 17.08.2026\n---\nIst-Stand\nNutzertests auswerten\nArbeitspakete bewerten + bearbeiten\nGeothermie integriert\nStabilisierung\nCIVITAS/CORE-Staging-Bereitstellung" as R7 #E5E7EB
 
-rectangle "Inbetriebnahme\nSprint 18 + Sprint 19\n18.08.2026 - 14.09.2026\n---\nPlan\nSprint 18: White-Label + Open Source\nProduktionsnahe Konfiguration\nSprint 19: Rechenkernabnahme\nKritische Fehler beheben\nÜbergabe + Betriebsdokumentation" as IB #DFF7E2
+rectangle "Entwicklung + Inbetriebnahme\nSprint 18 + Sprint 19\n18.08.2026 - vorauss. 21.09.2026\n---\nPlan\nSprint 18: Entwicklung fortführen\nSprint 19: Bugfixing\nVerdichtete Inbetriebnahme\nGeordnete Inbetriebnahme durch\nzeitliche Verlängerung ohne Mehrumfang" as IB #DFF7E2
 
 R1 --> R2 : baut auf
 R2 --> R3 : erweitert
@@ -34,11 +34,11 @@ R3 --> R4 : erweitert
 R4 --> R5 : plant weiter
 R5 --> R6 : wird fortgeführt
 R6 --> R7 : führt zur Auswertung
-R7 --> IB : führt zur Inbetriebnahme
+R7 --> IB : führt zu Sprint 18/19
 
 legend right
   Quelle: docs/roadmap/mvp-definition.md
-  Stand: 2026-08-14
+  Stand: 2026-09-02
 endlegend
 
 @enduml

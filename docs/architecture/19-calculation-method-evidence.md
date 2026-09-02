@@ -1,6 +1,6 @@
 # Nachweis der Rechenmethoden
 
-Stand: 01.09.2026
+Stand: 02.09.2026
 
 Rechenkernstand: v0.19.0
 
@@ -45,6 +45,7 @@ Die verlinkten Implementierungen sind auf den Tag `v0.19.0` festgelegt.
 | Treibhausgasemissionen | Je Energieträger `mCO2 = QEndenergie × CO2-Faktor × 10^-6` in Tonnen; thermischer und elektrischer Anteil werden addiert. | [`thermalEnergy.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/calculators/energy/resolvers/thermalEnergy.ts), [`electricalEnergy.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/calculators/energy/resolvers/electricalEnergy.ts) |
 | Verbrauch und laufende Energiekosten | Brennstoffmenge = thermischer Endenergiebedarf / Energie je Einheit; laufende Kosten = Menge × Arbeitspreis + Grundpreis. Nutzerwerte haben nach den dokumentierten Vorrangregeln Vorrang. | [`thermalEnergy.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/calculators/energy/resolvers/thermalEnergy.ts) |
 | Energieeffizienzklasse | Gesamt-Endenergiebedarf / Gebäudenutzfläche; Zuordnung zu A+ bis H anhand der konfigurierten Grenzwerte. | [`totals.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/calculators/energy/resolvers/totals.ts) |
+| Empfehlungen für Hüllbauteile | Das Bau- beziehungsweise Sanierungsjahr wird mit dem bauteilspezifischen `recommendYearRange` verglichen. Bei Dach, oberster Geschossdecke, unterem Abschluss und Außenwand unterdrückt eine bereits vorhandene Dämmung die Empfehlung. | [`default-config.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/types/config/default-config.ts), [`generate.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/types/renovation/generate.ts) |
 
 Die zugehörigen Katalogwerte und Schwellen stehen in
 [`default-config.ts`](https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_EnergyCalculationCore/blob/v0.19.0/src/types/config/default-config.ts).
@@ -59,7 +60,35 @@ Die zugehörigen Katalogwerte und Schwellen stehen in
 | [Gebäudeenergiegesetz, Anlage 10 zu § 86](https://www.gesetze-im-internet.de/geg/anlage_10.html) | Gesamte Tabelle, Zeilen A+ bis H | Im Core hinterlegte numerische Schwellen `30`, `50`, `75`, `100`, `130`, `160`, `200` und `250` kWh/(m²·a) für die Klassen A+ bis H. Die Abweichung an den exakten Grenzwerten ist unten dokumentiert. |
 | [BEG EM - Technische Mindestanforderungen, Bekanntmachung vom 29. Dezember 2023](https://www.energiewechsel.de/KAENEF/Redaktion/DE/PDF-Anlagen/BEG/bundesfoerderung-fuer-effiziente-gebaeude-einzelmassnahmen-20231229.pdf?__blob=publicationFile&v=1) | PDF-S. 18-19, Tabelle in Nummer 1.1, Zeilen Außenwand, Fenster, Dachflächenfenster, Schräg-/Flachdach, oberste Geschossdecke, Decken gegen unbeheizte Räume/Kellerdecken und Bodenflächen gegen Erdreich | Ziel-U-Werte der Sanierungsempfehlungen: Außenwand `0,20`, Fenster `0,95`, Dachflächenfenster `1,0`, Dach und oberste Geschossdecke `0,14`, unterer Abschluss `0,25` W/(m²·K). |
 
-## 4. Konfigurierbare Projektfestlegungen
+## 4. Bestätigte und konfigurierbare Projektfestlegungen
+
+### 4.1 Bauteilbezogene Empfehlungsgrenzen
+
+Die folgenden sechs Grenzjahre wurden vom Energieberater vorgeschlagen und im
+vom Kunden abgenommenen Rechenkonzept bestätigt. Fachliche Referenz ist die
+[Arbeitsmappe zum Rechenkonzept](../attachments/20260320_RDEZ_Uebersicht_Berechnung_Grobkonzept.xlsx),
+insbesondere die bauteilbezogenen Domänenblätter. Die technische Umsetzung
+erfolgt über `recommendYearRange` in der `DEFAULT_CONFIG`:
+
+| Bauteil | Empfehlung bei Bau-/Sanierungsjahr bis einschließlich | Zusätzliche Bedingung |
+|---|---:|---|
+| Unterer Gebäudeabschluss | 1986 | keine bereits vorhandene Dämmung |
+| Dach | 2006 | keine bereits vorhandene Dämmung |
+| Oberste Geschossdecke | 1986 | keine bereits vorhandene Dämmung |
+| Außenwand | 1978 | keine bereits vorhandene Dämmung |
+| Außenfenster | 1994 | keine zusätzliche Dämmungsbedingung |
+| Dachflächenfenster | 1994 | keine zusätzliche Dämmungsbedingung |
+
+Die Grenzjahre sind projektbezogene Empfehlungsregeln und keine in Jahren
+angegebenen rechnerischen Nutzungsdauern. Sie werden insbesondere nicht als
+Zahlenwerte aus VDI 2067 ausgewiesen. VDI 2067 Blatt 1 behandelt insoweit
+Anlagentechnik; [VDI 2067 Blatt 50](https://www.vdi.de/mitgliedschaft/vdi-richtlinien/details/vdi-2067-blatt-50-wirtschaftlichkeit-von-bauteilen)
+erweitert die Wirtschaftlichkeitsbetrachtung zwar auf Hochbauteile und enthält
+laut [offiziellem Inhaltsverzeichnis](https://www.vdi.de/fileadmin/pages/vdi_de/redakteure/richtlinien/inhaltsverzeichnisse/2852500.pdf)
+Anwendungsbeispiele zur Bestimmung der Nutzungsdauer, belegt aber nicht die sechs
+im Core verwendeten Grenzjahre.
+
+### 4.2 Weitere Projektfestlegungen
 
 Die folgenden im Rechenkern verwendeten Werte sind fachlich abgestimmte,
 änderbare Projektparameter. Für sie wird in diesem Nachweis keine externe
