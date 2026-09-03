@@ -12,10 +12,13 @@ import configController from "./config.controller.js";
 
 const previousTerrainUrl = process.env.TERRAIN_URL;
 const previousTilesUrl = process.env.TILES_URL;
+const previousAddressDatabaseUrl = process.env.ADDRESS_DATABASE_URL;
 
 before(() => {
   process.env.TERRAIN_URL = "https://storage.example/terrain///";
   process.env.TILES_URL = "https://storage.example/tiles///";
+  process.env.ADDRESS_DATABASE_URL =
+    "https://storage.example/det-rg-addresses.sqlite";
 });
 
 after(() => {
@@ -26,6 +29,10 @@ after(() => {
   if (previousTilesUrl === undefined)
     Reflect.deleteProperty(process.env, "TILES_URL");
   else process.env.TILES_URL = previousTilesUrl;
+
+  if (previousAddressDatabaseUrl === undefined)
+    Reflect.deleteProperty(process.env, "ADDRESS_DATABASE_URL");
+  else process.env.ADDRESS_DATABASE_URL = previousAddressDatabaseUrl;
 });
 
 async function createTestApp() {
@@ -76,10 +83,13 @@ describe("map resources route", () => {
     assert.deepEqual(response.json(), {
       terrainBaseUrl: "https://storage.example/terrain/",
       tilesBaseUrl: "https://storage.example/tiles/",
+      addressDatabaseUrl:
+        "https://storage.example/det-rg-addresses.sqlite",
     });
 
     process.env.TERRAIN_URL = "/api/public/terrain";
     process.env.TILES_URL = "/api/public/tiles";
+    process.env.ADDRESS_DATABASE_URL = "/det-rg-addresses.sqlite";
     const relativeResponse = await app.inject({
       method: "GET",
       url: "/api/public/map-resources",
@@ -89,6 +99,7 @@ describe("map resources route", () => {
     assert.deepEqual(relativeResponse.json(), {
       terrainBaseUrl: "/api/public/terrain/",
       tilesBaseUrl: "/api/public/tiles/",
+      addressDatabaseUrl: "/det-rg-addresses.sqlite",
     });
   });
 });

@@ -85,6 +85,7 @@ configController
     return {
       terrainBaseUrl: withTrailingSlash(process.env.TERRAIN_URL!),
       tilesBaseUrl: withTrailingSlash(process.env.TILES_URL!),
+      addressDatabaseUrl: process.env.ADDRESS_DATABASE_URL!,
     };
   });
 
