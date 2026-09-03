@@ -167,7 +167,8 @@ Soweit Solar- oder Geothermiepotenziale eingebunden werden, dürfen diese nicht 
 <a id="ta-15"></a>
 
 **TA-15**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Sprint 18](../roadmap/mvp-definition.md#inbetriebnahme)
+
 3D-Tile-Anfragen müssen über APISIX an `GET /api/public/tiles/*` des Backends geleitet werden. Das Backend gibt einen Redirect auf die über `TILES_URL` konfigurierte externe Tiles-URL zurück; der Tiles-Dienst selbst wird nicht vom DEZ-Add-on bereitgestellt. Der aktuell im Public-Frontend fest codierte direkte S3-Endpunkt ist ausschließlich als Entwicklungsstand zu behandeln und muss vor dem Deployment durch diesen konfigurierten Zugriffspfad ersetzt werden.
 
 ---
@@ -1022,34 +1023,41 @@ Query- und Mutation-Nutzung im Frontend muss über den generierten React-Query-L
 
 ## 29. Aktualisierung der Basisdaten
 
+*Umsetzungsstand:* TA-116 bis TA-120 waren Release 4 zugeordnet. Die Pipeline enthält keinen fest eingebauten Aktualisierungszyklus; jeder Transformationslauf wird nach aktuellem Stand manuell und nach Bedarf ausgelöst. Fachliche Ziel- und Aktualisierungszeiträume lösen damit keine automatische Ausführung aus.
+
 <a id="ta-116"></a>
 
 **TA-116**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Der LOD2-Basisdatensatz muss mit einem Zielzyklus von zwei Jahren aktualisiert werden können.
 
 <a id="ta-117"></a>
 
 **TA-117**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Solarpotenzial- und Geothermie-Basisdaten dürfen eigene fachliche Aktualisierungszeiträume besitzen. Ihre Übernahme in den DEZ erfolgt innerhalb eines kombinierten Pipeline-Laufs, der stets einen aktualisierten LoD2-GML-Datensatz vollständig verarbeitet.
 
 <a id="ta-118"></a>
 
 **TA-118**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Jeder Lauf der Offline-Pipeline muss einen aktualisierten LoD2-GML-Datensatz als verpflichtende Basiseingabe vollständig verarbeiten. Zusätzliche Eingaben wie Solar- oder Geothermiedaten werden konditional verarbeitet, wenn sie für den Lauf bereitgestellt sind. Adressdaten werden aus LoD2 übernommen und sind deshalb Bestandteil jedes Laufs. Ein separater `update_scope` für isolierte Teilupdates ist nicht vorgesehen.
 
 <a id="ta-119"></a>
 
 **TA-119**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Jeder Aktualisierungsrun erzeugt aus dem aktualisierten LoD2-Datensatz und den für diesen Lauf bereitgestellten optionalen Eingangsdaten einen neuen konsistenten Ergebnisdatensatz. Bereits angereicherte Ergebnisdatensätze werden weder erneut eingereicht noch als Quelle für die Übernahme unveränderter Zusatzattribute verwendet.
 
 <a id="ta-120"></a>
 
 **TA-120**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Für die Nachnutzung durch andere Kommunen muss die Pipeline so konfigurierbar sein, dass optionale Datenquellen je Deployment aktiviert, deaktiviert und validiert werden können. Die Ausführung bleibt ein kombinierter Lauf auf Basis eines aktualisierten LoD2-Datensatzes; isolierte Aktualisierungsläufe einzelner Zusatzquellen sind nicht vorgesehen.
 
 ---
@@ -1148,40 +1156,48 @@ Tracking-Funktionen müssen ohne gültiges Opt-in standardmäßig deaktiviert bl
 
 **Hinweis (SoT):** Für Basisdaten bedeutet Single Point of Truth die eindeutige Kombination aus **Quell-Datensatzversion**, **Mapping-Profil-Version** und **veröffentlichtem Release-Manifest**.
 
+*Planungsstand:* TA-133 bis TA-138 waren Release 4 zugeordnet. Ergänzungen der Quellen und Metadaten für TA-133 bis TA-141 werden bis einschließlich Sprint 19 nachgeführt.
+
 <a id="ta-133"></a>
 
 **TA-133**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Basisdaten müssen je Kommune über einen versionierten Quellnachweis (Datensatz-ID, Quelle, Zeitpunkt, Prüfsumme, EPSG) geführt werden.
 
 <a id="ta-134"></a>
 
 **TA-134**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Die Transformation von LOD2- und Ergänzungsdaten in 3D Tiles muss ausschließlich über ein versioniertes Mapping-Profil erfolgen.
 
 <a id="ta-135"></a>
 
 **TA-135**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Für die Laufzeit muss je Kommune ein veröffentlichtes Release-Manifest den aktiven Stand der Basisdaten eindeutig festlegen.
 
 <a id="ta-136"></a>
 
 **TA-136**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Jeder abgeleitete Basisdatenwert in 3D Tiles muss provenance-fähig auf Quellversion, Mapping-Version und Transformationszeitpunkt rückführbar sein.
 
 <a id="ta-137"></a>
 
 **TA-137**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Die Veröffentlichung muss als vollständig neu erzeugter, konsistenter Datensatz auf Basis des aktualisierten LoD2-GML-Eingangs erfolgen. Optionale Zusatzdaten werden nur berücksichtigt, wenn sie im betreffenden Lauf bereitgestellt sind. Separate Teilupdates und die Wiederverwendung von Attributen aus einem zuvor angereicherten Ergebnisdatensatz sind nicht vorgesehen.
 
 <a id="ta-138"></a>
 
 **TA-138**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Kommunen erfolgt über getrennte Deployments und nicht über gleichzeitige Mehrkommunen-Nutzung innerhalb derselben Instanz.
 
 ---
@@ -1190,6 +1206,8 @@ Eine DEZ-Instanz muss genau eine Kommune bedienen; Nachnutzung für weitere Komm
 
 ## 33. Datenquellen-Metadaten
 
+*Planungsstand:* TA-139 bis TA-141 waren Release 4 zugeordnet. Die Ergänzung der Quellen und Metadaten wird bis einschließlich Sprint 19 fortgeführt.
+
 Generelle Bemerkung:
 Die hier geführten Metadaten sind auf **DCAT-AP.de** gemappt, bilden den Standard jedoch bewusst **nicht vollständig** ab.
 Sie definieren für DEZ nur den verbindlichen Mindestumfang je Datenquelle bzw. je bereitgestellter Distribution.
@@ -1197,19 +1215,22 @@ Sie definieren für DEZ nur den verbindlichen Mindestumfang je Datenquelle bzw. 
 <a id="ta-139"></a>
 
 **TA-139**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Für jede in der DEZ verwendete Datenquelle müssen verbindlich mindestens die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie `dcat:distribution` ausgewiesen werden. `dct:license` kann dabei auf Dataset- und/oder Distribution-Ebene geführt werden. `dcat:distribution` ist als Klasse zu verstehen, deren konkrete Attribute von der Bereitstellungsform abhängen (z.B. API oder Datei).
 
 <a id="ta-140"></a>
 
 **TA-140**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Die Metadaten `dct:title`, `dct:description`, `dct:publisher`, `dct:license`, `dct:accrualPeriodicity` sowie die je `dcat:distribution` relevanten Bereitstellungsattribute müssen für die in DEZ verwendeten Datenquellen in den Datenschutzhinweisen der DEZ-Webseite transparent ausgewiesen werden.
 
 <a id="ta-141"></a>
 
 **TA-141**  
-*Release-Zuordnung:* Nicht im aktuellen Releaseplan zugeordnet.  
+*Release-Zuordnung:* [Release 4](../roadmap/mvp-definition.md#release-4)
+
 Die Verantwortung für Bereitstellung und Pflege dieser Metadaten sowie der distributionsspezifischen Angaben liegt beim jeweiligen Betreiber der DEZ-Plattform.
 
 ---

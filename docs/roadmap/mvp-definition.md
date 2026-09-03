@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt den tatsächlichen Umsetzungsstand des MVP und dient als Planungsdokument für die ohne Unterbrechung fortgeführte Entwicklung, das Bugfixing und die Inbetriebnahme bis voraussichtlich 21. September 2026.
 
-Letzte Änderung: **2026-09-02** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
+Letzte Änderung: **2026-09-03** (siehe [Roadmap-Pflege und Änderungsverlauf](#roadmap-pflege-und-aenderungsverlauf))
 
 ---
 
@@ -69,6 +69,7 @@ Quelle: `raw/mvp-roadmap.puml`
 
 | Datum | Betroffener Umfang | Bisheriger Stand | Neuer Stand |
 | --- | --- | --- | --- |
+| 2026-09-03 | Release-Zuordnung TA-15, TA-116 bis TA-120 und TA-133 bis TA-141 | Die Anforderungen waren im technischen Anforderungsdokument keinem Release beziehungsweise Sprint zugeordnet | TA-15 wird Sprint 18 zugeordnet. TA-116 bis TA-120 sowie TA-133 bis TA-141 werden Release 4 zugeordnet. Die Aktualisierungspipeline wird ohne fest eingebauten Zyklus manuell und nach Bedarf ausgelöst; Ergänzungen der Quellen und Metadaten werden bis einschließlich Sprint 19 nachgeführt |
 | 2026-09-02 | Sprint 18/19 und Inbetriebnahme | Sprint 18 und Sprint 19 waren vollständig für Inbetriebnahme, Abnahmeunterstützung und kritische Korrekturen bis 14.09.2026 vorgesehen | Sprint 18 wird noch für Entwicklung und Sprint 19 für Bugfixing genutzt. Aufgrund der laufenden Plattform-Updates verdichtet sich die Inbetriebnahme auf Sprint 19. Sprint 19 wird tendenziell bis 21.09.2026 verlängert; die zusätzliche Woche erweitert nur den Zeitraum, nicht den geplanten Inhalt |
 | 2026-09-01 | TA-74/TA-75 - Rechenmethoden und Nachweise | Die verwendeten Formeln, externen Katalogwerte und Fundstellen waren nicht in einem einheitlichen, versionsgebundenen Nachweis zusammengeführt | Der implementierte Rechenumfang ist mit Core v0.19.0, konkreten Formeln, Codepfaden, Seiten-, Tabellen- und Zeilenbezügen dokumentiert; TA-75 und TA-74 sind insoweit abgeschlossen. Nur der nicht implementierte Teilumfang Sanierungsinvestitionen/Amortisation bleibt wegen des fehlenden BKI-Datenzugangs blockiert |
 | 2026-08-27 | AP-20 – PDF-Bericht und Web/PDF-Konsistenz | Der abgestimmte PDF-Umfang war umgesetzt; die finale Synchronisation und Prüfung der Inhalte zwischen Webanwendung und PDF-Bericht war noch offen | Die Web-/PDF-Synchronisation und abschließende Prüfung sind abgeschlossen; AP-20 ist vollständig erledigt und der Restaufwand beträgt 0 Tage |
@@ -268,6 +269,8 @@ Bearbeitet / umgesetzt:
 - Admin-Backend, Admin-Authentifizierung, Backend-/Admin-Frontend-Anbindung und Build-/Deployment-Pipelines umgesetzt bzw. stabilisiert.
 - Bürger-Frontend weiterentwickelt, insbesondere UI-Korrekturen, Labels, Tooltips/Dialoge, i18n, mobile Prüfung und Adresssuche/Geocoder.
 - Offline-Enrichment und Datenpipeline erweitert, insbesondere angrenzende Gebäude, Gebäudealtersklassen, Adressdatenbank und Pipeline-Debugging.
+- Die Aktualisierung der Basisdaten wurde als manuell und bedarfsabhängig ausgelöster kombinierter Transformationslauf umgesetzt; ein fest eingebauter Aktualisierungszyklus besteht nicht (TA-116 bis TA-120).
+- Single-Point-of-Truth- und Datenquellen-Metadaten wurden in Release 4 bearbeitet; die Ergänzung der Quellen und Metadaten wird als Nachlauf bis einschließlich Sprint 19 fortgeführt (TA-133 bis TA-141).
 - Förderprogramm-Anbindung über Nanostores vorbereitet und mit Backend, Datenbank, Admin-Frontend und Bürger-Frontend angebunden.
 - CIVITAS/CORE-, Staging-, RustFS-/S3- und Deployment-Themen bearbeitet.
 - Fragebögen, Testing mit Expert:innen und Bürger:innen sowie Auswertung erster Rückmeldungen vorbereitet und begleitet.
@@ -282,7 +285,7 @@ Hinweis:
 Zugeordnete Anforderungen:
 
 - Fachliche Anforderungen: [FA-04](../requirements/02-functional-requirements.md#fa-04), [FA-05](../requirements/02-functional-requirements.md#fa-05), [FA-06](../requirements/02-functional-requirements.md#fa-06), [FA-35](../requirements/02-functional-requirements.md#fa-35), [FA-36](../requirements/02-functional-requirements.md#fa-36), [FA-56](../requirements/02-functional-requirements.md#fa-56), [FA-59](../requirements/02-functional-requirements.md#fa-59), [FA-60](../requirements/02-functional-requirements.md#fa-60), [FA-61](../requirements/02-functional-requirements.md#fa-61), [FA-62](../requirements/02-functional-requirements.md#fa-62), [FA-63](../requirements/02-functional-requirements.md#fa-63), [FA-64](../requirements/02-functional-requirements.md#fa-64), [FA-71](../requirements/02-functional-requirements.md#fa-71), [FA-72](../requirements/02-functional-requirements.md#fa-72), [FA-75](../requirements/02-functional-requirements.md#fa-75), [FA-76](../requirements/02-functional-requirements.md#fa-76), [FA-77](../requirements/02-functional-requirements.md#fa-77), [FA-85](../requirements/02-functional-requirements.md#fa-85), [FA-100](../requirements/02-functional-requirements.md#fa-100), [FA-101](../requirements/02-functional-requirements.md#fa-101), [FA-102](../requirements/02-functional-requirements.md#fa-102), [FA-103](../requirements/02-functional-requirements.md#fa-103), [FA-104](../requirements/02-functional-requirements.md#fa-104)
-- Technische Anforderungen: [TA-12](../requirements/03-technical-requirements.md#ta-12), [TA-13](../requirements/03-technical-requirements.md#ta-13), [TA-71](../requirements/03-technical-requirements.md#ta-71), [TA-97](../requirements/03-technical-requirements.md#ta-97), [TA-98](../requirements/03-technical-requirements.md#ta-98), [TA-99](../requirements/03-technical-requirements.md#ta-99), [TA-100](../requirements/03-technical-requirements.md#ta-100), [TA-101](../requirements/03-technical-requirements.md#ta-101)
+- Technische Anforderungen: [TA-12](../requirements/03-technical-requirements.md#ta-12), [TA-13](../requirements/03-technical-requirements.md#ta-13), [TA-71](../requirements/03-technical-requirements.md#ta-71), [TA-97](../requirements/03-technical-requirements.md#ta-97), [TA-98](../requirements/03-technical-requirements.md#ta-98), [TA-99](../requirements/03-technical-requirements.md#ta-99), [TA-100](../requirements/03-technical-requirements.md#ta-100), [TA-101](../requirements/03-technical-requirements.md#ta-101), [TA-116](../requirements/03-technical-requirements.md#ta-116), [TA-117](../requirements/03-technical-requirements.md#ta-117), [TA-118](../requirements/03-technical-requirements.md#ta-118), [TA-119](../requirements/03-technical-requirements.md#ta-119), [TA-120](../requirements/03-technical-requirements.md#ta-120), [TA-133](../requirements/03-technical-requirements.md#ta-133), [TA-134](../requirements/03-technical-requirements.md#ta-134), [TA-135](../requirements/03-technical-requirements.md#ta-135), [TA-136](../requirements/03-technical-requirements.md#ta-136), [TA-137](../requirements/03-technical-requirements.md#ta-137), [TA-138](../requirements/03-technical-requirements.md#ta-138), [TA-139](../requirements/03-technical-requirements.md#ta-139), [TA-140](../requirements/03-technical-requirements.md#ta-140), [TA-141](../requirements/03-technical-requirements.md#ta-141)
 
 ---
 
@@ -444,7 +447,8 @@ Geplanter Umfang:
 - Bugfixing in Sprint 19.
 - Finales Deployment und produktionsnahe Konfiguration in der in Sprint 19 verdichteten Inbetriebnahme.
 - White-Labeling und Open-Source-/Open-Code-Veröffentlichung sind für Sprint 18 vorgesehen (FA-106 bis FA-114, TA-87 bis TA-94 und TA-121 bis TA-128).
-- Der im Entwicklungsstand fest codierte S3-Tile-Endpunkt muss vor dem Deployment durch den einheitlichen APISIX-Zugriffspfad `/api/public/tiles/*` ersetzt beziehungsweise konfiguriert werden.
+- Der im Entwicklungsstand fest codierte S3-Tile-Endpunkt muss in Sprint 18 vor dem Deployment durch den einheitlichen APISIX-Zugriffspfad `/api/public/tiles/*` ersetzt beziehungsweise konfiguriert werden (TA-15).
+- Die in Release 4 begonnene Ergänzung der Quellen und Metadaten wird bis einschließlich Sprint 19 fortgeführt (TA-133 bis TA-141).
 - Zielsystem und Übertragungsweg der Feedback-Funktion (FA-71) sowie die produktive NGSI-LD-Schnittstelle zur Kundeninstanz sind zu klären.
 - Die fachliche Abnahme des Rechenkerns mit dem Energieberater ist für Sprint 19 terminiert (FA-118/TA-142).
 - Stabilisierung der Betriebsumgebung und relevanter Schnittstellen.
