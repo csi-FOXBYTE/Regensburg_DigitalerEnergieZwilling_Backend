@@ -8,6 +8,7 @@ export default defineConfig({
     DATABASE_URL: Type.String(),
     TILES_URL: Type.String({ minLength: 1 }),
     TERRAIN_URL: Type.String({ minLength: 1 }),
+    ADDRESS_DATABASE_URL: Type.String({ minLength: 1 }),
     APP_BASE_URL: Type.String(),
     PUBLIC_CLIENT_BASE_URL: Type.String(),
     ADMIN_CLIENT_BASE_URL: Type.String(),
