@@ -1,0 +1,151 @@
+{
+  "description": "Fastify API backend for the Regensburg digital energy twin.",
+  "buildDependencies": [],
+  "additionalComponents": [
+    {
+      "type": "container",
+      "bom-ref": "oci:node:23-slim",
+      "name": "node",
+      "version": "23-slim (not digest pinned)",
+      "scope": "required",
+      "ecosystem": "OCI container",
+      "relationship": "referenced build and runtime software",
+      "metadataSource": "Dockerfile",
+      "notes": "Base image for both build and production stages; packages inside the image are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT (Node.js); container includes additional licenses"
+          }
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "bom-ref": "pkg:npm/pnpm@10.25.0",
+      "name": "pnpm",
+      "version": "10.25.0",
+      "scope": "required",
+      "ecosystem": "npm CLI",
+      "relationship": "referenced build software",
+      "metadataSource": "package.json and Dockerfile",
+      "notes": "Package manager pinned by packageManager and used to install, build, and prune production dependencies.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "bom-ref": "pkg:npm/corepack@latest",
+      "name": "corepack",
+      "version": "latest (not pinned)",
+      "scope": "required",
+      "ecosystem": "npm CLI",
+      "relationship": "referenced build software",
+      "metadataSource": "Dockerfile",
+      "notes": "Installed globally without a pinned version to activate the project package manager.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "component:debian:ca-certificates@not-pinned",
+      "name": "ca-certificates",
+      "version": "not pinned",
+      "scope": "required",
+      "ecosystem": "Debian package",
+      "relationship": "referenced build and runtime software",
+      "metadataSource": "Dockerfile",
+      "notes": "Explicitly installed in both image stages; transitive Debian packages are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "name": "NOASSERTION"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "component:debian:openssl@not-pinned",
+      "name": "openssl",
+      "version": "not pinned",
+      "scope": "required",
+      "ecosystem": "Debian package",
+      "relationship": "referenced build and runtime software",
+      "metadataSource": "Dockerfile",
+      "notes": "Explicitly installed in both image stages; transitive Debian packages are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "component:debian:python3@not-pinned",
+      "name": "python3",
+      "version": "not pinned",
+      "scope": "required",
+      "ecosystem": "Debian package",
+      "relationship": "referenced build software",
+      "metadataSource": "Dockerfile",
+      "notes": "Native-module build prerequisite installed only in the build image; transitive Debian packages are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "component:debian:make@not-pinned",
+      "name": "make",
+      "version": "not pinned",
+      "scope": "required",
+      "ecosystem": "Debian package",
+      "relationship": "referenced build software",
+      "metadataSource": "Dockerfile",
+      "notes": "Native-module build prerequisite installed only in the build image; transitive Debian packages are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "component:debian:g++@not-pinned",
+      "name": "g++",
+      "version": "not pinned",
+      "scope": "required",
+      "ecosystem": "Debian package",
+      "relationship": "referenced build software",
+      "metadataSource": "Dockerfile",
+      "notes": "Native-module build prerequisite installed only in the build image; transitive Debian packages are not expanded.",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-or-later WITH GCC-exception-3.1"
+          }
+        }
+      ]
+    }
+  ]
+}
+

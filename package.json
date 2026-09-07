@@ -8,7 +8,8 @@
     "dev": "fastify-toab dev",
     "build": "fastify-toab build",
     "jwt:dev": "node scripts/create-dev-jwt.mjs",
-    "db:reset": "zenstack migrate reset --schema src/zenstack/schema.zmodel"
+    "db:reset": "zenstack migrate reset --schema src/zenstack/schema.zmodel",
+    "sbom": "node scripts/generate-sbom.mjs"
   },
   "zenstack": {
     "schema": "src/zenstack/schema.zmodel"

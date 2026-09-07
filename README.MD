@@ -177,3 +177,23 @@ Ausführliche System- und Architekturdocs liegen unter:
 - `docs/system/*`
 - `docs/architecture/*`
 - `docs/requirements/*`
+
+## Software bill of materials
+
+The checked-in `SBOM.cdx.json` is a CycloneDX 1.6 inventory and `SBOM.csv`
+contains the same components in a review-friendly format. The inventory includes
+production npm dependencies and the container, package-manager, and explicitly
+installed operating-system software used to build and run the backend. Test and
+lint-only development dependencies are excluded.
+
+SBOM generation uses the application's pinned pnpm 10 dependency-list command
+and constructs the CycloneDX graph from installed package metadata:
+
+```bash
+pnpm run sbom
+```
+
+Keep `sbom.config.json` synchronized with the Dockerfile.
+For every Git tag, the image workflow regenerates the CycloneDX file with the
+tag as its component version and publishes it as a signed SBOM attestation for
+the exact GHCR image digest.
