@@ -1,5 +1,6 @@
 import { createService } from "@csi-foxbyte/fastify-toab";
 import { DEFAULT_CONFIG, validateAndMigrate, validateConfig } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
+import type { Subsidy } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
 import { getDatabaseService } from "../@internals/index.js";
 import { AppError } from "../errors/app-error.js";
 
@@ -10,6 +11,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "BEG WG – Effizienzhaus-Kredit (KfW 261)",
+      financing: "loan",
       href: "https://www.kfw.de/261",
       benefits: { unit: "%", type: "range", from: 25, to: 37500 },
       content:
@@ -20,16 +22,18 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Heizungsförderung – Wohngebäude (KfW 458)",
+      financing: "grant",
       href: "https://www.kfw.de/458",
-      benefits: { unit: "%", type: "range", from: 70, to: 21000 },
+      benefits: { unit: "%", type: "range", from: 80, to: 22400 },
       content:
-        'Direktzuschuss für den Austausch alter Heizsysteme gegen erneuerbare Alternativen (Wärmepumpe, Solarthermie, Biomasse, Fernwärme).\n\nZuschuss-Bausteine:\n30 % Grundförderung (immer)\n+5 % Effizienzbonus (Wärmepumpe mit Wasser-/Erdreich-/Abwasserquelle oder Kältemittel R290)\n+20 % Klimageschwindigkeitsbonus (Ersatz von Öl-/Kohle-/Gasetagenheizung, Nachtspeicher oder Gas-/Biomasse-Heizung ≥ 20 Jahre alt)\n+30 % Einkommensbonus (Haushaltseinkommen ≤ 40.000 €/Jahr, nur Eigennutzer)\nMaximum: 70 %\n\nFörderfähige Kosten: max. 30.000 €/WE (1. WE), 15.000 € (WE 2–6), 8.000 € (WE 7+)\n\nBedingungen:\n- Bestandsgebäude ≥ 5 Jahre alt\n- Hydraulischer Abgleich als Nebenmaßnahme erforderlich\n- Direktantrag über KfW-Portal „Meine KfW"\n- Für Vermieter: max. 50 % (kein Einkommensbonus)\n- Nicht kombinierbar mit §35c EStG für dieselbe Maßnahme',
+        'Direktzuschuss für den Austausch alter Heizsysteme gegen erneuerbare Alternativen (Wärmepumpe, Solarthermie, Biomasse, Fernwärme).\n\nMaximaler Zuschuss: 80 % der förderfähigen Kosten\n\nZuschuss-Bausteine:\nGrundförderung\n+16 % Klimageschwindigkeitsbonus (Ersatz von Öl-/Kohle-/Gasetagenheizung, Nachtspeicher oder Gas-/Biomasse-Heizung ≥ 20 Jahre alt) – sinkt ab 01.02.2027 halbjährlich (01.02. / 01.08.) um je 4 Prozentpunkte\n+ Einkommensbonus (Einkommensgrenzen von der KfW noch nicht veröffentlicht)\n\nFörderfähige Kosten je Wohneinheit:\n- 1. WE: 28.000 €\n- WE 2–6: je 15.000 €\n- ab WE 7: je 8.000 €\nDer Höchstbetrag für die 1. WE sinkt erstmals am 01.02.2027 und danach halbjährlich zum 01.02. und 01.08. um je 750 €.\n\nBedingungen:\n- Bestandsgebäude ≥ 5 Jahre alt\n- Hydraulischer Abgleich als Nebenmaßnahme erforderlich\n- Direktantrag über KfW-Portal „Meine KfW“\n- Nicht kombinierbar mit §35c EStG für dieselbe Maßnahme\n\nStand: 09/2026 – einzelne Bonusregelungen sind noch nicht final veröffentlicht.',
     },
     isActive: true,
   },
   {
     subsidy: {
       title: "BEG Einzelmaßnahmen Ergänzungskredit (KfW 358/359)",
+      financing: "loan",
       href: "https://www.kfw.de/358",
       benefits: { unit: "€", type: "upTo", value: 120000 },
       content:
@@ -40,6 +44,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "BEG Einzelmaßnahmen – Zuschuss (BAFA)",
+      financing: "grant",
       href: "https://www.bafa.de/DE/Energie/Effiziente_Gebaeude/Sanierung_Wohngebaeude",
       benefits: { unit: "%", type: "range", from: 20, to: 12000 },
       content:
@@ -50,6 +55,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Steuerermäßigung energetische Sanierung (§35c EStG)",
+      financing: "grant",
       href: "https://www.bundesfinanzministerium.de",
       benefits: { unit: "%", type: "range", from: 20, to: 40000 },
       content:
@@ -60,6 +66,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Energieberatung Wohngebäude inkl. iSFP (BAFA)",
+      financing: "grant",
       href: "https://www.bafa.de/DE/Energie/Energieberatung/Energieberatung_Wohngebaeude",
       benefits: { unit: "%", type: "range", from: 50, to: 1100 },
       content:
@@ -70,6 +77,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Bayerisches Modernisierungsprogramm (BayModR)",
+      financing: "loan",
       href: "https://www.bayernlabo.de/mietwohnraum/bayerisches-modernisierungsprogramm",
       benefits: { unit: "€/m²", type: "upTo", value: 500 },
       content:
@@ -80,6 +88,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Regensburg effizient – Sanierung (nachwachsende Rohstoffe)",
+      financing: "grant",
       href: "https://www.regensburg.de/greendeal/mitmachen/staedtische-foerderungen-zum-klimaschutz",
       benefits: { unit: "€", type: "upTo", value: 10000 },
       content:
@@ -90,6 +99,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Regensburg effizient – Photovoltaik",
+      financing: "grant",
       href: "https://www.regensburg.de/greendeal/mitmachen/staedtische-foerderungen-zum-klimaschutz",
       benefits: { unit: "€", type: "upTo", value: 1500 },
       content:
@@ -100,6 +110,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "Regensburg resilient – Gebäudebegrünung",
+      financing: "grant",
       href: "https://www.regensburg.de/greendeal/mitmachen/staedtische-foerderungen-zum-klimaschutz",
       benefits: { unit: "€", type: "upTo", value: 4000 },
       content:
@@ -110,6 +121,7 @@ export const mockSubsidies = [
   {
     subsidy: {
       title: "REWAG – Förderung Photovoltaik",
+      financing: "grant",
       href: "https://www.rewag.de/foerderungen",
       benefits: { unit: "€", type: "upTo", value: 400 },
       content:
@@ -117,7 +129,7 @@ export const mockSubsidies = [
     },
     isActive: true,
   },
-];
+] satisfies { subsidy: Subsidy; isActive: boolean }[];
 
 const configService = createService("config", async ({ services }) => {
   const db = await getDatabaseService(services);
