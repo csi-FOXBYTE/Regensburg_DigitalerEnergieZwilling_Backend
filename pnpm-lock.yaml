@@ -21,8 +21,8 @@ importers:
         specifier: https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz
         version: https://registry.npmjs.org/@csi-foxbyte/fastify-toab/-/fastify-toab-0.2.0-rc.4.tgz(@bull-board/ui@6.20.6)
       '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore':
-        specifier: 0.20.0
-        version: 0.20.0(zod@4.4.3)
+        specifier: 0.20.1
+        version: 0.20.1(zod@4.4.3)
       '@fastify/http-proxy':
         specifier: ^11.4.1
         version: 11.4.1
@@ -189,8 +189,8 @@ packages:
     version: 0.2.0-rc.4
     hasBin: true
 
-  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0':
-    resolution: {integrity: sha512-RiIYR3U42VfixrBQS0hcrQo7l8hmDprE4nHCnj3tmBq+dpBV7xg2zezYqGcEVw+/tpGcBWBR3lctP+JhY9sXRQ==, tarball: https://npm.pkg.github.com/download/@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore/0.20.0/777165cf4417230a41ab405fb4f67f59a73adf55}
+  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1':
+    resolution: {integrity: sha512-xjFUPZz1MKEbmW/JX8eVYOmn1be7bZDXHLK8e68TKgi9wI/1s1LZYK1Pa+O8uIOuyeHm1KdaVt3yoA0aDpZ0sg==, tarball: https://npm.pkg.github.com/download/@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore/0.20.1/3fd1f456d7e2100ecc9178be92531813511308c9}
     hasBin: true
     peerDependencies:
       zod: ~3.24.0
@@ -2819,7 +2819,7 @@ snapshots:
       - '@bull-board/ui'
       - supports-color
 
-  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0(zod@4.4.3)':
+  '@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1(zod@4.4.3)':
     dependencies:
       zod: 4.4.3
 

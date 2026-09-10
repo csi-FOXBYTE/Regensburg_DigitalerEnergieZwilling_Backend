@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:f4cd4667-ec89-4110-897e-271841cf36a2",
+  "serialNumber": "urn:uuid:a927b26e-54cf-465f-af62-4cc3c8de871d",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-08T16:57:34.223Z",
+    "timestamp": "2026-09-10T07:15:38.963Z",
     "tools": {
       "components": [
         {
@@ -57,7 +57,7 @@
         },
         {
           "name": "vcs:commit",
-          "value": "ce1ffc4592f1f13bc520176757a3fbaee83b9d63"
+          "value": "487e7d68ba1cce0c51253b0ba424c2d73f45d490"
         },
         {
           "name": "sbom:source-state",
@@ -242,10 +242,10 @@
       "type": "library",
       "group": "@csi-foxbyte",
       "name": "regensburg_digitalerenergiezwilling_energycalculationcore",
-      "version": "0.20.0",
+      "version": "0.20.1",
       "scope": "required",
-      "bom-ref": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0",
-      "purl": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0",
+      "bom-ref": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1",
+      "purl": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1",
       "description": "Domain-based TypeScript energy calculation core with JSON-configurable catalogs and rules for building envelope and heating evaluation.",
       "licenses": [
         {
@@ -21418,7 +21418,7 @@
         "pkg:npm/%40bull-board/api@6.15.0",
         "pkg:npm/%40bull-board/fastify@6.15.0",
         "pkg:npm/%40csi-foxbyte/fastify-toab@0.2.0-rc.4",
-        "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0",
+        "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1",
         "pkg:npm/%40fastify/http-proxy@11.4.1",
         "pkg:npm/%40fastify/multipart@9.3.0",
         "pkg:npm/%40fastify/otel@0.16.0",
@@ -21468,7 +21468,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.0",
+      "ref": "pkg:npm/%40csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore@0.20.1",
       "dependsOn": [
         "pkg:npm/zod@4.4.3"
       ]
