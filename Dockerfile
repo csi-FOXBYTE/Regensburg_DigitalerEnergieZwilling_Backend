@@ -6,7 +6,7 @@
 # This stage installs all dependencies (dev and prod), compiles native modules,
 # and builds the application source code.
 #-------------------------------------------------------------------------------
-FROM node:23-slim AS build
+FROM node:24-slim AS build
 
 # Install OS-level dependencies needed for building
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -49,7 +49,7 @@ RUN pnpm prune --prod
 # This stage creates the final, lean image for running the application.
 # It copies only the necessary production artifacts from the 'build' stage.
 #-------------------------------------------------------------------------------
-FROM node:23-slim AS production
+FROM node:24-slim AS production
 
 LABEL org.opencontainers.image.licenses="LGPL-3.0-or-later" \
       org.opencontainers.image.source="https://github.com/csi-FOXBYTE/Regensburg_DigitalerEnergieZwilling_Backend"
