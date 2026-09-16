@@ -159,6 +159,7 @@ class "Triage-Eintrag" as TriageRecord {
   +status_reason
   +reviewer
   +note
+  +related_submission_id
   +published_at
 }
 
@@ -211,6 +212,8 @@ end note
 note right of TriageRecord
 Statuslebenszyklus:
 neu -> in_pruefung -> freigegeben | abgelehnt
+freigegeben -> ersetzt bei einer neueren Freigabe
+Pro Gebäude ist höchstens eine Einreichung freigegeben.
 Die Admin-Aktion "Datensatz abgelehnt"
 verwendet abgelehnt (DECLINED) als Endstatus.
 Die physische Löschung ist eine separate Operation

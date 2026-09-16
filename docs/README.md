@@ -70,6 +70,8 @@ Die Gliederung folgt der Nummerierung der Dateien im Ordner `docs/`.
 ## Anleitungen
 
 - [CIVITAS/CORE Setup](instructions/setup-civitas-core.md)
+- [DEZ-Rollen in Keycloak zuweisen](instructions/02-admin-rollen-keycloak.md)
+- [Anwenderhandbuch für das Admin-Frontend](instructions/01-admin-frontend-anwenderhandbuch.md)
 
 <a id="prozesse"></a>
 

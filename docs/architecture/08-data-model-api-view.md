@@ -33,7 +33,7 @@ abgeleitet. Es trennt **statische Potenzialdaten** (3D Tiles und NGSI-LD, offlin
 - **Berechnungskonfiguration (versioniert)** und **Konfigurationsoptionen**
 - **Berechnungen & Ergebnisse** (Heizwärmebedarf, Endenergie, Primärenergie, CO₂, Brennstoffverbrauch/-kosten, Effizienzklassen)
 - **Triage/Status** für administrative Prüfung und Veröffentlichung
-- **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung)
+- **Audit-Log** (Änderungen, Freigaben, Zeitstempel, Benutzerkennung, Prüfkommentar und auslösende Einreichung)
 - **Reports** (Anzeige in der Anwendung) und **optionale bürgerseitige Exporte** (z.B. PDF/JSON für Bürger)
 
 ### Beziehungen (vereinfacht)
@@ -120,8 +120,11 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 
 - `neu` → `in_pruefung`
 - `in_pruefung` → `freigegeben` oder `abgelehnt`
-- Statuswechsel werden im Audit-Log mit Zeitstempel und Benutzerkennung protokolliert.
+- `freigegeben` → `ersetzt`, wenn eine spätere Einreichung desselben Gebäudes freigegeben wird
+- Statuswechsel werden im Audit-Log mit Zeitstempel, Benutzerkennung, Prüfkommentar und gegebenenfalls der auslösenden Einreichung protokolliert.
+- Bei der Freigabe setzt das Backend die neue Einreichung, eine bisherige Freigabe und weitere offene Geschwistereinreichungen in einer gemeinsamen Transaktion auf ihre Zielstatus. Eine Datenbankinvariante lässt pro Gebäude höchstens eine freigegebene Einreichung zu.
 - Die Admin-Aktion „Datensatz abgelehnt“ setzt `abgelehnt` (im Code `DECLINED`) als fachlichen Endstatus. Abgelehnte Datensätze dürfen nicht indexiert oder exportiert werden.
+- `ersetzt` (im Code `SUPERSEDED`) ist ein lesbarer fachlicher Endstatus und verweist über das Audit-Log auf die auslösende neuere Einreichung.
 - Eine tatsächliche Löschung entfernt den Datensatz und wird nicht als Triage- oder Tombstone-Status modelliert. In der Admin-Triage können einzelne Einreichungen gezielt gelöscht werden; die gebündelte Löschung einer Gebäudegruppe ist nur zulässig, wenn alle Einreichungen zu ihrer Gebäude-ID den Status `abgelehnt` besitzen.
 
 ### Statische Tile-Attribute (Auszug)
@@ -230,7 +233,7 @@ Security by Design wird in Datenmodell und API-Vertrag explizit verankert:
 - **Minimale Datenerhebung**: Pflicht zur Berechnung ohne obligatorische personenbezogene Übermittlung; Persistenz bleibt optional und explizit.
 - **Vertragsbasierte Eingabehärtung**: Public-Write-Requests werden über Schema und Wertebereiche geprüft; ungültige Payloads werden verworfen.
 - **Verifikation vor Weiterverwendung**: Serverseitige Neu-Berechnung und Triage sind Voraussetzungen für interne Indexierung.
-- **Lebenszyklus-Kontrolle**: Statuswechsel folgen einem definierten Triage-Lifecycle und werden auditierbar protokolliert.
+- **Lebenszyklus-Kontrolle**: Statuswechsel folgen einem definierten Triage-Lifecycle, werden auditierbar protokolliert und lassen pro Gebäude höchstens eine aktive Freigabe zu.
 - **Löschsicherheit**: Die gebündelte administrative Löschung wird vollständig zurückgewiesen, sobald mindestens eine Einreichung der Gebäude-ID nicht den Status `abgelehnt` besitzt; eine Teillöschung findet nicht statt.
 - **Konfigurationsintegrität**: Versionierte Snapshots und Checksummen sichern Reproduzierbarkeit und Änderungsnachvollziehbarkeit.
 - **Zugriffsmodell**: OIDC-geschützte Admin-Endpunkte, getrennt von öffentlichen Endpunkten.

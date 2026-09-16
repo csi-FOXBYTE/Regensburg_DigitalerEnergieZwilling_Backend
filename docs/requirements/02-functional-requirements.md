@@ -730,7 +730,7 @@ Die Verwaltung muss Nutzereingaben je Gebäude gruppiert sehen und innerhalb die
 
 **FA-87**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`) und die Statusänderung muss nachvollziehbar sein. Die Admin-Aktion „Datensatz abgelehnt“ setzt den fachlichen Endstatus `abgelehnt` (im Code `DECLINED`). Damit bleibt die Ablehnung sprachlich und technisch eindeutig von einer tatsächlichen Löschung getrennt. Eine Löschung entfernt den Datensatz als separate Operation gemäß FA-125 und wird nicht als Triage-Status modelliert.
+Jeder Nutzerdatensatz muss einen Status besitzen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`, `ersetzt`) und die Statusänderung einschließlich Prüfkommentar nachvollziehbar sein. Spätere Einreichungen zu einem bereits freigegebenen Gebäude bleiben prüfbar. Vor ihrer Freigabe muss ein Bestätigungsdialog die aktuell freigegebene Einreichung in einem neuen Browserfenster beziehungsweise Browser-Tab zugänglich machen und den Abbruch ermöglichen. Nach der Bestätigung erhält die neue Einreichung den Status `freigegeben`, die bisherige Freigabe den Status `ersetzt` und weitere offene Einreichungen desselben Gebäudes den Status `abgelehnt`. Die Admin-Aktion „Datensatz abgelehnt“ setzt den fachlichen Endstatus `abgelehnt` (im Code `DECLINED`). Damit bleibt die Ablehnung sprachlich und technisch eindeutig von einer tatsächlichen Löschung getrennt. Eine Löschung entfernt den Datensatz als separate Operation gemäß FA-125 und wird nicht als Triage-Status modelliert.
 
 <a id="fa-88"></a>
 

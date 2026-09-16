@@ -26,6 +26,7 @@ Dieses Kapitel beschreibt Verantwortlichkeiten, Schnittstellen und Betriebsprinz
 - Produktive Validierung von Access Tokens per RS256/JWKS und fachliche Autorisierung anhand der Rollen `manager`, `maintainer` und `admin`.
 - Verwaltung, Versionierung und Veröffentlichung von Berechnungskonfigurationen.
 - Persistenz von Nutzereingaben, Triage-Informationen und Katalogen.
+- Atomare Freigabe einer Einreichung einschließlich Ersetzung einer bisherigen Freigabe und Ablehnung weiterer offener Einreichungen desselben Gebäudes; pro Gebäude wird höchstens eine aktive Freigabe zugelassen.
 - Durchsetzung der Löschregeln in der Admin-Triage: gezielte Einzellöschung sowie atomare gebündelte Löschung nur bei ausschließlich abgelehnten Einreichungen zu einer Gebäude-ID.
 - Öffentliche Schreibschnittstelle inklusive Validierung und Verifikation.
 - Capability-geschützte öffentliche Status-, JSON-Download- und Löschschnittstellen für freiwillige Einreichungen; nur HTTP `DELETE` verändert Daten.

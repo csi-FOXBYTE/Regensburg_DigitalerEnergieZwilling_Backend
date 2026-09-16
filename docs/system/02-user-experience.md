@@ -235,8 +235,7 @@ In der Konzeption ist dafür eine eigene Verwaltungsoberfläche vorgesehen, in d
 
 ### Rollenbeschreibung
 
-Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung / Fachpersonal (z. B. Klimaschutz, Stadtplanung, Energieplanung), die das Tool nicht primär zur individuellen Entscheidungsfindung, sondern zur aggregierten Analyse des Gebäudebestands nutzen.
-Die Verwaltung agiert nicht als klassischer Endnutzer, sondern als Datenanalyst und strategischer Anwender.
+Die Nebenzielgruppe umfasst Mitarbeitende der Stadtverwaltung / Fachpersonal (z. B. Klimaschutz, Stadtplanung, Energieplanung). Sie prüfen einzelne freiwillige Einreichungen fachlich und pflegen Berechnungskonfigurationen. Aggregierte Analysen sind davon getrennt und befinden sich noch in fachlicher Prüfung.
 
 Für den internen Client sind drei Rollen vorgesehen:
 
@@ -269,11 +268,9 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 
 ### Anforderungen an das Tool aus Verwaltungssicht
 
-- Zugriff ausschließlich auf aggregierte, anonymisierte Daten.
-- Keine Einsicht in Einzelgebäude sowie in personenbezogene oder nutzerspezifische Informationen.
-- Filter- und Analysefunktionen auf Bestands- und Quartiersebene, z. B. Baujahresklassen, Effizienzklassen, Heizsysteme und räumliche Cluster.
-- Kennzahlen müssen aggregiert und vergleichbar bereitgestellt werden.
-- Szenarien auf Quartiers- oder Stadtebene sind optional möglich.
+- Rollenbasierter Zugriff auf einzelne freiwillige Einreichungen, soweit dies für Triage und Qualitätssicherung erforderlich ist.
+- Filterung nach Adresse, Status und Prüfperson sowie Navigation zwischen Einreichungen desselben Gebäudes.
+- Aggregierte Filter-, Analyse- und Berichtsfunktionen auf Bestands- und Quartiersebene befinden sich noch in fachlicher und datenschutzrechtlicher Prüfung.
 - Transparente Kennzeichnung der Datenqualität (z. B. Anteil geschätzter vs. bestätigter Daten).
 
 ### Nutzerreise Verwaltung (Phasen)
@@ -283,7 +280,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Login        | Zugang sichern     | Zugriff auf Admin-Funktionen  |
 | Übersicht    | Überblick gewinnen | Liste und Karte der Eingaben  |
 | Prüfung      | Qualität sichern   | Gruppierte Navigation & Plausibilisierung |
-| Freigabe     | Daten bestätigen   | Status „freigegeben“          |
+| Freigabe     | Daten bestätigen   | Status „freigegeben“; bisherige Freigabe wird bei einer späteren Freigabe „ersetzt“ |
 | Systempflege | Grundlagen pflegen | Kataloge aktuell halten       |
 | Auswertung   | Analyse            | Aggregierte Erkenntnisse      |
 
@@ -295,7 +292,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 | Übersicht         | Liste/Karte der Eingaben     | Filter nach Adresse, Status und Prüfperson; Sortierung und Pagination |
 | Detail            | Gebäudegruppe öffnen         | Navigation zwischen Geschwistereinreichungen |
 | Plausibilisierung | Datensatz prüfen             | Status „in Prüfung“, Notizen     |
-| Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log |
+| Freigabe          | Datensatz auswählen          | Status „freigegeben“ + Audit-Log; vorhandene Freigabe nach Bestätigung auf „ersetzt“ setzen |
 | Ablehnung         | Datensatz fachlich verwerfen  | Status „abgelehnt“ + Audit-Log |
 | Physische Löschung | Einzelne Einreichung gezielt löschen | Separate Löschoperation; kein Triage-Status |
 | Gebündelte Löschung | Alle Einreichungen einer Gebäude-ID löschen | Nur möglich, wenn alle Einreichungen der Gebäudegruppe abgelehnt sind |
@@ -321,11 +318,13 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Gruppierung „alle Eingaben zu einem Gebäude“.
 - Vergleich durch Navigation zwischen den Geschwistereinreichungen einer Gebäudegruppe; keine Side-by-side- oder Delta-Ansicht der Einreichungen.
 - Technische Vollständigkeit als Dateninvariante der Admin-Triage; kein eigener Vollständigkeitsfilter. Datenqualität und Plausibilität werden weiterhin fachlich geprüft.
-- Statuskennzeichnung: neu / in Prüfung / freigegeben / abgelehnt.
+- Statuskennzeichnung: neu / in Prüfung / freigegeben / abgelehnt / ersetzt.
+- Eine spätere Einreichung bleibt prüfbar. Bei ihrer Freigabe weist ein Bestätigungsdialog auf die vorhandene Freigabe hin, verlinkt diese in einem neuen Browserfenster beziehungsweise Browser-Tab und ermöglicht den Abbruch.
+- Nach Bestätigung setzt das Backend die neue Einreichung atomar auf `freigegeben`, die bisherige Freigabe auf `ersetzt` und weitere offene Geschwistereinreichungen auf `abgelehnt`.
 - Die Admin-Aktion „Datensatz abgelehnt“ setzt den Endstatus „abgelehnt“ (im Code `DECLINED`). Die physische Löschung ist davon klar getrennt und wird nicht als Status dargestellt.
 - Einzelne Einreichungen können im Triage-Prozess gezielt physisch gelöscht werden. Die gebündelte Löschaktion einer Gebäudegruppe ist nur verfügbar, wenn alle Einreichungen zu ihrer Gebäude-ID den Status „abgelehnt“ besitzen.
-- Audit-Log: Wer hat wann freigegeben?
-- Aggregierte, filterbare Auswertungen (z. B. Stadtteil, Effizienzklasse).
+- Audit-Log: Wer hat wann mit welchem Prüfkommentar einen Status geändert und welche Einreichung hat einen automatischen Statuswechsel ausgelöst?
+- Aggregierte, filterbare Auswertungen bleiben bis zum Abschluss der fachlichen Prüfung außerhalb des verbindlichen Admin-Umfangs.
 
 ### User Stories (Stadtverwaltung)
 
@@ -333,6 +332,7 @@ Wichtig: Ziel der Verwaltung ist nicht die Einzelentscheidung, sondern strukture
 - Als Stadtverwalter/in möchte ich eine Übersicht aller Nutzereingaben sehen, damit ich erkenne, was geprüft werden muss.
 - Als Stadtverwalter/in möchte ich innerhalb einer Gebäudegruppe zwischen Geschwistereinreichungen navigieren, um die Datensätze nacheinander zu prüfen; eine parallele Side-by-side- oder Delta-Ansicht benötige ich dafür nicht.
 - Als Stadtverwalter/in möchte ich Datensätze als plausibel markieren und freigeben können, damit sie als übermittelte Daten intern weiterverarbeitet werden.
+- Als Stadtverwalter/in möchte ich vor der Freigabe einer späteren Einreichung die aktuelle Freigabe in einem neuen Fenster öffnen und den Vorgang abbrechen können, damit ich keine Freigabe unbeabsichtigt ersetze.
 - Als Stadtverwalter/in möchte ich unplausible oder automatisch abgelehnte Datensätze als abgelehnt markieren können, damit sie nicht weiterverwendet werden und dennoch nachvollziehbar bleiben.
 - Als Stadtverwalter/in möchte ich eine einzelne Einreichung gezielt löschen können, ohne andere Einreichungen derselben Gebäude-ID zu entfernen.
 - Als Stadtverwalter/in möchte ich alle Einreichungen einer Gebäude-ID gebündelt löschen können, wenn sie ausnahmslos abgelehnt wurden, damit nicht versehentlich noch relevante Einreichungen entfernt werden.

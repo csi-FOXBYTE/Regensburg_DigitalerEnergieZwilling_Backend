@@ -694,7 +694,7 @@ Die notwendige lokale Browser-Speicherung zur Zustandswiederherstellung muss tra
 
 **TA-80**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`) und die Statusänderung muss mit Zeitstempel und Benutzerkennung im Audit-Log protokolliert werden. Die Admin-Aktion „Datensatz abgelehnt“ setzt den fachlichen Endstatus `abgelehnt` (im Code `DECLINED`). Eine tatsächliche Löschung entfernt den Datensatz, ist kein Triage-Status und erfolgt entweder öffentlich nach TA-76 und TA-77 oder administrativ nach TA-151.
+Jeder Nutzerdatensatz muss einen Status tragen (`neu`, `in Prüfung`, `freigegeben`, `abgelehnt`, `ersetzt`) und die Statusänderung muss mit Zeitstempel, Benutzerkennung, Prüfkommentar und gegebenenfalls der auslösenden Einreichung im Audit-Log protokolliert werden. Die Admin-Aktion „Datensatz abgelehnt“ setzt den fachlichen Endstatus `abgelehnt` (im Code `DECLINED`). Eine tatsächliche Löschung entfernt den Datensatz, ist kein Triage-Status und erfolgt entweder öffentlich nach TA-76 und TA-77 oder administrativ nach TA-151.
 
 <a id="ta-81"></a>
 
@@ -706,7 +706,7 @@ Der Admin-Bereich muss eine gruppierte Ansicht pro Gebäude und die Navigation z
 
 **TA-83**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `abgelehnt`. Die Status `freigegeben` und `abgelehnt` sind fachliche Endzustände. `abgelehnt` kennzeichnet Datensätze, die durch die Admin-Aktion „Datensatz abgelehnt“ verworfen wurden. Die physische Löschung ist eine separate Operation außerhalb des Status-Lifecycles.
+Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu` → `in Prüfung` → `freigegeben` oder `abgelehnt`. Eine spätere Einreichung zu einem bereits freigegebenen Gebäude beginnt ebenfalls mit `neu`. Wird sie nach einer Bestätigung freigegeben, muss das Backend in einer Transaktion die neue Einreichung auf `freigegeben`, jede bisherige Freigabe desselben Gebäudes auf `ersetzt` und weitere offene Geschwistereinreichungen auf `abgelehnt` setzen. Pro Gebäude darf höchstens eine Einreichung `freigegeben` sein. `abgelehnt` und `ersetzt` sind fachliche Endzustände. Die physische Löschung ist eine separate Operation außerhalb des Status-Lifecycles.
 
 <a id="ta-151"></a>
 
