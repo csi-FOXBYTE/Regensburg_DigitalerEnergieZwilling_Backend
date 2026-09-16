@@ -5,6 +5,7 @@ const SubmissionStatusDto = Type.Union([
   Type.Literal("ASSIGNED"),
   Type.Literal("ACCEPTED"),
   Type.Literal("DECLINED"),
+  Type.Literal("SUPERSEDED"),
 ]);
 
 const UserRefDto = Type.Object({
@@ -58,6 +59,11 @@ export const DeleteAdminOutputDto = Type.Object({
   id: Type.String(),
 });
 
+export const DeleteBuildingSubmissionsOutputDto = Type.Object({
+  buildingId: Type.String(),
+  deletedCount: Type.Integer({ minimum: 1 }),
+});
+
 // --- Assign ---
 
 export const AssignInputDto = Type.Object({
@@ -72,6 +78,20 @@ export const AssignmentOutputDto = Type.Object({
   assignedAt: Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
 });
 export type AssignmentOutput = Static<typeof AssignmentOutputDto>;
+
+export const DecisionInputDto = Type.Object({
+  comment: Type.Optional(Type.String({ maxLength: 4000 })),
+});
+export type DecisionInput = Static<typeof DecisionInputDto>;
+
+export const AcceptOutputDto = Type.Intersect([
+  AssignmentOutputDto,
+  Type.Object({
+    supersededSubmissionIds: Type.Array(Type.String()),
+    declinedSubmissionIds: Type.Array(Type.String()),
+  }),
+]);
+export type AcceptOutput = Static<typeof AcceptOutputDto>;
 
 // --- List (admin) ---
 
@@ -116,6 +136,9 @@ export const GetByIdOutputDto = Type.Object({
   longitude: Type.Number(),
   latitude: Type.Number(),
   otherSubmissionIds: Type.Array(Type.String()),
+  currentAcceptedSubmissionId: Type.Union([Type.String(), Type.Null()]),
+  allSubmissionsDeclined: Type.Boolean(),
+  submissionCount: Type.Integer({ minimum: 1 }),
   assignedTo: Type.Union([UserRefDto, Type.Null()]),
   assignedAt: Type.Union([Type.String({ format: "date-time" }), Type.Null()]),
   ngsiData: Type.Object({}, { additionalProperties: true }),
@@ -133,6 +156,8 @@ export const GetByIdOutputDto = Type.Object({
       from: SubmissionStatusDto,
       to: SubmissionStatusDto,
       by: UserRefDto,
+      comment: Type.Union([Type.String(), Type.Null()]),
+      relatedSubmissionId: Type.Union([Type.String(), Type.Null()]),
       createdAt: Type.String({ format: "date-time" }),
     }),
   ),

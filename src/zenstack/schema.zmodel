@@ -49,6 +49,7 @@ enum SubmissionStatus {
   ASSIGNED
   ACCEPTED
   DECLINED
+  SUPERSEDED
 }
 
 enum FeedbackCategory {
@@ -99,7 +100,9 @@ model SubmissionChangeHistoryEntry with Base {
   byId         String
   by           User             @relation(fields: [byId], references: [id])
   submissionId String
-  submission   Submission       @relation(fields: [submissionId], references: [id])
+  submission   Submission       @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  comment      String?
+  relatedSubmissionId String?
 
   @@index([submissionId])
 }

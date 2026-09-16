@@ -6,16 +6,21 @@ import { authMiddleware } from "../auth/auth.middleware.js";
 import { requirePermission } from "../config/config.middleware.js";
 import { AppError } from "../errors/app-error.js";
 import {
+  AcceptOutputDto,
   AssignInputDto,
   AssignmentOutputDto,
+  DecisionInputDto,
   DeleteAdminOutputDto,
+  DeleteBuildingSubmissionsOutputDto,
   GetByIdOutputDto,
   ListOutputDto,
   ListQueryDto,
 } from "../submissions/submissions.dto.js";
 import {
   AccessDeniedError,
+  BuildingSubmissionsNotDeclinedError,
   InvalidStatusTransitionError,
+  ReviewCommentRequiredError,
   SubmissionNotFoundError,
   SubmissionOwnershipError,
   UserNotFoundError,
@@ -47,6 +52,18 @@ const catchSubmissionErrors = (err: unknown) => {
       message: err.message,
     });
   if (err instanceof InvalidStatusTransitionError)
+    throw new AppError({
+      status: "BAD_REQUEST",
+      code: 409,
+      message: err.message,
+    });
+  if (err instanceof ReviewCommentRequiredError)
+    throw new AppError({
+      status: "BAD_REQUEST",
+      code: 400,
+      message: err.message,
+    });
+  if (err instanceof BuildingSubmissionsNotDeclinedError)
     throw new AppError({
       status: "BAD_REQUEST",
       code: 409,
@@ -111,11 +128,31 @@ submissionsAdminController
           from: h.from,
           to: h.to,
           by: h.by,
+          comment: h.comment,
+          relatedSubmissionId: h.relatedSubmissionId,
           createdAt: h.createdAt.toISOString(),
         })),
         createdAt: submission.createdAt.toISOString(),
         updatedAt: submission.updatedAt.toISOString(),
       };
+    } catch (err) {
+      catchSubmissionErrors(err);
+      throw err;
+    }
+  });
+
+submissionsAdminController
+  .addRoute("DELETE", "/building/:buildingId")
+  .use(requirePermission("submissions:delete"))
+  .params(Type.Object({ buildingId: Type.String() }))
+  .output(DeleteBuildingSubmissionsOutputDto)
+  .handler(async ({ services, params, ctx }) => {
+    const submissionsService = await getSubmissionsService(services);
+    try {
+      return await submissionsService.deleteBuildingSubmissions(
+        params.buildingId,
+        resolveRoles(ctx.token),
+      );
     } catch (err) {
       catchSubmissionErrors(err);
       throw err;
@@ -194,20 +231,24 @@ submissionsAdminController
 submissionsAdminController
   .addRoute("POST", "/:submissionId/accept")
   .params(SubmissionIdParams)
-  .output(AssignmentOutputDto)
-  .handler(async ({ services, params, ctx }) => {
+  .body(DecisionInputDto)
+  .output(AcceptOutputDto)
+  .handler(async ({ services, params, body, ctx }) => {
     const submissionsService = await getSubmissionsService(services);
     try {
-      const submission = await submissionsService.accept(
+      const result = await submissionsService.accept(
         params.submissionId,
         ctx.user.id,
         resolveRoles(ctx.token),
+        body.comment,
       );
       return {
-        id: submission.id,
-        status: submission.status,
-        assignedToId: submission.assignedToId,
-        assignedAt: submission.assignedAt?.toISOString() ?? null,
+        id: result.submission.id,
+        status: result.submission.status,
+        assignedToId: result.submission.assignedToId,
+        assignedAt: result.submission.assignedAt?.toISOString() ?? null,
+        supersededSubmissionIds: result.supersededSubmissionIds,
+        declinedSubmissionIds: result.declinedSubmissionIds,
       };
     } catch (err) {
       catchSubmissionErrors(err);
@@ -218,14 +259,16 @@ submissionsAdminController
 submissionsAdminController
   .addRoute("POST", "/:submissionId/decline")
   .params(SubmissionIdParams)
+  .body(DecisionInputDto)
   .output(AssignmentOutputDto)
-  .handler(async ({ services, params, ctx }) => {
+  .handler(async ({ services, params, body, ctx }) => {
     const submissionsService = await getSubmissionsService(services);
     try {
       const submission = await submissionsService.decline(
         params.submissionId,
         ctx.user.id,
         resolveRoles(ctx.token),
+        body.comment,
       );
       return {
         id: submission.id,

@@ -354,8 +354,18 @@ export class SchemaType implements SchemaDef {
                 submission: {
                     name: "submission",
                     type: "Submission",
-                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("submissionId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }] }],
-                    relation: { opposite: "history", fields: ["submissionId"], references: ["id"] }
+                    attributes: [{ name: "@relation", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("submissionId")]) }, { name: "references", value: ExpressionUtils.array("String", [ExpressionUtils.field("id")]) }, { name: "onDelete", value: ExpressionUtils.literal("Cascade") }] }],
+                    relation: { opposite: "history", fields: ["submissionId"], references: ["id"], onDelete: "Cascade" }
+                },
+                comment: {
+                    name: "comment",
+                    type: "String",
+                    optional: true
+                },
+                relatedSubmissionId: {
+                    name: "relatedSubmissionId",
+                    type: "String",
+                    optional: true
                 }
             },
             attributes: [
@@ -469,7 +479,8 @@ export class SchemaType implements SchemaDef {
                 NEW: "NEW",
                 ASSIGNED: "ASSIGNED",
                 ACCEPTED: "ACCEPTED",
-                DECLINED: "DECLINED"
+                DECLINED: "DECLINED",
+                SUPERSEDED: "SUPERSEDED"
             }
         },
         FeedbackCategory: {

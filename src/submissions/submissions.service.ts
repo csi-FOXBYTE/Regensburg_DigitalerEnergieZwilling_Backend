@@ -5,15 +5,18 @@ import {
   validateInput,
   type DETConfig,
 } from "@csi-foxbyte/regensburg_digitalerenergiezwilling_energycalculationcore";
+import { TransactionIsolationLevel } from "@zenstackhq/orm";
 import { getConfigService, getDatabaseService, type ConfigService } from "../@internals/index.js";
 import { DEFAULT_VERSION } from "../config/config.service.js";
 import { AppError } from "../errors/app-error.js";
 import { SubmissionStatus } from "../zenstack/models.js";
 import {
   AccessDeniedError,
+  BuildingSubmissionsNotDeclinedError,
   ConfigNotFoundError,
   InvalidInputError,
   InvalidStatusTransitionError,
+  ReviewCommentRequiredError,
   SubmissionNotFoundError,
   SubmissionOwnershipError,
   UserNotFoundError,
@@ -28,6 +31,7 @@ type DB = Awaited<ReturnType<typeof getDatabaseService>>;
 type TxDB = Omit<DB, "$transaction" | "$connect" | "$disconnect" | "$use">;
 
 const CURRENCY = "EUR";
+const AUTOMATIC_COMMENT_PREFIX = "Automatischer Statuswechsel durch Freigabe der Einreichung";
 
 const hasAccess = (roles: Roles) =>
   roles.includes("admin") || roles.includes("manager");
@@ -56,10 +60,23 @@ const recordHistory = async (
   from: SubmissionStatus,
   to: SubmissionStatus,
   byId: string,
+  options: { comment?: string; relatedSubmissionId?: string } = {},
 ) => {
   await tx.submissionChangeHistoryEntry.create({
-    data: { submissionId, from, to, byId },
+    data: {
+      submissionId,
+      from,
+      to,
+      byId,
+      comment: options.comment,
+      relatedSubmissionId: options.relatedSubmissionId,
+    },
   });
+};
+
+const normalizeComment = (comment?: string) => {
+  const normalized = comment?.trim();
+  return normalized ? normalized : undefined;
 };
 
 const submit = async (
@@ -248,7 +265,7 @@ const getById = async (db: DB, configService: ConfigService, submissionId: strin
 
   const otherSubmissions = await db.submission.findMany({
     where: { buildingId: submission.buildingId, id: { not: submissionId } },
-    select: { id: true },
+    select: { id: true, status: true },
   });
 
   const { address, longitude, latitude } = resolveAddress(submission, submission.building);
@@ -263,10 +280,24 @@ const getById = async (db: DB, configService: ConfigService, submissionId: strin
     longitude,
     latitude,
     otherSubmissionIds: otherSubmissions.map((s) => s.id),
+    currentAcceptedSubmissionId:
+      submission.status === SubmissionStatus.ACCEPTED
+        ? submission.id
+        : (otherSubmissions.find((s) => s.status === SubmissionStatus.ACCEPTED)?.id ?? null),
+    allSubmissionsDeclined:
+      submission.status === SubmissionStatus.DECLINED &&
+      otherSubmissions.every((s) => s.status === SubmissionStatus.DECLINED),
+    submissionCount: otherSubmissions.length + 1,
   };
 };
 
-const accept = async (db: DB, submissionId: string, userId: string, roles: Roles) => {
+export const accept = async (
+  db: DB,
+  submissionId: string,
+  userId: string,
+  roles: Roles,
+  comment?: string,
+) => {
   if (!hasAccess(roles)) throw new AccessDeniedError();
 
   const submission = await db.submission.findUnique({
@@ -280,6 +311,66 @@ const accept = async (db: DB, submissionId: string, userId: string, roles: Roles
     throw new SubmissionOwnershipError();
 
   return db.$transaction(async (tx) => {
+    const siblingSubmissions = await tx.submission.findMany({
+      where: { buildingId: submission.buildingId, id: { not: submissionId } },
+      select: { id: true, status: true },
+    });
+
+    const supersededSubmissionIds: string[] = [];
+    const declinedSubmissionIds: string[] = [];
+
+    for (const sibling of siblingSubmissions) {
+      if (sibling.status === SubmissionStatus.ACCEPTED) {
+        const changed = await tx.submission.updateMany({
+          where: { id: sibling.id, status: SubmissionStatus.ACCEPTED },
+          data: { status: SubmissionStatus.SUPERSEDED },
+        });
+        if (changed.count === 1) {
+          supersededSubmissionIds.push(sibling.id);
+          await recordHistory(
+            tx,
+            sibling.id,
+            SubmissionStatus.ACCEPTED,
+            SubmissionStatus.SUPERSEDED,
+            userId,
+            {
+              comment: `${AUTOMATIC_COMMENT_PREFIX} ${submissionId}.`,
+              relatedSubmissionId: submissionId,
+            },
+          );
+        }
+      } else if (
+        sibling.status === SubmissionStatus.NEW ||
+        sibling.status === SubmissionStatus.ASSIGNED
+      ) {
+        const changed = await tx.submission.updateMany({
+          where: { id: sibling.id, status: sibling.status },
+          data: { status: SubmissionStatus.DECLINED },
+        });
+        if (changed.count === 1) {
+          declinedSubmissionIds.push(sibling.id);
+          await recordHistory(
+            tx,
+            sibling.id,
+            sibling.status,
+            SubmissionStatus.DECLINED,
+            userId,
+            {
+              comment: `${AUTOMATIC_COMMENT_PREFIX} ${submissionId}.`,
+              relatedSubmissionId: submissionId,
+            },
+          );
+        }
+      }
+    }
+
+    const accepted = await tx.submission.updateMany({
+      where: { id: submissionId, status: SubmissionStatus.ASSIGNED },
+      data: { status: SubmissionStatus.ACCEPTED },
+    });
+    if (accepted.count !== 1)
+      throw new InvalidStatusTransitionError(submission.status, SubmissionStatus.ACCEPTED);
+
     if (submission.buildingId && submission.building.dataSource !== "ACTUAL") {
       await tx.building.upsert({
         where: { id: submission.buildingId },
@@ -298,17 +389,31 @@ const accept = async (db: DB, submissionId: string, userId: string, roles: Roles
         },
       });
     }
-    const updated = await tx.submission.update({
-      where: { id: submissionId },
-      data: { status: SubmissionStatus.ACCEPTED },
-    });
-    await recordHistory(tx, submissionId, SubmissionStatus.ASSIGNED, SubmissionStatus.ACCEPTED, userId);
-    return updated;
-  });
+    await recordHistory(
+      tx,
+      submissionId,
+      SubmissionStatus.ASSIGNED,
+      SubmissionStatus.ACCEPTED,
+      userId,
+      { comment: normalizeComment(comment) },
+    );
+    const updated = await tx.submission.findUnique({ where: { id: submissionId } });
+    if (!updated) throw new SubmissionNotFoundError(submissionId);
+    return { submission: updated, supersededSubmissionIds, declinedSubmissionIds };
+  }, { isolationLevel: TransactionIsolationLevel.Serializable });
 };
 
-const decline = async (db: DB, submissionId: string, userId: string, roles: Roles) => {
+export const decline = async (
+  db: DB,
+  submissionId: string,
+  userId: string,
+  roles: Roles,
+  comment?: string,
+) => {
   if (!hasAccess(roles)) throw new AccessDeniedError();
+
+  const normalizedComment = normalizeComment(comment);
+  if (!normalizedComment) throw new ReviewCommentRequiredError();
 
   const submission = await db.submission.findUnique({ where: { id: submissionId } });
   if (!submission) throw new SubmissionNotFoundError(submissionId);
@@ -322,7 +427,14 @@ const decline = async (db: DB, submissionId: string, userId: string, roles: Role
       where: { id: submissionId },
       data: { status: SubmissionStatus.DECLINED },
     });
-    await recordHistory(tx, submissionId, SubmissionStatus.ASSIGNED, SubmissionStatus.DECLINED, userId);
+    await recordHistory(
+      tx,
+      submissionId,
+      SubmissionStatus.ASSIGNED,
+      SubmissionStatus.DECLINED,
+      userId,
+      { comment: normalizedComment },
+    );
     return updated;
   });
 };
@@ -371,6 +483,36 @@ const deleteById = async (db: DB, submissionId: string, userId: string, roles: R
   return db.submission.delete({ where: { id: submissionId } });
 };
 
+export const deleteBuildingSubmissions = async (
+  db: DB,
+  buildingId: string,
+  roles: Roles,
+) => {
+  if (!hasAccess(roles)) throw new AccessDeniedError();
+
+  return db.$transaction(async (tx) => {
+    const submissions = await tx.submission.findMany({
+      where: { buildingId },
+      select: { id: true, status: true },
+    });
+    if (submissions.length === 0) throw new SubmissionNotFoundError();
+    if (submissions.some((submission) => submission.status !== SubmissionStatus.DECLINED))
+      throw new BuildingSubmissionsNotDeclinedError(buildingId);
+
+    const deleted = await tx.submission.deleteMany({
+      where: { buildingId, status: SubmissionStatus.DECLINED },
+    });
+    if (deleted.count !== submissions.length)
+      throw new BuildingSubmissionsNotDeclinedError(buildingId);
+
+    const remaining = await tx.submission.count({ where: { buildingId } });
+    if (remaining !== 0)
+      throw new BuildingSubmissionsNotDeclinedError(buildingId);
+
+    return { buildingId, deletedCount: deleted.count };
+  }, { isolationLevel: TransactionIsolationLevel.Serializable });
+};
+
 const submissionsService = createService("submissions", async ({ services }) => {
   const db = await getDatabaseService(services);
   const configService = await getConfigService(services);
@@ -384,14 +526,18 @@ const submissionsService = createService("submissions", async ({ services }) => 
       getPublicDownloadByToken(db, deletionToken),
     deleteByToken: (deletionToken: string) => deleteByToken(db, deletionToken),
     deleteById: (submissionId: string, userId: string, roles: Roles) => deleteById(db, submissionId, userId, roles),
+    deleteBuildingSubmissions: (buildingId: string, roles: Roles) =>
+      deleteBuildingSubmissions(db, buildingId, roles),
     assign: (submissionId: string, userId: string, roles: Roles, targetUserId?: string) =>
       assign(db, submissionId, userId, roles, targetUserId),
     unAssign: (submissionId: string, userId: string, roles: Roles) =>
       unAssign(db, submissionId, userId, roles),
     list: (params: Parameters<typeof list>[1]) => list(db, params),
     getById: (submissionId: string) => getById(db, configService, submissionId),
-    accept: (submissionId: string, userId: string, roles: Roles) => accept(db, submissionId, userId, roles),
-    decline: (submissionId: string, userId: string, roles: Roles) => decline(db, submissionId, userId, roles),
+    accept: (submissionId: string, userId: string, roles: Roles, comment?: string) =>
+      accept(db, submissionId, userId, roles, comment),
+    decline: (submissionId: string, userId: string, roles: Roles, comment?: string) =>
+      decline(db, submissionId, userId, roles, comment),
   };
 });
 

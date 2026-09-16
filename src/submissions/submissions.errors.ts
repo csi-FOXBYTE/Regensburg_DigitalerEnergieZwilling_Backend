@@ -49,3 +49,17 @@ export class UserNotFoundError extends Error {
     this.name = "UserNotFoundError";
   }
 }
+
+export class ReviewCommentRequiredError extends Error {
+  constructor() {
+    super("A review comment is required for declining a submission");
+    this.name = "ReviewCommentRequiredError";
+  }
+}
+
+export class BuildingSubmissionsNotDeclinedError extends Error {
+  constructor(buildingId: string) {
+    super(`Not all submissions for building "${buildingId}" are declined`);
+    this.name = "BuildingSubmissionsNotDeclinedError";
+  }
+}
