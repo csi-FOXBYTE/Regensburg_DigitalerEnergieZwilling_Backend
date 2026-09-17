@@ -8,6 +8,7 @@ import {
 import {
   accept,
   decline,
+  deleteById,
   deleteBuildingSubmissions,
 } from "./submissions.service.js";
 
@@ -123,6 +124,7 @@ describe("admin submission decisions", () => {
 
 describe("bundled submission deletion", () => {
   it("deletes all submissions when every submission of the building is declined", async () => {
+    const createAudit = mock.fn(async (query: unknown) => query);
     const db = {
       submission: {
         findMany: mock.fn(async () => [
@@ -132,13 +134,28 @@ describe("bundled submission deletion", () => {
         deleteMany: mock.fn(async () => ({ count: 2 })),
         count: mock.fn(async () => 0),
       },
+      deletionAuditEvent: { create: createAudit },
     };
     Object.assign(db, { $transaction: transaction(db) });
 
-    assert.deepEqual(
-      await deleteBuildingSubmissions(db as never, "building-1", ["manager"]),
-      { buildingId: "building-1", deletedCount: 2 },
+    const result = await deleteBuildingSubmissions(
+      db as never,
+      "building-1",
+      "reviewer-1",
+      ["manager"],
     );
+    assert.equal(result.buildingId, "building-1");
+    assert.equal(result.deletedCount, 2);
+    assert.equal(result.receipt.targetId, "building-1");
+    assert.equal(result.receipt.targetType, "BUILDING");
+    const auditData = createAudit.mock.calls[0]?.arguments[0] as {
+      data: Record<string, unknown>;
+    };
+    assert.equal(auditData.data.actorUserId, "reviewer-1");
+    assert.equal(auditData.data.actorRole, "manager");
+    assert.equal(auditData.data.deletedCount, 2);
+    assert.equal("buildingId" in auditData.data, false);
+    assert.equal("targetId" in auditData.data, false);
   });
 
   it("rejects bundled deletion when one submission is not declined", async () => {
@@ -155,9 +172,45 @@ describe("bundled submission deletion", () => {
     Object.assign(db, { $transaction: transaction(db) });
 
     await assert.rejects(
-      deleteBuildingSubmissions(db as never, "building-1", ["manager"]),
+      deleteBuildingSubmissions(
+        db as never,
+        "building-1",
+        "reviewer-1",
+        ["manager"],
+      ),
       BuildingSubmissionsNotDeclinedError,
     );
     assert.equal(db.submission.deleteMany.mock.calls.length, 0);
+  });
+
+  it("records the authenticated user without retaining the deleted submission id", async () => {
+    const createAudit = mock.fn(async (query: unknown) => query);
+    const db = {
+      submission: {
+        findUnique: mock.fn(async () => ({
+          id: "submission-1",
+          assignedToId: "reviewer-1",
+        })),
+        delete: mock.fn(async () => ({ id: "submission-1" })),
+      },
+      deletionAuditEvent: { create: createAudit },
+    };
+    Object.assign(db, { $transaction: transaction(db) });
+
+    const result = await deleteById(
+      db as never,
+      "submission-1",
+      "reviewer-1",
+      ["manager"],
+    );
+    assert.equal(result.id, "submission-1");
+    assert.equal(result.receipt.targetId, "submission-1");
+    const auditData = createAudit.mock.calls[0]?.arguments[0] as {
+      data: Record<string, unknown>;
+    };
+    assert.equal(auditData.data.actorUserId, "reviewer-1");
+    assert.equal(auditData.data.actorRole, "manager");
+    assert.equal("submissionId" in auditData.data, false);
+    assert.equal("targetId" in auditData.data, false);
   });
 });

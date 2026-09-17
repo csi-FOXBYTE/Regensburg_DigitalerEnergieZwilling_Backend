@@ -492,7 +492,7 @@ Fachpersonal muss mehrere Nutzereingaben zu einem Gebäude über eine gemeinsame
 
 **FA-125**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Fachpersonal muss im Triage-Prozess einzelne Einreichungen gezielt physisch löschen können. Eine gebündelte physische Löschung aller Einreichungen zu einer Gebäude-ID darf nur möglich sein, wenn sämtliche Einreichungen dieser Gebäudegruppe den Status `abgelehnt` besitzen.
+Fachpersonal muss im Triage-Prozess einzelne Einreichungen gezielt physisch löschen können. Eine gebündelte physische Löschung aller Einreichungen zu einer Gebäude-ID darf nur möglich sein, wenn sämtliche Einreichungen dieser Gebäudegruppe den Status `abgelehnt` besitzen. Nach erfolgreicher Löschung muss das System einen herunterladbaren Löschbeleg bereitstellen. Der Beleg ermöglicht zusammen mit einem unabhängigen Audit-Ereignis den späteren Nachweis für die konkrete Einreichung beziehungsweise Gebäudegruppe, ohne dass das Audit-Ereignis selbst eine Einreichungs-, Gebäude-, Adress- oder Tokenreferenz speichert.
 
 <a id="fa-54"></a>
 

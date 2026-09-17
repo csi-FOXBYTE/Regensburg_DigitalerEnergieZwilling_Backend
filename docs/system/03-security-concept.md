@@ -192,6 +192,8 @@ Ein Status `⚠️` bezeichnet eine vorhandene Umsetzung mit noch fehlendem voll
 - Das Backend nutzt Pino als strukturierten Standard-Logger von Fastify.
 - Die statischen Frontends nutzen den Standard-Logger von nginx; Requests auf nicht-HTML-Assets werden dabei nicht protokolliert.
 - Audit-Logs für Admin-Aktionen inkl. Zeitstempel und Benutzerkennung.
+- Physische Löschungen erzeugen einen separaten, zielreferenzfreien Audit-Datensatz. Einreichungs-ID, Gebäude-ID, Adresse, Koordinaten und Lösch-Token werden dort nicht gespeichert. Die Zuordnung zu einer konkreten Löschung ist nur mit dem an den Aufrufer ausgegebenen vollständigen Löschbeleg möglich.
+- URL-Pfadparameter der Capability-Routen sind in Backend-, Gateway- und Webserver-Logs zu redigieren. Insbesondere darf der Lösch-Token nicht in zentralen Protokollen persistiert werden. Die konkrete Konfiguration der vorgelagerten CIVITAS/CORE-Komponenten ist vor Produktivsetzung zu bestätigen.
 
 ---
 

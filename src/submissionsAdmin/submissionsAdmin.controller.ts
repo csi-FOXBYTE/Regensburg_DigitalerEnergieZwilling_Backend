@@ -146,37 +146,44 @@ submissionsAdminController
   .use(requirePermission("submissions:delete"))
   .params(Type.Object({ buildingId: Type.String() }))
   .output(DeleteBuildingSubmissionsOutputDto)
-  .handler(async ({ services, params, ctx }) => {
-    const submissionsService = await getSubmissionsService(services);
-    try {
-      return await submissionsService.deleteBuildingSubmissions(
-        params.buildingId,
-        resolveRoles(ctx.token),
-      );
-    } catch (err) {
-      catchSubmissionErrors(err);
-      throw err;
-    }
-  });
+  .handler(
+    async ({ services, params, ctx }) => {
+      const submissionsService = await getSubmissionsService(services);
+      try {
+        return await submissionsService.deleteBuildingSubmissions(
+          params.buildingId,
+          ctx.user.id,
+          resolveRoles(ctx.token),
+        );
+      } catch (err) {
+        catchSubmissionErrors(err);
+        throw err;
+      }
+    },
+    { logLevel: "silent" },
+  );
 
 submissionsAdminController
   .addRoute("DELETE", "/:submissionId")
+  .use(requirePermission("submissions:delete"))
   .params(SubmissionIdParams)
   .output(DeleteAdminOutputDto)
-  .handler(async ({ services, params, ctx }) => {
-    const submissionsService = await getSubmissionsService(services);
-    try {
-      const submission = await submissionsService.deleteById(
-        params.submissionId,
-        ctx.user.id,
-        resolveRoles(ctx.token),
-      );
-      return { id: submission.id };
-    } catch (err) {
-      catchSubmissionErrors(err);
-      throw err;
-    }
-  });
+  .handler(
+    async ({ services, params, ctx }) => {
+      const submissionsService = await getSubmissionsService(services);
+      try {
+        return await submissionsService.deleteById(
+          params.submissionId,
+          ctx.user.id,
+          resolveRoles(ctx.token),
+        );
+      } catch (err) {
+        catchSubmissionErrors(err);
+        throw err;
+      }
+    },
+    { logLevel: "silent" },
+  );
 
 submissionsAdminController
   .addRoute("PATCH", "/:submissionId/assignment")
