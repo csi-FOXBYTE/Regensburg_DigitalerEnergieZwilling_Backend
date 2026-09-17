@@ -214,6 +214,7 @@ Eine Ablehnung erhält die Einreichung und ihre Historie. Eine Löschung entfern
 3. Klicken Sie auf **Einreichung löschen**.
 4. Prüfen Sie die angezeigte Einreichung.
 5. Klicken Sie auf **Löschen**, um den Vorgang zu bestätigen. Klicken Sie auf **Abbrechen**, um die Einreichung zu behalten.
+6. Bewahren Sie die automatisch heruntergeladene JSON-Datei mit dem Löschbeleg geschützt auf. Nur der vollständige Beleg ermöglicht später den Nachweis, dass genau diese Einreichung gelöscht wurde.
 
 In der Gebäudeliste können Sie eine abgelehnte Einreichung auch über das Löschsymbol entfernen.
 
@@ -225,8 +226,11 @@ Die gebündelte Löschung ist nur verfügbar, wenn alle Einreichungen des Gebäu
 2. Prüfen Sie, ob alle Einreichungen im Bereich **Einreichungen** den Status **Abgelehnt** besitzen.
 3. Klicken Sie in der **Gefahrenzone** auf **Alle [Anzahl] Einreichungen dieses Gebäudes löschen**.
 4. Klicken Sie auf **Löschen**, um alle Einreichungen dauerhaft zu entfernen.
+5. Bewahren Sie den automatisch heruntergeladenen Löschbeleg geschützt auf. Er weist die konkrete Gebäudegruppe und die Anzahl der gelöschten Einreichungen nach.
 
 Das Backend prüft die Status unmittelbar vor der Löschung erneut. Ändert sich zwischenzeitlich ein Status, bricht das System die gesamte Löschung ohne Teillöschung ab.
+
+Der serverseitige Audit-Datensatz dokumentiert Zeitpunkt, Aktion, Ihre interne Benutzerkennung und Rolle sowie die Löschanzahl. Er enthält keine Einreichungs-ID, Gebäude-ID, Adresse oder sonstige Einreichungsdetails. Die konkrete Zuordnung kann nur mit dem heruntergeladenen Löschbeleg verifiziert werden.
 
 ## 7. Berechnungskonfigurationen verwalten
 

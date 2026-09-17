@@ -52,6 +52,16 @@ enum SubmissionStatus {
   SUPERSEDED
 }
 
+enum DeletionAuditAction {
+  SUBMISSION_DELETE
+  BUILDING_SUBMISSIONS_DELETE
+}
+
+enum DeletionAuditActorType {
+  ADMIN
+  PUBLIC_CAPABILITY
+}
+
 enum FeedbackCategory {
   bug
   feedback
@@ -105,6 +115,25 @@ model SubmissionChangeHistoryEntry with Base {
   relatedSubmissionId String?
 
   @@index([submissionId])
+}
+
+// Independent of Submission and Building by design: a deletion audit event
+// survives physical deletion without retaining a target identifier. The
+// receipt commitment can only be linked to a target when the caller presents
+// the random verification secret returned in the deletion receipt.
+model DeletionAuditEvent {
+  id                String                 @id
+  createdAt         DateTime               @default(now())
+  action            DeletionAuditAction
+  actorType         DeletionAuditActorType
+  actorUserId       String?
+  actorRole         String?
+  deletedCount      Int
+  receiptCommitment String                 @unique
+
+  @@index([createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
 }
 
 model Feedback with Base {
