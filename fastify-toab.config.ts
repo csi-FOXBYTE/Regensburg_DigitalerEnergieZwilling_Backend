@@ -2,7 +2,14 @@ import { defineConfig } from "@csi-foxbyte/fastify-toab";
 import { Type } from "@sinclair/typebox";
 import { routeErrorHandler } from "./src/errors/route-error-handler.js";
 
+// fastify-toab 0.2.0-rc.4's CLI reads the module namespace, not its default export.
+// Also export this setting by name so Pino's transport workers stay in node_modules.
+export const rolldown = {
+  external: ["pino"],
+};
+
 export default defineConfig({
+  rolldown,
   env: Type.Object({
     AUTH_RESOURCE_ACCESS_CLIENT_ID: Type.Optional(Type.String()),
     DATABASE_URL: Type.String(),

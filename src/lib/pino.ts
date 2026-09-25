@@ -1,67 +1,104 @@
-import { formatWithOptions } from "node:util";
-import { LoggerOptions, pino } from "pino";
+import { pino, type DestinationStream, type LoggerOptions } from "pino";
+
+export type ErrorCategory =
+  | "DATABASE_ERROR"
+  | "VALIDATION_ERROR"
+  | "BAD_REQUEST"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "NOT_FOUND"
+  | "METHOD_NOT_ALLOWED"
+  | "INTERNAL_ERROR";
+
+// Values from exceptions are classified, never copied into a log record.
+export function errorCategory(error: unknown): ErrorCategory {
+  if (typeof error !== "object" || error === null) return "INTERNAL_ERROR";
+  if ("reason" in error && error.reason === "db-query-error") return "DATABASE_ERROR";
+  if ("validation" in error) return "VALIDATION_ERROR";
+  if ("code" in error && error.code === "FST_ERR_CTP_INVALID_JSON_BODY") return "BAD_REQUEST";
+  if ("status" in error) {
+    switch (error.status) {
+      case "BAD_REQUEST": return "BAD_REQUEST";
+      case "UNAUTHORIZED": return "UNAUTHORIZED";
+      case "FORBIDDEN": return "FORBIDDEN";
+      case "NOT_FOUND": return "NOT_FOUND";
+      case "METHOD_NOT_ALLOWED": return "METHOD_NOT_ALLOWED";
+    }
+  }
+  return "INTERNAL_ERROR";
+}
+
+type ConsoleLevel = "info" | "warn" | "error" | "debug";
+
+type LogEvent =
+  | {
+      event: "request_completed" | "request_failed" | "request_aborted" | "request_timeout";
+      requestId: string;
+      route: string;
+      method: string;
+      statusCode?: number;
+      durationMs: number;
+      errorCode?: ErrorCategory;
+    }
+  | { event: "console_output"; level: ConsoleLevel; errorCode?: ErrorCategory }
+  | { event: "server_listening" | "server_closed" };
+
+export type PrivacyLogger = (event: LogEvent) => void;
 
 export const loggerOptions: LoggerOptions = {
-  transport: {
-    target: "pino-pretty",
-    options: {
-      translateTime: "HH:MM:ss Z",
-      ignore: "pid,hostname",
+  base: undefined,
+  ...(process.env.NODE_ENV === "development" ? {
+    transport: {
+      target: "pino-pretty",
+      options: { translateTime: "HH:MM:ss Z", ignore: "pid,hostname" },
     },
-  },
+  } : {}),
 };
 
-export const logger = pino(process.env.NODE_ENV === "development" ? loggerOptions : undefined); // only log to pino-pretty when in dev mode.
-
-export function injectPinoLogger(pinoLogger = logger) {
-  const write = (
-    logMethod: (objOrMsg?: unknown, msg?: string, ...args: unknown[]) => void,
-    args: unknown[],
-  ) => {
-    if (args.length === 0) {
-      logMethod("");
-      return;
+export function createPrivacyLogger(
+  options: LoggerOptions = loggerOptions,
+  destination?: DestinationStream,
+): PrivacyLogger {
+  const output = destination ? pino(options, destination) : pino(options);
+  return (event) => {
+    // Construct a fresh allowlisted record, even if the caller supplies extra fields.
+    if (event.event === "console_output") {
+      output[event.level]({ event: event.event, errorCode: event.errorCode });
+    } else if ("requestId" in event) {
+      const level = event.event === "request_failed"
+        ? ((event.statusCode ?? 500) >= 500 ? "error" : "warn")
+        : "info";
+      output[level]({
+        event: event.event,
+        requestId: event.requestId,
+        route: event.route,
+        method: event.method,
+        statusCode: event.statusCode,
+        durationMs: event.durationMs,
+        errorCode: event.errorCode,
+      });
+    } else {
+      output.info({ event: event.event });
     }
+  };
+}
 
-    if (args.length === 1) {
-      const [first] = args;
+export const logEvent = createPrivacyLogger();
 
-      if (first instanceof Error) {
-        logMethod({ err: first }, first.message);
-        return;
-      }
-
-      if (typeof first === "object" && first !== null) {
-        logMethod(first);
-        return;
-      }
-
-      logMethod(String(first));
-      return;
-    }
-
-    const [first, ...rest] = args;
-
-    if (first instanceof Error) {
-      logMethod({ err: first }, formatWithOptions({}, ...rest));
-      return;
-    }
-
-    if (typeof first === "object" && first !== null) {
-      logMethod(first, formatWithOptions({}, ...rest));
-      return;
-    }
-
-    logMethod(formatWithOptions({}, first, ...rest));
+export function injectPinoLogger(write: PrivacyLogger = logEvent) {
+  const forward = (level: ConsoleLevel, args: unknown[]) => {
+    const error = args.find((arg) => arg instanceof Error);
+    write({
+      event: "console_output",
+      level,
+      ...(error ? { errorCode: errorCategory(error) } : {}),
+    });
   };
 
-  console.log = (...args: unknown[]) => write(pinoLogger.info.bind(pinoLogger), args);
-  console.info = (...args: unknown[]) =>
-    write(pinoLogger.info.bind(pinoLogger), args);
-  console.warn = (...args: unknown[]) =>
-    write(pinoLogger.warn.bind(pinoLogger), args);
-  console.error = (...args: unknown[]) =>
-    write(pinoLogger.error.bind(pinoLogger), args);
-  console.debug = (...args: unknown[]) =>
-    write(pinoLogger.debug.bind(pinoLogger), args);
+  // Free text, objects, error messages and stacks may all contain submitted data.
+  console.log = (...args: unknown[]) => forward("info", args);
+  console.info = (...args: unknown[]) => forward("info", args);
+  console.warn = (...args: unknown[]) => forward("warn", args);
+  console.error = (...args: unknown[]) => forward("error", args);
+  console.debug = (...args: unknown[]) => forward("debug", args);
 }

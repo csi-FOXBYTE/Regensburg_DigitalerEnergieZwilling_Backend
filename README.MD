@@ -144,12 +144,15 @@ curl -i http://localhost:5000/api/admin/test/ \
 
 ## Logging
 
-- `injectPinoLogger()` wird frueh in `src/index.ts` aufgerufen.
-- `console.log/info/warn/error/debug` werden auf Pino gemappt.
-- Mehrere `console`-Argumente werden zusammengefuehrt; `Error` wird als `err` strukturiert geloggt.
-- Fastify nutzt dieselbe Logger-Instanz ueber `loggerInstance`.
+- `src/instrumentation.ts` installiert `injectPinoLogger()` beim Laden des Moduls, vor dem Aufruf von `startServer()`. Dadurch werden auch Fehler bei der Umgebungsvalidierung und beim Serverstart ueber Pino ausgegeben.
+- `console.log/info/warn/error/debug` erzeugen nur ein festes `console_output`-Ereignis mit Log-Level und ggf. einer festen Fehlerkategorie. Freitext, Objekte, Fehlermeldungen, Ursachen und Stacks werden nicht uebernommen, da sie Nutzereingaben enthalten koennen.
+- Der Instrumentation-Hook deaktiviert die ungefilterten Framework- und Request-Logger. Eigene Hooks protokollieren pro Request einmal das Ergebnis: serverseitig erzeugte Log-Request-ID, HTTP-Methode, registriertes Routenmuster, Statuscode, Dauer und ggf. Fehlerkategorie. Unbekannte Routen erhalten `unmatched_route`; URLs, Query-Parameter, Tokens, Header, IP-Adressen und Request-/Response-Inhalte werden nicht geloggt. Diese Regeln gelten auch in Entwicklung.
+- Datenbankfehler werden als `DATABASE_ERROR` klassifiziert. SQL, SQL-Parameter und Datenbank-Fehlerdetails bleiben aus den Logs. Neue Diagnosen sollen feste Ereignisse ueber `src/lib/pino.ts` verwenden; `fastify.log` und `request.log` sind absichtlich stumm.
+- In Produktion werden JSON-Zeilen ausgegeben; nur bei `NODE_ENV=development` wird `pino-pretty` verwendet.
 - Das Backend schreibt seine Logs ausschliesslich auf `stdout`/`stderr`; das passt zum Container-Betrieb unter Kubernetes.
 - Container-Logs können dadurch direkt von Promtail oder Grafana Alloy eingesammelt werden.
+- Die Dev-APISIX-Konfiguration protokolliert nur Zeitpunkt, Status und Dauer sowie Upstream-Status. Der ungefilterte Nginx-Error-Log wird nach `/dev/null` geleitet, weil er Request-URLs enthalten kann. Dadurch entfallen detaillierte Gateway-Fehlermeldungen; Fehler bleiben ueber Statuscodes sichtbar. Konfigurationsquelle ist `.devcontainer/apisix/config.yaml`, nicht die generierte `nginx.conf`. Nach Aenderungen muss das APISIX-Image neu gebaut und der Container neu erstellt werden.
+- In Produktion muessen Gateway/Ingress und Datenbank-Logging separat entsprechend konfiguriert werden. Diese Repository-Aenderung aktualisiert keine laufende Produktionsumgebung und entfernt keine bestehenden Logs. Insbesondere keine Request-/Response-Bodies, URLs mit Tokens, SQL-Parameter oder ungefilterte Datenbankfehler sammeln. APISIX-Konfigurationsreferenz: https://apisix.apache.org/docs/apisix/customize-nginx-configuration/
 
 ## Fehlerformat
 
