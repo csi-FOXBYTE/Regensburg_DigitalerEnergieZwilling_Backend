@@ -70,7 +70,7 @@ Quelle: `raw/runtime-flow-pipeline-simple.puml`
 **Lösch-Flow (Public)**  
 Wenn ein Nutzer Ergebnisse freiwillig gespeichert hat, enthält das PDF einen Löschlink zur öffentlichen Client-Route sowie einen Link zum JSON-Download. Beide verwenden denselben zufälligen Capability-Token. Der Client prüft den Token mit einem nicht verändernden Statusabruf, zeigt bei Verfügbarkeit den Bestätigungsdialog und sendet erst nach ausdrücklicher Bestätigung die Löschung per HTTP `DELETE`. Das Backend liefert den JSON-Export als nicht cachebare Datei direkt aus den gespeicherten öffentlichen Einreichungsdaten.
 Beteiligte Komponenten: Public Client, Backend API, User Data Service, Datenbank.  
-Schritte: Löschlink öffnen → `GET /api/public/submissions/{token}/status` → Bestätigungsdialog → `DELETE /api/public/submissions/{token}` → Erfolgsansicht. Der Download erfolgt über `GET /api/public/submissions/{token}/download`.
+Schritte: Löschlink öffnen → `GET /api/public/submissions/{token}/status` → Bestätigungsdialog → `DELETE /api/public/submissions/{token}` → atomare Anlage des zielreferenzfreien Audit-Ereignisses → Erfolgsansicht mit herunterladbarem Löschbeleg. Der Download der Einreichungsdaten erfolgt über `GET /api/public/submissions/{token}/download`; ein vorgelegter Löschbeleg kann über `POST /api/public/submissions/deletion-receipts/verify` geprüft werden.
 Fehlerpfade: Fehlende, ungültige und bereits verwendete Tokens ergeben ohne Unterscheidung `404`; sonstige Backendfehler bleiben als wiederholbare Fehler erkennbar. Ein Adressabgleich findet nicht statt.
 
 ![runtime-flow-delete.png](./attachments/runtime-flow-delete.png)
@@ -88,7 +88,7 @@ Die Laufzeitpfade enthalten explizite Sicherheitskontrollen:
 - **Admin Flow**: APISIX schützt die administrativen Routen und prüft OIDC vorgelagert; das Backend validiert das weitergeleitete Access Token unabhängig per RS256/JWKS und setzt die Rollen `manager`, `maintainer` und `admin` selbst für fachliche Zugriffsentscheidungen ein.
 - **Admin Triage Flow**: Berechtigte Statusänderungen, Lifecycle-gebundene Übergänge und Audit-Log je Änderung; Prüfkommentare und automatisch ausgelöste Statuswechsel werden mitgeführt. Eine spätere Freigabe ersetzt die bisherige Freigabe atomar, sodass pro Gebäude höchstens eine Freigabe aktiv bleibt. Die Aktion „Datensatz abgelehnt“ endet im fachlichen Status `abgelehnt`. Die physische Löschung ist eine separate Operation und kein Statusübergang. Einzelne Einreichungen werden gezielt gelöscht; vor einer gebündelten Löschung prüft das Backend atomar, dass alle Einreichungen der Gebäude-ID abgelehnt sind.
 - **Pipeline Flow**: Getrennte Offline-Ausführung mit lokalem Arbeitsbereich je `job_id` und kontrollierter Übertragung der Zielausgaben; keine Veröffentlichung laufbezogener Nachweise und kein partieller Erfolgsstatus bei Teilfehlern.
-- **Delete Flow**: Capability-geschützte Verfügbarkeitsprüfung und ausdrückliche Bestätigung im Public Client vor der Löschung per HTTP `DELETE`; kein Adressabgleich und keine mutierende `GET`-Route.
+- **Delete Flow**: Capability-geschützte Verfügbarkeitsprüfung und ausdrückliche Bestätigung im Public Client vor der Löschung per HTTP `DELETE`; kein Adressabgleich und keine mutierende `GET`-Route. Erfolgreiche Löschung und zielreferenzfreies Audit-Ereignis sind atomar. Der nur an den Aufrufer ausgegebene Löschbeleg ermöglicht den konkreten Nachweis, ohne das Ziel im Audit-Datensatz zu speichern.
 
 Übergreifende Invariante: Jeder Flow besitzt einen klaren Reject-Pfad mit nachvollziehbarer Protokollierung.
 

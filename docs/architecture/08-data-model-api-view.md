@@ -126,6 +126,8 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 - Die Admin-Aktion „Datensatz abgelehnt“ setzt `abgelehnt` (im Code `DECLINED`) als fachlichen Endstatus. Abgelehnte Datensätze dürfen nicht indexiert oder exportiert werden.
 - `ersetzt` (im Code `SUPERSEDED`) ist ein lesbarer fachlicher Endstatus und verweist über das Audit-Log auf die auslösende neuere Einreichung.
 - Eine tatsächliche Löschung entfernt den Datensatz und wird nicht als Triage- oder Tombstone-Status modelliert. In der Admin-Triage können einzelne Einreichungen gezielt gelöscht werden; die gebündelte Löschung einer Gebäudegruppe ist nur zulässig, wenn alle Einreichungen zu ihrer Gebäude-ID den Status `abgelehnt` besitzen.
+- Erfolgreiche Löschungen erzeugen atomar ein unabhängiges `DeletionAuditEvent`. Dieses enthält keinen Fremdschlüssel und keine fachliche Referenz zu `Submission` oder `Building`. Gespeichert werden ausschließlich Ereignis-ID, Zeitpunkt, Aktion, Akteurstyp, bei administrativen Aktionen interne Benutzerkennung und Rolle, Löschanzahl sowie der SHA-256-Commitmentwert des Löschbelegs.
+- Der Löschbeleg enthält die konkrete Zielreferenz und ein zufälliges Prüfgeheimnis und wird nur an den Aufrufer ausgegeben. Ohne diesen Beleg lässt sich der gespeicherte Commitmentwert keiner Einreichung oder Gebäudegruppe zuordnen. Die öffentliche Verifikationsroute nimmt den vollständigen Beleg per `POST` entgegen und liefert ausschließlich dessen Gültigkeit zurück.
 
 ### Statische Tile-Attribute (Auszug)
 
@@ -175,7 +177,7 @@ dokumentiert.
   neu berechnet.
 - **Input-Validation**: Eingangsgrößen werden gegen konfigurierte Grenzen geprüft
   (z.B. Wertebereiche wie 100–2000).
-- **Public Capability API**: Nach dem Speichern erhält der Client ausschließlich einen zufälligen Lösch-Token. Derselbe Token schützt die nicht verändernde Verfügbarkeitsprüfung, den vom Backend erzeugten JSON-Download und die physische Löschung per HTTP `DELETE`. Fehlende, ungültige und bereits verwendete Tokens sind als `404` nicht unterscheidbar; die frühere mutierende `GET`-Route entfällt.
+- **Public Capability API**: Nach dem Speichern erhält der Client ausschließlich einen zufälligen Lösch-Token. Derselbe Token schützt die nicht verändernde Verfügbarkeitsprüfung, den vom Backend erzeugten JSON-Download und die physische Löschung per HTTP `DELETE`. Fehlende, ungültige und bereits verwendete Tokens sind als `404` nicht unterscheidbar; die frühere mutierende `GET`-Route entfällt. Nach erfolgreicher Löschung erhält der Client einen Löschbeleg, den er lokal herunterladen und später über `POST /api/public/submissions/deletion-receipts/verify` prüfen lassen kann.
 - **Triage**: Stadtverwaltung / Fachpersonal prüft Datensätze auf Plausibilität, gibt sie intern frei oder lehnt sie ab. Eine tatsächliche Löschung erfolgt separat über die dafür vorgesehenen Delete-Endpunkte. Der Endpunkt für eine einzelne Einreichung löscht nur diese Einreichung; der Endpunkt für eine Gebäudegruppe prüft atomar, dass alle zugehörigen Einreichungen abgelehnt sind.
 - **Indexierung**: Aus verifizierten und triagierten Ergebnissen werden abgeleitete Basisdaten pro Gebäude erzeugt
   (z.B. für Vergleiche, Quartiersanalysen und Reports).

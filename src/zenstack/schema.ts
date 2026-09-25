@@ -376,6 +376,61 @@ export class SchemaType implements SchemaDef {
                 id: { type: "String" }
             }
         },
+        DeletionAuditEvent: {
+            name: "DeletionAuditEvent",
+            fields: {
+                id: {
+                    name: "id",
+                    type: "String",
+                    id: true,
+                    attributes: [{ name: "@id" }]
+                },
+                createdAt: {
+                    name: "createdAt",
+                    type: "DateTime",
+                    attributes: [{ name: "@default", args: [{ name: "value", value: ExpressionUtils.call("now") }] }],
+                    default: ExpressionUtils.call("now")
+                },
+                action: {
+                    name: "action",
+                    type: "DeletionAuditAction"
+                },
+                actorType: {
+                    name: "actorType",
+                    type: "DeletionAuditActorType"
+                },
+                actorUserId: {
+                    name: "actorUserId",
+                    type: "String",
+                    optional: true
+                },
+                actorRole: {
+                    name: "actorRole",
+                    type: "String",
+                    optional: true
+                },
+                deletedCount: {
+                    name: "deletedCount",
+                    type: "Int"
+                },
+                receiptCommitment: {
+                    name: "receiptCommitment",
+                    type: "String",
+                    unique: true,
+                    attributes: [{ name: "@unique" }]
+                }
+            },
+            attributes: [
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("DateTime", [ExpressionUtils.field("createdAt")]) }] },
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("String", [ExpressionUtils.field("actorUserId"), ExpressionUtils.field("createdAt")]) }] },
+                { name: "@@index", args: [{ name: "fields", value: ExpressionUtils.array("DeletionAuditAction", [ExpressionUtils.field("action"), ExpressionUtils.field("createdAt")]) }] }
+            ],
+            idFields: ["id"],
+            uniqueFields: {
+                id: { type: "String" },
+                receiptCommitment: { type: "String" }
+            }
+        },
         Feedback: {
             name: "Feedback",
             fields: {
@@ -481,6 +536,20 @@ export class SchemaType implements SchemaDef {
                 ACCEPTED: "ACCEPTED",
                 DECLINED: "DECLINED",
                 SUPERSEDED: "SUPERSEDED"
+            }
+        },
+        DeletionAuditAction: {
+            name: "DeletionAuditAction",
+            values: {
+                SUBMISSION_DELETE: "SUBMISSION_DELETE",
+                BUILDING_SUBMISSIONS_DELETE: "BUILDING_SUBMISSIONS_DELETE"
+            }
+        },
+        DeletionAuditActorType: {
+            name: "DeletionAuditActorType",
+            values: {
+                ADMIN: "ADMIN",
+                PUBLIC_CAPABILITY: "PUBLIC_CAPABILITY"
             }
         },
         FeedbackCategory: {

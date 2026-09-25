@@ -51,17 +51,52 @@ export const PublicSubmissionDownloadOutputDto = Type.Object({
   deletionLink: Type.String(),
 });
 
+const DeletionReceiptActionDto = Type.Union([
+  Type.Literal("SUBMISSION_DELETE"),
+  Type.Literal("BUILDING_SUBMISSIONS_DELETE"),
+]);
+
+const DeletionReceiptActorTypeDto = Type.Union([
+  Type.Literal("ADMIN"),
+  Type.Literal("PUBLIC_CAPABILITY"),
+]);
+
+const DeletionReceiptTargetTypeDto = Type.Union([
+  Type.Literal("SUBMISSION"),
+  Type.Literal("BUILDING"),
+]);
+
+export const DeletionReceiptDto = Type.Object({
+  version: Type.Literal(1),
+  auditEventId: Type.String(),
+  deletedAt: Type.String({ format: "date-time" }),
+  action: DeletionReceiptActionDto,
+  actorType: DeletionReceiptActorTypeDto,
+  targetType: DeletionReceiptTargetTypeDto,
+  targetId: Type.String(),
+  deletedCount: Type.Integer({ minimum: 1 }),
+  verificationSecret: Type.String({ minLength: 43, maxLength: 43 }),
+});
+export type DeletionReceiptInput = Static<typeof DeletionReceiptDto>;
+
+export const VerifyDeletionReceiptOutputDto = Type.Object({
+  valid: Type.Boolean(),
+});
+
 export const DeletePublicOutputDto = Type.Object({
   success: Type.Literal(true),
+  receipt: DeletionReceiptDto,
 });
 
 export const DeleteAdminOutputDto = Type.Object({
   id: Type.String(),
+  receipt: DeletionReceiptDto,
 });
 
 export const DeleteBuildingSubmissionsOutputDto = Type.Object({
   buildingId: Type.String(),
   deletedCount: Type.Integer({ minimum: 1 }),
+  receipt: DeletionReceiptDto,
 });
 
 // --- Assign ---
