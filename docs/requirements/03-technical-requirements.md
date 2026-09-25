@@ -712,7 +712,7 @@ Statuswechsel sind nur entlang des definierten Triage-Lifecycles zulässig: `neu
 
 **TA-151**  
 *Release-Zuordnung:* [Release 3](../roadmap/mvp-definition.md#release-3)  
-Die administrative Triage-API muss die gezielte physische Löschung einer einzelnen Einreichung unterstützen. Für die gebündelte physische Löschung aller Einreichungen zu einer Gebäude-ID muss das Backend unmittelbar vor der Löschung prüfen, dass sämtliche aktuell zugeordneten Einreichungen den Status `abgelehnt` besitzen; andernfalls muss es die gesamte gebündelte Löschoperation ohne Teillöschung zurückweisen.
+Die administrative Triage-API muss die gezielte physische Löschung einer einzelnen Einreichung unterstützen. Für die gebündelte physische Löschung aller Einreichungen zu einer Gebäude-ID muss das Backend unmittelbar vor der Löschung prüfen, dass sämtliche aktuell zugeordneten Einreichungen den Status `abgelehnt` besitzen; andernfalls muss es die gesamte gebündelte Löschoperation ohne Teillöschung zurückweisen. Erfolgreiche öffentliche und administrative Löschungen müssen in derselben Datenbanktransaktion wie die physische Löschung als unabhängiges Audit-Ereignis gespeichert werden. Das Ereignis enthält Aktion, Zeitpunkt, Akteurstyp, bei administrativen Löschungen die interne Benutzerkennung und Rolle sowie die Anzahl gelöschter Einreichungen, jedoch keine Einreichungs-ID, Gebäude-ID, Adresse, Koordinaten oder Lösch-Token. Die API liefert einen Löschbeleg mit zufälligem Prüfgeheimnis zurück und speichert davon ausschließlich einen kryptografischen Commitmentwert. Nur der vollständige Beleg darf die spätere Verifikation des konkreten Löschziels ermöglichen.
 
 ---
 

@@ -1,4 +1,5 @@
 import { createService } from "@csi-foxbyte/fastify-toab";
+import { createHash, randomBytes, randomUUID, timingSafeEqual } from "node:crypto";
 import {
   calculate,
   makeNgsiLdEntity,
@@ -21,6 +22,7 @@ import {
   SubmissionOwnershipError,
   UserNotFoundError,
 } from "./submissions.errors.js";
+import type { DeletionReceiptInput } from "./submissions.dto.js";
 
 type Roles = string[];
 type DB = Awaited<ReturnType<typeof getDatabaseService>>;
@@ -35,6 +37,85 @@ const AUTOMATIC_COMMENT_PREFIX = "Automatischer Statuswechsel durch Freigabe der
 
 const hasAccess = (roles: Roles) =>
   roles.includes("admin") || roles.includes("manager");
+
+type DeletionReceipt = DeletionReceiptInput;
+
+const deletionActorRole = (roles: Roles) =>
+  roles.includes("admin") ? "admin" : "manager";
+
+const deletionReceiptCommitment = (receipt: DeletionReceipt) =>
+  createHash("sha256")
+    .update(
+      JSON.stringify({
+        version: receipt.version,
+        auditEventId: receipt.auditEventId,
+        deletedAt: receipt.deletedAt,
+        action: receipt.action,
+        actorType: receipt.actorType,
+        targetType: receipt.targetType,
+        targetId: receipt.targetId,
+        deletedCount: receipt.deletedCount,
+        verificationSecret: receipt.verificationSecret,
+      }),
+      "utf8",
+    )
+    .digest("hex");
+
+const createDeletionReceipt = async (
+  tx: TxDB,
+  params: {
+    action: DeletionReceipt["action"];
+    actorType: DeletionReceipt["actorType"];
+    actorUserId?: string;
+    actorRole?: string;
+    targetType: DeletionReceipt["targetType"];
+    targetId: string;
+    deletedCount: number;
+  },
+) => {
+  const deletedAt = new Date();
+  const receipt: DeletionReceipt = {
+    version: 1,
+    auditEventId: randomUUID(),
+    deletedAt: deletedAt.toISOString(),
+    action: params.action,
+    actorType: params.actorType,
+    targetType: params.targetType,
+    targetId: params.targetId,
+    deletedCount: params.deletedCount,
+    verificationSecret: randomBytes(32).toString("base64url"),
+  };
+
+  await tx.deletionAuditEvent.create({
+    data: {
+      id: receipt.auditEventId,
+      createdAt: deletedAt,
+      action: params.action,
+      actorType: params.actorType,
+      actorUserId: params.actorUserId,
+      actorRole: params.actorRole,
+      deletedCount: params.deletedCount,
+      receiptCommitment: deletionReceiptCommitment(receipt),
+    },
+  });
+
+  return receipt;
+};
+
+export const verifyDeletionReceipt = async (
+  db: DB,
+  receipt: DeletionReceipt,
+) => {
+  const auditEvent = await db.deletionAuditEvent.findUnique({
+    where: { id: receipt.auditEventId },
+    select: { receiptCommitment: true },
+  });
+  if (!auditEvent) return false;
+
+  const expected = Buffer.from(auditEvent.receiptCommitment, "hex");
+  const actual = Buffer.from(deletionReceiptCommitment(receipt), "hex");
+  return expected.length === actual.length && timingSafeEqual(expected, actual);
+};
 
 const resolveAddress = (
   submission: { address: string; longitude: number; latitude: number },
@@ -467,25 +548,54 @@ export const getPublicDownloadByToken = async (db: DB, deletionToken: string) =>
 };
 
 export const deleteByToken = async (db: DB, deletionToken: string) => {
-  const result = await db.submission.deleteMany({
-    where: { deletionToken },
-  });
-  if (result.count === 0) throw new SubmissionNotFoundError();
-  return result;
+  return db.$transaction(async (tx) => {
+    const submission = await tx.submission.findUnique({
+      where: { deletionToken },
+      select: { id: true },
+    });
+    if (!submission) throw new SubmissionNotFoundError();
+
+    const deleted = await tx.submission.deleteMany({
+      where: { deletionToken },
+    });
+    if (deleted.count !== 1) throw new SubmissionNotFoundError();
+
+    return createDeletionReceipt(tx, {
+      action: "SUBMISSION_DELETE",
+      actorType: "PUBLIC_CAPABILITY",
+      targetType: "SUBMISSION",
+      targetId: submission.id,
+      deletedCount: 1,
+    });
+  }, { isolationLevel: TransactionIsolationLevel.Serializable });
 };
 
-const deleteById = async (db: DB, submissionId: string, userId: string, roles: Roles) => {
+export const deleteById = async (db: DB, submissionId: string, userId: string, roles: Roles) => {
   if (!hasAccess(roles)) throw new AccessDeniedError();
-  const submission = await db.submission.findUnique({ where: { id: submissionId } });
-  if (!submission) throw new SubmissionNotFoundError(submissionId);
-  if (submission.assignedToId != null && !roles.includes("admin") && submission.assignedToId !== userId)
-    throw new SubmissionOwnershipError();
-  return db.submission.delete({ where: { id: submissionId } });
+  return db.$transaction(async (tx) => {
+    const submission = await tx.submission.findUnique({ where: { id: submissionId } });
+    if (!submission) throw new SubmissionNotFoundError(submissionId);
+    if (submission.assignedToId != null && !roles.includes("admin") && submission.assignedToId !== userId)
+      throw new SubmissionOwnershipError();
+
+    const deleted = await tx.submission.delete({ where: { id: submissionId } });
+    const receipt = await createDeletionReceipt(tx, {
+      action: "SUBMISSION_DELETE",
+      actorType: "ADMIN",
+      actorUserId: userId,
+      actorRole: deletionActorRole(roles),
+      targetType: "SUBMISSION",
+      targetId: submissionId,
+      deletedCount: 1,
+    });
+    return { id: deleted.id, receipt };
+  }, { isolationLevel: TransactionIsolationLevel.Serializable });
 };
 
 export const deleteBuildingSubmissions = async (
   db: DB,
   buildingId: string,
+  userId: string,
   roles: Roles,
 ) => {
   if (!hasAccess(roles)) throw new AccessDeniedError();
@@ -509,7 +619,16 @@ export const deleteBuildingSubmissions = async (
     if (remaining !== 0)
       throw new BuildingSubmissionsNotDeclinedError(buildingId);
 
-    return { buildingId, deletedCount: deleted.count };
+    const receipt = await createDeletionReceipt(tx, {
+      action: "BUILDING_SUBMISSIONS_DELETE",
+      actorType: "ADMIN",
+      actorUserId: userId,
+      actorRole: deletionActorRole(roles),
+      targetType: "BUILDING",
+      targetId: buildingId,
+      deletedCount: deleted.count,
+    });
+    return { buildingId, deletedCount: deleted.count, receipt };
   }, { isolationLevel: TransactionIsolationLevel.Serializable });
 };
 
@@ -525,9 +644,11 @@ const submissionsService = createService("submissions", async ({ services }) => 
     getPublicDownloadByToken: (deletionToken: string) =>
       getPublicDownloadByToken(db, deletionToken),
     deleteByToken: (deletionToken: string) => deleteByToken(db, deletionToken),
+    verifyDeletionReceipt: (receipt: DeletionReceipt) =>
+      verifyDeletionReceipt(db, receipt),
     deleteById: (submissionId: string, userId: string, roles: Roles) => deleteById(db, submissionId, userId, roles),
-    deleteBuildingSubmissions: (buildingId: string, roles: Roles) =>
-      deleteBuildingSubmissions(db, buildingId, roles),
+    deleteBuildingSubmissions: (buildingId: string, userId: string, roles: Roles) =>
+      deleteBuildingSubmissions(db, buildingId, userId, roles),
     assign: (submissionId: string, userId: string, roles: Roles, targetUserId?: string) =>
       assign(db, submissionId, userId, roles, targetUserId),
     unAssign: (submissionId: string, userId: string, roles: Roles) =>

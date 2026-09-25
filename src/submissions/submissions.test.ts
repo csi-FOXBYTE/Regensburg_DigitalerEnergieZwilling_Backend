@@ -17,6 +17,7 @@ import {
   assertAvailableByToken,
   deleteByToken,
   getPublicDownloadByToken,
+  verifyDeletionReceipt,
 } from "./submissions.service.js";
 
 const publicSubmission = {
@@ -30,6 +31,21 @@ const publicSubmission = {
   ngsiData: JSON.stringify({ id: "urn:ngsi-ld:Building:building-1" }),
   usedConfig: { versionName: "2026-08" },
 };
+
+const deletionReceipt = {
+  version: 1 as const,
+  auditEventId: "11111111-1111-4111-8111-111111111111",
+  deletedAt: "2026-09-17T12:00:00.000Z",
+  action: "SUBMISSION_DELETE" as const,
+  actorType: "PUBLIC_CAPABILITY" as const,
+  targetType: "SUBMISSION" as const,
+  targetId: publicSubmission.id,
+  deletedCount: 1,
+  verificationSecret: "a".repeat(43),
+};
+
+const transaction = <T>(db: object) =>
+  mock.fn(async (operation: (tx: object) => Promise<T>) => operation(db));
 
 describe("public submission token service operations", () => {
   it("checks availability with a minimal lookup and rejects unavailable tokens", async () => {
@@ -90,27 +106,63 @@ describe("public submission token service operations", () => {
 
   it("physically deletes an existing token and rejects a repeated deletion", async () => {
     const remove = mock.fn(async (_query: unknown) => ({ count: 1 }));
+    const createAudit = mock.fn(async (query: unknown) => query);
     const db = {
       submission: {
+        findUnique: mock.fn(async (_query: unknown) => ({ id: publicSubmission.id })),
         deleteMany: remove,
       },
+      deletionAuditEvent: { create: createAudit },
     };
+    Object.assign(db, { $transaction: transaction(db) });
 
-    await deleteByToken(db as never, "delete-token");
+    const receipt = await deleteByToken(db as never, "delete-token");
     assert.deepEqual(remove.mock.calls[0]?.arguments[0], {
       where: { deletionToken: "delete-token" },
     });
+    assert.equal(receipt.targetId, publicSubmission.id);
+    assert.equal(receipt.actorType, "PUBLIC_CAPABILITY");
+    assert.equal(receipt.verificationSecret.length, 43);
+    const auditData = createAudit.mock.calls[0]?.arguments[0] as {
+      data: Record<string, unknown>;
+    };
+    assert.equal(auditData.data.actorUserId, undefined);
+    assert.equal(auditData.data.actorRole, undefined);
+    assert.equal("targetId" in auditData.data, false);
+    assert.equal("submissionId" in auditData.data, false);
+    assert.equal("deletionToken" in auditData.data, false);
+
+    const verificationDb = {
+      deletionAuditEvent: {
+        findUnique: mock.fn(async () => ({
+          receiptCommitment: auditData.data.receiptCommitment,
+        })),
+      },
+    };
+    assert.equal(
+      await verifyDeletionReceipt(verificationDb as never, receipt),
+      true,
+    );
+    assert.equal(
+      await verifyDeletionReceipt(verificationDb as never, {
+        ...receipt,
+        targetId: "different-submission",
+      }),
+      false,
+    );
 
     const missingDb = {
       submission: {
+        findUnique: mock.fn(async (_query: unknown) => null),
         deleteMany: mock.fn(async (_query: unknown) => ({ count: 0 })),
       },
     };
+    Object.assign(missingDb, { $transaction: transaction(missingDb) });
     await assert.rejects(
       deleteByToken(missingDb as never, "delete-token"),
       SubmissionNotFoundError,
     );
-    assert.equal(missingDb.submission.deleteMany.mock.calls.length, 1);
+    assert.equal(missingDb.submission.deleteMany.mock.calls.length, 0);
   });
 });
 
@@ -135,13 +187,15 @@ describe("public submission routes", () => {
     const remove = mock.fn(async () => {
       if (!tokenAvailable) throw new SubmissionNotFoundError();
       tokenAvailable = false;
-      return publicSubmission;
+      return deletionReceipt;
     });
+    const verifyReceipt = mock.fn(async (_receipt: unknown) => true);
     const service = {
       submit,
       assertAvailableByToken: assertAvailable,
       getPublicDownloadByToken: getDownload,
       deleteByToken: remove,
+      verifyDeletionReceipt: verifyReceipt,
     };
     const serviceContainer: ServiceContainer = {
       get: async <T>() => service as T,
@@ -250,8 +304,21 @@ describe("public submission routes", () => {
       url: "/api/public/submissions/opaque-token",
     });
     assert.equal(deleteResponse.statusCode, 200);
-    assert.deepEqual(deleteResponse.json(), { success: true });
+    assert.deepEqual(deleteResponse.json(), {
+      success: true,
+      receipt: deletionReceipt,
+    });
     assert.equal(deleteResponse.headers["cache-control"], "no-store");
+
+    const verifyResponse = await app.inject({
+      method: "POST",
+      url: "/api/public/submissions/deletion-receipts/verify",
+      payload: deletionReceipt,
+    });
+    assert.equal(verifyResponse.statusCode, 200);
+    assert.deepEqual(verifyResponse.json(), { valid: true });
+    assert.equal(verifyResponse.headers["cache-control"], "no-store");
+    assert.deepEqual(verifyReceipt.mock.calls[0]?.arguments[0], deletionReceipt);
 
     for (const request of [
       { method: "GET" as const, url: "/api/public/submissions/opaque-token/status" },
