@@ -129,7 +129,7 @@ Die aktualisierte Arbeitsmappe präzisiert außerdem, dass Ergebnisobjekte nicht
 
 ### Statische Tile-Attribute (Auszug)
 
-- **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `postal_code`, `city`).
+- **Adressen** stammen aus LOD2 und werden direkt im Tile geführt (`address_full`, `street`, `house_number`, `city`).
 - **Solarpotenziale** liegen erst bei verfügbarer, durch den Auftraggeber freigegebener Datenbereitstellung als Attribute in 3D Tiles vor. Aktuell ist die Solar-Anreicherung fachlich blockiert. Relevante Felder u.a.:
   `solarArea`, `Fläche`, `Dachneigung`, `Dachorientierung`, `SVF_min`, `SVF_avg`, `SVF_med`, `SVF_max`,
   `Z_MIN`, `Z_MAX`, `Z_MIN_ASL`, `Z_MAX_ASL`, `creationDate`,

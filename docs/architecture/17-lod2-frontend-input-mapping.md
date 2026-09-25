@@ -76,7 +76,6 @@ sie sind keine Eingaben des Berechnungskerns.
 | CityObject-ID aus `gml:id` | 3D-Tiles-Property `id` | `$building.id`, Auswahl und lokale Sitzungszuordnung | keines | Gebäudeauswahl, nicht editierbar |
 | `attributes.function` | Präfixprüfung auf `31001_1000` | `isSelectableBuilding()` | keines | steuert nur, ob ein Gebäude auswählbar ist |
 | `address[].ThoroughfareName` | `addresses.0.ThoroughfareName` | `building.properties.address.street` | keines | Adresssuche und Adressanzeige, nicht editierbar |
-| `address[].PostalCode` | `addresses.0.PostalCode` | `building.properties.address.postcode` | keines | Adressanzeige, nicht editierbar |
 | `address[].Locality` | `addresses.0.Locality` | `building.properties.address.city` | keines | Adressanzeige, nicht editierbar |
 | `GroundSurface`-Polygone | Summe der Flächen → `digitalEnergyTwin.groundArea` | intern `buildingBaseAreaField`; sichtbar `bottomFloorAreaField` („Fläche der untersten Geschossdecke“) | `general.buildingBaseArea`, `bottomFloor.area` | Grundfläche intern; Deckenfläche sichtbar und überschreibbar |
 | `GroundSurface`-Polygone | `digitalEnergyTwin.upperFloorArea = digitalEnergyTwin.groundArea` | `topFloorAreaField` („Fläche der obersten Geschossdecke“) | `topFloor.area` | nur bei vorhandenem, unbeheiztem Dachraum sichtbar; überschreibbar |
@@ -93,12 +92,12 @@ Die Adressdaten haben zwei Laufzeitpfade:
   `--address-output` aus `ThoroughfareName` sowie dem Mittelpunkt der
   Gebäudegrundfläche eine SQLite-Datenbank. Das Frontend nutzt Straße,
   Hausnummer und Koordinaten daraus, um zum Gebäude zu navigieren.
-- Nach Auswahl eines Gebäudes liest das Frontend Straße, Postleitzahl und Ort
+- Nach Auswahl eines Gebäudes liest das Frontend Straße und Ort
   direkt aus den 3D-Tiles-Properties `addresses.0.*` und zeigt sie im
   Gebäudefenster sowie oberhalb der Berechnungsschritte an.
 
-Die kanonischen Adressattribute `address_full`, `street`, `house_number`,
-`postal_code` und `city` aus dem Mapping-Profil sind davon zu unterscheiden.
+Die kanonischen Adressattribute `address_full`, `street`, `house_number` und
+`city` aus dem Mapping-Profil sind davon zu unterscheiden.
 Der aktuelle Frontend-Adapter liest die oben genannten verschachtelten
 `addresses.0.*`-Properties.
 

@@ -1,6 +1,6 @@
 # Architektur – Datenquellenkatalog und Piveau-Anbindung
 
-Stand: 28. Juli 2026
+Stand: 25. September 2026
 
 ## Inhaltsverzeichnis
 
@@ -75,13 +75,34 @@ ein neuer Datenstand erzeugt keine neue Datensatz-ID, sondern aktualisiert
 | `regensburg-dez-geothermiepotenzial` | Geothermiepotenzial – Stadt Regensburg | Vom Auftraggeber bereitgestellte Potenzialdaten; ausgewertet werden ausschließlich die tatsächlich gelieferten Merkmale. Kollektor und Sonde sind nicht enthalten. Granularität, Zielschema und Einheiten sind noch fachlich zu bestätigen. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | **Technische Integration nach Datenfreigabe in Sprint 17 umgesetzt**; Metadaten noch offen |
 | `regensburg-dez-solarpotenzial` | Solarpotenzial (PV) – Stadt Regensburg | Vorgesehene Solarattribute und Textur für Dachflächen, unter anderem Einstrahlung, Dachneigung und Dachorientierung; Umfang und Detailgrad sind noch zu klären. | **Offen:** Originalherausgeber bestätigen | **Offen:** Nutzungs- und Weitergaberecht bestätigen | **Offen:** Turnus und Datenstand bestätigen | Separat bereitgestellter Link beziehungsweise Archiv; dauerhafte Quell-URL, Format, Prüfsumme und interner Objektpfad fehlen noch | **Aktuell nicht integriert**; Umsetzung in Sprint 18/19 fraglich |
 | `regensburg-dez-kostendaten` | Kostendaten für Sanierungsmaßnahmen – Stadt Regensburg (vorgesehen: BKI-Kostenplaner) | Vorgesehene Referenzwerte für Investitionskosten und Wirtschaftlichkeitsberechnungen; die konkrete Quelle, Granularität, der Preisstand und die Regionalisierung sind noch offen. | Nicht bestimmt | Nicht bestimmt | Nicht bestimmt | **Keine Distribution vorhanden** | **Noch nicht vorliegend** |
-| `regensburg-dez-plz-referenz` | Postleitzahl-Referenz – Stadt Regensburg | Vorgesehene Referenz zur Prüfung beziehungsweise Ergänzung von Postleitzahlen. Sie ist von den bereits in LoD2/CityJSON eingebetteten Adressobjekten zu unterscheiden. | Nicht bestimmt | Nicht bestimmt | Nicht bestimmt | **Keine Distribution vorhanden** | **Noch nicht vorliegend** |
+
+### Links auf Quell-Metadatensätze und Kataloge
+
+Die folgenden Links führen auf den Metadatensatz im öffentlichen Quellkatalog.
+Eine Produkt- oder Downloadseite wird nur dann als Ersatz angegeben, wenn kein
+separater Metadatensatz bekannt ist.
+
+| Piveau-`originalId` | Quell-Metadatensatz beziehungsweise Quellkatalog |
+| --- | --- |
+| `regensburg-dez-lod2-gebaeude` | [GovData – 3D Gebäudemodell LoD2](https://www.govdata.de/suche/daten/3d-gebaudemodell-lod2b6652) |
+| `regensburg-dez-dgm1-gelaendemodell` | [GovData – Digitales Geländemodell (einschließlich DGM1)](https://www.govdata.de/suche/daten/digitales-gelandemodell099d4) |
+| `regensburg-dez-terrain-textur-topplusopen-light` | [BKG-MIS – TopPlusOpen-Light PM](https://mis.bkg.bund.de/trefferanzeige?docuuid=BD4D5B0F-2809-44D4-B2CE-D22ACC4CE0CC) |
+| `regensburg-dez-baualtersklassen` | Noch kein öffentlicher Quell-Metadatensatz benannt; Herkunft und dauerhafte Quell-URL sind offen. |
+| `regensburg-dez-geothermiepotenzial` | Noch kein öffentlicher Quell-Metadatensatz benannt; Originalherausgeber und dauerhafte Quell-URL sind offen. |
+| `regensburg-dez-solarpotenzial` | Noch kein öffentlicher Quell-Metadatensatz benannt; Originalherausgeber und dauerhafte Quell-URL sind offen. |
+| `regensburg-dez-kostendaten` | Noch keine konkrete Quelle und damit kein Quell-Metadatensatz bestimmt. |
+
+Nach der Veröffentlichung in Piveau muss zusätzlich jede `originalId` in dieser
+Tabelle auf ihre öffentliche Dataset-URI
+`{DEZ_PUBLIC_BASE_URL}/id/dataset/{originalId}` verlinkt werden. Ist in der
+eingesetzten Piveau-Oberfläche kein direkter Datensatzlink verfügbar, wird
+ersatzweise der öffentliche Katalog `regensburg-dez-sanierungstool` verlinkt.
 
 Ein Piveau-Eintrag darf für die drei lose bereitgestellten Fachdaten erst
 veröffentlicht werden, wenn Originalherausgeber, Lizenz, Datenstand und eine
-dauerhaft adressierbare Distribution geklärt sind. Für Kosten- und
-Postleitzahl-Referenz bleiben die IDs reserviert; ohne bezogene Datenquelle wird
-noch kein `dcat:Distribution`-Objekt erzeugt.
+dauerhaft adressierbare Distribution geklärt sind. Für Kostendaten bleibt die ID
+reserviert; ohne bezogene Datenquelle wird noch kein `dcat:Distribution`-Objekt
+erzeugt.
 
 <a id="lod2-herkunft-und-distributionen"></a>
 
@@ -377,7 +398,6 @@ Offene Abnahmepunkte:
   Geothermie und Solarpotenzial,
 - Nutzungs- und Weitergaberechte dieser drei Lieferungen,
 - konkrete Kostenquelle einschließlich Lizenz, Preisstand und Regionalisierung,
-- geeignete Postleitzahl-Referenz einschließlich räumlicher Granularität,
 - tatsächlicher fachlicher DGM1-Kachelstand und produktive Bereitstellungsroute
   der ausgewählten GeoTIFF-Kacheln,
 - Betreiber, Nutzungsfreigabe und Jahr des letzten Datenbezugs für den

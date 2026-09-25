@@ -41,7 +41,6 @@ damit zur Laufzeit keine Datenbankzugriffe für Potenziale nötig sind.
 - **Geothermiepotenziale** (vom Auftraggeber bereitgestellte Lieferung; nach verzögerter Datenfreigabe in Sprint 17 technisch integriert; Auswertung ausschließlich anhand der tatsächlich gelieferten Merkmale; Herkunfts-, Lizenz-, Turnus- und Schemametadaten noch offen)
 - **Solarpotenziale** (separat bereitgestellte Lieferung; Umfang und Detailgrad noch in Klärung, aktuell nicht integriert; eine Umsetzung in Sprint 18 oder 19 ist fraglich; 3D Tiles mit Attributen und Textur sind als Zielbild vorgesehen)
 - **Kostendaten** (noch nicht vorliegend)
-- **Postleitzahl-Referenz** (noch nicht vorliegend; Adressobjekte aus LoD2/CityJSON sind davon zu unterscheiden)
 - **Vegetation (Bäume)** (separater Visualisierungs-Layer)
 - **Externer Datendienst** (S3-kompatibler Object Storage) als Austausch- und Ablageort
 
@@ -484,7 +483,6 @@ DockerOperator(
 - `address_full` (String)
 - `street` (String, optional)
 - `house_number` (String, optional)
-- `postal_code` (String, optional)
 - `city` (String, optional)
 - `constructionYear` (Number, optional; aus Baualtersklasse abgeleitet)
 - `roof_area_m2` (Number)
